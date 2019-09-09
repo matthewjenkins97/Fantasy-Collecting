@@ -1,0 +1,24 @@
+{
+  "name": "seniorproject",
+  "version": "1.0.0",
+  "description": "Senior Seminar project for Hamilton College. An implemention of Susan Jarosi's Fantasy Collection game in HTML, CSS, and JavaScript.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthewjenkins97/SeniorProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthewjenkins97/SeniorProject/issues"
+  },
+  "homepage": "https://github.com/matthewjenkins97/SeniorProject#readme"
+}
