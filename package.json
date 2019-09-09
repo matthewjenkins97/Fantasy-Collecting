@@ -4,6 +4,7 @@
   "description": "Senior Seminar project for Hamilton College. An implemention of Susan Jarosi's Fantasy Collection game in HTML, CSS, and JavaScript.",
   "main": "index.js",
   "dependencies": {
+    "ejs": "^2.7.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
