@@ -2,22 +2,22 @@
   "name": "seniorproject",
   "version": "1.0.0",
   "description": "Senior Seminar project for Hamilton College. An implemention of Susan Jarosi's Fantasy Collection game in HTML, CSS, and JavaScript.",
-  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "next": "^9.0.5",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "next": "9.0.5",
+    "react": "16.9.0",
+    "react-dom": "16.9.0"
   },
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-config-google": "^0.14.0"
-  },
-  "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
   },
   "repository": {
     "type": "git",
