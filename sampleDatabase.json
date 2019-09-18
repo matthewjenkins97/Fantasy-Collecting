@@ -1,0 +1,128 @@
+{
+  "students": {
+    "mjenkins": {
+      "name": "Matthew R. Jenkins",
+      "netWorth": 0,
+      "kudos": 0,
+      "paintings": [
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}
+      ]
+    },
+
+    "jsopatrn": {
+      "name": "Julia Opatrny",    
+      "netWorth": 0,
+      "kudos": 0,
+      "paintings": [
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}
+      ]
+    },
+      
+    "dholley": {
+      "name": "Donald Holley",    
+      "netWorth": 0,
+      "kudos": 0,
+      "paintings": [
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}, 
+        
+        {"title": "",
+        "artist": "",
+        "year": "",
+        "notes": "",
+        "theoreticalPrice": 0,
+        "actualPrice": 0}
+        ]
+      }
+    }
+}
