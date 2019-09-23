@@ -1,0 +1,13 @@
+{
+  "students": {
+    "mjenkins": {
+      "name": "Matthew R. Jenkins",
+      "guilders": 0,
+      "artworks": [],
+      "microresearch": {
+        "artwork": "text here"
+      },
+      "microresearchPoints": 0
+    }
+  }
+}
