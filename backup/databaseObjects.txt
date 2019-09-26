@@ -1,0 +1,25 @@
+format of artwork object:
+"artworkKey": {
+  "title": string, 
+  "artist": string,
+  "year": string, 
+  "theoreticalPrice": int, // professor only
+  "actualPrice": int, 
+  "hidden": boolean,
+  "history": [
+    ["user1", "user2", "price", timestamp], 
+    ["user1", "user2", "price", timestamp],
+  ],
+}
+
+format of student object:
+"authkey": {
+  "username": string, 
+  "name": string, 
+  "guilders": int, // student only
+  "artworks": [list of strings (which are keys in the artworks database)],
+  "microresearch": {
+    "key1": string containing info about the painting
+  }
+  "microresearchPoints": 0,
+}
