@@ -29,6 +29,20 @@ const artworks = {
   },
 };
 
+/*
+example post entry:
+
+{
+	"title": "Mona Lisa",
+	"artist": "Leonardo Da Vinci",
+	"year": 1500,
+	"theoreticalPrice": 50,
+	"actualPrice": 50,
+	"hidden": false,
+	"history": []
+}
+*/
+
 const students = {
   'default': {
     'username': '',
@@ -42,6 +56,22 @@ const students = {
   },
 };
 
+/*
+example post entry:
+
+{
+  "username": "mjenkins", 
+  "name": "Matthew R. Jenkins", 
+  "guilders": 100,
+  "artworks": ["MonaLisa"],
+  "microresearch": {
+    "MonaLisa": "This painting exists."
+  },
+  "microresearchPoints": 0
+}
+*/
+
+
 app.prepare().then(() => {
   const server = express();
 
@@ -51,7 +81,6 @@ app.prepare().then(() => {
   });
 
   server.get('/artworks/:id', (request, response) => {
-    // id = request.params.id
     if (request.params.id in artworks) {
       response.status(200).json(artworks[request.params.id]);
     } else {
@@ -60,12 +89,24 @@ app.prepare().then(() => {
   });
 
   server.post('/artworks', json(), (request, response) => {
-    response.status(201);
+    const uuid = request.body.title.replace(/\s/, '');
+    if (uuid in artworks) {
+      response.sendStatus(422);
+    } else {
+      artworks[uuid] = request.body;
+      response.sendStatus(201);
+    }
   });
 
   server.put('/artworks/:id', json(), (request, response) => {
-    // id = request.params.id
-    response.status(200);
+    if (request.params.id in artworks) {
+      for (const key of Object.keys(request.body)) {
+        artworks[request.params.id][key] = request.body[key];
+      }
+      response.sendStatus(200);
+    } else {
+      response.sendStatus(404);
+    }
   });
 
   server.delete('/artworks/:id', (request, response) => {
@@ -90,13 +131,25 @@ app.prepare().then(() => {
     }
   });
 
-  server.post('/students/', json(), (request, response) => {
-    response.status(201);
+  server.post('/students', json(), (request, response) => {
+    const uuid = request.body.username;
+    if (uuid in students) {
+      response.sendStatus(422);
+    } else {
+      students[uuid] = request.body;
+      response.sendStatus(201);
+    }
   });
 
   server.put('/students/:id', json(), (request, response) => {
-    // id = request.params.id
-    response.status(200);
+    if (request.params.id in students) {
+      for (const key of Object.keys(request.body)) {
+        students[request.params.id][key] = request.body[key];
+      }
+      response.sendStatus(200);
+    } else {
+      response.sendStatus(404);
+    }
   });
 
   server.delete('/students/:id', (request, response) => {
