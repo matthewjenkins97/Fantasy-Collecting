@@ -14,11 +14,12 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    alignItems: 'baseline',
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     //width: 1000,
-    height: 800,
+    //height: 800,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -58,7 +59,7 @@ export default function TitlebarGridList() {
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
-              subtitle={<span>by:{tile.artist}</span>}
+              subtitle={<span>by: {tile.artist}</span>}
             />
           </GridListTile>
         ))}
