@@ -16,6 +16,7 @@
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-stack-grid": "^0.7.1",
+    "typeface-roboto": "0.0.75",
     "webpack": "^4.40.2"
   },
   "devDependencies": {
