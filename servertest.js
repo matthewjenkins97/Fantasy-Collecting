@@ -14,7 +14,7 @@ const fetch = require('node-fetch');
 //     }}
 // );
 
-const body = {
+const body1 = {
   'title': 'Mona Lisa',
   'artist': 'Leonardo Da Vinci',
   'year': 1500,
@@ -25,15 +25,42 @@ const body = {
     ['user1', 'user2', 'price', 'timestamp'],
   ],
 };
+const body2 = {
+  'title': 'Starry Night',
+  'artist': 'Leonardo Da Vinci',
+  'year': 1500,
+  'theoreticalPrice': 50,
+  'actualPrice': 50,
+  'hidden': false,
+  'history': [
+    ['user1', 'user2', 'price', 'timestamp'],
+  ],
+};
 
-fetch('http://localhost:3000/artworks', {
-  method: 'post',
-  body: JSON.stringify(body),
-  headers: {'Content-Type': 'application/json'},
-})
-    .then((res) => res.json())
-    .then((json) => console.log(json));
+const edit1 = {'artist': 'Leo'};
 
+// POST METHOD
+
+// fetch('http://localhost:3000/artworks', {
+//   method: 'post',
+//   body: JSON.stringify(body1),
+//   headers: {'Content-Type': 'application/json'},
+// })
+//     .then((res) => res.json())
+//     .then((json) => console.log(json));
+
+
+
+// delete method
+
+
+fetch('http://localhost:3000/artworks/MonaLisa', {
+  method: 'delete',
+}).then((response) =>
+  response.json().then((json) => {
+    return json;
+  })
+);
 
 request.get('http://localhost:3000/artworks', function(error, response, body) {
   console.log(body);
