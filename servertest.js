@@ -52,15 +52,23 @@ const edit1 = {'artist': 'Leo'};
 
 
 // delete method
+// fetch('http://localhost:3000/artworks/MonaLisa', {
+//   method: 'delete',
+// }).then((response) =>
+//   response.json().then((json) => {
+//     return json;
+//   })
+// );
 
 
+// put method
 fetch('http://localhost:3000/artworks/MonaLisa', {
-  method: 'delete',
-}).then((response) =>
-  response.json().then((json) => {
-    return json;
-  })
-);
+  method: 'PUT', // or 'PUT'
+  body: JSON.stringify(edit1), // data can be `string` or {object}!
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 request.get('http://localhost:3000/artworks', function(error, response, body) {
   console.log(body);
