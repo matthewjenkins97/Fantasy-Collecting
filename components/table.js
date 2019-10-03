@@ -10,12 +10,14 @@ import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
-    { id: 'paintings', label: 'Paintings', minWidth: 100 },
     { id: 'money', label: 'Money', minWidth: 100 },
+    { id: 'paintings', label: 'Paintings', minWidth: 100 },
+    { id: 'value', label: 'Value', minWidth: 100 },
+    { id: 'kudos', label: 'Kudos', minWidth: 100 },
   ];
 
-function createData(name, paintings, money) {
-    return { name, paintings, money };
+function createData(name, paintings, money, value, kudos) {
+    return { name, paintings, money, value, kudos };
 }
 
 const useStyles = makeStyles({
@@ -29,9 +31,9 @@ const useStyles = makeStyles({
   });
 
 const rows = [
-    createData('Julia Opatrny', '5', '9,000'),
-    createData('Donald Holley', '6', '4,000'),
-    createData('Matt Jenkins', '8', '1,500')
+    createData('Julia Opatrny', '5', '9,000', '200', '50'),
+    createData('Donald Holley', '6', '4,000', '400', '85'),
+    createData('Matt Jenkins', '8', '1,500', '350', '35'),
 ];
 
 export default function StickyHeadTable() {
