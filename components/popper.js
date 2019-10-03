@@ -26,7 +26,7 @@ export default function SimplePopper(props) {
 
   return (
     <div>
-      <Button aria-describedby={id} variant="outlined" onClick={handleClick}>
+      <Button aria-describedby={id} onClick={handleClick}>
         More Info
       </Button>
       <Popper id={id} open={open} anchorEl={anchorEl} transition>

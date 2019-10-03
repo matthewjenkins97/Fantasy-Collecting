@@ -77,7 +77,7 @@ class Home extends Component  {
                 <Paper style={{ padding: 10 }}>
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">By: {tile.artist}</Typography>
-                <div style={{paddingTop: 10, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
+                <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
                   <Popper text={tile.description} />
                 </div>
                 </Paper>
