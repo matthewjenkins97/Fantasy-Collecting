@@ -75,6 +75,13 @@ example post entry:
 app.prepare().then(() => {
   const server = express();
 
+  server.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
+
   // artworks stuff
   server.get('/artworks', (request, response) => {
     response.status(200).json(artworks);
