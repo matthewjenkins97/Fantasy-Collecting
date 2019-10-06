@@ -1,18 +1,33 @@
 const express = require('express');
 const router = express.Router();
 
-const {json} = require('body-parser')
+const {json} = require('body-parser');
+const mysql = require('mysql2');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'fantasy_collecting',
+});
+
+const expectedPOSTParameters = [];
+const expectedPUTParameters = [];
 
 router.get('/', function(req, res, next) {
-  res.send('GET /history/');
+  connection.query('SELECT * FROM history', (err, results, fields) => {
+    res.send(results);
+  });
 });
 
 router.get('/:id', function(req, res, next) {
-  res.send('GET /history/' + req.params.id);
+  connection.query(`SELECT * FROM history WHERE identifier = ${req.params.id}`, (err, results, fields) => {
+    res.send(results);
+  });
 });
-
 router.post('/', json(), function(req, res, next) {
-  res.send('POST /history/' + req.params.id);
+  console.log(req.body);
+  res.send('POST /history/');
 });
 
 router.put('/:id', json(), function(req, res, next) {
