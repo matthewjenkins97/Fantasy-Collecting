@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM artworks WHERE identifier = ${req.params.id}`, (err, results, fields) => {
+  connection.query(`SELECT * FROM artworks WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
@@ -36,7 +36,7 @@ router.post('/', json(), function(req, res, next) {
     req.body.artist,
     req.body.year,
     req.body.theoreticalprice,
-    req.body.theoreticalprice,
+    req.body.actualprice,
     req.body.hidden,
     req.body.owner,
     req.body.url,
