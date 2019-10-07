@@ -18,15 +18,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM artworks WHERE identifier = ${req.params.id}`, (err, results, fields) => {
+  connection.query(`SELECT * FROM artworks WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.post('/', json(), function(req, res, next) {
   // create identifier
-  let identifier = req.body.title + req.body.artist;
-  identifier = identifier.replace(/\s/g, '');
+  if (!req.body.title) {
+    res.sendStatus(400);
+  }
+
+  let identifier = req.body.title;
+  identifier = identifier.replace(/\s/, '');
   identifier = identifier.toLowerCase();
   identifier = identifier.substr(0, 20);
 
@@ -36,7 +40,7 @@ router.post('/', json(), function(req, res, next) {
     req.body.artist,
     req.body.year,
     req.body.theoreticalprice,
-    req.body.theoreticalprice,
+    req.body.actualprice,
     req.body.hidden,
     req.body.owner,
     req.body.url,
@@ -44,14 +48,13 @@ router.post('/', json(), function(req, res, next) {
 
   for (const i in dbEntry) {
     if (typeof(dbEntry[i]) === 'string') {
-      dbEntry[i] = '\'' + dbEntry[i] + '\'';
+      dbEntry[i] = `'${dbEntry[i]}'`;
     } else if (dbEntry[i] == undefined) {
       dbEntry[i] = `NULL`;
     }
   }
 
   const dbEntryArgs = dbEntry.join(', ');
-  console.log(dbEntryArgs);
 
   connection.query(`INSERT INTO artworks VALUES (${dbEntryArgs})`, (err, results, fields) => {
     if (err) {
@@ -64,11 +67,34 @@ router.post('/', json(), function(req, res, next) {
 });
 
 router.put('/:id', json(), function(req, res, next) {
-  res.send('PUT /artworks/' + req.params.id);
+  const dbEntry = {
+    'title': req.body.title,
+    'artist': req.body.artist,
+    'year': req.body.year,
+    'theoreticalprice': req.body.theoreticalprice,
+    'actualprice': req.body.actualprice,
+    'hidden': req.body.hidden,
+    'owner': req.body.owner,
+    'url': req.body.url,
+  };
+
+  for (const item of Object.keys(dbEntry)) {
+    if (dbEntry[item] != undefined) {
+      if (typeof(dbEntry[item]) == 'string') {
+        connection.query(`UPDATE artworks SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
+      } else {
+        connection.query(`UPDATE artworks SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
+      }
+    }
+  }
+
+  res.sendStatus(200);
 });
 
 router.delete('/:id', function(req, res, next) {
-  res.send('DELETE /artworks/' + req.params.id);
+  connection.query(`DELETE FROM artworks WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
+    res.sendStatus(200);
+  });
 });
 
 module.exports = router;
