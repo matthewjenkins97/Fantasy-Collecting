@@ -25,6 +25,8 @@ import Coin from './static/coin.png';
 import Favicon from './static/coin.png';
 import MenuIcon from './static/coin.png';
 
+import * as serverfuncs from './serverfuncs';
+
 const tileData = [
   {
     img: MonaLisa,
@@ -64,6 +66,8 @@ class Home extends Component  {
   render() {
     return(
       <div>
+        <button onClick = {serverfuncs.postArtworkInfo}>post info</button>
+        <button onClick = {serverfuncs.getArtworkInfo}>get info</button>
         <AppBar />
         {/* <PinGrid /> */}
         {/* <GridList /> */}
