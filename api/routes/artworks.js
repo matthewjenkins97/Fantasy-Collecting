@@ -24,46 +24,47 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', json(), function(req, res, next) {
-  // create identifier
+  // primary key check - if it doesn't exist, it's a bad request
   if (!req.body.title) {
     res.sendStatus(400);
-  }
+  } else {
+    // create our artwork identifier
+    let identifier = req.body.title;
+    identifier = identifier.replace(/\s/, '');
+    identifier = identifier.toLowerCase();
+    identifier = identifier.substr(0, 20);
 
-  let identifier = req.body.title;
-  identifier = identifier.replace(/\s/, '');
-  identifier = identifier.toLowerCase();
-  identifier = identifier.substr(0, 20);
+    const dbEntry = [
+      identifier,
+      req.body.title,
+      req.body.artist,
+      req.body.year,
+      req.body.theoreticalprice,
+      req.body.actualprice,
+      req.body.hidden,
+      req.body.owner,
+      req.body.url,
+    ];
 
-  const dbEntry = [
-    identifier,
-    req.body.title,
-    req.body.artist,
-    req.body.year,
-    req.body.theoreticalprice,
-    req.body.actualprice,
-    req.body.hidden,
-    req.body.owner,
-    req.body.url,
-  ];
-
-  for (const i in dbEntry) {
-    if (typeof(dbEntry[i]) === 'string') {
-      dbEntry[i] = `'${dbEntry[i]}'`;
-    } else if (dbEntry[i] == undefined) {
-      dbEntry[i] = `NULL`;
+    for (const i in dbEntry) {
+      if (typeof(dbEntry[i]) === 'string') {
+        dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
+      }
     }
+
+    const dbEntryArgs = dbEntry.join(', ');
+
+    connection.query(`INSERT INTO artworks VALUES (${dbEntryArgs})`, (err, results, fields) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    });
   }
-
-  const dbEntryArgs = dbEntry.join(', ');
-
-  connection.query(`INSERT INTO artworks VALUES (${dbEntryArgs})`, (err, results, fields) => {
-    if (err) {
-      console.error(err);
-      res.sendStatus(500);
-    } else {
-      res.sendStatus(200);
-    }
-  });
 });
 
 router.put('/:id', json(), function(req, res, next) {
