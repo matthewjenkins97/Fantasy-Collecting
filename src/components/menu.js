@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '../static/menuIcon.png';
 // import Icon from '../static/menuIcon.png';
 
 export default function SimpleMenu() {
@@ -18,7 +19,7 @@ export default function SimpleMenu() {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <img src="../static/menuIcon.png" />
+        <img src={MenuIcon} />
       </Button>
       <Menu
         id="simple-menu"

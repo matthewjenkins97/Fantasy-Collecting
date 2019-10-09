@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SimpleMenu from '../components/menu';
+import Coin from '../static/coin.png';
 //import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +29,7 @@ export default function DenseAppBar() {
           <Typography variant="h6" color="inherit">
             Fantasy Collecting
           </Typography>
-            <img src="../static/coin.png" style={{marginLeft: 800}}/>
+            <img src={Coin} style={{marginLeft: 800}}/>
             <Typography variant="subtitle1" color="inherit" style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
               $1,000
             </Typography>
