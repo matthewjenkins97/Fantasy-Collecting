@@ -18,7 +18,10 @@ const microresearchRouter = require('./routes/microresearch');
 const studentsRouter = require('./routes/students');
 
 const app = express();
+
+// set up CORS
 const cors = require('cors');
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,12 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// use routes
 app.use('/artworks', artworksRouter);
 app.use('/history', historyRouter);
 app.use('/microresearch', microresearchRouter);
 app.use('/students', studentsRouter);
-
-app.use(cors());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
