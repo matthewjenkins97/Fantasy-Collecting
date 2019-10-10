@@ -7,8 +7,13 @@ import { Link } from "react-router-dom";
 const Login = () => {
         return(
             <div>
-                <h1>Login</h1>
-                <p>title:<input type = 'text' id = 'title'></input></p>
+                <div style={{ justifyContent: 'center', alignSelf: 'center'}}>
+                    <h1>Login</h1>
+                    <p textAlign='center'>username:<input type = 'text' id = 'title'></input></p>
+                    <p textAlign='center'>password:<input type = 'text' id = 'title'></input></p>
+                    <button>LOG IN</button>
+                    <p>Don't have a password? <a href="google.com">Create one here</a> </p>
+                </div>
             </div>
         )
     
