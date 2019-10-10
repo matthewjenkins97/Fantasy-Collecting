@@ -18,12 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  // check if it's a username or an identifier
-
-  // if username is in our microresearch database, search by username
-
-  // if painting is in our microresearch database, search by identifier
-  connection.query(`SELECT * FROM microresearch WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`SELECT * FROM microresearch WHERE username = '${req.params.id}' or identifier = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
@@ -39,7 +34,8 @@ router.post('/', json(), function(req, res, next) {
       req.body.timestamp,
     ];
 
-    // dbEntry[3] (corresponding to our datetime object) needs to be converted to something mysql can accept
+    // dbEntry[3] (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
     dbEntry[3] = new Date(dbEntry[3]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
@@ -58,16 +54,18 @@ router.post('/', json(), function(req, res, next) {
         res.sendStatus(200);
       }
     });
-
   }
 });
 
-router.put('/:id', json(), function(req, res, next) {
-  res.send('PUT /microresearch/' + req.params.id);
-});
+// todo: ask stu if we want to be able to delete / put microresearch
+// router.put('/:id', json(), function(req, res, next) {
+//   res.send('PUT /microresearch/' + req.params.id);
+// });
 
-router.delete('/:id', function(req, res, next) {
-  res.send('DELETE /microresearch/' + req.params.id);
-});
+// router.delete('/:id', function(req, res, next) {
+//   connection.query(`DELETE FROM microresearch WHERE username = '${req.params.id}' or identifier = '${req.params.id}'`, (err, results, fields) => {
+//     res.sendStatus(200);
+//   });
+// });
 
 module.exports = router;
