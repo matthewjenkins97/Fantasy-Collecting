@@ -19,7 +19,6 @@ class Main extends Component  {
   render() {
     return(
       <div>
-        <AppBar />
         {/* <PinGrid /> */}
         {/* <GridList /> */}
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
@@ -56,7 +55,6 @@ class Main extends Component  {
               <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
           </Grid>
         </div>
-        <Table />
       </div>
       
     )

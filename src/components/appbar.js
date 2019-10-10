@@ -23,6 +23,7 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
+      
       <AppBar position="static" >
         <Toolbar variant="dense">
           <SimpleMenu />
