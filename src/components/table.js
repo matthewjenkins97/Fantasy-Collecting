@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Input from '@material-ui/core/Input';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -75,7 +76,13 @@ export default function StickyHeadTable() {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number' ? column.format(value) : value}
+                            <Input
+                            defaultValue={value}
+                            inputProps={{
+                              'aria-label': 'description',
+                            }}
+                          />
+                          {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                         </TableCell>
                       );
                     })}
