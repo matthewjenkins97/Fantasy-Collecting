@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 const MainPage = () => {
         return(
             <div>
-                <Link to="/table">Table</Link>
+                <Link to="/table" style={{ textDecoration: 'none'}}>
+                    <Button>Table</Button>  
+                </Link>
                 <Homepage />
             </div>
         )
