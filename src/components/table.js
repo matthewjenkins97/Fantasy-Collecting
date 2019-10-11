@@ -7,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+import InputBase from '@material-ui/core/InputBase';
 
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
@@ -14,6 +17,7 @@ const columns = [
     { id: 'paintings', label: 'Paintings', minWidth: 100 },
     { id: 'value', label: 'Value', minWidth: 100 },
     { id: 'kudos', label: 'Kudos', minWidth: 100 },
+    { id: 'change', minWidth: 50 },
   ];
 
 function createData(name, paintings, money, value, kudos) {
@@ -75,7 +79,23 @@ export default function StickyHeadTable() {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number' ? column.format(value) : value}
+                            { (column.id == 'change') ? 
+                            (<Button variant="contained">Save Edit</Button>)
+                             : 
+                            <InputBase
+                             defaultValue={value}
+                             inputProps={{
+                                 'aria-label': 'description',
+                                 }}
+                            />
+                            // <Input
+                            // defaultValue={value}
+                            // inputProps={{
+                            //   'aria-label': 'description',
+                            //   }}
+                            // />
+                          }
+                          {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                         </TableCell>
                       );
                     })}

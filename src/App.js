@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Homepage from './components/homepage';
 import AppBar from './components/appbar';
+import * as serverfuncs from './serverfuncs';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,6 +14,7 @@ import {
 import MainPage from "./pages/index";
 import Table from "./pages/table";
 import ErrorPage from "./pages/error";
+import Login from "./pages/login";
 
 
 class Home extends Component  {
@@ -24,7 +26,7 @@ class Home extends Component  {
   render() {
     return(
       <div>
-        <div>
+        {/*<div>
         <p></p>username:<input type = 'text' id = 'username'></input>
         <p></p>password:<input type = 'text' id = 'password'></input>
         <p></p>name:<input type = 'text' id = 'name'></input>
@@ -49,50 +51,17 @@ class Home extends Component  {
           <p></p>hidden:<input type = 'checkbox' id = 'hidden'></input>
           <p></p>owner:<input type = 'text' id = 'owner'></input>
           <p></p>url:<input type = 'text' id = 'url'></input>
-        </div>
-        <AppBar />
+        </div>*/}
+        {/* <AppBar />
         {/* <PinGrid /> */}
         {/* <GridList /> */}
-        <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
-          textAlign: 'center',
-          paddingTop: 20,
-          paddingBottom: 10}}>My Gallery</Typography>
-        <div>
-          <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="left-justified"
-          >
-            {tileData.map(tile => (
-              <div style={{padding: 10}}>
-                
-                <img src={tile.img} alt={tile.title} height={500} onClick={this.togglePopup.bind(this)}/>
-                <Paper style={{ padding: 10 }}>
-                  <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
-                  <Typography variant="subtitle1" fontFamily="roboto">By: {tile.artist}</Typography>
-                <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-                  <Popper text={tile.description} />
-                </div>
-                </Paper>
-                {/* <GridListTileBar
-                  title={tile.title}
-                  subtitle={<span>by: {tile.artist}</span>}
-                /> */}
-              </div>
-            ))}  
-              {/* <div style={{padding: 10}}><img src="./static/monalisa.jpg" height={500}/>
-              </div>
-              <div style={{padding: 10}}><img src="./static/dance.jpg" height={500} /></div>
-              <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
-          </Grid>
-        </div>
         <div>
           <AppBar />
           <Router>
             <Switch>
               <Route exact path="/"  component={MainPage} />
               <Route exact path="/table" component={Table} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/404notfound" component={ErrorPage}/>
               <Redirect to="/404notfound"/>
             </Switch>
