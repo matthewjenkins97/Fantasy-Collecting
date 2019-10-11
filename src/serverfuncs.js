@@ -2,9 +2,9 @@
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logInUser, logBackInUser, logOutUser, createUser, createArtPost, checkForTrade};
 
-if (localStorage.getItem('username') === 'dholley') {
-  logBackInUser();
-}
+// if (localStorage.getItem('username') === 'dholley') {
+//   logBackInUser();
+// }
 
 function coroutine(f) {
   const o = f();
@@ -50,14 +50,19 @@ async function logInUser() {
   const response = await fetch('http://localhost:9000/students/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
-  const output = document.getElementById('mytext');
-  if (typeof student !== 'undefined') {
-    output.innerHTML = 'success!';
-    localStorage.setItem('username', document.getElementById('username').value);
-    console.log(student);
+  if (typeof student === 'undefined') {
+    console.log('username does not exist');
+  }
+  else if(student.hash !== document.getElementById('password').value) {
+    console.log('incorrect password for username');
   } else {
-    output.innerHTML = 'does not exist :(';
-    console.log('entry does not exits!');
+    console.log('login successful');
+    localStorage.setItem('username', document.getElementById('username').value);
+    if(student.admin) {
+      window.location.replace('/table');
+    } else {
+      window.location.replace('/');
+    }
   }
 }
 
@@ -66,13 +71,11 @@ async function logBackInUser() {
   const response = await fetch('http://localhost:9000/students/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
-  const output = document.getElementById('mytext');
-  if (typeof student !== 'undefined') {
-    output.innerHTML = 'success!';
-    console.log(student);
+  if (typeof student === 'undefined') {
+    localStorage.clear();
   } else {
-    output.innerHTML = 'does not exist :(';
-    console.log('entry does not exits!');
+    console.log('login successful');
+    window.location.replace('/');
   }
 }
 
@@ -87,27 +90,34 @@ function logOutUser() {
 
 */
 
-
-function createUser() {
-  fetch('http://localhost:9000/students/', {
-    method: 'post',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(
-        {username: document.getElementById('username').value,
-          hash: document.getElementById('password').value,
-          name: document.getElementById('name').value,
-          admin: document.getElementById('admin').checked,
-          guilders: parseInt(document.getElementById('guilders').value),
-          microresearchpoints: parseInt(
-              document.getElementById('micropoints').value),
-          paintings: document.getElementById('paintings').value,
-        }),
-  }).then(function(res) {
-    console.log(res);
-  })
+async function createUser() {
+  const stringName = localStorage.getItem('username');
+  const response = await fetch('http://localhost:9000/students/'+stringName);
+  const myJson = await response.json();
+  const student = JSON.parse(JSON.stringify(myJson))['0'];
+  if (typeof student === 'undefined') {
+    fetch('http://localhost:9000/students/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+          {username: document.getElementById('username').value,
+            hash: document.getElementById('password').value,
+            name: document.getElementById('name').value,
+            admin: document.getElementById('admin').checked,
+            guilders: parseInt(document.getElementById('guilders').value),
+            microresearchpoints: parseInt(
+                document.getElementById('micropoints').value),
+            paintings: document.getElementById('paintings').value,
+          }),
+    }).then(function(res) {
+      console.log(res);
+    })
+  } else {
+    console.log('user already exists');
+  }
 }
 
 
