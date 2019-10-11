@@ -120,6 +120,10 @@ async function createUser() {
   }
 }
 
+function updateUser() {
+  const username = document.getElementById('').value;
+}
+
 
 function deleteUser() {
   fetch('http://localhost:9000/students/dholley', {
