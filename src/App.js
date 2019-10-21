@@ -26,7 +26,7 @@ class Home extends Component  {
   render() {
     return(
       <div>
-        {/* <div>
+        {/*<div>
         <p></p>username:<input type = 'text' id = 'username'></input>
         <p></p>password:<input type = 'text' id = 'password'></input>
         <p></p>name:<input type = 'text' id = 'name'></input>
@@ -51,7 +51,7 @@ class Home extends Component  {
           <p></p>hidden:<input type = 'checkbox' id = 'hidden'></input>
           <p></p>owner:<input type = 'text' id = 'owner'></input>
           <p></p>url:<input type = 'text' id = 'url'></input>
-        </div> */}
+        </div>*/}
         {/* <AppBar />
         {/* <PinGrid /> */}
         {/* <GridList /> */}

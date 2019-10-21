@@ -15,7 +15,7 @@ const logger = require('morgan');
 const artworksRouter = require('./routes/artworks');
 const historyRouter = require('./routes/history');
 const microresearchRouter = require('./routes/microresearch');
-const studentsRouter = require('./routes/students');
+const usersRouter = require('./routes/users');
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/artworks', artworksRouter);
 app.use('/history', historyRouter);
 app.use('/microresearch', microresearchRouter);
-app.use('/students', studentsRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
