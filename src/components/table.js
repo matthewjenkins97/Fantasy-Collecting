@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 
 const columns = [
+     { id: 'username', label: 'Username', minWidth: 170 },
     { id: 'name', label: 'Name', minWidth: 170 },
     { id: 'money', label: 'Money', minWidth: 100 },
     { id: 'paintings', label: 'Paintings', minWidth: 100 },
@@ -20,8 +21,8 @@ const columns = [
     { id: 'change', minWidth: 50 },
   ];
 
-function createData(name, paintings, money, value, kudos) {
-    return { name, paintings, money, value, kudos };
+function createData(username, name, paintings, money, value, kudos) {
+    return { username, name, paintings, money, value, kudos };
 }
 
 const useStyles = makeStyles({
@@ -35,9 +36,9 @@ const useStyles = makeStyles({
   });
 
 const rows = [
-    createData('Julia Opatrny', '5', '9,000', '200', '50'),
-    createData('Donald Holley', '6', '4,000', '400', '85'),
-    createData('Matt Jenkins', '8', '1,500', '350', '35'),
+    createData('jopatrny', 'Julia Opatrny', '5', '9,000', '200', '50'),
+    createData('dholley', 'Donald Holley', '6', '4,000', '400', '85'),
+    createData('mjenkins', 'Matt Jenkins', '8', '1,500', '350', '35'),
 ];
 
 export default function StickyHeadTable() {
@@ -80,7 +81,7 @@ export default function StickyHeadTable() {
                       return (
                         <TableCell key={column.id} align={column.align}>
                             { (column.id == 'change') ? 
-                            (<Button variant="contained">Save Edit</Button>)
+                            (<Button variant="contained">Save</Button>)
                              : 
                             <InputBase
                              defaultValue={value}

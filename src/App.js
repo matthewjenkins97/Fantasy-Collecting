@@ -56,7 +56,6 @@ class Home extends Component  {
         {/* <PinGrid /> */}
         {/* <GridList /> */}
         <div>
-          <AppBar />
           <Router>
             <Switch>
               <Route exact path="/"  component={MainPage} />
