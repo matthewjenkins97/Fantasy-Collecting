@@ -80,9 +80,9 @@ export default function StickyHeadTable() {
                     {columns.map(column => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell id={row.username+column.id} align={column.align}>
                             { (column.id == 'change') ? 
-                            (<Button variant="contained" onClick={() => console.log(row)/*serverfuncs.saveData(row.username)*/}>Save</Button>)
+                            (<Button variant="contained" onClick={() => serverfuncs.updateUserData(row.username)}>Save</Button>)
                              : 
                             <InputBase
                              defaultValue={value}
