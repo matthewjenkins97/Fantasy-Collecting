@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
-  logInUser, logBackInUser, logOutUser, createUser, createArtPost, checkForTrade};
+  logInUser, logBackInUser, logOutUser, createUser, createArtPost, checkForTrade, updateUserData};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -90,6 +90,21 @@ function logOutUser() {
 
 */
 
+
+async function updateUserData(row) {
+  // fetch('http://localhost:9000/users/'+row.username, {
+  //   method: 'put',
+  //   mode: 'cors',
+  //   headers: {
+  //       'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(row)
+  // }).then(function (res) {
+  //   console.log(res);
+  // })
+  console.log(row);
+}
+
 async function createUser() {
   const stringName = localStorage.getItem('username');
   const response = await fetch('http://localhost:9000/students/'+stringName);
@@ -118,10 +133,6 @@ async function createUser() {
   } else {
     console.log('user already exists');
   }
-}
-
-function updateUser() {
-  const username = document.getElementById('').value;
 }
 
 
