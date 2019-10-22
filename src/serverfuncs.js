@@ -91,7 +91,7 @@ function logOutUser() {
 */
 
 
-async function updateUserData(row) {
+async function updateUserData(username) {
   // fetch('http://localhost:9000/users/'+row.username, {
   //   method: 'put',
   //   mode: 'cors',
@@ -102,7 +102,13 @@ async function updateUserData(row) {
   // }).then(function (res) {
   //   console.log(res);
   // })
-  console.log(row);
+  const body = JSON.stringify(
+    {name: document.getElementById(username+'name').value,
+      money: document.getElementById(username+'money').value,
+      paintings: document.getElementById(username+'paintings').value,
+      value: document.getElementById(username+'value').value,
+      kudos: document.getElementById(username+'kudos').value,});
+  console.log(body);
 }
 
 async function createUser() {
