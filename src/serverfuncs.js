@@ -103,11 +103,11 @@ async function updateUserData(username) {
   //   console.log(res);
   // })
   const body = JSON.stringify(
-    {name: document.getElementById(username+'name').value,
-      money: document.getElementById(username+'money').value,
-      paintings: document.getElementById(username+'paintings').value,
-      value: document.getElementById(username+'value').value,
-      kudos: document.getElementById(username+'kudos').value,});
+    {name: document.getElementById(username+'name').innerHTML,
+      money: document.getElementById(username+'money').innerHTML,
+      paintings: document.getElementById(username+'paintings').innerHTML,
+      value: document.getElementById(username+'value').innerHTML,
+      kudos: document.getElementById(username+'kudos').innerHTML,});
   console.log(body);
 }
 
