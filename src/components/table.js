@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
+import * as serverfuncs from '../serverfuncs';
 
 const columns = [
      { id: 'username', label: 'Username', minWidth: 170 },
@@ -75,13 +76,13 @@ export default function StickyHeadTable() {
             <TableBody>
               {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.username}>
                     {columns.map(column => {
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
                             { (column.id == 'change') ? 
-                            (<Button variant="contained">Save</Button>)
+                            (<Button variant="contained" onClick={() => console.log(row)/*serverfuncs.saveData(row.username)*/}>Save</Button>)
                              : 
                             <InputBase
                              defaultValue={value}
