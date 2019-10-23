@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import AppBar from './appbar';
-import Typography from '@material-ui/core/typography';
+import Typography from '@material-ui/core/Typography';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Paper from '@material-ui/core/Paper'; 
 import Popper from './popper';
