@@ -4,7 +4,7 @@ const router = express.Router();
 const {json} = require('body-parser');
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
   host: 'localhost',
   user: 'fantasyc_user',
   password: 'o6UZMvPZas0H',
