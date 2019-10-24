@@ -5,7 +5,10 @@
   "description": "Senior Seminar project for Hamilton College. An implemention of Professor Susan Jarosi's Fantasy Collection game using React and Express.",
   "private": true,
   "dependencies": {
+    
     "@material-ui/core": "^4.5.1",
+    "material-design-icons": "file:material-design-icons",
+    "material-table": "^1.52.0",
     "mysql": "^2.17.1",
     "node-fetch": "^2.6.0",
     "react": "^16.10.2",
