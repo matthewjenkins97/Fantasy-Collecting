@@ -13,8 +13,8 @@ const Login = () => {
         return(
             <div>
                 <h1>Login</h1>
-                username:<input type = 'text' id = 'username'></input>
-                <p></p>password:<input type = 'text' id = 'password'></input>
+                username:<input type = 'text' id = 'liusername'></input>
+                <p></p>password:<input type = 'text' id = 'lipassword'></input>
                 <p></p><button onClick = {serverfuncs.logInUser}>log in</button>
                 <p></p><button onClick = {serverfuncs.logOutUser}>log out</button>
             </div>
