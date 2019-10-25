@@ -28,7 +28,7 @@ const tradeCheck = coroutine(function* () {
 //setInterval(tradeCheck, 1000);
 
 async function checkForTrade() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students/dholley');
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/dholley');
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student !== 'undefined') {
@@ -48,7 +48,7 @@ async function checkForTrade() {
 
 async function logInUser() {
   const stringName = document.getElementById('liusername').value;
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students/'+stringName);
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
@@ -69,7 +69,7 @@ async function logInUser() {
 
 async function logBackInUser() {
   const stringName = localStorage.getItem('username');
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students/'+stringName);
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
@@ -95,7 +95,7 @@ function logOutUser() {
 */
 
 async function getAllUsers() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students');
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users');
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson))['0'];
   return students;
@@ -142,11 +142,11 @@ async function updateUserData(username) {
 
 async function createUser() {
   const stringName = localStorage.getItem('username');
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students/'+stringName);
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
-    fetch('http://fantasycollecting.hamilton.edu/api/students/', {
+    fetch('http://fantasycollecting.hamilton.edu/api/users/', {
       method: 'post',
       mode: 'cors',
       headers: {
@@ -172,7 +172,7 @@ async function createUser() {
 
 
 function deleteUser(username) {
-  fetch('http://fantasycollecting.hamilton.edu/api/students/'+username, {
+  fetch('http://fantasycollecting.hamilton.edu/api/users/'+username, {
     method: 'delete',
     mode: 'cors',
   }).then(function(res) {
@@ -268,7 +268,7 @@ function putArtworkInfo() {
 }
 
 async function makeTrade() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/students/dholley');
+  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/dholley');
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
 
