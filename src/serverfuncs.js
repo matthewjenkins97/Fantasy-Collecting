@@ -100,7 +100,10 @@ function logOutUser() {
 */
 
 async function getAllUsers() {
+<<<<<<< HEAD
   console.log("getting all users");
+=======
+>>>>>>> 6b1b2f13fba4af1292de1a4a318c50de208773fe
   const response = await fetch(apiURL + '/users');
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson))['0'];
