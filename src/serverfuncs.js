@@ -1,6 +1,3 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logInUser, logBackInUser, logOutUser, getAllUsers, createUser, 
@@ -50,7 +47,7 @@ async function checkForTrade() {
 */
 
 async function logInUser() {
-  let history = useHistory();
+  //let history = useHistory();
   const stringName = document.getElementById('liusername').value;
   const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
@@ -72,7 +69,7 @@ async function logInUser() {
 }
 
 async function logBackInUser() {
-  let history = useHistory();
+  //let history = useHistory();
   const stringName = localStorage.getItem('username');
   const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
