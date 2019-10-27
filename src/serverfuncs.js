@@ -100,10 +100,10 @@ function logOutUser() {
 */
 
 async function getAllUsers() {
-  // const response = await fetch(apiURL + '/users');
-  // const myJson = await response.json;
-  // const students = JSON.parse(JSON.stringify(myJson))['0'];
-  // return students;
+  const response = await fetch(apiURL + '/users');
+  const myJson = await response.json();
+  const students = JSON.parse(JSON.stringify(myJson))['0'];
+  return students;
 }
 
 async function getAllArtworksOfUser(user) {
