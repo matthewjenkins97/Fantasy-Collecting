@@ -5,8 +5,8 @@ const {json} = require('body-parser');
 const mysql = require('mysql2');
 
 const connection = mysql.createPool({
-  host: 'fantasycollecting.hamilton.edu',
-  user: 'fantasycollect',
+  host: 'localhost',
+  user: 'fantasyc_user',
   password: 'o6UZMvPZas0H',
   database: 'fantasyc_database',
 });
