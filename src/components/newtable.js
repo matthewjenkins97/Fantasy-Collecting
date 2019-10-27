@@ -4,19 +4,23 @@ import MaterialTable from 'material-table';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 
-var rows = [];
-const users = serverfuncs.getAllUsers();;
-for(var user in users) {
-  console.log(user);
-  var dict = {username: user.username, 
-    name: user.name, 
-    money: user.guilders, 
-    paintings: user.numofpaintings,  
-    value: 0,
-    kudos: user.microresearchpoints};
-  rows.push(dict);
-};
-console.log(rows);
+function getRows() {
+  var rows = [];
+  const users = serverfuncs.getAllUsers();;
+  for(var user in users) {
+    console.log(user);
+    var dict = {username: user.username, 
+      name: user.name, 
+      money: user.guilders, 
+      paintings: user.numofpaintings,  
+      value: 0,
+      kudos: user.microresearchpoints};
+    rows.push(dict);
+  };
+  console.log(rows);
+  return rows;
+}
+
 
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
@@ -28,7 +32,7 @@ export default function MaterialTableDemo() {
       { title: 'Value', field: 'value', type: 'numeric' },
       { title: 'Kudos', field: 'kudos' },
     ],
-    rows,//: [
+    data: getRows(),//[
     //   { username: 'jopatrny', name: 'Julia Opatrny', money: 9000, paintings: 5, value: 200, kudos: 50 },
     //   { username: 'dholley', name: 'Donald Holley', money: 4000, paintings: 6, value: 400, kudos: 35 },
     //   { username: 'mjenkins', name: 'Matt Jenkins', money: 1500, paintings: 8, value: 350, kudos: 85 },

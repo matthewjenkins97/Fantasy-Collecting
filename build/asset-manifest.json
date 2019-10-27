@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.34de6062.chunk.css",
-    "main.js": "/static/js/main.1ebcedbb.chunk.js",
-    "main.js.map": "/static/js/main.1ebcedbb.chunk.js.map",
+    "main.js": "/static/js/main.1e1dc7c5.chunk.js",
+    "main.js.map": "/static/js/main.1e1dc7c5.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.238ac574.js",
     "runtime-main.js.map": "/static/js/runtime-main.238ac574.js.map",
     "static/js/2.9c6e90fa.chunk.js": "/static/js/2.9c6e90fa.chunk.js",
     "static/js/2.9c6e90fa.chunk.js.map": "/static/js/2.9c6e90fa.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.9dc3979ce9f82ce24a37830fbfec059b.js": "/precache-manifest.9dc3979ce9f82ce24a37830fbfec059b.js",
+    "precache-manifest.ebd804ca4c5b5dc2a8b11d33bb7434c0.js": "/precache-manifest.ebd804ca4c5b5dc2a8b11d33bb7434c0.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/static/css/main.34de6062.chunk.css.map",
     "static/media/coin.png": "/static/media/coin.515325b9.png",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.238ac574.js",
     "static/js/2.9c6e90fa.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.1ebcedbb.chunk.js"
+    "static/js/main.1e1dc7c5.chunk.js"
   ]
 }
