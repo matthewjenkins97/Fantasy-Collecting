@@ -12,26 +12,17 @@ export default function MaterialTableDemo() {
       { title: 'Paintings', field: 'paintings', type: 'numeric' },
       { title: 'Value', field: 'value', type: 'numeric' },
       { title: 'Kudos', field: 'kudos' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
     ],
     data: [
-      { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-      {
-        name: 'Zerya Betül',
-        surname: 'Baran',
-        birthYear: 2017,
-        birthCity: 34,
-      },
+      { username: 'jopatrny', name: 'Julia Opatrny', money: 9000, paintings: 5, value: 200, kudos: 50 },
+      { username: 'dholley', name: 'Donald Holley', money: 4000, paintings: 6, value: 400, kudos: 35 },
+      { username: 'mjenkins', name: 'Matt Jenkins', money: 1500, paintings: 8, value: 350, kudos: 85 },
     ],
   });
 
   return (
     <MaterialTable
-      title="Editable Example"
+      title="Users"
       columns={state.columns}
       data={state.data}
       editable={{

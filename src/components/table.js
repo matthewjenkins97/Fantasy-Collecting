@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -11,6 +11,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import * as serverfuncs from '../serverfuncs';
+
 
 const columns = [
      { id: 'username', label: 'Username', minWidth: 170 },
@@ -42,7 +43,10 @@ const rows = [
     createData('mjenkins', 'Matt Jenkins', '8', '1,500', '350', '35'),
 ];
 
+const useForceUpdate = () => useState()[1];
+
 export default function StickyHeadTable() {
+   // const forceUpdate = useForceUpdate();
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -107,7 +111,7 @@ export default function StickyHeadTable() {
                     </TableRow>
                   );
                 })}
-                <TableRow><Button onClick={() => {addRow(data.push(createData('', '', '', '', '', ''))); /*addRow([...data, newElement]);*/ console.log(data)}}>Add Row</Button></TableRow>
+                <TableRow><Button onClick={() => {addRow(data.push(createData('', '', '', '', '', '')));  /*addRow(data => [...data, newElement]);*/ console.log(data)}}>Add Row</Button></TableRow>
               </TableBody>
             </Table>
           </div>
