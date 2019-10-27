@@ -64,9 +64,9 @@ async function logInUser() {
     console.log('login successful');
     localStorage.setItem('username', document.getElementById('liusername').value);
     if(student.admin===1) {
-      history.push("/table");
+      //history.push("/table");
     } else {
-      history.push('/');
+      //history.push('/');
     }
   }
 }
@@ -81,9 +81,9 @@ async function logBackInUser() {
     localStorage.clear();
   } else {
     if(student.admin===1) {
-      history.push("/table");
+      //history.push("/table");
     } else {
-      history.push('/');
+      //history.push('/');
     }
   }
 }
