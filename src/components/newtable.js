@@ -7,6 +7,7 @@ import * as serverfuncs from '../serverfuncs';
 var rows = [];
 const users = serverfuncs.getAllUsers();;
 for(var user in users) {
+  console.log(user);
   var dict = {username: user.username, 
     name: user.name, 
     money: user.guilders, 
