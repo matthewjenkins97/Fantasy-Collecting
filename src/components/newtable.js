@@ -13,8 +13,9 @@ for(var user in users) {
     paintings: user.numofpaintings,  
     value: 0,
     kudos: user.microresearchpoints};
-  rows.append(dict);
+  rows.push(dict);
 };
+console.log(rows);
 
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
