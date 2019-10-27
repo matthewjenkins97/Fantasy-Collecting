@@ -1,5 +1,6 @@
 {
   "name": "SeniorProject",
+  "homepage": "http://fantasycollecting.hamilton.edu",
   "version": "1.0.0",
   "description": "Senior Seminar project for Hamilton College. An implemention of Professor Susan Jarosi's Fantasy Collection game using React and Express.",
   "private": true,
