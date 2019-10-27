@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import * as serverfuncs from '../serverfuncs';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
-
+import * as serverfuncs from '../serverfuncs';
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
@@ -44,7 +44,10 @@ export default function MaterialTableDemo() {
               data[data.indexOf(oldData)] = newData;
               setState({ ...state, data });
               serverfuncs.updateUserData(newData);
+<<<<<<< HEAD
               console.log(newData);
+=======
+>>>>>>> 6a5237d930a997ee76cee2e277f1a7222eb0d962
             }, 600);
           }),
         onRowDelete: oldData =>
