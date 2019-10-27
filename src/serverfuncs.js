@@ -60,9 +60,9 @@ async function logInUser() {
     console.log('login successful');
     localStorage.setItem('username', document.getElementById('liusername').value);
     if(student.admin===1) {
-      window.location.replace('/table');
+      window.location = '/table';
     } else {
-      window.location.replace('/');
+      window.location = '/';
     }
   }
 }
@@ -76,9 +76,9 @@ async function logBackInUser() {
     localStorage.clear();
   } else {
     if(student.admin===1) {
-      window.location.replace('/table');
+      window.location = '/table';
     } else {
-      window.location.replace('/');
+      window.location = '/';
     }
   }
 }
