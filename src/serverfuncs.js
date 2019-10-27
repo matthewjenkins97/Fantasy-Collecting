@@ -1,3 +1,6 @@
+import React from "react";
+import { useHistory } from "react-router-dom";
+
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logInUser, logBackInUser, logOutUser, getAllUsers, createUser, 
@@ -47,6 +50,7 @@ async function checkForTrade() {
 */
 
 async function logInUser() {
+  let history = useHistory();
   const stringName = document.getElementById('liusername').value;
   const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
@@ -60,14 +64,15 @@ async function logInUser() {
     console.log('login successful');
     localStorage.setItem('username', document.getElementById('liusername').value);
     if(student.admin===1) {
-      window.location = '/table';
+      history.push("/table");
     } else {
-      window.location = '/';
+      history.push('/');
     }
   }
 }
 
 async function logBackInUser() {
+  let history = useHistory();
   const stringName = localStorage.getItem('username');
   const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
   const myJson = await response.json();
@@ -76,9 +81,9 @@ async function logBackInUser() {
     localStorage.clear();
   } else {
     if(student.admin===1) {
-      window.location = '/table';
+      history.push("/table");
     } else {
-      window.location = '/';
+      history.push('/');
     }
   }
 }
@@ -115,7 +120,7 @@ async function getAllArtworksOfUser(user) {
 }
 
 
-async function updateUserData(username) {
+async function updateUserData(data) {
   // fetch('http://fantasycollecting.hamilton.edu/api/users/'+row.username, {
   //   method: 'put',
   //   mode: 'cors',
@@ -131,13 +136,16 @@ async function updateUserData(username) {
   // }).then(function (res) {
   //   console.log(res);
   // })
-  const body = JSON.stringify(
-        {username: document.getElementById(username+'name').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        money: document.getElementById(username+'money').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        paintings: document.getElementById(username+'paintings').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        value: document.getElementById(username+'value').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        kudos: document.getElementById(username+'kudos').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,});
-  console.log(body);
+
+  console.log(data);
+
+  // const body = JSON.stringify(
+  //       {username: document.getElementById(username+'name').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
+  //       money: document.getElementById(username+'money').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
+  //       paintings: document.getElementById(username+'paintings').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
+  //       value: document.getElementById(username+'value').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
+  //       kudos: document.getElementById(username+'kudos').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,});
+  // console.log(body);
 }
 
 async function createUser() {
