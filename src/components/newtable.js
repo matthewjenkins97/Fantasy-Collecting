@@ -2,7 +2,7 @@ import React from 'react';
 import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
-
+import * as serverfuncs from '../serverfuncs';
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
@@ -42,7 +42,7 @@ export default function MaterialTableDemo() {
               const data = [...state.data];
               data[data.indexOf(oldData)] = newData;
               setState({ ...state, data });
-              console.log(oldData);
+              serverfuncs.updateUserData(newData);
             }, 600);
           }),
         onRowDelete: oldData =>
