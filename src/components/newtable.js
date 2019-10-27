@@ -42,6 +42,7 @@ export default function MaterialTableDemo() {
               const data = [...state.data];
               data[data.indexOf(oldData)] = newData;
               setState({ ...state, data });
+              console.log(oldData);
             }, 600);
           }),
         onRowDelete: oldData =>
