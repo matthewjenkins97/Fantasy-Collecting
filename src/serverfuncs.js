@@ -1,3 +1,6 @@
+const apiURL = "http://fantasycollecting.hamilton.edu/api";//"http://localhost:49152";
+
+
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logInUser, logBackInUser, logOutUser, getAllUsers, createUser, 
@@ -28,7 +31,7 @@ const tradeCheck = coroutine(function* () {
 //setInterval(tradeCheck, 1000);
 
 async function checkForTrade() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/dholley');
+  const response = await fetch(apiURL + '/users/dholley');
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student !== 'undefined') {
@@ -49,7 +52,7 @@ async function checkForTrade() {
 async function logInUser() {
   //let history = useHistory();
   const stringName = document.getElementById('liusername').value;
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
+  const response = await fetch(apiURL + '/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
@@ -71,7 +74,7 @@ async function logInUser() {
 async function logBackInUser() {
   //let history = useHistory();
   const stringName = localStorage.getItem('username');
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
+  const response = await fetch(apiURL + '/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
@@ -97,61 +100,50 @@ function logOutUser() {
 */
 
 async function getAllUsers() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users');
+  const response = await fetch(apiURL + '/users');
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson))['0'];
   return students;
 }
 
 async function getAllArtworksOfUser(user) {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/artworks');
-  const myJson = await response.json();
-  const artworks = JSON.parse(JSON.stringify(myJson))['0'];
-  var userartworks = [];
-  for(var a in artworks) {
-    if(a.owner === user) {
-      userartworks.append(a.identifier);
-    }
-  }
-  return userartworks;
+  // const response = await fetch(apiURL + '/artworks');
+  // const myJson = await response.json();
+  // const artworks = JSON.parse(JSON.stringify(myJson))['0'];
+  // var userartworks = [];
+  // for(var a in artworks) {
+  //   if(a.owner === user) {
+  //     userartworks.append(a.identifier);
+  //   }
+  // }
+  // return userartworks;
 }
 
-
 async function updateUserData(data) {
-  // fetch('http://fantasycollecting.hamilton.edu/api/users/'+row.username, {
-  //   method: 'put',
-  //   mode: 'cors',
-  //   headers: {
-  //       'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(
-        // {username: document.getElementById(username+'name').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        // money: document.getElementById(username+'money').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        // paintings: document.getElementById(username+'paintings').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        // value: document.getElementById(username+'value').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-        // kudos: document.getElementById(username+'kudos').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,})
-  // }).then(function (res) {
-  //   console.log(res);
-  // })
-
-  console.log(data);
-
-  // const body = JSON.stringify(
-  //       {username: document.getElementById(username+'name').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-  //       money: document.getElementById(username+'money').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-  //       paintings: document.getElementById(username+'paintings').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-  //       value: document.getElementById(username+'value').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,
-  //       kudos: document.getElementById(username+'kudos').children.item(0).getElementsByClassName('MuiInputBase-input')[0].value,});
-  // console.log(body);
+  fetch(apiURL + '/users/'+data.username, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+        {username: data.username,
+        name: data.name,
+        guilders: data.money,
+        microresearchpoints: data.kudos,
+        numofpaintings: data.artworks,})
+  }).then(function (res) {
+    console.log(res);
+  })
 }
 
 async function createUser() {
   const stringName = localStorage.getItem('username');
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+stringName);
+  const response = await fetch(apiURL + '/users/'+stringName);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
-    fetch('http://fantasycollecting.hamilton.edu/api/users/', {
+    fetch(apiURL + '/users/', {
       method: 'post',
       mode: 'cors',
       headers: {
@@ -177,7 +169,7 @@ async function createUser() {
 
 
 function deleteUser(username) {
-  fetch('http://fantasycollecting.hamilton.edu/api/users/'+username, {
+  fetch(apiURL + '/users/'+username, {
     method: 'delete',
     mode: 'cors',
   }).then(function(res) {
@@ -192,7 +184,7 @@ function deleteUser(username) {
 */
 
 function createArtwork(artwork) {
-  fetch('http://fantasycollecting.hamilton.edu/api/artworks/', {
+  fetch(apiURL + '/artworks/', {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -215,7 +207,7 @@ function createArtwork(artwork) {
 }
 
 function deleteArtworkInfo() {
-  fetch('http://fantasycollecting.hamilton.edu/api/artworks/monalisa', {
+  fetch(apiURL + '/artworks/monalisa', {
     method: 'delete',
     mode: 'cors',
   }).then(function(res) {
@@ -230,7 +222,7 @@ function deleteArtworkInfo() {
 */
 
 async function getArtworkInfo() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/'+DocumentFragment.getElementById('artwork').value);
+  const response = await fetch(apiURL + '/artworks/'+DocumentFragment.getElementById('artwork').value);
   const myJson = await response.json();
   console.log(JSON.stringify(myJson));
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
@@ -251,7 +243,7 @@ async function getArtworkInfo() {
 }
 
 function putArtworkInfo() {
-    fetch('http://fantasycollecting.hamilton.edu/api/artworks/monalisa', {
+    fetch(apiURL + '/artworks/monalisa', {
         method: 'put',
         mode: 'cors',
         headers: {
@@ -273,7 +265,7 @@ function putArtworkInfo() {
 }
 
 async function makeTrade() {
-  const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/dholley');
+  const response = await fetch(apiURL + '/users/dholley');
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
 
@@ -283,7 +275,7 @@ async function makeTrade() {
   const artworks = ["monalisa", "starrynight"] ;
 
   for (const artwork in artworks) {
-      fetch('http://fantasycollecting.hamilton.edu/api/owners/'+artwork, {
+      fetch(apiURL + '/owners/'+artwork, {
         method: 'put',
         mode: 'cors',
         headers: {
@@ -297,7 +289,7 @@ async function makeTrade() {
         console.log(res);
       })
   }
-  fetch('http://fantasycollecting.hamilton.edu/api/artworks/dholley', {
+  fetch(apiURL + '/artworks/dholley', {
     method: 'put',
     mode: 'cors',
     headers: {
