@@ -4,9 +4,12 @@ import MaterialTable from 'material-table';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 
-function getRows() {
-  var rows = [];
-  const users = serverfuncs.getAllUsers();;
+var rows = [];
+var read = false;
+
+async function getRows() {
+  rows = [];
+  const users = await serverfuncs.getAllUsers();
   for(var user in users) {
     console.log(user);
     var dict = {username: user.username, 
@@ -17,8 +20,7 @@ function getRows() {
       kudos: user.microresearchpoints};
     rows.push(dict);
   };
-  console.log(rows);
-  return rows;
+  this.forceUpdate()
 }
 
 
@@ -32,7 +34,7 @@ export default function MaterialTableDemo() {
       { title: 'Value', field: 'value', type: 'numeric' },
       { title: 'Kudos', field: 'kudos' },
     ],
-    data: getRows(),//[
+    data: rows,//[
     //   { username: 'jopatrny', name: 'Julia Opatrny', money: 9000, paintings: 5, value: 200, kudos: 50 },
     //   { username: 'dholley', name: 'Donald Holley', money: 4000, paintings: 6, value: 400, kudos: 35 },
     //   { username: 'mjenkins', name: 'Matt Jenkins', money: 1500, paintings: 8, value: 350, kudos: 85 },
