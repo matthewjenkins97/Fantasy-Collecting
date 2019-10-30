@@ -44,10 +44,10 @@ const useStyles = makeStyles({
 // ];
 
 var rows = [];
-const users = serverfuncs.getAllUsers();;
-for(var user in users) {
-  rows.append(createData(user.username, user.name, user.numofpaintings, user.guilders, user.microresearchpoints));
-};
+// const users = serverfuncs.getAllUsers();;
+// for(var user in users) {
+//   rows.append(createData(user.username, user.name, user.numofpaintings, user.guilders, user.microresearchpoints));
+// };
 
 const useForceUpdate = () => useState()[1];
 
