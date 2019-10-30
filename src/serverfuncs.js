@@ -49,154 +49,183 @@ async function checkForTrade() {
 */
 
 // MD5 checksum generator
-// CITE: https://stackoverflow.com/questions/1655769/fastest-md5-implementation-in-javascript
-// This is used in lieu of a package because it's in browser and doesn't require anything to import. It also looks like hell - please ignore that part.
-function MD5(e) {
-    function h(a, b) {
-        let c, d, e, f, g;
-        e = a & 2147483648;
-        f = b & 2147483648;
-        c = a & 1073741824;
-        d = b & 1073741824;
-        g = (a & 1073741823) + (b & 1073741823);
-        return c & d ? g ^ 2147483648 ^ e ^ f : c | d ? g & 1073741824 ? g ^ 3221225472 ^ e ^ f : g ^ 1073741824 ^ e ^ f : g ^ e ^ f;
-    }
+// CITE: https://lig-membres.imag.fr/donsez/cours/exemplescourstechnoweb/js_securehash/
+// This is used in lieu of a package because it's in browser and can't import without html.
+/*
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Copyright (C) Paul Johnston 1999 - 2000.
+ * Updated by Greg Holt 2000 - 2001.
+ * See http://pajhome.org.uk/site/legal.html for details.
+ */
 
-    function k(a, b, c, d, e, f, g) {
-        let a = h(a, h(h(b & c | ~b & d, e), g));
-        return h(a << f | a >>> 32 - f, b);
-    }
+/*
+ * Convert a 32-bit number to a hex string with ls-byte first
+ */
+var hex_chr = "0123456789abcdef";
+function rhex(num)
+{
+  str = "";
+  for(j = 0; j <= 3; j++)
+    str += hex_chr.charAt((num >> (j * 8 + 4)) & 0x0F) +
+           hex_chr.charAt((num >> (j * 8)) & 0x0F);
+  return str;
+}
 
-    function l(a, b, c, d, e, f, g) {
-        let a = h(a, h(h(b & d | c & ~d, e), g));
-        return h(a << f | a >>> 32 - f, b);
-    }
+/*
+ * Convert a string to a sequence of 16-word blocks, stored as an array.
+ * Append padding bits and the length, as described in the MD5 standard.
+ */
+function str2blks_MD5(str)
+{
+  nblk = ((str.length + 8) >> 6) + 1;
+  blks = new Array(nblk * 16);
+  for(i = 0; i < nblk * 16; i++) blks[i] = 0;
+  for(i = 0; i < str.length; i++)
+    blks[i >> 2] |= str.charCodeAt(i) << ((i % 4) * 8);
+  blks[i >> 2] |= 0x80 << ((i % 4) * 8);
+  blks[nblk * 16 - 2] = str.length * 8;
+  return blks;
+}
 
-    function m(a, b, d, c, e, f, g) {
-        let a = h(a, h(h(b ^ d ^ c, e), g));
-        return h(a << f | a >>> 32 - f, b);
-    }
+/*
+ * Add integers, wrapping at 2^32. This uses 16-bit operations internally 
+ * to work around bugs in some JS interpreters.
+ */
+function add(x, y)
+{
+  var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  return (msw << 16) | (lsw & 0xFFFF);
+}
 
-    function n(a, b, d, c, e, f, g) {
-        let a = h(a, h(h(d ^ (b | ~c), e), g));
-        return h(a << f | a >>> 32 - f, b);
-    }
+/*
+ * Bitwise rotate a 32-bit number to the left
+ */
+function rol(num, cnt)
+{
+  return (num << cnt) | (num >>> (32 - cnt));
+}
 
-    function p(a) {
-        let b = "";
-        let d = "";
-        let c;
-        for (c = 0; 3 >= c; c++) {
-          d = a >>> 8 * c & 255
-          d = "0" + d.toString(16)
-          b += d.substr(d.length - 2, 2);
-        }
-        return b
-    }
+/*
+ * These functions implement the basic operation for each round of the
+ * algorithm.
+ */
+function cmn(q, a, b, x, s, t)
+{
+  return add(rol(add(add(a, q), add(x, t)), s), b);
+}
+function ff(a, b, c, d, x, s, t)
+{
+  return cmn((b & c) | ((~b) & d), a, b, x, s, t);
+}
+function gg(a, b, c, d, x, s, t)
+{
+  return cmn((b & d) | (c & (~d)), a, b, x, s, t);
+}
+function hh(a, b, c, d, x, s, t)
+{
+  return cmn(b ^ c ^ d, a, b, x, s, t);
+}
+function ii(a, b, c, d, x, s, t)
+{
+  return cmn(c ^ (b | (~d)), a, b, x, s, t);
+}
 
-    let f = [];
-    let q, r, s, t, a, b, c, d;
+/*
+ * Take a string and return the hex representation of its MD5.
+ */
+function MD5(str)
+{
+  x = str2blks_MD5(str);
+  a =  1732584193;
+  b = -271733879;
+  c = -1732584194;
+  d =  271733878;
 
-    e = function(a) {
-        a = a.replace(/\r\n/g, "\n");
-        for (let b = "", d = 0; d < a.length; d++) {
-            let c = a.charCodeAt(d);
-            128 > c ? b += String.fromCharCode(c) : (127 < c && 2048 > c ? b += String.fromCharCode(c >> 6 | 192) : (b += String.fromCharCode(c >> 12 | 224), b += String.fromCharCode(c >> 6 & 63 | 128)), b += String.fromCharCode(c & 63 | 128))
-        }
-        return b
-    }(e);
+  for(i = 0; i < x.length; i += 16)
+  {
+    olda = a;
+    oldb = b;
+    oldc = c;
+    oldd = d;
 
-    f = function(b) {
-        let a, c = b.length;
-        a = c + 8;
-        for (let d = 16 * ((a - a % 64) / 64 + 1), e = Array(d - 1), f = 0, g = 0; g < c;) a = (g - g % 4) / 4, f = g % 4 * 8, e[a] |= b.charCodeAt(g) << f, g++;
-        a = (g - g % 4) / 4;
-        e[a] |= 128 << g % 4 * 8;
-        e[d - 2] = c << 3;
-        e[d - 1] = c >>> 29;
-        return e
-    }(e);
+    a = ff(a, b, c, d, x[i+ 0], 7 , -680876936);
+    d = ff(d, a, b, c, x[i+ 1], 12, -389564586);
+    c = ff(c, d, a, b, x[i+ 2], 17,  606105819);
+    b = ff(b, c, d, a, x[i+ 3], 22, -1044525330);
+    a = ff(a, b, c, d, x[i+ 4], 7 , -176418897);
+    d = ff(d, a, b, c, x[i+ 5], 12,  1200080426);
+    c = ff(c, d, a, b, x[i+ 6], 17, -1473231341);
+    b = ff(b, c, d, a, x[i+ 7], 22, -45705983);
+    a = ff(a, b, c, d, x[i+ 8], 7 ,  1770035416);
+    d = ff(d, a, b, c, x[i+ 9], 12, -1958414417);
+    c = ff(c, d, a, b, x[i+10], 17, -42063);
+    b = ff(b, c, d, a, x[i+11], 22, -1990404162);
+    a = ff(a, b, c, d, x[i+12], 7 ,  1804603682);
+    d = ff(d, a, b, c, x[i+13], 12, -40341101);
+    c = ff(c, d, a, b, x[i+14], 17, -1502002290);
+    b = ff(b, c, d, a, x[i+15], 22,  1236535329);    
 
-    a = 1732584193;
-    b = 4023233417;
-    c = 2562383102;
-    d = 271733878;
-    for (e = 0; e < f.length; e += 16) {
-      q = a, 
-      r = b, 
-      s = c, 
-      t = d, 
-      a = k(a, b, c, d, f[e + 0], 7, 3614090360); 
-      d = k(d, a, b, c, f[e + 1], 12, 3905402710); 
-      c = k(c, d, a, b, f[e + 2], 17, 606105819); 
-      b = k(b, c, d, a, f[e + 3], 22, 3250441966); 
-      a = k(a, b, c, d, f[e + 4], 7, 4118548399); 
-      d = k(d, a, b, c, f[e + 5], 12, 1200080426); 
-      c = k(c, d, a, b, f[e + 6], 17, 2821735955); 
-      b = k(b, c, d, a, f[e + 7], 22, 4249261313); 
-      a = k(a, b, c, d, f[e + 8], 7, 1770035416); 
-      d = k(d, a, b, c, f[e + 9], 12, 2336552879); 
-      c = k(c, d, a, b, f[e + 10], 17, 4294925233); 
-      b = k(b, c, d, a, f[e + 11], 22, 2304563134); 
-      a = k(a, b, c, d, f[e + 12], 7, 1804603682); 
-      d = k(d, a, b, c, f[e + 13], 12, 4254626195); 
-      c = k(c, d, a, b, f[e + 14], 17, 2792965006); 
-      b = k(b, c, d, a, f[e + 15], 22, 1236535329); 
-      a = l(a, b, c, d, f[e + 1], 5, 4129170786); 
-      d = l(d, a, b, c, f[e + 6], 9, 3225465664); 
-      c = l(c, d, a, b, f[e + 11], 14, 643717713); 
-      b = l(b, c, d, a, f[e + 0], 20, 3921069994); 
-      a = l(a, b, c, d, f[e + 5], 5, 3593408605); 
-      d = l(d, a, b, c, f[e + 10], 9, 38016083); 
-      c = l(c, d, a, b, f[e + 15], 14, 3634488961); 
-      b = l(b, c, d, a, f[e + 4], 20, 3889429448); 
-      a = l(a, b, c, d, f[e + 9], 5, 568446438); 
-      d = l(d, a, b, c, f[e + 14], 9, 3275163606); 
-      c = l(c, d, a, b, f[e + 3], 14, 4107603335); 
-      b = l(b, c, d, a, f[e + 8], 20, 1163531501); 
-      a = l(a, b, c, d, f[e + 13], 5, 2850285829); 
-      d = l(d, a, b, c, f[e + 2], 9, 4243563512); 
-      c = l(c, d, a, b, f[e + 7], 14, 1735328473); 
-      b = l(b, c, d, a, f[e + 12], 20, 2368359562); 
-      a = m(a, b, c, d, f[e + 5], 4, 4294588738); 
-      d = m(d, a, b, c, f[e + 8], 11, 2272392833); 
-      c = m(c, d, a, b, f[e + 11], 16, 1839030562); 
-      b = m(b, c, d, a, f[e + 14], 23, 4259657740); 
-      a = m(a, b, c, d, f[e + 1], 4, 2763975236); 
-      d = m(d, a, b, c, f[e + 4], 11, 1272893353); 
-      c = m(c, d, a, b, f[e + 7], 16, 4139469664); 
-      b = m(b, c, d, a, f[e + 10], 23, 3200236656); 
-      a = m(a, b, c, d, f[e + 13], 4, 681279174); 
-      d = m(d, a, b, c, f[e + 0], 11, 3936430074); 
-      c = m(c, d, a, b, f[e + 3], 16, 3572445317); 
-      b = m(b, c, d, a, f[e + 6], 23, 76029189); 
-      a = m(a, b, c, d, f[e + 9], 4, 3654602809); 
-      d = m(d, a, b, c, f[e + 12], 11, 3873151461); 
-      c = m(c, d, a, b, f[e + 15], 16, 530742520); 
-      b = m(b, c, d, a, f[e + 2], 23, 3299628645); 
-      a = n(a, b, c, d, f[e + 0], 6, 4096336452); 
-      d = n(d, a, b, c, f[e + 7], 10, 1126891415);
-      c = n(c, d, a, b, f[e + 14], 15, 2878612391); 
-      b = n(b, c, d, a, f[e + 5], 21, 4237533241); 
-      a = n(a, b, c, d, f[e + 12], 6, 1700485571); 
-      d = n(d, a, b, c, f[e + 3], 10, 2399980690); 
-      c = n(c, d, a, b, f[e + 10], 15, 4293915773); 
-      b = n(b, c, d, a, f[e + 1], 21, 2240044497); 
-      a = n(a, b, c, d, f[e + 8], 6, 1873313359); 
-      d = n(d, a, b, c, f[e + 15], 10, 4264355552); 
-      c = n(c, d, a, b, f[e + 6], 15, 2734768916); 
-      b = n(b, c, d, a, f[e + 13], 21, 1309151649);
-      a = n(a, b, c, d, f[e + 4], 6, 4149444226);
-      d = n(d, a, b, c, f[e + 11], 10, 3174756917); 
-      c = n(c, d, a, b, f[e + 2], 15, 718787259);
-      b = n(b, c, d, a, f[e + 9], 21, 3951481745);
-      a = h(a, q); 
-      b = h(b, r); 
-      c = h(c, s); 
-      d = h(d, t);
-    }
-    return (p(a) + p(b) + p(c) + p(d)).toLowerCase()
-};
+    a = gg(a, b, c, d, x[i+ 1], 5 , -165796510);
+    d = gg(d, a, b, c, x[i+ 6], 9 , -1069501632);
+    c = gg(c, d, a, b, x[i+11], 14,  643717713);
+    b = gg(b, c, d, a, x[i+ 0], 20, -373897302);
+    a = gg(a, b, c, d, x[i+ 5], 5 , -701558691);
+    d = gg(d, a, b, c, x[i+10], 9 ,  38016083);
+    c = gg(c, d, a, b, x[i+15], 14, -660478335);
+    b = gg(b, c, d, a, x[i+ 4], 20, -405537848);
+    a = gg(a, b, c, d, x[i+ 9], 5 ,  568446438);
+    d = gg(d, a, b, c, x[i+14], 9 , -1019803690);
+    c = gg(c, d, a, b, x[i+ 3], 14, -187363961);
+    b = gg(b, c, d, a, x[i+ 8], 20,  1163531501);
+    a = gg(a, b, c, d, x[i+13], 5 , -1444681467);
+    d = gg(d, a, b, c, x[i+ 2], 9 , -51403784);
+    c = gg(c, d, a, b, x[i+ 7], 14,  1735328473);
+    b = gg(b, c, d, a, x[i+12], 20, -1926607734);
+    
+    a = hh(a, b, c, d, x[i+ 5], 4 , -378558);
+    d = hh(d, a, b, c, x[i+ 8], 11, -2022574463);
+    c = hh(c, d, a, b, x[i+11], 16,  1839030562);
+    b = hh(b, c, d, a, x[i+14], 23, -35309556);
+    a = hh(a, b, c, d, x[i+ 1], 4 , -1530992060);
+    d = hh(d, a, b, c, x[i+ 4], 11,  1272893353);
+    c = hh(c, d, a, b, x[i+ 7], 16, -155497632);
+    b = hh(b, c, d, a, x[i+10], 23, -1094730640);
+    a = hh(a, b, c, d, x[i+13], 4 ,  681279174);
+    d = hh(d, a, b, c, x[i+ 0], 11, -358537222);
+    c = hh(c, d, a, b, x[i+ 3], 16, -722521979);
+    b = hh(b, c, d, a, x[i+ 6], 23,  76029189);
+    a = hh(a, b, c, d, x[i+ 9], 4 , -640364487);
+    d = hh(d, a, b, c, x[i+12], 11, -421815835);
+    c = hh(c, d, a, b, x[i+15], 16,  530742520);
+    b = hh(b, c, d, a, x[i+ 2], 23, -995338651);
+
+    a = ii(a, b, c, d, x[i+ 0], 6 , -198630844);
+    d = ii(d, a, b, c, x[i+ 7], 10,  1126891415);
+    c = ii(c, d, a, b, x[i+14], 15, -1416354905);
+    b = ii(b, c, d, a, x[i+ 5], 21, -57434055);
+    a = ii(a, b, c, d, x[i+12], 6 ,  1700485571);
+    d = ii(d, a, b, c, x[i+ 3], 10, -1894986606);
+    c = ii(c, d, a, b, x[i+10], 15, -1051523);
+    b = ii(b, c, d, a, x[i+ 1], 21, -2054922799);
+    a = ii(a, b, c, d, x[i+ 8], 6 ,  1873313359);
+    d = ii(d, a, b, c, x[i+15], 10, -30611744);
+    c = ii(c, d, a, b, x[i+ 6], 15, -1560198380);
+    b = ii(b, c, d, a, x[i+13], 21,  1309151649);
+    a = ii(a, b, c, d, x[i+ 4], 6 , -145523070);
+    d = ii(d, a, b, c, x[i+11], 10, -1120210379);
+    c = ii(c, d, a, b, x[i+ 2], 15,  718787259);
+    b = ii(b, c, d, a, x[i+ 9], 21, -343485551);
+
+    a = add(a, olda);
+    b = add(b, oldb);
+    c = add(c, oldc);
+    d = add(d, oldd);
+  }
+  return (rhex(a) + rhex(b) + rhex(c) + rhex(d)).toLowerCase();
+}
+// end MD5
 
 async function logInUser() {
   //let history = useHistory();
