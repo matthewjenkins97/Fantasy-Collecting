@@ -65,8 +65,8 @@ async function checkForTrade() {
 var hex_chr = "0123456789abcdef";
 function rhex(num)
 {
-  str = "";
-  for(j = 0; j <= 3; j++)
+  let str = "";
+  for(let j = 0; j <= 3; j++)
     str += hex_chr.charAt((num >> (j * 8 + 4)) & 0x0F) +
            hex_chr.charAt((num >> (j * 8)) & 0x0F);
   return str;
@@ -78,13 +78,16 @@ function rhex(num)
  */
 function str2blks_MD5(str)
 {
-  nblk = ((str.length + 8) >> 6) + 1;
-  blks = new Array(nblk * 16);
-  for(i = 0; i < nblk * 16; i++) blks[i] = 0;
-  for(i = 0; i < str.length; i++)
+  let nblk = ((str.length + 8) >> 6) + 1;
+  let blks = new Array(nblk * 16);
+  for(let i = 0; i < nblk * 16; i++) {
+    blks[i] = 0;
+  }
+  for(let i = 0; i < str.length; i++) {
     blks[i >> 2] |= str.charCodeAt(i) << ((i % 4) * 8);
-  blks[i >> 2] |= 0x80 << ((i % 4) * 8);
-  blks[nblk * 16 - 2] = str.length * 8;
+    blks[i >> 2] |= 0x80 << ((i % 4) * 8);
+    blks[nblk * 16 - 2] = str.length * 8;
+  }
   return blks;
 }
 
@@ -94,8 +97,8 @@ function str2blks_MD5(str)
  */
 function add(x, y)
 {
-  var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+  let lsw = (x & 0xFFFF) + (y & 0xFFFF);
+  let msw = (x >> 16) + (y >> 16) + (lsw >> 16);
   return (msw << 16) | (lsw & 0xFFFF);
 }
 
@@ -137,18 +140,18 @@ function ii(a, b, c, d, x, s, t)
  */
 function MD5(str)
 {
-  x = str2blks_MD5(str);
-  a =  1732584193;
-  b = -271733879;
-  c = -1732584194;
-  d =  271733878;
+  let x = str2blks_MD5(str);
+  let a =  1732584193;
+  let b = -271733879;
+  let c = -1732584194;
+  let d =  271733878;
 
-  for(i = 0; i < x.length; i += 16)
+  for(let i = 0; i < x.length; i += 16)
   {
-    olda = a;
-    oldb = b;
-    oldc = c;
-    oldd = d;
+    let olda = a;
+    let oldb = b;
+    let oldc = c;
+    let oldd = d;
 
     a = ff(a, b, c, d, x[i+ 0], 7 , -680876936);
     d = ff(d, a, b, c, x[i+ 1], 12, -389564586);
