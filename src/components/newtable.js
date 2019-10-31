@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import MTableBodyRow from '@material-ui/core/';
 import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
@@ -14,6 +16,7 @@ var stateBeg = {columns: [
       { title: 'Artworks', field: 'artworks', type: 'numeric' },
       { title: 'Value', field: 'value', type: 'numeric' },
       { title: 'Kudos', field: 'kudos' },
+      { title: 'View', field: 'viewgallery', type: 'button'},
     ],
     data: rows,
 }
@@ -34,7 +37,10 @@ export default class MaterialTableDemo extends React.Component {
         money: user.guilders, 
         artworks: user.numofpaintings,
         value: 0,
-        kudos: user.microresearchpoints};
+        kudos: user.microresearchpoints,
+        viewgallery: 'view'
+      };
+        
       rows.push(dict);
     };
     this.state.data = rows;
@@ -42,22 +48,10 @@ export default class MaterialTableDemo extends React.Component {
     read = true;
     this.forceUpdate();
   }
+  async goToGallery(user) {
+    
+  }
   render() {
-    // const [state, setState] = React.useState({
-    //   columns: [
-    //       { title: 'Username', field: 'username' },
-    //     { title: 'Name', field: 'name' },
-    //     { title: 'Money', field: 'money' },
-    //     { title: 'Artworks', field: 'artworks', type: 'numeric' },
-    //     { title: 'Value', field: 'value', type: 'numeric' },
-    //     { title: 'Kudos', field: 'kudos' },
-    //   ],
-    //   data: rows,//[
-    //   //   { username: 'jopatrny', name: 'Julia Opatrny', money: 9000, paintings: 5, value: 200, kudos: 50 },
-    //   //   { username: 'dholley', name: 'Donald Holley', money: 4000, paintings: 6, value: 400, kudos: 35 },
-    //   //   { username: 'mjenkins', name: 'Matt Jenkins', money: 1500, paintings: 8, value: 350, kudos: 85 },
-    //   // ],
-    // });
     return (
       <div>
       {read ? (
@@ -65,6 +59,42 @@ export default class MaterialTableDemo extends React.Component {
         title="Users"
         columns={this.state.columns}
         data={this.state.data}
+        // actions={[
+        //   {
+        //     icon: 'save',
+        //     tooltip: 'Save User',
+        //     //onClick: (event, rowData) => alert("You saved " + rowData.name)
+        //   }
+        // ]}
+        actions={[
+          {
+            icon: () => 
+            <Button
+            onClick={() => function() {}}
+            color="primary"
+            variant="contained"
+            style={{textTransform: 'none'}}
+            size="small"
+            >
+            View Gallery
+            </Button>,
+          },
+          //{
+            // icon: props => (
+            // <Button
+            //   onClick={(event, rowData) =>
+            //     console.log("add user", rowData, props)
+            //   }
+            // >
+            //   Add New User
+            // </Button>
+          // ),
+            // tooltip: "Add New User",
+            // isFreeAction: true,
+            // onClick: (event, rowData) =>
+            //   console.log("You are editing " + rowData.fname)
+          //},
+        ]}
         editable={{
           onRowAdd: newData =>
             new Promise(resolve => {
