@@ -3,7 +3,7 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
-  logInUser, logBackInUser, logOutUser, getAllUsers, createUser, 
+  logInUser, logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
   createArtwork, checkForTrade, updateUserData, deleteUser, MD5};
 
 // if (localStorage.getItem('username') === 'dholley') {
@@ -282,26 +282,20 @@ function logOutUser() {
 */
 
 async function getAllUsers() {
-  console.log("getting all users");
+  //console.log("getting all users");
   const response = await fetch(apiURL + '/users');
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson));
-  console.log("students: ");
-  console.log(students);
+  // console.log("students: ");
+  // console.log(students);
   return students;
 }
 
-async function getAllArtworksOfUser(user) {
-  // const response = await fetch(apiURL + '/artworks');
-  // const myJson = await response.json();
-  // const artworks = JSON.parse(JSON.stringify(myJson))['0'];
-  // let userartworks = [];
-  // for(let a in artworks) {
-  //   if(a.owner === user) {
-  //     userartworks.append(a.identifier);
-  //   }
-  // }
-  // return userartworks;
+async function getAllArtworks(user) {
+  const response = await fetch(apiURL + '/artworks');
+  const myJson = await response.json();
+  const artworks = JSON.parse(JSON.stringify(myJson))['0'];
+  return artworks;
 }
 
 async function updateUserData(data) {

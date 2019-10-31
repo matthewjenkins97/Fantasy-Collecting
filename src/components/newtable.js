@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import MTableBodyRow from '@material-ui/core/';
 import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
@@ -16,7 +15,6 @@ var stateBeg = {columns: [
       { title: 'Artworks', field: 'artworks', type: 'numeric' },
       { title: 'Value', field: 'value', type: 'numeric' },
       { title: 'Kudos', field: 'kudos' },
-      { title: 'View', field: 'viewgallery', type: 'button'},
     ],
     data: rows,
 }
@@ -38,7 +36,6 @@ export default class MaterialTableDemo extends React.Component {
         artworks: user.numofpaintings,
         value: 0,
         kudos: user.microresearchpoints,
-        viewgallery: 'view'
       };
         
       rows.push(dict);
@@ -49,7 +46,7 @@ export default class MaterialTableDemo extends React.Component {
     this.forceUpdate();
   }
   async goToGallery(user) {
-    
+
   }
   render() {
     return (
