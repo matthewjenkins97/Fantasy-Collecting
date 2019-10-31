@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from 'react-router-dom';
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
@@ -15,10 +16,12 @@ import Button from '@material-ui/core/Button';
 //   }
 // }
 
-class Login extends React.Component{
+export default class Login extends React.Component{
   constructor(props) {
     super(props);
-    this.state = { values: {username: '', password: ''}};
+    this.state = { values: {username: '', password: '',
+      gotoadmin: false,
+      gotostudent: false}};
     this.handleChange = this.handleChange.bind(this);
   };
 
@@ -26,10 +29,46 @@ class Login extends React.Component{
     this.setState({username: event.target.username});
     this.setState({password: event.target.password});
   }
+  
+  logInUser = async () => {
+    //let history = useHistory();
+    const stringName = document.getElementById('liusername').value;
+    const response = await fetch(serverfuncs.apiURL + '/users/' + stringName);
+    const myJson = await response.json();
+    const student = JSON.parse(JSON.stringify(myJson))['0'];
+    if (typeof student === 'undefined') {
+      console.log('username does not exist');
+    }
+    else if(student.hash !== serverfuncs.MD5(document.getElementById('lipassword').value)) {
+      console.log(student.hash);
+      console.log(serverfuncs.MD5(document.getElementById('lipassword').value));
+      console.log('incorrect password for username');
+    } else {
+      console.log('login successful');
+      localStorage.setItem('username', document.getElementById('liusername').value);
+      if (student.admin === 1) {
+        this.setState({gotoadmin: true});
+      } else {
+        console.log('changing state');
+        this.setState({gotostudent: true});
+      }
+    }
+  }
+
+  redirectToPage() {
+    if (this.state.gotoadmin) {
+      return <Redirect to='/table' />
+    }
+    else {
+      return <Redirect to='/' />
+    }
+  }
 
   render(){
     return (
-      <div className="Login">
+      <div> { this.state.gotoadmin ? <div>{this.redirectToPage()}</div>
+          : (this.state.gotostudent ? <div>{this.redirectToPage()}</div>
+          : (<div className="Login">
                 <h1 style={{textAlign: "center"}}>Login</h1>
                 <div style={{alignItems: "center", textAlign: "center"}}>
                   {/* <form onSubmit={this.handleSubmit}>
@@ -63,16 +102,15 @@ class Login extends React.Component{
                   <Button variant="contained" 
                   color="primary"
                   style={{marginTop: 10}}
-                  onClick={serverfuncs.logInUser}>Log In
+                  onClick={() => (this.logInUser())}>Log In
                   </Button>
                   {/* username:<input type = 'text' id = 'liusername'></input>
                   <p></p>password:<input type = 'text' id = 'lipassword'></input>
                   <p></p><button onClick = {serverfuncs.logInUser}>log in</button>
                   <p></p><button onClick = {serverfuncs.logOutUser}>log out</button> */}
                 </div>
+        </div>))}
       </div>
     );
    }
 }
-
-export default Login
