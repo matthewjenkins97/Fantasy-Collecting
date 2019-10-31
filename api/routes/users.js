@@ -11,6 +11,29 @@ const connection = mysql.createPool({
   database: 'fantasyc_database',
 });
 
+console.log("create zongji");
+const ZongJi = require('zongji');
+let zongji = new ZongJi({
+  host: 'localhost',
+  user: 'fantasyc_user',
+  password: 'o6UZMvPZas0H',
+  database: 'fantasyc_database'
+});
+zongji.on('binlog', function(evt) {
+  console.log("working");
+  evt.dump();
+});
+zongji.start({
+  includeEvents: ['tablemap', 'writerows', 'updaterows', 'deleterows']
+});
+process.on('SIGINT', function() {
+  console.log('Got SIGINT.');
+  zongji.stop();
+  process.exit();
+});
+
+
+
 router.get('/', function(req, res, next) {
   connection.query('SELECT * FROM users', (err, results, fields) => {
     res.send(results);
