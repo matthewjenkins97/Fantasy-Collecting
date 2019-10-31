@@ -12,25 +12,26 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.query('SELECT * FROM microresearch', (err, results, fields) => {
+  connection.query('SELECT * FROM messages', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM microresearch WHERE username = '${req.params.id}' or identifier = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`SELECT * FROM messages WHERE sender = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.post('/', json(), function(req, res, next) {
-  if (!req.body.username || !req.body.identifier) {
+  // primary key check - if it doesn't exist, it's a bad request
+  if (!req.body.sender) {
     res.sendStatus(400);
   } else {
     const dbEntry = [
-      req.body.username,
-      req.body.identifier,
-      req.body.information,
+      req.body.sender,
+      req.body.receiver,
+      req.body.message,
       req.body.timestamp,
     ];
 
@@ -46,7 +47,7 @@ router.post('/', json(), function(req, res, next) {
 
     const dbEntryArgs = dbEntry.join(', ');
 
-    connection.query(`INSERT INTO microresearch VALUES (${dbEntryArgs})`, (err, results, fields) => {
+    connection.query(`INSERT INTO messages VALUES (${dbEntryArgs})`, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
