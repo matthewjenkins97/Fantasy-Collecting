@@ -1,9 +1,10 @@
-const apiURL = "http://fantasycollecting.hamilton.edu/api";
+import React from 'react';
+export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logInUser, logBackInUser, logOutUser, getAllUsers, createUser, 
-  createArtwork, checkForTrade, updateUserData};
+  createArtwork, checkForTrade, updateUserData, deleteUser, MD5};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -240,14 +241,14 @@ async function logInUser() {
     console.log('username does not exist');
   }
   else if(student.hash !== MD5(document.getElementById('lipassword').value)) {
+    console.log(student.hash);
+    console.log(MD5(document.getElementById('lipassword').value));
     console.log('incorrect password for username');
   } else {
     console.log('login successful');
     localStorage.setItem('username', document.getElementById('liusername').value);
     if (student.admin === 1) {
-      //history.push("/table");
     } else {
-      //history.push('/');
     }
   }
 }
@@ -321,12 +322,13 @@ async function updateUserData(data) {
   })
 }
 
-async function createUser() {
-  const stringName = localStorage.getItem('username');
-  const response = await fetch(apiURL + '/users/' + stringName);
+async function createUser(user) {
+  //const stringName = localStorage.getItem('username');
+  const response = await fetch(apiURL + '/users/' + user.username);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
+    console.log(user);
     fetch(apiURL + '/users/', {
       method: 'post',
       mode: 'cors',
@@ -334,13 +336,13 @@ async function createUser() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(
-          {username: document.getElementById('username').value,
-            hash: MD5(document.getElementById('password').value),
-            name: document.getElementById('name').value,
+          {username: user.username,
+            hash: MD5('password'),
+            name: user.name,
             admin: false,
-            guilders: 0,
-            microresearchpoints: 0,
-            paintings: 0,
+            guilders: user.money,
+            microresearchpoints: user.kudos,
+            numofpaintings: user.artworks,
           }),
     }).then(function(res) {
       console.log(res);

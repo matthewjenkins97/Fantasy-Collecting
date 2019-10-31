@@ -8,7 +8,7 @@ var rows = [];
 var read = false;
 
 var stateBeg = {columns: [
-        { title: 'Username', field: 'username' },
+      { title: 'Username', field: 'username' },
       { title: 'Name', field: 'name' },
       { title: 'Money', field: 'money' },
       { title: 'Artworks', field: 'artworks', type: 'numeric' },
@@ -70,10 +70,10 @@ export default class MaterialTableDemo extends React.Component {
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
-                const data = [rows];
-                data.push(newData);
-                rows = data;
-                //setState({ ...state, data });
+                this.state.data.push(newData);
+                this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
+                this.setState({ ...this.state, ...this.state.data });
+                serverfuncs.createUser(newData);
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
@@ -81,7 +81,6 @@ export default class MaterialTableDemo extends React.Component {
               //this.data[this.data.indexOf(oldData)] = newData;
               setTimeout(() => {
                 resolve();
-                //var data = [...this.state.data];
                 this.state.data = this.state.data.filter(function(value, index, arr){
                   return arr[index].username !== oldData.username;
                 });
@@ -95,14 +94,16 @@ export default class MaterialTableDemo extends React.Component {
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
-                const data = [rows];
-                this.state.splice(data.indexOf(oldData), 1);
-                
-                //setState({ ...state, data });
+                this.state.data = this.state.data.filter(function(value, index, arr){
+                  return arr[index].username !== oldData.username;
+                });
+                this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
+                this.setState({ ...this.state, ...this.state.data });
+                serverfuncs.deleteUser(oldData.username);
               }, 600);
             }),
         }}
       />
-    ) : (<h1>Loading...</h1>)} </div> ); 
+    ) : (<h1>loading...</h1>)} </div> ); 
   }
 }
