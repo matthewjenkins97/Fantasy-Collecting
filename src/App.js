@@ -15,11 +15,8 @@ import MainPage from "./pages/index";
 import Table from "./pages/table";
 import ErrorPage from "./pages/error";
 import Login from "./pages/login";
-<<<<<<< HEAD
 import Auction from "./pages/auction";
-=======
 import ArtTable from './pages/arttable';
->>>>>>> 38db4052b7e8b44e8336dd06857381f8b31ae622
 
 
 class Home extends Component  {
