@@ -15,6 +15,7 @@ import MainPage from "./pages/index";
 import Table from "./pages/table";
 import ErrorPage from "./pages/error";
 import Login from "./pages/login";
+import Auction from "./pages/auction";
 import ArtTable from './pages/arttable';
 
 
@@ -63,6 +64,7 @@ class Home extends Component  {
               <Route exact path="/table" component={Table} />
               <Route exact path="/arttable" component={ArtTable} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/auction" component={Auction} />
               <Route exact path="/404notfound" component={ErrorPage}/>
               <Redirect to="/404notfound"/>
             </Switch>
