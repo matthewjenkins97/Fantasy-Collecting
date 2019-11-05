@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { MD5 } from '../../src/md5';
 
 // @media all and (min-width: 480px) {
 //   .Login {
@@ -39,9 +40,9 @@ export default class Login extends React.Component{
     if (typeof student === 'undefined') {
       console.log('username does not exist');
     }
-    else if(student.hash !== serverfuncs.MD5(document.getElementById('lipassword').value)) {
+    else if(student.hash !== MD5(document.getElementById('lipassword').value)) {
       console.log(student.hash);
-      console.log(serverfuncs.MD5(document.getElementById('lipassword').value));
+      console.log(MD5(document.getElementById('lipassword').value));
       console.log('incorrect password for username');
     } else {
       console.log('login successful');

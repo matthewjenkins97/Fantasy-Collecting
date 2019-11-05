@@ -21,7 +21,8 @@ let zongji = new ZongJi({
 });
 zongji.on('binlog', function(evt) {
   console.log("working");
-  evt.dump();
+  //evt.dump();
+  console.log(evt.rows);
 });
 zongji.start({
   includeEvents: ['tablemap', 'writerows', 'updaterows', 'deleterows']
@@ -31,7 +32,6 @@ process.on('SIGINT', function() {
   zongji.stop();
   process.exit();
 });
-
 
 
 router.get('/', function(req, res, next) {

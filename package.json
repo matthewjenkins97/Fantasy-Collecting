@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.2",
     "@material-ui/icons": "^4.5.1",
+    "@pusher/chatkit-server": "^2.1.1",
     "material-table": "^1.53.0",
     "mysql": "^2.17.1",
     "node-fetch": "^2.6.0",
@@ -16,8 +17,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-stack-grid": "^0.7.1",
-    "typeface-roboto": "0.0.75",
-    "zongji": "^0.4.7"
+    "typeface-roboto": "0.0.75"
   },
   "scripts": {
     "start": "react-scripts start",
