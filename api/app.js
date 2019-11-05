@@ -14,7 +14,8 @@ const logger = require('morgan');
 
 const artworksRouter = require('./routes/artworks');
 const historyRouter = require('./routes/history');
-const messagesRouter = require('./routes/messages');
+const tradesRouter = require('./routes/trades');
+const tradedetailsRouter = require('./routes/tradedetails');
 const microresearchRouter = require('./routes/microresearch');
 const usersRouter = require('./routes/users');
 
@@ -37,7 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // use routes
 app.use('/artworks', artworksRouter);
 app.use('/history', historyRouter);
-app.use('/messages', messagesRouter);
+app.use('/trades', tradesRouter);
+app.use('/tradedetails', tradedetailsRouter);
 app.use('/microresearch', microresearchRouter);
 app.use('/users', usersRouter);
 
