@@ -17,7 +17,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-stack-grid": "^0.7.1",
-    "typeface-roboto": "0.0.75"
+    "typeface-roboto": "0.0.75",
+    "zongji": "^0.4.7"
   },
   "scripts": {
     "start": "react-scripts start",

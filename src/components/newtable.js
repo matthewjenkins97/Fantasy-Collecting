@@ -45,7 +45,7 @@ export default class MaterialTableDemo extends React.Component {
     read = true;
     this.forceUpdate();
   }
-  async goToGallery(user) {
+  goToGallery() {
 
   }
   render() {
@@ -63,19 +63,19 @@ export default class MaterialTableDemo extends React.Component {
         //     //onClick: (event, rowData) => alert("You saved " + rowData.name)
         //   }
         // ]}
-        actions={[
-          {
-            icon: () => 
-            <Button
-            onClick={() => function() {}}
-            color="primary"
-            variant="contained"
-            style={{textTransform: 'none'}}
-            size="small"
-            >
-            View Gallery
-            </Button>,
-          },
+        // actions={[
+        //   {
+        //     icon: () => 
+        //     <Button
+        //     onClick={() => function() {}}
+        //     color="primary"
+        //     variant="contained"
+        //     style={{textTransform: 'none'}}
+        //     size="small"
+        //     >
+        //     View Gallery
+        //     </Button>,
+        //   },
           //{
             // icon: props => (
             // <Button
@@ -91,7 +91,7 @@ export default class MaterialTableDemo extends React.Component {
             // onClick: (event, rowData) =>
             //   console.log("You are editing " + rowData.fname)
           //},
-        ]}
+        //]}
         editable={{
           onRowAdd: newData =>
             new Promise(resolve => {

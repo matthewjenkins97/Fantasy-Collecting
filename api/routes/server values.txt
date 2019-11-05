@@ -30,3 +30,9 @@ create table microresearch
 identifier VARCHAR(255), 
 information TEXT,
 timestamp DATETIME);
+
+create table messages 
+(sender VARCHAR(255), 
+receiver VARCHAR(255), 
+message TEXT,
+timestamp DATETIME);
