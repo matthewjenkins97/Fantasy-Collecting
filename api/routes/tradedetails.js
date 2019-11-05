@@ -29,6 +29,7 @@ router.post('/', json(), function(req, res, next) {
     res.sendStatus(400);
   } else {
     const dbEntry = [
+      req.body.tradeid,
       req.body.buyer,
       req.body.seller,
       req.body.offer,
@@ -71,9 +72,9 @@ router.put('/:id', json(), function(req, res, next) {
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
       if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE tradedetails SET ${item} = '${dbEntry[item]}' WHERE seller = '${req.params.id}'`);
+        connection.query(`UPDATE tradedetails SET ${item} = '${dbEntry[item]}' WHERE tradeid = '${req.params.id}'`);
       } else {
-        connection.query(`UPDATE tradedetails SET ${item} = ${dbEntry[item]} WHERE seller = '${req.params.id}'`);
+        connection.query(`UPDATE tradedetails SET ${item} = ${dbEntry[item]} WHERE tradeid = '${req.params.id}'`);
       }
     }
   }
@@ -82,7 +83,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.query(`DELETE FROM tradedetails WHERE seller = '${req.params.id}' AND approved = '1'`, (err, results, fields) => {
+  connection.query(`DELETE FROM tradedetails WHERE tradeid = '${req.params.id}'`, (err, results, fields) => {
     res.sendStatus(200);
   });
 });

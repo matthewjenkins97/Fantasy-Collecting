@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM trades WHERE seller = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`SELECT * FROM trades WHERE tradeid = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
@@ -29,6 +29,7 @@ router.post('/', json(), function(req, res, next) {
     res.sendStatus(400);
   } else {
     const dbEntry = [
+      req.body.tradeid,
       req.body.buyer,
       req.body.seller,
       req.body.buyerinit,
@@ -38,7 +39,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.timestamp,
     ];
 
-    dbEntry[6] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
+    dbEntry[7] = new Date(dbEntry[7]).toISOString().slice(0, 19).replace('T', ' ');
 
 
     for (const i in dbEntry) {
@@ -64,15 +65,21 @@ router.post('/', json(), function(req, res, next) {
 
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
-
+    buyer: req.body.buyer,
+    seller: req.body.seller,
+    buyerinit: req.body.buyerinit,
+    sellerinit: req.body.sellerinit,
+    buyerapproved: req.body.buyerapproved,
+    sellerapproved: req.body.sellerapproved,
+    timestamp: req.body.timestamp,
   };
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
       if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE trades SET ${item} = '${dbEntry[item]}' WHERE seller = '${req.params.id}'`);
+        connection.query(`UPDATE trades SET ${item} = '${dbEntry[item]}' WHERE tradeid = '${req.params.id}'`);
       } else {
-        connection.query(`UPDATE trades SET ${item} = ${dbEntry[item]} WHERE seller = '${req.params.id}'`);
+        connection.query(`UPDATE trades SET ${item} = ${dbEntry[item]} WHERE tradeid = '${req.params.id}'`);
       }
     }
   }
@@ -81,7 +88,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.query(`DELETE FROM trades WHERE seller = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`DELETE FROM trades WHERE tradeid = '${req.params.id}'`, (err, results, fields) => {
     res.sendStatus(200);
   });
 });
