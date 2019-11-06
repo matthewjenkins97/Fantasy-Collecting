@@ -140,19 +140,20 @@ function removeGuildersFromTrade(guilders) {
 */
 
 async function initiateTrade(user) {
-  fetch(apiURL + '/trades/'+user, {
+  fetch(apiURL + '/trades', {
     method: 'post',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {seller: user,
+        {tradeid: Date.now(),
+        seller: user,
         buyer: localStorage.getItem('username'),
         buyerinit: true,
         sellerinit: false,
-        buyerapproval: false,
-        sellerapproval: false})
+        buyerapproved: false,
+        sellerapproved: false})
   }).then(function (res) {
     console.log(res);
     setInterval(responseCheck, 5000);
@@ -160,15 +161,15 @@ async function initiateTrade(user) {
   })
 }
 
-async function checkForResponse() {
-  const response = await fetch(apiURL + '/trades/' + seller);
+async function checkForResponse(tid) {
+  const response = await fetch(apiURL + '/trades/' + tid);
   const myJson = await response.json();
-  const student = JSON.parse(JSON.stringify(myJson))['0'];
-  if (typeof student === 'undefined') {
+  const trade = JSON.parse(JSON.stringify(myJson))['0'];
+  if (typeof trade === 'undefined') {
     clearInterval(responseCheck);
     return;
   }
-  if(student.sellerinit == true) {
+  if(trade.sellerinit == true) {
     // add trade ui
     clearInterval(responseCheck);
     setInterval(itemCheck, 1000);
@@ -227,44 +228,37 @@ function sendFormToAdmin(user) {
 */
 
 async function checkForTrade() {
-  const response = await fetch(apiURL + '/trades/' + localStorage.getItem('username'));
+  console.log(Date.now());
+  const response = await fetch(apiURL + '/trades/');
   const myJson = await response.json();
-  const student = JSON.parse(JSON.stringify(myJson))['0'];
-  if (typeof student !== 'undefined') {
-    // add trade notification on screen
+  const trades = JSON.parse(JSON.stringify(myJson))['0'];
+  for(var trade of trades) {
+    if(trade.seller == localStorage.getItem('username')) {
 
-  } else {
-    console.log('no trade');
+      // trade request popup
+      // handled by button click
+      if(false) {
+        acceptTrade(trade.tradid);
+      }
+    } else {
+      console.log('no trade');
+    }
   }
 }
 
-async function acceptTrade(response) {
-  fetch(apiURL + '/trades/'+localStorage.getItem('username'), {
+async function acceptTrade(tid) {
+  fetch(apiURL + '/trades/'+tid, {
     method: 'put',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {sellerinit: response})
+        {sellerinit: true})
   }).then(function (res) {
     console.log(res);
-    if(response) {
-      // add trade ui
-      setInterval(itemCheck, 1000);
-    }
-    else {
-      // delete entry in db
-      fetch(apiURL + '/trades/'+localStorage.getItem('username'), {
-        method: 'delete',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-      }).then(function (res) {
-        console.log(res);
-      })
-    }
+    // add trade ui
+    setInterval(itemCheck, 1000);
   })
 }
 
@@ -422,9 +416,9 @@ function deleteUser(username) {
 
 */
 
-export function testlog() {
-  console.log('binlog test');
-}
+// function testlog() {
+//   console.log('binlog test');
+// }
 
 function createArtwork(artwork) {
   fetch(apiURL + '/artworks/', {

@@ -17,6 +17,7 @@ import ErrorPage from "./pages/error";
 import Login from "./pages/login";
 import Auction from "./pages/auction";
 import ArtTable from './pages/arttable';
+import TradeOption from './pages/tradeoption'
 
 
 class Home extends Component  {
@@ -61,6 +62,7 @@ class Home extends Component  {
           <Router>
             <Switch>
               <Route exact path="/"  component={MainPage} />
+              <Route exact path="/tradeoption" component={TradeOption}/>
               <Route exact path="/table" component={Table} />
               <Route exact path="/arttable" component={ArtTable} />
               <Route exact path="/login" component={Login} />

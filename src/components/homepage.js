@@ -9,15 +9,18 @@ import Table from './table';
 import tileData from './tiledata';
 import TradeWindow from './tradewindow';
 
-function addTradeWindow() {
-  addTrade = true;
-}
+
 var addTrade = false;
 
 class Main extends Component  {
 
   constructor(props){
     super(props);
+  }
+
+  addTradeWindow(thisclass) {
+    addTrade = true;
+    thisclass.forceUpdate();
   }
 
   render() {
@@ -27,7 +30,7 @@ class Main extends Component  {
         {/* <GridList /> */}
         <div id = "testing">
           {addTrade ? (<div><TradeWindow></TradeWindow></div>) : (<div></div>)}
-        <button onClick = { addTradeWindow } >
+        <button onClick = { () => this.addTradeWindow(this) } >
         trade button test
         </button>
         </div>

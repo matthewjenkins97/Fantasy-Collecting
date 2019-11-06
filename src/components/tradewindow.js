@@ -6,7 +6,7 @@ import * as serverfuncs from '../serverfuncs';
 var tradeWin;
 
 function popup() { 
-  tradeWin = window.open("/table","table","width=550,height=550,left=150,top=200,toolbar=0,status=0,");
+  window.open("/tradeoption","table","width=550,height=550,left=150,top=200,toolbar=0,status=0,");
 }
 
 class TradeWindow extends React.PureComponent {
