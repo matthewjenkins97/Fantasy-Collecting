@@ -9,9 +9,7 @@ class TradeOption extends React.PureComponent {
   }
 
   render() {
-    return (<div><button onClick = {window.close} >accept</button><button onClick = {window.close}>decline</button></div>)
-
-
+    return (<div><button onClick = {() => window.resizeTo(400, 400)} >accept</button><button onClick = {window.close}>decline</button></div>)
   }
 }
 

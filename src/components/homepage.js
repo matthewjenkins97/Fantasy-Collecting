@@ -7,7 +7,6 @@ import Paper from '@material-ui/core/Paper';
 import Popper from './popper';
 import Table from './table';
 import tileData from './tiledata';
-import TradeWindow from './tradewindow';
 
 
 var addTrade = false;
