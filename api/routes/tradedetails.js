@@ -33,11 +33,8 @@ router.post('/', json(), function(req, res, next) {
       req.body.buyer,
       req.body.seller,
       req.body.offer,
-      req.body.timestamp,
       req.body.approved,
     ];
-
-    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {
@@ -65,7 +62,6 @@ router.put('/:id', json(), function(req, res, next) {
     buyer: req.body.buyer,
     seller: req.body.seller,
     offer: req.body.offer,
-    timestamp: req.body.timestamp,
     approved: req.body.approved,
   };
 

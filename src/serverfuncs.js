@@ -203,17 +203,6 @@ function sendFormToAdmin(user) {
   }).then(function (res) {
     console.log(res);
   });
-  fetch(apiURL + '/trades/'+user, {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(
-        {approved: true})
-  }).then(function (res) {
-    console.log(res);
-  });
   
   clearInterval(itemCheck);
 }
