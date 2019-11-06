@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Homepage from "../components/homepage";
+import ChatComponent from "../components/ChatMessage";
+import Signup from "../components/Signup";
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -39,6 +41,7 @@ function SimpleMenu() {
           <MenuItem onClick={handleClose}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Table</Link></MenuItem>
           {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
+          <MenuItem><ChatComponent /></MenuItem>
         </Menu>
       </div>
     );
@@ -55,6 +58,7 @@ const MainPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <ChatComponent />
                 <Homepage />
             </div>
         )

@@ -1,5 +1,6 @@
 import React from "react";
 import Table from "../components/newtable";
+import ChatComponent from "../components/ChatMessage";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
