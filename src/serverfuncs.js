@@ -60,7 +60,7 @@ const responseCheck = coroutine(function* () {
   }
 });
 
-function updateItems(other_user) {
+async function updateItems(other_user) {
   const other_items = await fetch(apiURL + '/tradedetails/' + other_user);
   const my_items = await fetch(apiURL + '/tradedetails/' + localStorage.getItem('username'));
   const other_items_json = await other_items.json();
@@ -71,7 +71,7 @@ function updateItems(other_user) {
   // handle displaying items
 }
 
-function addArtworkToTrade(artwork) {
+function addArtworkToTrade(artwork, user) {
   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
     method: 'post',
     mode: 'cors',
@@ -101,7 +101,7 @@ function removeArtworkFromTrade(artwork) {
   })
 }
 
-function addGuildersToTrade(guilders) {
+function addGuildersToTrade(guilders, user) {
   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
     method: 'post',
     mode: 'cors',
@@ -268,7 +268,7 @@ async function acceptTrade(response) {
   })
 }
 
-function finalizeAsSeller(response) {
+function finalizeAsSeller(response, user) {
   fetch(apiURL + '/trades/'+user, {
     method: 'put',
     mode: 'cors',

@@ -7,8 +7,12 @@ import Paper from '@material-ui/core/Paper';
 import Popper from './popper';
 import Table from './table';
 import tileData from './tiledata';
+import TradeWindow from './tradewindow';
 
-
+function addTradeWindow() {
+  addTrade = true;
+}
+var addTrade = false;
 
 class Main extends Component  {
 
@@ -21,6 +25,12 @@ class Main extends Component  {
       <div>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
+        <div id = "testing">
+          {addTrade ? (<div><TradeWindow></TradeWindow></div>) : (<div></div>)}
+        <button onClick = { addTradeWindow } >
+        trade button test
+        </button>
+        </div>
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
           paddingTop: 20,
