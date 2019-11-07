@@ -1,25 +1,47 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import AppBar from './appbar';
+//import AppBar from './appbar';
 import Typography from '@material-ui/core/Typography';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+//import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Paper from '@material-ui/core/Paper'; 
 import Popper from './popper';
-import Table from './table';
+//import Table from './table';
 import tileData from './tiledata';
+import TradeWindow from './tradewindow'
+import { getAllArtworks } from '../serverfuncs';
+import { artworkImages } from './tiledata';
 
 
-var addTrade = false;
+
+
+
 
 class Main extends Component  {
 
   constructor(props){
     super(props);
+    this.getTileData();
   }
 
-  addTradeWindow(thisclass) {
-    addTrade = true;
-    thisclass.forceUpdate();
+  // addTradeWindow(thisclass) {
+  //   addTrade = true;
+  //   thisclass.forceUpdate();
+  // }
+  async getTileData() {
+    const artworks = await getAllArtworks();
+    console.log(artworks);
+    for(var i in artworks) {
+      if(artworks[i].owner == localStorage.getItem('username')) {
+        tileData.push({
+            img: artworkImages[artworks[i].identifier],
+            title: artworks[i].title,
+            artist: artworks[i].artist,
+            description: "NOT IN DB YET",
+          });
+      }
+    }
+    console.log("got artworks")
+    this.forceUpdate();
   }
 
   render() {
@@ -27,12 +49,7 @@ class Main extends Component  {
       <div>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
-        <div id = "testing">
-          {addTrade ? (<div><TradeWindow></TradeWindow></div>) : (<div></div>)}
-        <button onClick = { () => this.addTradeWindow(this) } >
-        trade button test
-        </button>
-        </div>
+        <div><TradeWindow></TradeWindow></div>
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
           paddingTop: 20,
