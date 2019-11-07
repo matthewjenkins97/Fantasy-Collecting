@@ -30,8 +30,8 @@ router.post('/', json(), function(req, res, next) {
   } else {
     const dbEntry = [
       req.body.identifier,
-      req.body.buyer,
       req.body.seller,
+      req.body.buyer,
       req.body.price,
       req.body.timestamp,
     ];
