@@ -24,7 +24,7 @@ class Auction extends React.Component{
           {tileData.map(tile => (
             <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
               
-              <img src={tile.img} alt={tile.title} height={200} style={{alignItem: 'center'}}/>
+              <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
               <Paper style={{ padding: 10 }}>
                 <Typography variant="h6" fontFamily="roboto" style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
                 <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
