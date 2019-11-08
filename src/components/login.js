@@ -5,6 +5,7 @@ import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { MD5 } from '../../src/md5';
+import Sunflowers from '../static/loginpage.jpg';
 
 // @media all and (min-width: 480px) {
 //   .Login {
