@@ -5,6 +5,7 @@ import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { MD5 } from '../../src/md5';
+import './backgroundlogin.css';
 
 // @media all and (min-width: 480px) {
 //   .Login {
@@ -24,6 +25,7 @@ export default class Login extends React.Component{
       gotoadmin: false,
       gotostudent: false}};
     this.handleChange = this.handleChange.bind(this);
+    document.body.className = "background";
   };
 
   handleChange(event) {
@@ -68,7 +70,7 @@ export default class Login extends React.Component{
   render(){
     return (
       <div> { this.state.gotoadmin || this.state.gotostudent ? (<div>{this.redirectToPage()}</div>)
-          : (<div className="Login" background = "../static/background.jpg">
+          : (<div className="Login">
                 <h1 style={{textAlign: "center", color: "#000"}}>Login</h1>
                 <div style={{alignItems: "center", textAlign: "center"}}>
                   {/* <form onSubmit={this.handleSubmit}>
