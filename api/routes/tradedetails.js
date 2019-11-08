@@ -36,7 +36,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.approved,
     ];
 
-    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
+    //dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {

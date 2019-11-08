@@ -204,6 +204,8 @@ class TradeWindow extends React.PureComponent {
 
       <a id = "localitems" class = "myuser">LOCAL USER</a>
 
+
+
       <div class = "addg">
         <a>AddGuilders</a>
         <input id = "addguilders" type = "number"/>
@@ -213,6 +215,9 @@ class TradeWindow extends React.PureComponent {
         </div>
         
       </div>
+
+
+
 
 
       <div id = "localguilders" class = "localg">

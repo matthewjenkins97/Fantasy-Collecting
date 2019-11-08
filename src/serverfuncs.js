@@ -70,9 +70,13 @@ async function updateItems() {
 }
 
 function addArtworkToTrade(artwork) {
+  console.log("ATTEMPTING TO ADD: ");
   console.log(CURRENT_TRADE_ID);
+  console.log(localStorage.getItem('username'));
+  console.log(CURRENT_TRADE_USER);
   console.log(artwork);
-  fetch(apiURL + '/tradedetails/', {
+  console.log(0);
+  fetch(apiURL + '/tradedetails', {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -83,7 +87,7 @@ function addArtworkToTrade(artwork) {
         buyer: localStorage.getItem('username'),
         seller: CURRENT_TRADE_USER,
         offer: artwork,
-        approved: false})
+        approved: 0})
   }).then(function (res) {
     console.log(res);
   })
@@ -255,18 +259,18 @@ function sendFormToAdmin(user) {
 */
 
 async function checkForTrade() {
-  // if(typeof localStorage.getItem('username') === 'undefined') return;
-  // //console.log('checking for trade');
-  // var theTrades = [];
-  // //console.log(Date.now());
-  // const response = await fetch(apiURL + '/trades/');
-  // const myJson = await response.json();
-  // //const trades = JSON.parse(JSON.stringify(myJson))['0'];
-  // for(var trade of myJson) {
-  //   //console.log(trade);
-  //   if(trade.seller == localStorage.getItem('username')) {
-  //     theTrades.push(trade);
-  //   }
+  //(typeof localStorage.getItem('username') === 'undefined' || window.url != "/gallery") return;
+  //console.log('checking for trade');
+  var theTrades = [];
+  //console.log(Date.now());
+  const response = await fetch(apiURL + '/trades/');
+  const myJson = await response.json();
+  //const trades = JSON.parse(JSON.stringify(myJson))['0'];
+  for(var trade of myJson) {
+    //console.log(trade);
+    if(trade.seller == localStorage.getItem('username')) {
+      theTrades.push(trade);
+    }
   }
   if(theTrades.length > 0) {
     console.log("MATCHED FOR TRADE")
