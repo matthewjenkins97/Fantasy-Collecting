@@ -67,11 +67,11 @@ class Home extends Component  {
         <div>
           <Router>
             <Switch>
-              <Route exact path="/"  component={MainPage} />
+              <Route exact path="/"  component={Login} />
               <Route exact path="/tradeoption" component={TradeOption}/>
               <Route exact path="/table" component={Table} />
               <Route exact path="/arttable" component={ArtTable} />
-              <Route exact path="/login" component={Login} />
+              <Route exact path="/gallery" component={MainPage} />
               <Route exact path="/auction" component={Auction} />
               <Route exact path="/404notfound" component={ErrorPage}/>
               <Redirect to="/404notfound"/>

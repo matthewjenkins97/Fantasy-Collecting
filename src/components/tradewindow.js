@@ -204,9 +204,16 @@ class TradeWindow extends React.PureComponent {
 
       <a id = "localitems" class = "myuser">LOCAL USER</a>
 
-      <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks
-        <div id = "tradeartworks" class="dropdown-content-art"/>
+      <div class = "addg">
+        <a>AddGuilders</a>
+        <input id = "addguilders" type = "number"/>
+
+        <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks
+          <div id = "tradeartworks" class="dropdown-content-art"/>
+        </div>
+        
       </div>
+
 
       <div id = "localguilders" class = "localg">
         <a id = "currentlocalg">guilders: 0</a>

@@ -151,6 +151,23 @@
   
 }
 
+.addg {
+  position: relative;
+  left: 45%;
+  top: 2%;
+  color: aliceblue;
+}
+
+.addg a {
+  position: relative;
+  align-content: center;
+}
+
+.addg input {
+  position: relative;
+  align-content: center;
+}
+
 
 
 /* When you mouse over the navigation links, change their color */
@@ -292,13 +309,15 @@ h1 {
   display: block;
   margin: auto;
 
+  align-content: center;
+
   width: 10%;
 
-  background-color: rgba(64, 82, 185, 100);
+  background-color: rgba(64, 82, 185, 10);
   color: white;
 
   padding: 2px;
-  font-size: 16px;
+  font-size: 14px;
 
   position: relative;
 }
