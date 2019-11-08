@@ -255,6 +255,7 @@ function sendFormToAdmin(user) {
 */
 
 async function checkForTrade() {
+  if(typeof localStorage.getItem('username') === 'undefined') return;
   //console.log('checking for trade');
   var theTrades = [];
   //console.log(Date.now());
