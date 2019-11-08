@@ -77,7 +77,7 @@ export default class Login extends React.Component{
           : (<div className="Login">
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <Paper style={{width: 300, marginTop: 30}}>
-                <h1 style={{textAlign: "center"}}>Login</h1>
+                <h1 style={{textAlign: "center", color: "black", marginTop: 20}}>Login</h1>
                 <div style={{alignItems: "center", textAlign: "center"}}>
                   {/* <form onSubmit={this.handleSubmit}>
                     <label>
