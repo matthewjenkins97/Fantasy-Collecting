@@ -40,12 +40,29 @@ function closealert() {
 }
 
 function openTrade() {
-  document.getElementById("tradewindow").style.width = "700px";
+  document.getElementById("tradewindow").style.width = "100%";
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeTrade() {
   document.getElementById("tradewindow").style.width = "0";
+}
+
+var USERS_READ = false;
+async function expandUsers() {
+  if(USERS_READ) return;
+  var userList = await serverfuncs.getAllUsers();
+  for(var user in userList) {
+    var buttonnode = document.createElement("a");
+    buttonnode.id = "user_t"+user.toString();
+    buttonnode.innerHTML = userList[user].username;
+    buttonnode.onclick = function() { 
+      serverfuncs.initiateTrade(this.innerHTML);
+    }
+    document.getElementById("tradeusers").appendChild(buttonnode);
+  }
+  document.getElementById("tradeusers").style.height = "100px";
+  USERS_READ = true;
 }
 
 var totalTrades = 0;
@@ -75,25 +92,25 @@ function addTrades(theTrades) {
     buttonnode.innerHTML = 'accept';
     buttonnode.className = 'requestbutton';
     buttonnode.onclick = function() {
-      serverfuncs.acceptTrade(theTrades[trade].tradeid);
-      removeTrade(trade);
+      serverfuncs.acceptTrade(this.id[8]);
+      removeTrade(this.id[8]);
       openTrade();
     }
     document.getElementById("tradealert").appendChild(buttonnode);
 
-    buttonnode = document.createElement("div");
-    buttonnode.id = "trade_d"+trade.toString();
-    document.getElementById("tradealert").appendChild(buttonnode);
+    var divnode = document.createElement("div");
+    divnode.id = "trade_d"+trade.toString();
+    document.getElementById("tradealert").appendChild(divnode);
 
-    buttonnode = document.createElement("button");
-    buttonnode.id = "trade_bd"+trade.toString();
-    buttonnode.innerHTML = 'decline';
-    buttonnode.className = 'requestbutton';
-    buttonnode.onclick = function() { 
+    var buttonnode2 = document.createElement("button");
+    buttonnode2.id = "trade_bd"+trade.toString();
+    buttonnode2.innerHTML = 'decline';
+    buttonnode2.className = 'requestbutton';
+    buttonnode2.onclick = function() {
       serverfuncs.declineTrade(theTrades[trade].tradeid);
-      removeTrade(trade);
+      removeTrade(parseInt(this.id[8]));
     }
-    document.getElementById("tradealert").appendChild(buttonnode);
+    document.getElementById("tradealert").appendChild(buttonnode2);
     
     totalTrades = trade;
     currentTrades = trade+1;
@@ -134,14 +151,18 @@ class TradeWindow extends React.PureComponent {
     {/* initiate trade window */}
     <div id="tradeinit" class="sidebarinit">
       <a class="closebtn" onClick={closeNav}>&times;</a>
-      <h1>username</h1>
-      <input id = "requesttextbox" class="requestinput" type="text"/>
-      <button 
+      {/* <h1>username</h1>
+      <input id = "requesttextbox" class="requestinput" type="text"/> */}
+      <button class="dropbtn" onClick = {expandUsers}>Users</button>
+      <div id = "tradeusers" class="dropdown-content">
+      </div>
+      {/* <button 
         class="requestbutton" 
         onClick = {() => 
           serverfuncs.initiateTrade(
             document.getElementById("requesttextbox").value
-          )}>request trade</button>
+          )}>request trade
+        </button> */}
     </div>
 
     <div id="maininit">
