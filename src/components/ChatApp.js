@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
+import MessageList from './MessageList';
 import Input from './Input';
 
 class ChatApp extends Component {
     constructor(props) {
         super(props); 
         this.state = {
-            currentUser: null,
+            currentUser: "Admin",
             currentRoom: {users:[]},
             messages: [],
             users: []
@@ -29,7 +30,7 @@ class ChatApp extends Component {
             .then(currentUser => {
                 this.setState({ currentUser: currentUser })
                 return currentUser.subscribeToRoom({
-                    roomId: "ROOM_ID",
+                    roomId: "08046cff-e7be-416e-ae0f-539daa750985",
                     messageLimit: 100,
                     hooks: {
                         onMessage: message => {
@@ -59,7 +60,8 @@ class ChatApp extends Component {
         return (
             <div className="chatapp">
                 <div>
-                    <h2 className="header">Let's Talk</h2>
+                <h2 className="header">Hi There, Ask us anything</h2>
+                    <MessageList messages={this.state.messages} />
                     <Input className="input-field" onSubmit={this.addMessage} />
                 </div>
             </div>
