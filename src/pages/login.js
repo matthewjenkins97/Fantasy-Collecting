@@ -4,7 +4,6 @@ import Login from "../components/login";
 import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
-import Background from '../static/loginpage.jpg';
 
 console.log(window.location);
 if (localStorage.getItem('username') !== null && window.location.pathname == '/login') {
@@ -14,7 +13,6 @@ const LoginPage = () => {
         return(
             <div>
                 <Login />
-                <Background />
                 {/* <h1>Login</h1>
                 username:<input type = 'text' id = 'liusername'></input>
                 <p></p>password:<input type = 'text' id = 'lipassword'></input>

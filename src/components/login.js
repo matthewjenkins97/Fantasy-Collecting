@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
+import { View } from "react-native";
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import { MD5 } from '../../src/md5';
-import Sunflowers from '../static/loginpage.jpg';
+
 
 // @media all and (min-width: 480px) {
 //   .Login {
@@ -62,15 +64,20 @@ export default class Login extends React.Component{
       return <Redirect to='/table' />
     }
     else {
-      return <Redirect to='/gallery' />
+      return <Redirect to='/' />
     }
   }
 
   render(){
     return (
-      <div> { this.state.gotoadmin || this.state.gotostudent ? (<div>{this.redirectToPage()}</div>)
-          : (<div className="Login" background = "../static/background.jpg">
-                <h1 style={{textAlign: "center", color: "#000"}}>Login</h1>
+      <div>
+         
+         { this.state.gotoadmin ? <div>{this.redirectToPage()}</div>
+          : (this.state.gotostudent ? <div>{this.redirectToPage()}</div>
+          : (<div className="Login">
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <Paper style={{width: 300, marginTop: 30}}>
+                <h1 style={{textAlign: "center"}}>Login</h1>
                 <div style={{alignItems: "center", textAlign: "center"}}>
                   {/* <form onSubmit={this.handleSubmit}>
                     <label>
@@ -102,7 +109,7 @@ export default class Login extends React.Component{
                   </div>
                   <Button variant="contained" 
                   color="primary"
-                  style={{marginTop: 10}}
+                  style={{marginTop: 10, marginBottom: 20}}
                   onClick={() => (this.logInUser())}>Log In
                   </Button>
                   {/* username:<input type = 'text' id = 'liusername'></input>
@@ -110,7 +117,9 @@ export default class Login extends React.Component{
                   <p></p><button onClick = {serverfuncs.logInUser}>log in</button>
                   <p></p><button onClick = {serverfuncs.logOutUser}>log out</button> */}
                 </div>
-        </div>)}
+                </Paper>
+              </View>
+        </div>))}
       </div>
     );
    }
