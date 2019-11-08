@@ -6,6 +6,7 @@ import * as serverfuncs from '../serverfuncs';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Appbar from '../components/appbar';
 import { MD5 } from '../../src/md5';
 import './backgroundlogin.css';
 
@@ -74,6 +75,7 @@ export default class Login extends React.Component{
     return (
       <div> { this.state.gotoadmin || this.state.gotostudent ? (<div>{this.redirectToPage()}</div>)
           : (<div className="Login">
+            <Appbar />
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <Paper style={{width: 300, marginTop: 30}}>
                 <h1 style={{textAlign: "center", color: "black", marginTop: 20}}>Login</h1>
