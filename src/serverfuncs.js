@@ -6,7 +6,10 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
-  createArtwork, checkForTrade, updateUserData, deleteUser, initiateTrade, acceptTrade, declineTrade};
+  createArtwork, checkForTrade, updateUserData, deleteUser, 
+  
+  initiateTrade, acceptTrade, declineTrade, setTradeUser, setTradeID,
+  addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -36,9 +39,6 @@ function coroutine(f) {
 
 */
 
-var tradeRequest = false;
-var seller = "";
-
 const tradeCheck = coroutine(function* () {
   while (true) {
     yield;
@@ -61,37 +61,48 @@ const responseCheck = coroutine(function* () {
   }
 });
 
-async function updateItems(other_user) {
-  const other_items = await fetch(apiURL + '/tradedetails/' + other_user);
-  const my_items = await fetch(apiURL + '/tradedetails/' + localStorage.getItem('username'));
-  const other_items_json = await other_items.json();
-  const my_items_json = await my_items.json();
-  const others = JSON.parse(JSON.stringify(other_items_json))['0'];
-  const mine = JSON.parse(JSON.stringify(my_items_json))['0'];
+async function updateItems() {
+  const items = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
+  const items_json = await items.json();
+  const final_items = JSON.parse(JSON.stringify(items_json));
 
-  // handle displaying items
+  tradeFuncs.populateUserTradeFields(final_items);
 }
 
-function addArtworkToTrade(artwork, user) {
-  fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
+function addArtworkToTrade(artwork) {
+  console.log(CURRENT_TRADE_ID);
+  console.log(artwork);
+  fetch(apiURL + '/tradedetails/', {
     method: 'post',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {buyer: localStorage.getItem('username'),
-        seller: user,
+        {tradeid: CURRENT_TRADE_ID,
+        buyer: localStorage.getItem('username'),
+        seller: CURRENT_TRADE_USER,
         offer: artwork,
-        timestamp: false,
         approved: false})
   }).then(function (res) {
     console.log(res);
   })
 }
 
-function removeArtworkFromTrade(artwork) {
-  fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
+// function removeArtworkFromTrade(artwork) {
+//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
+//     method: 'delete',
+//     mode: 'cors',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//   }).then(function (res) {
+//     console.log(res);
+//   })
+// }
+
+function removeItemsFromTrade() {
+  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'delete',
     mode: 'cors',
     headers: {
@@ -103,7 +114,7 @@ function removeArtworkFromTrade(artwork) {
 }
 
 function addGuildersToTrade(guilders, user) {
-  fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
+  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -113,24 +124,23 @@ function addGuildersToTrade(guilders, user) {
         {buyer: localStorage.getItem('username'),
         seller: user,
         offer: guilders,
-        timestamp: false,
         approved: false})
   }).then(function (res) {
     console.log(res);
   })
 }
 
-function removeGuildersFromTrade(guilders) {
-  fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
-    method: 'delete',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-  }).then(function (res) {
-    console.log(res);
-  })
-}
+// function removeGuildersFromTrade(guilders) {
+//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
+//     method: 'delete',
+//     mode: 'cors',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     }
+//   }).then(function (res) {
+//     console.log(res);
+//   })
+// }
 
 /*
 
@@ -179,6 +189,14 @@ var ITEM_INTERVAL_REF;
 var CURRENT_TRADE_ID;
 var CURRENT_TRADE_USER;
 
+function setTradeUser(user) {
+  CURRENT_TRADE_USER = user;
+}
+
+function setTradeID(id) {
+  CURRENT_TRADE_ID = id;
+}
+
 async function checkForResponse() {
   //console.log("CHECKING FOR RESPONSE");
   const response = await fetch(apiURL + '/trades/' + CURRENT_TRADE_ID);
@@ -190,6 +208,7 @@ async function checkForResponse() {
     return;
   }
   if(trade.sellerinit == true) {
+    CURRENT_TRADE_USER = trade.seller;
     tradeFuncs.openTrade();
     clearInterval(RESPONSE_INTERVAL_REF);
     ITEM_INTERVAL_REF = setInterval(itemCheck, 1000);
@@ -259,6 +278,7 @@ async function checkForTrade() {
 }
 
 async function acceptTrade(tid) {
+  console.log(tid);
   fetch(apiURL + '/trades/'+tid, {
     method: 'put',
     mode: 'cors',
@@ -268,6 +288,7 @@ async function acceptTrade(tid) {
     body: JSON.stringify(
         {sellerinit: true})
   }).then(function (res) {
+    CURRENT_TRADE_ID = tid;
     console.log(res);
     // add trade ui
     ITEM_INTERVAL_REF = setInterval(itemCheck, 1000);

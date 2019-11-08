@@ -62,16 +62,15 @@ export default class Login extends React.Component{
       return <Redirect to='/table' />
     }
     else {
-      return <Redirect to='/' />
+      return <Redirect to='/gallery' />
     }
   }
 
   render(){
     return (
-      <div> { this.state.gotoadmin ? <div>{this.redirectToPage()}</div>
-          : (this.state.gotostudent ? <div>{this.redirectToPage()}</div>
-          : (<div className="Login">
-                <h1 style={{textAlign: "center"}}>Login</h1>
+      <div> { this.state.gotoadmin || this.state.gotostudent ? (<div>{this.redirectToPage()}</div>)
+          : (<div className="Login" background = "../static/background.jpg">
+                <h1 style={{textAlign: "center", color: "#000"}}>Login</h1>
                 <div style={{alignItems: "center", textAlign: "center"}}>
                   {/* <form onSubmit={this.handleSubmit}>
                     <label>
@@ -111,7 +110,7 @@ export default class Login extends React.Component{
                   <p></p><button onClick = {serverfuncs.logInUser}>log in</button>
                   <p></p><button onClick = {serverfuncs.logOutUser}>log out</button> */}
                 </div>
-        </div>))}
+        </div>)}
       </div>
     );
    }

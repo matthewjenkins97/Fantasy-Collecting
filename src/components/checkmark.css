@@ -1,0 +1,335 @@
+/* The sidebar menu */
+.sidebarinit {
+  height: 200px; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  /* z-index: 1; */
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 0px; /* Place content 0px from the top */
+  transition: width 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  align-content: center;
+}
+/* The sidebar links */
+/* .sidebarinit a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+} */
+/* When you mouse over the navigation links, change their color */
+.sidebarinit a:hover {
+  color: #52759cf1;
+}
+/* Position and style the close button (top right corner) */
+.sidebarinit .closebtn {
+  position: relative;
+  margin-left: 0px;
+  margin-top: 0px;
+  font-size: 20px;
+  color: #919191;
+}
+/* The button used to open the sidebar */
+.openbtninit {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  border: none;
+}
+.openbtninit:hover {
+  background-color: #444;
+}
+
+
+/* The sidebar menu */
+.tradewin {
+  height: 80%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: absolute; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 50;
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 5px; /* Place content 60px from the top */
+  transition: 0.7s; /* 0.5 second transition effect to slide in the sidebar */
+}
+/* The sidebar links */
+.tradewin a {
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s;
+}
+
+.myuser {
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s;
+  left: 5%;
+  top: 5%;
+}
+.otheruser {
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s;
+  right: 5%;
+  top: 5%;
+}
+
+.myuser a {
+  position: relative;
+}
+
+.otheruser a {
+  position: relative;
+}
+
+.localg {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  height: 4%;
+  width: 40%;
+  background-color: #000;
+}
+
+.locala {
+  position: absolute;
+  top: 25%;
+  left: 5%;
+  height: 50%;
+  width: 40%;
+  background-color: #000;
+}
+
+.otherg {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  height: 4%;
+  width: 40%;
+  background-color: #000;
+}
+
+.othera {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+  height: 50%;
+  width: 40%;
+  background-color: #000;
+}
+
+.localconfirm {
+  position: absolute;
+  top: 80%;
+  left: 45%;
+}
+
+
+
+/* When you mouse over the navigation links, change their color */
+.tradewin a:hover {
+  color: #f1f1f1;
+}
+/* Position and style the close button (top right corner) */
+.tradewin .closebtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  margin-left: 0;
+}
+
+
+/* The button used to open the sidebar */
+.openbtninit {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 10px;
+  border: none;
+}
+.openbtninit:hover {
+  background-color: #444;
+}
+
+
+h1 {
+  /* padding: 0px 0px 0px 32px; */
+  /* text-decoration: none; */
+  font-size: 15px;
+  transition: 0.3s;
+  color: #f1f1f1;
+  /* display: block; */
+  margin: auto;
+  align-content: center;
+  text-align: center;
+}
+
+.requestbutton {
+  /* padding: 0px 0px 0px 32px; */
+  transition: 0.3s;
+  display: block;
+  margin: auto;
+  align-content: center;
+}
+
+.requestinput {
+  /* padding: 0px 0px 0px 32px; */
+  transition: 0.3s;
+  display: block;
+  margin: auto;
+  align-content: center;
+}
+
+
+/* ALERT SIDE MENU */
+.sidebaralert {
+  height: 50%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 50;
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+}
+/* The sidebar links */
+.sidebaralert a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+/* When you mouse over the navigation links, change their color */
+.sidebaralert a:hover {
+  color: #f1f1f1;
+}
+/* Position and style the close button (top right corner) */
+.sidebaralert .closebtn {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  font-size: 20px;
+  margin-left: 0px;
+}
+/* The button used to open the sidebar */
+.openbtnalert {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+.openbtnalert:hover {
+  background-color: #444;
+}
+
+
+
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#maininit {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 10px;
+}
+#mainalert {
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 10px;
+  display:none;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  /* .sidebarinit {padding-top: 15px;}
+  .sidebarinit a {font-size: 18px;}
+  .sidebaralert {padding-top: 15px;}
+  .sidebaralert a {font-size: 18px;} */
+}
+
+
+
+/* Dropdown Button */
+.dropbtn {
+  display: block;
+  margin: auto;
+  align-content: center;
+
+  background-color: rgba(64, 82, 185, 100);
+  color: white;
+
+  padding: 2px;
+  font-size: 16px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  display: block;
+  align-content: center;
+  margin: auto;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  height: 0;
+  width: 50%;
+  transition: height .5s;
+  display: block;
+  margin: auto;
+  align-content: center;
+  background-color: #f1f1f1;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  /* box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2); */
+  /* z-index: 1; */
+}
+
+#dropdown-content {
+  transition: height;
+  /* padding: 10px; */
+  /* display:none; */
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 2px;
+  display: list-item;
+  margin: auto;
+  align-content: center;
+  position: relative;
+}
+
+/* Change color of dropdown links on hover
+.dropdown-content a:hover {background-color: #ddd;}
+
+Show the dropdown menu on hover
+.dropdown:hover .dropdown-content {display: block; transition: 1s;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+/* .dropdown:hover .dropbtn {background-color: #3e8e41;} */

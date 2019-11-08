@@ -1,36 +1,35 @@
 /* The sidebar menu */
 .sidebarinit {
-  height: 100px; /* 100% Full-height */
+  height: 200px; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 50;
-  left: 0;
+  top: 100px;
+  z-index: 1;
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 5px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  transition: width 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  align-content: center;
 }
 /* The sidebar links */
-.sidebarinit a {
+/* .sidebarinit a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
   transition: 0.3s;
-}
+} */
 /* When you mouse over the navigation links, change their color */
 .sidebarinit a:hover {
-  color: #f1f1f1;
+  color: #52759cf1;
 }
 /* Position and style the close button (top right corner) */
 .sidebarinit .closebtn {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: relative;
+  margin-left: 0px;
+  margin-top: 0px;
   font-size: 20px;
-  margin-left: 0;
+  color: #919191;
 }
 /* The button used to open the sidebar */
 .openbtninit {
@@ -40,6 +39,8 @@
   color: white;
   padding: 10px 10px;
   border: none;
+  position: fixed;
+  top: 100px;
 }
 .openbtninit:hover {
   background-color: #444;
@@ -50,7 +51,7 @@
 .tradewin {
   height: 80%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
+  position: absolute; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 50;
   left: 0;
@@ -61,13 +62,114 @@
 }
 /* The sidebar links */
 .tradewin a {
-  padding: 8px 8px 8px 32px;
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
   text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
-  transition: 0.3s;
+  transition: color 0.3s;
 }
+
+.myuser {
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s;
+  left: 5%;
+  top: 5%;
+}
+.otheruser {
+  position: absolute;
+  /* padding: 8px 8px 8px 8px; */
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s;
+  right: 5%;
+  top: 5%;
+}
+
+.myuser a {
+  position: relative;
+}
+
+.otheruser a {
+  position: relative;
+}
+
+.localg {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  height: 8%;
+  width: 40%;
+  background-color: #444;
+}
+
+.locala {
+  position: absolute;
+  top: 25%;
+  left: 5%;
+  height: 50%;
+  width: 40%;
+  background-color: #444;
+}
+
+.otherg {
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  height: 8%;
+  width: 40%;
+  background-color: #444;
+}
+
+.othera {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+  height: 50%;
+  width: 40%;
+  background-color: #444;
+}
+
+.localconfirm {
+  position: absolute;
+  top: 80%;
+  left: 45%;
+}
+
+.localconfirm input {
+  position: absolute;
+  left: 40%;
+  top: 100%;
+  
+}
+
+.addg {
+  position: relative;
+  left: 45%;
+  top: 2%;
+  color: aliceblue;
+}
+
+.addg a {
+  position: relative;
+  align-content: center;
+}
+
+.addg input {
+  position: relative;
+  align-content: center;
+}
+
+
+
 /* When you mouse over the navigation links, change their color */
 .tradewin a:hover {
   color: #f1f1f1;
@@ -83,17 +185,7 @@
 
 
 /* The button used to open the sidebar */
-.openbtninit {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 10px;
-  border: none;
-}
-.openbtninit:hover {
-  background-color: #444;
-}
+
 
 
 h1 {
@@ -130,7 +222,8 @@ h1 {
   height: 50%; /* 100% Full-height */
   width: 0; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  top: 150px;
+  z-index: 1;
   top: 50;
   left: 0;
   background-color: #111; /* Black*/
@@ -165,8 +258,10 @@ h1 {
   cursor: pointer;
   background-color: #111;
   color: white;
-  padding: 10px 15px;
+  padding: 10px 10px;
   border: none;
+  position: fixed;
+  top: 150px;
 }
 .openbtnalert:hover {
   background-color: #444;
@@ -194,3 +289,105 @@ h1 {
   .sidebaralert {padding-top: 15px;}
   .sidebaralert a {font-size: 18px;} */
 }
+
+
+
+/* Dropdown Button */
+.dropbtn {
+  display: block;
+  margin: auto;
+  /* align-content: center; */
+
+  background-color: rgba(64, 82, 185, 100);
+  color: white;
+
+  padding: 2px;
+  font-size: 16px;
+}
+
+.dropbtnArtworks {
+  display: block;
+  margin: auto;
+
+  align-content: center;
+
+  width: 10%;
+
+  background-color: rgba(64, 82, 185, 10);
+  color: white;
+
+  padding: 2px;
+  font-size: 14px;
+
+  position: relative;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  display: block;
+  align-content: center;
+  margin: auto;
+  width: 10%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  height: 0;
+  width: 50%;
+  transition: height .5s;
+  display: block;
+  margin: auto;
+  align-content: center;
+  background-color: #f1f1f1;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.dropdown-content-art {
+  height: 0;
+  width: 100%;
+  transition: height .5s;
+  display: block;
+  margin: auto;
+  align-content: center;
+  background-color: #f1f1f1;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.dropdown-content-art a {
+  font-size: 10px;
+  color: black;
+  padding: 2px;
+  display: list-item;
+  margin: auto;
+  align-content: center;
+  position: relative;
+}
+
+#dropdown-content {
+  transition: height;
+  /* padding: 10px; */
+  /* display:none; */
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 2px;
+  display: list-item;
+  margin: auto;
+  align-content: center;
+  position: relative;
+}
+
+/* Change color of dropdown links on hover
+.dropdown-content a:hover {background-color: #ddd;}
+
+Show the dropdown menu on hover
+.dropdown:hover .dropdown-content {display: block; transition: 1s;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+/* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
