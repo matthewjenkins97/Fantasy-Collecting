@@ -75,4 +75,4 @@ async function conductTrade(artwork, buyer, seller, offer) {
   });
 }
 
-conductTrade('dance', 'mjenkins', 'dholley', 20);
+//conductTrade('dance', 'mjenkins', 'dholley', 20);

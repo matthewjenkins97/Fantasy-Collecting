@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as serverfuncs from '../serverfuncs';
 import './tradewindow.css'
+//import './checkmark.css'
 
-export { addTrades, currentTradeIds, openTrade, closeTrade }
+export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
 
 var receivingRequest = false;
 var sendingRequest = false;
@@ -41,6 +42,7 @@ function closealert() {
 
 function openTrade() {
   document.getElementById("tradewindow").style.width = "100%";
+  //populateUserTradeFields();
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
@@ -63,6 +65,40 @@ async function expandUsers() {
   }
   document.getElementById("tradeusers").style.height = "100px";
   USERS_READ = true;
+}
+
+var ARTWORKS_READ = false;
+async function expandArtworks() {
+  if(USERS_READ) return;
+  var artList = await serverfuncs.getAllArtworks();
+  for(var art in artList) {
+    if(artList[art].owner == localStorage.getItem('username')) {
+      var buttonnode = document.createElement("a");
+      buttonnode.id = "art_t"+art.toString();
+      buttonnode.innerHTML = artList[art].identifier;
+      buttonnode.onclick = function() { 
+        console.log(this.innerHTML);
+        serverfuncs.addArtworkToTrade(this.innerHTML.toString());
+      }
+      document.getElementById("tradeartworks").appendChild(buttonnode);
+    }
+  }
+  document.getElementById("tradeartworks").style.height = "100px";
+  USERS_READ = true;
+}
+
+function populateUserTradeFields(items) {
+  // for(var item in items) {
+  //   var textnode = document.createElement("a");
+  //   //textnode.id = "trade_n"+trade.toString();
+  //   textnode.innerHTML = items[item];
+  //   document.getElementById("localitems").appendChild(textnode);
+  // }
+  // for(item in testlist2) {
+  //   var textnode = document.createElement("a");
+  //   textnode.innerHTML = testlist1[item];
+  //   document.getElementById("otheritems").appendChild(textnode);
+  // }
 }
 
 var totalTrades = 0;
@@ -92,9 +128,10 @@ function addTrades(theTrades) {
     buttonnode.innerHTML = 'accept';
     buttonnode.className = 'requestbutton';
     buttonnode.onclick = function() {
-      serverfuncs.acceptTrade(this.id[8]);
-      removeTrade(this.id[8]);
+      serverfuncs.acceptTrade(theTrades[parseInt(this.id[8])].tradeid);
       openTrade();
+      serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
+      removeTrade(this.id[8]);
     }
     document.getElementById("tradealert").appendChild(buttonnode);
 
@@ -151,18 +188,10 @@ class TradeWindow extends React.PureComponent {
     {/* initiate trade window */}
     <div id="tradeinit" class="sidebarinit">
       <a class="closebtn" onClick={closeNav}>&times;</a>
-      {/* <h1>username</h1>
-      <input id = "requesttextbox" class="requestinput" type="text"/> */}
+
       <button class="dropbtn" onClick = {expandUsers}>Users</button>
-      <div id = "tradeusers" class="dropdown-content">
-      </div>
-      {/* <button 
-        class="requestbutton" 
-        onClick = {() => 
-          serverfuncs.initiateTrade(
-            document.getElementById("requesttextbox").value
-          )}>request trade
-        </button> */}
+
+      <div id = "tradeusers" class="dropdown-content"></div>
     </div>
 
     <div id="maininit">
@@ -170,9 +199,29 @@ class TradeWindow extends React.PureComponent {
     </div>
 
     {/* trade window */}
-    <div id="tradewindow" class="tradewin" display='none'>
+    <div id="tradewindow" class='tradewin' display='none'>
       <a class="closebtn" onClick={closeTrade}>&times;</a>
-      <h1 id = "localitems" position = 'static'>LOCAL USER</h1><h1 id = "otheritems">OTHER USER</h1>
+
+      <a id = "localitems" class = "myuser">LOCAL USER</a>
+
+      <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks
+        <div id = "tradeartworks" class="dropdown-content-art"/>
+      </div>
+
+      <div id = "localguilders" class = "localg">
+        <a id = "currentlocalg">guilders: 0</a>
+      </div>
+      <div id = "localartworks" class = "locala"></div>
+      <a class = "localconfirm">confirm
+        <input id = "localtconfirm" type = "checkbox"/>
+      </a>
+
+      <a id = "otheritems" class = "otheruser">OTHER USER</a>
+      <div id = "otherguilders" class = "otherg">
+      <a id = "currentotherg">guilders: 0</a>
+      </div>
+      <div id = "localartworks" class = "othera"></div>
+
     </div>
 
     {/* alert window */}
