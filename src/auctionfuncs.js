@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 async function conductAuctionTrade(artwork, user, offer) {
   // change current owner of painting to user
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {
@@ -15,7 +13,7 @@ async function conductAuctionTrade(artwork, user, offer) {
     console.log(res)
   });
 
-  // subtract user's payment from their account
+  // subtract user's payment from their account, increment number of paintings
   let userBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${user}`, {
     method: 'get',
     mode: 'cors',
@@ -23,6 +21,7 @@ async function conductAuctionTrade(artwork, user, offer) {
   userBody = await userBody.json();
   userBody = userBody[0];
   userBody.guilders -= offer;
+  userBody.numofpaintings += 1;
   fetch(`http://fantasycollecting.hamilton.edu/api/users/${user}`, {
     method: 'put',
     mode: 'cors',
