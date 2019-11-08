@@ -28,7 +28,7 @@ export default class Login extends React.Component{
       gotoadmin: false,
       gotostudent: false}};
     this.handleChange = this.handleChange.bind(this);
-    document.body.className = "background";
+    //document.body.className = "background";
   };
 
   handleChange(event) {
