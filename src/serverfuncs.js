@@ -8,8 +8,9 @@ export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
   createArtwork, checkForTrade, updateUserData, deleteUser, 
   
-  initiateTrade, acceptTrade, declineTrade, setTradeUser, setTradeID,
-  addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade};
+  initiateTrade, acceptTrade, declineTrade, deleteTrade, setTradeUser, setTradeID,
+  addGuildersToTradeAsBuyer, addGuildersToTradeAsSeller,
+  addArtworkToTrade, removeItemsFromTrade};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -62,20 +63,14 @@ const responseCheck = coroutine(function* () {
 });
 
 async function updateItems() {
+  console.log(CURRENT_TRADE_ID);
   const items = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
   const items_json = await items.json();
   const final_items = JSON.parse(JSON.stringify(items_json));
-
   tradeFuncs.populateUserTradeFields(final_items);
 }
 
 function addArtworkToTrade(artwork) {
-  console.log("ATTEMPTING TO ADD: ");
-  console.log(CURRENT_TRADE_ID);
-  console.log(localStorage.getItem('username'));
-  console.log(CURRENT_TRADE_USER);
-  console.log(artwork);
-  console.log(0);
   fetch(apiURL + '/tradedetails', {
     method: 'post',
     mode: 'cors',
@@ -84,26 +79,14 @@ function addArtworkToTrade(artwork) {
     },
     body: JSON.stringify(
         {tradeid: CURRENT_TRADE_ID,
-        buyer: localStorage.getItem('username'),
-        seller: CURRENT_TRADE_USER,
+        buyer: CURRENT_TRADE_USER,
+        seller: localStorage.getItem('username'),
         offer: artwork,
         approved: 0})
   }).then(function (res) {
     console.log(res);
   })
 }
-
-// function removeArtworkFromTrade(artwork) {
-//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
-//     method: 'delete',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
 
 function removeItemsFromTrade() {
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
@@ -117,7 +100,7 @@ function removeItemsFromTrade() {
   })
 }
 
-function addGuildersToTrade(guilders, user) {
+function addGuildersToTradeAsBuyer(guilders, user) {
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'post',
     mode: 'cors',
@@ -133,18 +116,22 @@ function addGuildersToTrade(guilders, user) {
     console.log(res);
   })
 }
-
-// function removeGuildersFromTrade(guilders) {
-//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
-//     method: 'delete',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     }
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
+function addGuildersToTradeAsSeller(guilders, user) {
+  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+        {buyer: user,
+        seller: localStorage.getItem('username'),
+        offer: guilders,
+        approved: false})
+  }).then(function (res) {
+    console.log(res);
+  })
+}
 
 /*
 
@@ -302,6 +289,18 @@ async function acceptTrade(tid) {
 
 async function declineTrade(tid) {
   fetch(apiURL + '/trades/'+tid, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  })
+}
+
+async function cancelTrade() {
+  fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'delete',
     mode: 'cors',
     headers: {
@@ -508,25 +507,12 @@ function deleteArtworkInfo() {
 
 */
 
-async function getArtworkInfo() {
-  const response = await fetch(apiURL + '/artworks/'+DocumentFragment.getElementById('artwork').value);
+async function getArtworkInfo(art) {
+  const response = await fetch(apiURL + '/artworks/'+art);
   const myJson = await response.json();
-  console.log(JSON.stringify(myJson));
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
-  if (typeof artwork !== 'undefined') {
-    console.log(artwork);
-    console.log('title: '+artwork['title']);
-    console.log('artist: '+artwork['artist']);
-    console.log('year: '+artwork['year']);
-    console.log('theoreticalprice: '+artwork['theoreticalprice']);
-    console.log('actualprice: '+artwork['actualprice']);
-    console.log('hidden: '+artwork['hidden']);
-    console.log('owner: '+artwork['owner']);
-    console.log('url: '+artwork['url']);
-  }
-  else {
-    console.log('artwork does not exist');
-  }
+  console.log(artwork);
+  return artwork;
 }
 
 function putArtworkInfo() {
