@@ -48,7 +48,7 @@ function openTrade() {
 function closeTrade() {
   document.getElementById("tradewindow").style.width = "0";
   endTrade();
-  serverfuncs.deleteTrade();
+  serverfuncs.cancelTrade();
 }
 
 var USERS_READ = false;
@@ -117,7 +117,6 @@ async function populateUserTradeFields(items) {
     textnode.style.position = 'relative';
     document.getElementById(parentid).appendChild(textnode);
 
-    //var art = await serverfuncs.getArtworkInfo(items[item].offer);
     var imagenode = document.createElement("img");
     imagenode.id = "trade_l_i"+item.toString();
     imagenode.style.width = "200px";
@@ -157,6 +156,7 @@ function addTrades(theTrades) {
     buttonnode.className = 'requestbutton';
     buttonnode.onclick = function() {
       serverfuncs.acceptTrade(theTrades[parseInt(this.id[8])].tradeid);
+      closealert();
       openTrade();
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
       receivingRequest = true;
@@ -259,7 +259,12 @@ class TradeWindow extends React.PureComponent {
 
 
       <a class = "localconfirm">confirm
-        <input id = "localtconfirm" type = "checkbox"/>
+        <input id = "localtconfirm" type = "checkbox" onClick = {
+          () => {
+            if(receivingRequest) serverfuncs.finalizeAsSeller(document.getElementById("localtconfirm").checked); 
+            else serverfuncs.finalizeAsBuyer(document.getElementById("localtconfirm").checked);
+          }
+        }/>
       </a>
 
       <a id = "otheritems" class = "otheruser">OTHER USER</a>
