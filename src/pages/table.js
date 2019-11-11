@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ArtTable from "../components/artworktable";
 import { Link } from "react-router-dom";
 import * as serverfuncs from '../serverfuncs';
 
@@ -35,7 +36,8 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/gllery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
           <MenuItem onClick={handleClose}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
           {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
