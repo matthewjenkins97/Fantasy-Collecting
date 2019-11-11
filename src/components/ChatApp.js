@@ -64,12 +64,9 @@ class ChatApp extends Component {
         return (
             <div className="chatapp">
                 <div>
-                <h2 className="header">Messaging</h2>
+                <h2 className="header">General Room</h2>
                     <div id="messages">
                         <MessageList messages={this.state.messages} style={{position: 'absolute', bottom: 0, marginBottom: 50}}/>
-                        <div style={{ float:"left", clear: "both" }}
-                            ref={(el) => { this.messagesEnd = el; }}>
-                        </div>
                     </div>
                     <Input className="input-field" onSubmit={this.addMessage} onClick={{}} />
                 </div>

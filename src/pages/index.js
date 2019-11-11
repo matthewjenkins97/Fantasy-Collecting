@@ -59,7 +59,7 @@ const MainPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <ChatComponent />
+                <Button style={{position: 'fixed'}}><ChatComponent /></Button>
                 <Homepage />
             </div>
         )
