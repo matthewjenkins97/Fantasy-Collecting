@@ -40,9 +40,10 @@ function SimpleMenu() {
         >
           <MenuItem onClick={handleClose}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Table</Link></MenuItem>
           <MenuItem onClick={handleClose}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
           {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
-          <MenuItem><ChatComponent /></MenuItem>
+          {/* <MenuItem><ChatComponent /></MenuItem> */}
         </Menu>
       </div>
     );
@@ -59,7 +60,7 @@ const MainPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <ChatComponent />
+                <Button style={{position: 'fixed'}}><ChatComponent /></Button>
                 <Homepage />
             </div>
         )
