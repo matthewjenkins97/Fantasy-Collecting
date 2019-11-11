@@ -267,15 +267,15 @@ async function checkForTrade() {
   //   if(trade.seller == localStorage.getItem('username')) {
   //     theTrades.push(trade);
   //   }
-  }
-  if(theTrades.length > 0) {
-    console.log("MATCHED FOR TRADE")
-    document.getElementById("mainalert").style.display = 'block';
-    tradeFuncs.addTrades(theTrades);
-  }
-  else {
-    console.log('no trade');
-  }
+  // }
+  // if(theTrades.length > 0) {
+  //   console.log("MATCHED FOR TRADE")
+  //   document.getElementById("mainalert").style.display = 'block';
+  //   tradeFuncs.addTrades(theTrades);
+  // }
+  // else {
+  //   console.log('no trade');
+  // }
 }
 
 async function acceptTrade(tid) {
