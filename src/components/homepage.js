@@ -6,20 +6,19 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'; 
 import Popper from './popper';
 //import Table from './table';
-import tileData from './tiledata';
+//import tileData from './tiledata';
 import TradeWindow from './tradewindow'
 import { getAllArtworks } from '../serverfuncs';
 import { artworkImages } from './tiledata';
 
-
-
-
+var tileData = [];
 
 
 class Main extends Component  {
 
   constructor(props){
     super(props);
+    tileData = [];
     this.getTileData();
   }
 
@@ -33,7 +32,7 @@ class Main extends Component  {
     for(var i in artworks) {
       if(artworks[i].owner == localStorage.getItem('username')) {
         tileData.push({
-            img: artworkImages[artworks[i].identifier],
+            img: require("../static/"+artworks[i].url),
             title: artworks[i].title,
             artist: artworks[i].artist,
             description: "NOT IN DB YET",
