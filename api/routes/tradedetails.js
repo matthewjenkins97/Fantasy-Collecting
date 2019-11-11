@@ -18,14 +18,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM tradedetails WHERE seller = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`SELECT * FROM tradedetails WHERE tradeid = ${req.params.id}`, (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
-  if (!req.body.seller) {
+  if (!req.body.tradeid) {
     res.sendStatus(400);
   } else {
     const dbEntry = [
@@ -35,8 +35,6 @@ router.post('/', json(), function(req, res, next) {
       req.body.offer,
       req.body.approved,
     ];
-
-    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {

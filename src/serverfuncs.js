@@ -8,8 +8,9 @@ export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
   createArtwork, checkForTrade, updateUserData, deleteUser, 
   
-  initiateTrade, acceptTrade, declineTrade, setTradeUser, setTradeID,
-  addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade};
+  initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID,
+  addGuildersToTrade,
+  addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -39,6 +40,12 @@ function coroutine(f) {
 
 */
 
+var RESPONSE_INTERVAL_REF;
+var ITEM_INTERVAL_REF;
+var FINALIZE_INTERVAL_REF;
+var CURRENT_TRADE_ID;
+var CURRENT_TRADE_USER;
+
 const tradeCheck = coroutine(function* () {
   while (true) {
     yield;
@@ -54,6 +61,13 @@ const itemCheck = coroutine(function* () {
   }
 });
 
+const finalizeCheck = coroutine(function* () {
+  while (true) {
+    yield;
+    checkForFinalize();
+  }
+});
+
 const responseCheck = coroutine(function* () {
   while (true) {
     yield;
@@ -61,18 +75,36 @@ const responseCheck = coroutine(function* () {
   }
 });
 
+async function checkForFinalize() {
+  const response = await fetch(apiURL + '/trades/' + CURRENT_TRADE_ID);
+  const myJson = await response.json();
+  const trade = JSON.parse(JSON.stringify(myJson))['0'];
+  if (typeof trade === 'undefined') {
+    clearInterval(RESPONSE_INTERVAL_REF);
+    tradeFuncs.closeTrade();
+    return;
+  }
+  if(trade.sellerapproved === 1 && trade.buyerapproved === 1) {
+    clearInterval(FINALIZE_INTERVAL_REF);
+    clearInterval(ITEM_INTERVAL_REF);
+    tradeFuncs.closeTrade();
+    if(trade.buyer == localStorage.getItem('username')) {
+      sendFormToAdmin();
+      cancelTrade();
+    }
+  }
+}
+
 async function updateItems() {
+  console.log(CURRENT_TRADE_ID);
   const items = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
   const items_json = await items.json();
   const final_items = JSON.parse(JSON.stringify(items_json));
-
   tradeFuncs.populateUserTradeFields(final_items);
 }
 
 function addArtworkToTrade(artwork) {
-  console.log(CURRENT_TRADE_ID);
-  console.log(artwork);
-  fetch(apiURL + '/tradedetails/', {
+  fetch(apiURL + '/tradedetails', {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -80,26 +112,14 @@ function addArtworkToTrade(artwork) {
     },
     body: JSON.stringify(
         {tradeid: CURRENT_TRADE_ID,
-        buyer: localStorage.getItem('username'),
-        seller: CURRENT_TRADE_USER,
+        buyer: CURRENT_TRADE_USER,
+        seller: localStorage.getItem('username'),
         offer: artwork,
-        approved: false})
+        approved: 0})
   }).then(function (res) {
     console.log(res);
   })
 }
-
-// function removeArtworkFromTrade(artwork) {
-//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
-//     method: 'delete',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
 
 function removeItemsFromTrade() {
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
@@ -126,21 +146,10 @@ function addGuildersToTrade(guilders, user) {
         offer: guilders,
         approved: false})
   }).then(function (res) {
+    FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
     console.log(res);
   })
 }
-
-// function removeGuildersFromTrade(guilders) {
-//   fetch(apiURL + '/tradedetails/'+localStorage.getItem('username'), {
-//     method: 'delete',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     }
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
 
 /*
 
@@ -184,11 +193,6 @@ async function initiateTrade(user) {
   })
 }
 
-var RESPONSE_INTERVAL_REF;
-var ITEM_INTERVAL_REF;
-var CURRENT_TRADE_ID;
-var CURRENT_TRADE_USER;
-
 function setTradeUser(user) {
   CURRENT_TRADE_USER = user;
 }
@@ -198,12 +202,11 @@ function setTradeID(id) {
 }
 
 async function checkForResponse() {
-  //console.log("CHECKING FOR RESPONSE");
   const response = await fetch(apiURL + '/trades/' + CURRENT_TRADE_ID);
   const myJson = await response.json();
   const trade = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof trade === 'undefined') {
-    console.log("TRADE WAS CANCELLED")
+    console.log("TRADE WAS CANCELLED");
     clearInterval(RESPONSE_INTERVAL_REF);
     return;
   }
@@ -215,23 +218,30 @@ async function checkForResponse() {
   }
 }
 
-function finalizeAsBuyer(user) {
-  fetch(apiURL + '/trades/'+user, {
+function finalizeAsBuyer(check) {
+  console.log("setting approval");
+  console.log(check);
+  fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {buyerapproval: true})
+        {buyerapproved: check})
   }).then(function (res) {
     console.log(res);
-    setInterval(responseCheck, 5000);
+    if(check) {
+      FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
+    }
+    else {
+      clearInterval(FINALIZE_INTERVAL_REF);
+    }
   })
 }
 
-function sendFormToAdmin(user) {
-  fetch(apiURL + '/tradedetails/'+user, {
+function sendFormToAdmin() {
+  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
     headers: {
@@ -308,19 +318,35 @@ async function declineTrade(tid) {
   })
 }
 
-function finalizeAsSeller(response, user) {
-  fetch(apiURL + '/trades/'+user, {
+async function cancelTrade() {
+  fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  })
+}
+
+function finalizeAsSeller(check) {
+  fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {sellerapproval: true})
+        {sellerapproved: check})
   }).then(function (res) {
     console.log(res);
-    //setInterval(responseCheck, 5000);
-
+    if(check) {
+      FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
+    }
+    else {
+      clearInterval(FINALIZE_INTERVAL_REF);
+    }
   })
 }
 
@@ -331,28 +357,6 @@ function finalizeAsSeller(response, user) {
 
 
 */
-
-// async function logInUser() {
-//   //let history = useHistory();
-//   const stringName = document.getElementById('liusername').value;
-//   const response = await fetch(apiURL + '/users/' + stringName);
-//   const myJson = await response.json();
-//   const student = JSON.parse(JSON.stringify(myJson))['0'];
-//   if (typeof student === 'undefined') {
-//     console.log('username does not exist');
-//   }
-//   else if(student.hash !== MD5(document.getElementById('lipassword').value)) {
-//     console.log(student.hash);
-//     console.log(MD5(document.getElementById('lipassword').value));
-//     console.log('incorrect password for username');
-//   } else {
-//     console.log('login successful');
-//     localStorage.setItem('username', document.getElementById('liusername').value);
-//     if (student.admin === 1) {
-//     } else {
-//     }
-//   }
-// }
 
 async function logBackInUser() {
   //let history = useHistory();
@@ -504,25 +508,12 @@ function deleteArtworkInfo() {
 
 */
 
-async function getArtworkInfo() {
-  const response = await fetch(apiURL + '/artworks/'+DocumentFragment.getElementById('artwork').value);
+async function getArtworkInfo(art) {
+  const response = await fetch(apiURL + '/artworks/'+art);
   const myJson = await response.json();
-  console.log(JSON.stringify(myJson));
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
-  if (typeof artwork !== 'undefined') {
-    console.log(artwork);
-    console.log('title: '+artwork['title']);
-    console.log('artist: '+artwork['artist']);
-    console.log('year: '+artwork['year']);
-    console.log('theoreticalprice: '+artwork['theoreticalprice']);
-    console.log('actualprice: '+artwork['actualprice']);
-    console.log('hidden: '+artwork['hidden']);
-    console.log('owner: '+artwork['owner']);
-    console.log('url: '+artwork['url']);
-  }
-  else {
-    console.log('artwork does not exist');
-  }
+  console.log(artwork);
+  return artwork;
 }
 
 function putArtworkInfo() {

@@ -67,7 +67,7 @@ export default class Login extends React.Component{
       return <Redirect to='/table' />
     }
     else {
-      return <Redirect to='/' />
+      return <Redirect to='/gallery' />
     }
   }
 

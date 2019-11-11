@@ -8,7 +8,6 @@ import './tradewindow.css'
 export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
 
 var receivingRequest = false;
-var sendingRequest = false;
 
 // function popup() { 
 //   //window.open("/tradeoption","_blank","width=550,height=550,left=150,top=200,toolbar=0,status=0,");
@@ -48,6 +47,8 @@ function openTrade() {
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeTrade() {
   document.getElementById("tradewindow").style.width = "0";
+  endTrade();
+  serverfuncs.cancelTrade();
 }
 
 var USERS_READ = false;
@@ -69,36 +70,62 @@ async function expandUsers() {
 
 var ARTWORKS_READ = false;
 async function expandArtworks() {
-  if(USERS_READ) return;
+  if(ARTWORKS_READ) return;
   var artList = await serverfuncs.getAllArtworks();
   for(var art in artList) {
     if(artList[art].owner == localStorage.getItem('username')) {
       var buttonnode = document.createElement("a");
       buttonnode.id = "art_t"+art.toString();
       buttonnode.innerHTML = artList[art].identifier;
-      buttonnode.onclick = function() { 
-        console.log(this.innerHTML);
+      buttonnode.onclick = function() {
         serverfuncs.addArtworkToTrade(this.innerHTML.toString());
       }
       document.getElementById("tradeartworks").appendChild(buttonnode);
     }
   }
   document.getElementById("tradeartworks").style.height = "100px";
-  USERS_READ = true;
+  ARTWORKS_READ = true;
 }
 
-function populateUserTradeFields(items) {
-  // for(var item in items) {
-  //   var textnode = document.createElement("a");
-  //   //textnode.id = "trade_n"+trade.toString();
-  //   textnode.innerHTML = items[item];
-  //   document.getElementById("localitems").appendChild(textnode);
-  // }
-  // for(item in testlist2) {
-  //   var textnode = document.createElement("a");
-  //   textnode.innerHTML = testlist1[item];
-  //   document.getElementById("otheritems").appendChild(textnode);
-  // }
+var totalTradeItems = 0;
+var itemImages = [];
+
+async function populateUserTradeFields(items) {
+  for(var item in items) {
+    itemImages.push(await serverfuncs.getArtworkInfo(items[item].offer));
+  }
+  for(var i = 0; i < totalTradeItems; i++) {
+    try {
+      document.getElementById("trade_l_t"+i.toString()).remove();
+      document.getElementById("trade_l_i"+i.toString()).remove();
+    }
+    catch {
+    }
+  }
+  totalTradeItems = 0;
+  for(var item in items) {
+    var parentid;
+    if(items[item].buyer == localStorage.getItem('username')) {
+      parentid = "otherartworks";
+    }
+    else {
+      parentid = "localartworks";
+    }
+    var textnode = document.createElement("a");
+    textnode.id = "trade_l_t"+item.toString();
+    textnode.innerHTML = items[item].offer;
+    textnode.style.position = 'relative';
+    document.getElementById(parentid).appendChild(textnode);
+
+    var imagenode = document.createElement("img");
+    imagenode.id = "trade_l_i"+item.toString();
+    imagenode.style.width = "200px";
+    imagenode.style.height= "200px";
+    imagenode.style.position = 'relative';
+    imagenode.style.src = "../static/monalisa.jpg";
+    document.getElementById(parentid).appendChild(imagenode);
+    totalTradeItems++;
+  }
 }
 
 var totalTrades = 0;
@@ -129,8 +156,10 @@ function addTrades(theTrades) {
     buttonnode.className = 'requestbutton';
     buttonnode.onclick = function() {
       serverfuncs.acceptTrade(theTrades[parseInt(this.id[8])].tradeid);
+      closealert();
       openTrade();
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
+      receivingRequest = true;
       removeTrade(this.id[8]);
     }
     document.getElementById("tradealert").appendChild(buttonnode);
@@ -176,6 +205,10 @@ function removeTrade(index) {
   }
 }
 
+function endTrade() {
+  receivingRequest = false;
+}
+
 class TradeWindow extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -204,6 +237,8 @@ class TradeWindow extends React.PureComponent {
 
       <a id = "localitems" class = "myuser">LOCAL USER</a>
 
+
+
       <div class = "addg">
         <a>AddGuilders</a>
         <input id = "addguilders" type = "number"/>
@@ -213,21 +248,30 @@ class TradeWindow extends React.PureComponent {
         </div>
         
       </div>
+      
 
 
       <div id = "localguilders" class = "localg">
         <a id = "currentlocalg">guilders: 0</a>
       </div>
-      <div id = "localartworks" class = "locala"></div>
+
+      <div id = "localartworks" class = "locala"/>
+
+
       <a class = "localconfirm">confirm
-        <input id = "localtconfirm" type = "checkbox"/>
+        <input id = "localtconfirm" type = "checkbox" onClick = {
+          () => {
+            if(receivingRequest) serverfuncs.finalizeAsSeller(document.getElementById("localtconfirm").checked); 
+            else serverfuncs.finalizeAsBuyer(document.getElementById("localtconfirm").checked);
+          }
+        }/>
       </a>
 
       <a id = "otheritems" class = "otheruser">OTHER USER</a>
       <div id = "otherguilders" class = "otherg">
       <a id = "currentotherg">guilders: 0</a>
       </div>
-      <div id = "localartworks" class = "othera"></div>
+      <div id = "otherartworks" class = "othera"></div>
 
     </div>
 

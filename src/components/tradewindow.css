@@ -1,3 +1,34 @@
+img:before { 
+  content: " ";
+  display: block;
+
+  position: absolute;
+  top: -10px;
+  left: 0;
+  height: calc(100% + 10px);
+  width: 100%;
+  background-color: rgb(230, 230, 230);
+  border: 2px dotted rgb(200, 200, 200);
+  border-radius: 5px;
+}
+
+img:after { 
+  content: "\f127" " Broken Image of " attr(alt);
+  display: block;
+  font-size: 16px;
+  font-style: normal;
+  font-family: FontAwesome;
+  color: rgb(100, 100, 100);
+  
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+
+
 /* The sidebar menu */
 .sidebarinit {
   height: 200px; /* 100% Full-height */
@@ -55,7 +86,7 @@
   z-index: 1; /* Stay on top */
   top: 50;
   left: 0;
-  background-color: #111; /* Black*/
+  background-color: rgba(255, 255, 255, .99); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 5px; /* Place content 60px from the top */
   transition: 0.7s; /* 0.5 second transition effect to slide in the sidebar */
@@ -108,16 +139,20 @@
   left: 5%;
   height: 8%;
   width: 40%;
-  background-color: #444;
 }
 
 .locala {
   position: absolute;
+  text-align: center;
+  align-content: center;
   top: 25%;
   left: 5%;
   height: 50%;
   width: 40%;
-  background-color: #444;
+  background: rgba(0, 0, 255, .1);
+  overflow-y: scroll;
+  overflow-x: hidden;
+
 }
 
 .otherg {
@@ -126,16 +161,19 @@
   right: 5%;
   height: 8%;
   width: 40%;
-  background-color: #444;
 }
 
 .othera {
   position: absolute;
+  text-align: center;
+  align-content: center;
   top: 25%;
   right: 5%;
   height: 50%;
   width: 40%;
-  background-color: #444;
+  background: rgba(0, 0, 255, .1);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .localconfirm {
@@ -153,9 +191,10 @@
 
 .addg {
   position: relative;
-  left: 45%;
+  left: 35%;
   top: 2%;
   color: aliceblue;
+  z-index: 1;
 }
 
 .addg a {
@@ -166,9 +205,8 @@
 .addg input {
   position: relative;
   align-content: center;
+  width: 100x;
 }
-
-
 
 /* When you mouse over the navigation links, change their color */
 .tradewin a:hover {
@@ -298,7 +336,7 @@ h1 {
   margin: auto;
   /* align-content: center; */
 
-  background-color: rgba(64, 82, 185, 100);
+  background-color: rgb(64, 82, 185);
   color: white;
 
   padding: 2px;
@@ -308,10 +346,11 @@ h1 {
 .dropbtnArtworks {
   position: relative;
   align-content: center;
-  width: 10%;
+  width: 128px;
   background-color: rgb(64, 82, 185);
   color: white;
   padding: 2px;
+  top: 5px;
   font-size: 14px;
 }
 
@@ -320,7 +359,7 @@ h1 {
   display: block;
   align-content: center;
   margin: auto;
-  width: 10%;
+  width: 11%;
 }
 
 /* Dropdown Content (Hidden by Default) */
