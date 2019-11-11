@@ -15,6 +15,20 @@ var receivingRequest = false;
 
 var currentTradeIds = []
 
+window.onbeforeunload = function(event) {
+  //var s = "You have unsaved changes. Really leave?";
+
+  event = event || window.event;
+  if (event) {
+      // This is for IE
+      // event.returnValue = s;
+  }
+
+  serverfuncs.cancelTrade();
+  // This is for all other browsers
+  // return s;
+}
+
 
 /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
 function openNav() {
@@ -39,15 +53,14 @@ function closealert() {
   document.getElementById("mainalert").style.marginLeft = "0";
 }
 
-function openTrade() {
+function openTrade(isReceiving) {
   document.getElementById("tradewindow").style.width = "100%";
-  //populateUserTradeFields();
+  receivingRequest = isReceiving;
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeTrade() {
   document.getElementById("tradewindow").style.width = "0";
-  endTrade();
   serverfuncs.cancelTrade();
 }
 
@@ -159,7 +172,6 @@ function addTrades(theTrades) {
       closealert();
       openTrade();
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
-      receivingRequest = true;
       removeTrade(this.id[8]);
     }
     document.getElementById("tradealert").appendChild(buttonnode);
@@ -203,10 +215,6 @@ function removeTrade(index) {
   catch {
     console.log('failed to delete request');
   }
-}
-
-function endTrade() {
-  receivingRequest = false;
 }
 
 class TradeWindow extends React.PureComponent {

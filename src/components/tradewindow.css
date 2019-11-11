@@ -31,10 +31,12 @@ img:after {
 
 /* The sidebar menu */
 .sidebarinit {
+  border-radius: 30px;
   height: 200px; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
+  width: 200px; /* 0 width - change this with JavaScript */
+  position: absolute; /* Stay in place */
   top: 100px;
+  left: -200px;
   z-index: 1;
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -64,6 +66,7 @@ img:after {
 }
 /* The button used to open the sidebar */
 .openbtninit {
+  border-radius: 30px;
   font-size: 20px;
   cursor: pointer;
   background-color: #111;

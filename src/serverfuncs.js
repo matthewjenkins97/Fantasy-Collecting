@@ -10,7 +10,10 @@ export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   
   initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID,
   addGuildersToTrade,
-  addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin};
+  addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
+
+
+isAdmin};
 
 // if (localStorage.getItem('username') === 'dholley') {
 //   logBackInUser();
@@ -385,6 +388,17 @@ function logOutUser() {
             ADMIN STUDENT MANAGEMENT FUNCS
 
 */
+
+async function isAdmin(user) {
+  const response = await fetch(apiURL + '/users');
+  const myJson = await response.json();
+  const users = JSON.parse(JSON.stringify(myJson));
+  for(var u in users) {
+    if(users[u].username === user) {
+      return u.admin;
+    }
+  }
+}
 
 async function getAllUsers() {
   //console.log("getting all users");
