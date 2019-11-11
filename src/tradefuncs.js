@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 async function conductTrade(artwork, buyer, seller, offer) {
   // change current owner of painting to buyer
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {
@@ -15,7 +13,7 @@ async function conductTrade(artwork, buyer, seller, offer) {
     console.log(res)
   });
 
-  // subtract buyer's payment from their account, increment number of paintings
+  // subtract buyer's payment from their account, increment number of paintings, decrement guilders
   let buyerBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
     method: 'get',
     mode: 'cors',
@@ -35,7 +33,7 @@ async function conductTrade(artwork, buyer, seller, offer) {
     console.log(res)
   });
 
-  // add seller's payment from their account
+  // add seller's payment from their account, increment guilders, increment 10 microrsesarch points
   let sellerBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
     method: 'get',
     mode: 'cors',
@@ -43,6 +41,7 @@ async function conductTrade(artwork, buyer, seller, offer) {
   sellerBody = await sellerBody.json();
   sellerBody = sellerBody[0];
   sellerBody.guilders += offer;
+  sellerBody.microresearchpoints += 10;
   sellerBody.numofpaintings -= 1;
   fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
     method: 'put',
@@ -74,5 +73,3 @@ async function conductTrade(artwork, buyer, seller, offer) {
     console.log(res)
   });
 }
-
-//conductTrade('dance', 'mjenkins', 'dholley', 20);

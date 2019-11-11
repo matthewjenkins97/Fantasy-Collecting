@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import MessageList from './MessageList';
 import Input from './Input';
+import * as serverfuncs from "../serverfuncs";
 
 class ChatApp extends Component {
     constructor(props) {
         super(props); 
         this.state = {
-            currentUser: "Admin",
+            currentUser: localStorage.getItem('username'),
             currentRoom: {users:[]},
             messages: [],
             users: []
@@ -18,12 +19,13 @@ class ChatApp extends Component {
   componentDidMount() {
     const chatManager = new ChatManager({
         instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-        userId: "Admin",
+        userId: localStorage.getItem('username'),
         //userId: this.props.currentId,
         tokenProvider: new TokenProvider({
             url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
         })
     })
+    
 
     chatManager
             .connect()
@@ -49,6 +51,7 @@ class ChatApp extends Component {
             })
             .catch(error => console.log(error))
     }
+
     addMessage(text) {
         this.state.currentUser.sendMessage({
             text,
@@ -56,13 +59,19 @@ class ChatApp extends Component {
         })
         .catch(error => console.error('error', error));
     }
+
     render() {
         return (
             <div className="chatapp">
                 <div>
-                <h2 className="header">Hi There, Ask us anything</h2>
-                    <MessageList messages={this.state.messages} />
-                    <Input className="input-field" onSubmit={this.addMessage} />
+                <h2 className="header">Messaging</h2>
+                    <div id="messages">
+                        <MessageList messages={this.state.messages} style={{position: 'absolute', bottom: 0, marginBottom: 50}}/>
+                        <div style={{ float:"left", clear: "both" }}
+                            ref={(el) => { this.messagesEnd = el; }}>
+                        </div>
+                    </div>
+                    <Input className="input-field" onSubmit={this.addMessage} onClick={{}} />
                 </div>
             </div>
         )

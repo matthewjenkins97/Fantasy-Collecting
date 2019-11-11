@@ -18,6 +18,7 @@ import Login from "./pages/login";
 import Auction from "./pages/auction";
 import ArtTable from './pages/arttable';
 import TradeOption from './pages/tradeoption'
+import AdminPage from './pages/admin'
 
 import { default as Chatkit } from '@pusher/chatkit-server';
 
@@ -74,6 +75,7 @@ class Home extends Component  {
               <Route exact path="/gallery" component={MainPage} />
               <Route exact path="/auction" component={Auction} />
               <Route exact path="/404notfound" component={ErrorPage}/>
+              <Route exact path="/admin" component={AdminPage}/>
               <Redirect to="/404notfound"/>
             </Switch>
           </Router>
