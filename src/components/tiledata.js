@@ -2,6 +2,7 @@ import MonaLisa from '../static/monalisa.jpg';
 import Dance from '../static/dance.jpg';
 import Sunflowers from '../static/sunflowers.jpg';
 
+
 export const artworkImages = {
   'monalisa': MonaLisa,
   'dance': Dance,

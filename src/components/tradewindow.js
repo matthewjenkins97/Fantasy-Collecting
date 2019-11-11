@@ -122,7 +122,7 @@ async function populateUserTradeFields(items) {
     imagenode.style.width = "200px";
     imagenode.style.height= "200px";
     imagenode.style.position = 'relative';
-    imagenode.style.src = "../static/monalisa.jpg";
+    imagenode.src = require("../static/"+itemImages[item].url);
     document.getElementById(parentid).appendChild(imagenode);
     totalTradeItems++;
   }
