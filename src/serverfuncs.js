@@ -7,7 +7,7 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 /* eslint-disable require-jsdoc */
 export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
   logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
-  createArtwork, checkForTrade, updateUserData, deleteUser, 
+  createArtwork, updateUserData, deleteUser, 
   
   initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID,
   addGuildersToTrade,
@@ -258,12 +258,13 @@ async function sendFormToAdmin() {
     body: JSON.stringify(
         {approved: true})
   }).then(async function (res) {
-    console.log(res);
+    //console.log(res);
     var offers = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
     offers = await offers.json();
-    offers = JSON.parse(JSON.stringify(offers))['0'];
-    console.log(offers);
+    offers = JSON.parse(JSON.stringify(offers));
     for(var offer in offers) {
+      console.log("CONDUCTING TRADE");
+      console.log(offers[offer]);
       conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
     }
   }); 
@@ -278,6 +279,7 @@ async function sendFormToAdmin() {
 */
 
 async function checkForTrade() {
+  if(!window.location.toString().endsWith("/gallery")) return; 
   var theTrades = [];
   const response = await fetch(apiURL + '/trades/');
   const myJson = await response.json();

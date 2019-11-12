@@ -105,6 +105,7 @@ var itemImages = [];
 // function for adding current trade items to trade fields
 
 async function populateUserTradeFields(items) {
+  itemImages = [];
   for(var item in items) {
     itemImages.push(await serverfuncs.getArtworkInfo(items[item].offer));
   }
