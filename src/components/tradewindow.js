@@ -3,84 +3,83 @@ import ReactDOM from "react-dom";
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as serverfuncs from '../serverfuncs';
 import './tradewindow.css'
+//import { serialize } from "v8";
 //import './checkmark.css'
 
 export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
 
 var receivingRequest = false;
 
-// function popup() { 
-//   //window.open("/tradeoption","_blank","width=550,height=550,left=150,top=200,toolbar=0,status=0,");
-// }
-
 var currentTradeIds = []
 
-window.onbeforeunload = function(event) {
-  //var s = "You have unsaved changes. Really leave?";
-
-  event = event || window.event;
-  if (event) {
-      // This is for IE
-      // event.returnValue = s;
-  }
-
+window.onbeforeunload = function (e) {
+  e.preventDefault();
   serverfuncs.cancelTrade();
-  // This is for all other browsers
-  // return s;
-}
-
+  var message = "leave?",
+  e = e || window.event;
+  // For IE and Firefox
+  if (e) {
+    e.returnValue = message;
+  }
+  // For Safari
+  return message;
+};
 
 /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
 function openNav() {
-  document.getElementById("tradeinit").style.width = "200px";
-  document.getElementById("maininit").style.marginLeft = "200px";
+  document.getElementById("tradeinit").style.left = "0px";
+  document.getElementById("maininit").style.left = "210px";
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeNav() {
-  document.getElementById("tradeinit").style.width = "0";
-  document.getElementById("maininit").style.marginLeft = "0";
+  document.getElementById("tradeinit").style.left = "-200px";
+  document.getElementById("maininit").style.left = "10px";
 }
 
 function openalert() {
-  document.getElementById("tradealert").style.width = "200px";
-  document.getElementById("mainalert").style.marginLeft = "200px";
+  document.getElementById("tradealert").style.left = "0px";
+  document.getElementById("mainalert").style.left = "210px";
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closealert() {
-  document.getElementById("tradealert").style.width = "0";
-  document.getElementById("mainalert").style.marginLeft = "0";
+  document.getElementById("tradealert").style.left = "-200px";
+  document.getElementById("mainalert").style.left = "10px";
 }
 
 function openTrade(isReceiving) {
-  document.getElementById("tradewindow").style.width = "100%";
-  receivingRequest = isReceiving;
+  document.getElementById("tradewindow").style.left = "0%";
+  receivingRequest = isReceiving
 }
 
 /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeTrade() {
-  document.getElementById("tradewindow").style.width = "0";
-  serverfuncs.cancelTrade();
+  document.getElementById("tradewindow").style.left = "-100%";
+  document.getElementById("localtconfirm").checked = false;
 }
 
-var USERS_READ = false;
+// shows all available users to trade with
+
 async function expandUsers() {
-  if(USERS_READ) return;
   var userList = await serverfuncs.getAllUsers();
   for(var user in userList) {
+    try {
+      document.getElementById("user_t"+user.toString()).remove();
+    } catch { }
     var buttonnode = document.createElement("a");
     buttonnode.id = "user_t"+user.toString();
     buttonnode.innerHTML = userList[user].username;
     buttonnode.onclick = function() { 
       serverfuncs.initiateTrade(this.innerHTML);
+      closeNav();
     }
     document.getElementById("tradeusers").appendChild(buttonnode);
   }
   document.getElementById("tradeusers").style.height = "100px";
-  USERS_READ = true;
 }
 
+// funtion that displays artworks user can add to the trade
 var ARTWORKS_READ = false;
 async function expandArtworks() {
   if(ARTWORKS_READ) return;
@@ -102,6 +101,8 @@ async function expandArtworks() {
 
 var totalTradeItems = 0;
 var itemImages = [];
+
+// function for adding current trade items to trade fields
 
 async function populateUserTradeFields(items) {
   for(var item in items) {
@@ -143,6 +144,9 @@ async function populateUserTradeFields(items) {
 
 var totalTrades = 0;
 var currentTrades = 0;
+
+// function for adding incoming trade requests to sidebar
+
 function addTrades(theTrades) {
   for(var i = 0; i <= totalTrades; i++) {
     try {
@@ -170,7 +174,7 @@ function addTrades(theTrades) {
     buttonnode.onclick = function() {
       serverfuncs.acceptTrade(theTrades[parseInt(this.id[8])].tradeid);
       closealert();
-      openTrade();
+      openTrade(true);
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
       removeTrade(this.id[8]);
     }
@@ -224,20 +228,18 @@ class TradeWindow extends React.PureComponent {
 
   render() {
     return (
+    
     <div>
-
     {/* initiate trade window */}
     <div id="tradeinit" class="sidebarinit">
       <a class="closebtn" onClick={closeNav}>&times;</a>
 
-      <button class="dropbtn" onClick = {expandUsers}>Users</button>
+      <button class="dropbtn">Users</button>
 
       <div id = "tradeusers" class="dropdown-content"></div>
     </div>
 
-    <div id="maininit">
-      <button class="openbtninit" onClick={openNav}>trade</button>
-    </div>
+    <button id="maininit" class="openbtninit" onClick={() => {openNav(); expandUsers();}}>trade</button>
 
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
@@ -288,9 +290,7 @@ class TradeWindow extends React.PureComponent {
       <a class="closebtn" onClick={closealert}>&times;</a>
     </div>
 
-    <div id="mainalert">
-        <button class="openbtnalert" onClick={openalert}>!trade request</button>
-    </div>
+    <button id = "mainalert" class="openbtnalert" onClick={openalert}>!trade request</button>
 
     </div>
     )

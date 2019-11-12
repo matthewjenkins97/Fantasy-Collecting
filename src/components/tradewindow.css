@@ -31,16 +31,17 @@ img:after {
 
 /* The sidebar menu */
 .sidebarinit {
-  border-radius: 30px;
+  border-radius: 0px 30px 30px 0px;
   height: 200px; /* 100% Full-height */
   width: 200px; /* 0 width - change this with JavaScript */
-  position: absolute; /* Stay in place */
+  position: fixed; /* Stay in place relative to scroll */
   top: 100px;
   left: -200px;
+  transition: left 0.5s;
   z-index: 1;
-  background-color: #111; /* Black*/
+  background-color: rgba(0, 0, 0, 0.7); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
-  transition: width 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  /* transition: width 0.5s; 0.5 second transition effect to slide in the sidebar */
   align-content: center;
 }
 /* The sidebar links */
@@ -59,22 +60,24 @@ img:after {
 /* Position and style the close button (top right corner) */
 .sidebarinit .closebtn {
   position: relative;
-  margin-left: 0px;
-  margin-top: 0px;
+  left: 10px;
+  top: 10px;
   font-size: 20px;
   color: #919191;
 }
 /* The button used to open the sidebar */
 .openbtninit {
-  border-radius: 30px;
+  border-radius: 30px 30px 30px 30px;
+  left: 10px;
+  top: 100px;
+  position: fixed; 
+  transition: left .5s;
   font-size: 20px;
   cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 10px;
   border: none;
-  position: fixed;
-  top: 100px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 10px 10px 10px;
 }
 .openbtninit:hover {
   background-color: #444;
@@ -84,11 +87,12 @@ img:after {
 /* The sidebar menu */
 .tradewin {
   height: 80%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: absolute; /* Stay in place */
+  width: 100%; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 50;
-  left: 0;
+  left: -100%;
+  transition: left .5s;
   background-color: rgba(255, 255, 255, .99); /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 5px; /* Place content 60px from the top */
@@ -260,26 +264,22 @@ h1 {
 
 /* ALERT SIDE MENU */
 .sidebaralert {
-  height: 50%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
+  border-radius: 0px 30px 30px 0px;
+  height: 400px; /* 100% Full-height */
+  width: 200px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   top: 150px;
+  left: -200px;
+  transition: left .5s; 
   z-index: 1;
-  top: 50;
-  left: 0;
-  background-color: #111; /* Black*/
+  background-color: rgba(0, 0, 0, 0.7);
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
 }
 /* The sidebar links */
 .sidebaralert a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
-  transition: 0.3s;
 }
 /* When you mouse over the navigation links, change their color */
 .sidebaralert a:hover {
@@ -287,40 +287,30 @@ h1 {
 }
 /* Position and style the close button (top right corner) */
 .sidebaralert .closebtn {
-  position: absolute;
-  top: 0;
-  right: 0px;
+  position: relative;
+  left: 10px;
+  top: 10px;
   font-size: 20px;
-  margin-left: 0px;
+  color: #919191;
 }
 /* The button used to open the sidebar */
 .openbtnalert {
+  display: none;
+  border-radius: 30px 30px 30px 30px;
   font-size: 20px;
+  position: fixed;
+  top: 150px;
+  left: 10px;
+  transition: left .5s;
+
   cursor: pointer;
-  background-color: #111;
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 10px 10px;
   border: none;
-  position: fixed;
-  top: 150px;
 }
 .openbtnalert:hover {
   background-color: #444;
-}
-
-
-
-
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#maininit {
-  transition: margin-left .5s; /* If you want a transition effect */
-  padding: 10px;
-}
-#mainalert {
-  transition: margin-left .5s; /* If you want a transition effect */
-  padding: 10px;
-  display:none;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
