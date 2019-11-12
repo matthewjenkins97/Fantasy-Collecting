@@ -51,7 +51,7 @@ export async function conductTrade(buyer, seller, offer) {
 
 
   else {
-    fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {
+    fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offer}`, {
       method: 'put',
       mode: 'cors',
       headers: {

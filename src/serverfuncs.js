@@ -257,9 +257,9 @@ async function sendFormToAdmin() {
     },
     body: JSON.stringify(
         {approved: true})
-  }).then(function (res) {
+  }).then(async function (res) {
     console.log(res);
-    var offers = await fetch(apiURL + '/tradedetails/' + tradeid);
+    var offers = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
     offers = await offers.json();
     offers = JSON.parse(JSON.stringify(offers))['0'];
     console.log(offers);
