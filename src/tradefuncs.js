@@ -2,8 +2,7 @@ function checkOfferType(offer) {
   return /^\d+$/.test(offer);
 }
 
-async function conductTrade(buyer, seller, offer) {
-
+export async function conductTrade(buyer, seller, offer) {
 
   // change current owner of painting to buyer
   if(checkOfferType(offer)) {
@@ -15,7 +14,7 @@ async function conductTrade(buyer, seller, offer) {
     buyerBody = await buyerBody.json();
     buyerBody = buyerBody[0];
     buyerBody.guilders -= offer;
-    buyerBody.numofpaintings += 1;
+    // buyerBody.numofpaintings += 1;
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
       method: 'put',
       mode: 'cors',
@@ -35,8 +34,8 @@ async function conductTrade(buyer, seller, offer) {
     sellerBody = await sellerBody.json();
     sellerBody = sellerBody[0];
     sellerBody.guilders += offer;
-    sellerBody.microresearchpoints += 10;
-    sellerBody.numofpaintings -= 1;
+    // sellerBody.microresearchpoints += 10;
+    // sellerBody.numofpaintings -= 1;
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
       method: 'put',
       mode: 'cors',
@@ -67,21 +66,21 @@ async function conductTrade(buyer, seller, offer) {
   }
 
   // post transaction to history
-  let historyBody = {
-    'identifier': artwork,
-    'seller': seller,
-    'buyer': buyer,
-    'price': offer,
-    'timestamp': new Date,
-  };
-  fetch(`http://fantasycollecting.hamilton.edu/api/history/`, {
-    method: 'post',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(historyBody),
-  }).then((res) => {
-    console.log(res)
-  });
+  // let historyBody = {
+  //   'identifier': artwork,
+  //   'seller': seller,
+  //   'buyer': buyer,
+  //   'price': offer,
+  //   'timestamp': new Date,
+  // };
+  // fetch(`http://fantasycollecting.hamilton.edu/api/history/`, {
+  //   method: 'post',
+  //   mode: 'cors',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(historyBody),
+  // }).then((res) => {
+  //   console.log(res)
+  // });
 }

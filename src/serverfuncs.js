@@ -1,6 +1,7 @@
 import * as tradeFuncs from './components/tradewindow.js';
 import React from 'react';
 import {MD5} from './md5';
+import {conductTrade} from './tradefuncs';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
@@ -49,7 +50,7 @@ const tradeCheck = coroutine(function* () {
   }
 });
 
-setInterval(tradeCheck, 5000);
+setInterval(tradeCheck, 2000);
 
 const itemCheck = coroutine(function* () {
   while (true) {
@@ -196,7 +197,7 @@ async function initiateTrade(user) {
         sellerapproved: false})
   }).then(function (res) {
     console.log("trade requested sent to "+user);
-    RESPONSE_INTERVAL_REF = setInterval(responseCheck, 5000);
+    RESPONSE_INTERVAL_REF = setInterval(responseCheck, 2000);
   })
 }
 
@@ -247,7 +248,7 @@ function finalizeAsBuyer(check) {
   })
 }
 
-function sendFormToAdmin() {
+async function sendFormToAdmin() {
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
@@ -258,7 +259,13 @@ function sendFormToAdmin() {
         {approved: true})
   }).then(function (res) {
     console.log(res);
-    clearInterval(ITEM_INTERVAL_REF);
+    var offers = await fetch(apiURL + '/tradedetails/' + tradeid);
+    offers = await offers.json();
+    offers = JSON.parse(JSON.stringify(offers))['0'];
+    console.log(offers);
+    for(var offer in offers) {
+      conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
+    }
   }); 
 }
 
