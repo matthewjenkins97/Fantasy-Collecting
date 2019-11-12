@@ -64,7 +64,7 @@ export default class Login extends React.Component{
 
   redirectToPage() {
     if (this.state.gotoadmin) {
-      return <Redirect to='/table' />
+      return <Redirect to='/admin' />
     }
     else {
       return <Redirect to='/gallery' />
