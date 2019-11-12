@@ -38,9 +38,9 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          {/* <MenuItem onClick={handleClose}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Table</Link></MenuItem> */}
-          <MenuItem onClick={handleClose}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
-          {/* <MenuItem onClick={handleClose}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem> */}
+          <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Table</Link></MenuItem>
+          <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
+          <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
           {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
           {/* <MenuItem><ChatComponent /></MenuItem> */}
