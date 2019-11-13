@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ArtworkInfo extends React.Component {
+export default class History extends React.Component {
   constructor(props) {
     super(props);
   }

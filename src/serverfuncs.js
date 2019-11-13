@@ -401,7 +401,8 @@ async function isAdmin(user) {
   const users = JSON.parse(JSON.stringify(myJson));
   for(var u in users) {
     if(users[u].username === user) {
-      return u.admin;
+      return (users[u].admin === 1);
+      // return users[u].admin;
     }
   }
 }
