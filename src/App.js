@@ -36,6 +36,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 )
 
+const AdminRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    ((localStorage.getItem('username') !== null) &&
+    (serverfuncs.isAdmin(localStorage.getItem('username'))))
+    ? <Component {...props} />
+    : <Redirect to='/gallery' />
+  )} />
+)
+
 class Home extends Component  {
 
   constructor(props){
@@ -79,11 +88,11 @@ class Home extends Component  {
             <Switch>
               <Route exact path="/"  component={Login} /> 
               <PrivateRoute path="/tradeoption" component={TradeOption}/> 
-               <PrivateRoute path="/table" component={Table} />
-              <PrivateRoute path="/arttable" component={ArtTable} />
+               <AdminRoute path="/table" component={Table} />
+              <AdminRoute path="/arttable" component={ArtTable} />
               <PrivateRoute path="/gallery" component={MainPage} />
               <PrivateRoute path="/auction" component={Auction} />
-            <PrivateRoute path="/admin" component={AdminPage}/> 
+              <PrivateRoute path="/admin" component={AdminPage}/> 
               <Route exact path="/404notfound" component={ErrorPage}/>
               <Redirect to="/404notfound"/>
             </Switch>
