@@ -8,7 +8,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
-import { View } from 'react-native'
+import { View } from 'react-native';
+import * as serverfuncs from '../serverfuncs.js';
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +36,7 @@ function SimpleMenu() {
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}><Link to="/admin" style={{color: "#000000", textDecoration: "none"}}>Admin Homepage</Link></MenuItem>
-          {/* <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem> */}
+          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
         </Menu>
       </div>
     );
