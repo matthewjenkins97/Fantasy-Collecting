@@ -217,7 +217,7 @@ img:after {
 
 /* When you mouse over the navigation links, change their color */
 .tradewin a:hover {
-  color: #f1f1f1;
+  color: #52759cf1;
 }
 /* Position and style the close button (top right corner) */
 .tradewin .closebtn {
@@ -283,7 +283,7 @@ h1 {
 }
 /* When you mouse over the navigation links, change their color */
 .sidebaralert a:hover {
-  color: #f1f1f1;
+  color: #52759cf1;
 }
 /* Position and style the close button (top right corner) */
 .sidebaralert .closebtn {

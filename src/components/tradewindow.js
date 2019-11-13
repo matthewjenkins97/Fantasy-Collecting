@@ -251,7 +251,7 @@ class TradeWindow extends React.PureComponent {
 
 
       <div class = "addg">
-        <a>AddGuilders</a>
+        <a onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>AddGuilders</a>
         <input id = "addguilders" type = "number"/>
 
         <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks

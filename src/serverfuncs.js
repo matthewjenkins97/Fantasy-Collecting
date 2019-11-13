@@ -140,7 +140,7 @@ function removeItemsFromTrade() {
   })
 }
 
-function addGuildersToTrade(guilders, user) {
+function addGuildersToTrade(guilders) {
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'post',
     mode: 'cors',
@@ -148,12 +148,12 @@ function addGuildersToTrade(guilders, user) {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {buyer: localStorage.getItem('username'),
-        seller: user,
+        {tradeid: CURRENT_TRADE_ID,
+        buyer: CURRENT_TRADE_USER,
+        seller: localStorage.getItem('username'),
         offer: guilders,
         approved: false})
   }).then(function (res) {
-    FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
     console.log(res);
   })
 }
