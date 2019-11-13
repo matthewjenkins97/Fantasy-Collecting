@@ -8,6 +8,7 @@ var rows = [];
 var read = false;
 
 var stateBeg = {columns: [
+      { title: 'Identifier', field: 'identifier' },
       { title: 'Title', field: 'title' },
       { title: 'Artist', field: 'artist' },
       { title: 'Year', field: 'year', type: 'numeric'},
@@ -88,7 +89,7 @@ export default class ArtworkTable extends React.Component {
                 });
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                serverfuncs.deleteArtwork(oldData.title);
+                serverfuncs.deleteArtwork(oldData.identifier);
               }, 600);
             }),
         }}
