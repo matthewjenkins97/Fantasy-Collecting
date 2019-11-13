@@ -513,7 +513,7 @@ async function createArtwork(artwork) {
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof artworkInDB === 'undefined') {
     console.log(artwork);
-    fetch(apiURL + '/users/', {
+    fetch(apiURL + '/artworks/', {
       method: 'post',
       mode: 'cors',
       headers: {
