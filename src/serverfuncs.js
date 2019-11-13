@@ -6,7 +6,7 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
 export {updateArtwork, deleteArtwork, getArtworkInfo,
-  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, createArtwork, checkForTrade, updateUserData, deleteUser, initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin, isAdmin};
+  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, createArtwork, checkForTrade, updateUserData, deleteUser, initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin, isAdmin, getHistory};
 /*
 
 
@@ -489,25 +489,6 @@ function deleteUser(username) {
 
 */
 
-// function testlog() {
-//   console.log('binlog test');
-// }
-
-// async function updateArtworkData(data) {
-//   fetch(apiURL + '/artworks/'+data.identifier, {
-//     method: 'put',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(
-//         {username: data.identifier,
-//         })
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
-
 async function createArtwork(artwork) {
   //const stringName = localStorage.getItem('username');
   const response = await fetch(apiURL + '/artworks/' + artwork.identifier);
@@ -584,63 +565,54 @@ async function getArtworkInfo(art) {
   return artwork;
 }
 
-// function putArtworkInfo() {
-//     fetch(apiURL + '/artworks/monalisa', {
+// async function makeTrade() {
+//   const response = await fetch(apiURL + '/users/dholley');
+//   const myJson = await response.json();
+//   const student = JSON.parse(JSON.stringify(myJson))['0'];
+
+//   student.guilders -= 0; //value entered to give 
+//   student.guilders += 0; //value entered to recieve
+
+//   const artworks = ["monalisa", "starrynight"] ;
+
+//   for (const artwork in artworks) {
+//       fetch(apiURL + '/owners/'+artwork, {
 //         method: 'put',
 //         mode: 'cors',
 //         headers: {
-//             'Content-Type': 'application/json'
+//           'Content-Type': 'application/json'
 //         },
-//         body: JSON.stringify(
-//             { title : 'Mona Lisa',
-//                 artist: 'leo',
-//                 year: 1500,
-//                 theoreticalprice: 100,
-//                 actualprice: 150,
-//                 hidden: true,
-//                 owner: 'dholley',
-//                 url: "none"   
-//             })
-//     }).then(function (res) {
+//         body: {
+//           name: 'monalisa',
+//           owner: 'dholley'
+//         },
+//       }).then(function(res) {
 //         console.log(res);
-//     })
+//       })
+//   }
+//   fetch(apiURL + '/artworks/dholley', {
+//     method: 'put',
+//     mode: 'cors',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: student,
+//   }).then(function(res) {
+//     console.log(res);
+//   })
 // }
 
-async function makeTrade() {
-  const response = await fetch(apiURL + '/users/dholley');
+
+/*
+
+            HISTORY MANAGEMENT FUNCS
+
+*/
+
+async function getHistory(artwork) {
+  //console.log("getting all users");
+  const response = await fetch(apiURL + '/history/' + artwork);
   const myJson = await response.json();
-  const student = JSON.parse(JSON.stringify(myJson))['0'];
-
-  student.guilders -= 0; //value entered to give 
-  student.guilders += 0; //value entered to recieve
-
-  const artworks = ["monalisa", "starrynight"] ;
-
-  for (const artwork in artworks) {
-      fetch(apiURL + '/owners/'+artwork, {
-        method: 'put',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: {
-          name: 'monalisa',
-          owner: 'dholley'
-        },
-      }).then(function(res) {
-        console.log(res);
-      })
-  }
-  fetch(apiURL + '/artworks/dholley', {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: student,
-  }).then(function(res) {
-    console.log(res);
-  })
+  const history = JSON.parse(JSON.stringify(myJson));
+  return history;
 }
-
-
