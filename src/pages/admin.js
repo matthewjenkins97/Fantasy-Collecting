@@ -8,6 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import { View } from 'react-native'
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -54,30 +55,27 @@ const AdminPage = () => {
                 <br />
                 <Typography variant="h3" color="inherit" align="center">Hello, Professor!</Typography>
                 <br />
-                <div style={{margin: 'auto', width: 200}}>
-                  <Button variant="contained" 
-                    color="primary"
-                    style={{marginTop: 10, marginBottom: 20}}
-                    onClick={() => ("going to user table")}
-                    >Show Users
-                  </Button>
-                </div>
-                <div style={{margin: 'auto', width: 200}}>
-                  <Button variant="contained" 
-                    color="primary"
-                    style={{marginTop: 10, marginBottom: 20}}
-                    onClick={() => ("going to artworks table")}
-                    >Show Artworks 
-                  </Button>
-                </div>
-                <div style={{margin: 'auto', width: 200}}>
-                  <Button variant="contained" 
-                    color="primary"
-                    style={{marginTop: 10, marginBottom: 20}}
-                    onClick={() => ("going to auction")}
-                    >Create Auction
-                  </Button>
-                </div >
+                <View style={{paddingLeft: '25%', paddingRight: '25%', flexDirection: 'column', justifyContent: 'center'}}>
+                    <Button variant="contained" 
+                      color="primary"
+                      style={{marginTop: 10, marginBottom: 20}}
+                      ><Link style={{color: '#ffffff'}} to="/table">Show Users</Link>
+                    </Button>
+                    <Button variant="contained" 
+                      color="primary"
+                      style={{marginTop: 10, marginBottom: 20}}
+                      ><Link style={{color: '#ffffff'}} to="/arttable">Show Artworks</Link>
+                    </Button>
+                    <Button variant="contained" 
+                      color="primary"
+                      style={{marginTop: 10, marginBottom: 20}}
+                      ><Link style={{color: '#ffffff'}} to="/arttable">Show Incoming Trades</Link>
+                    </Button>
+                    <Button variant="contained" 
+                      color="primary"
+                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff'}} to="/auction">Create Auction</Link>
+                    </Button>
+                </View>
             </div>
         )
 }

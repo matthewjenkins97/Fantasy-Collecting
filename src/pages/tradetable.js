@@ -1,7 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Auction from "../components/auction";
-import Table from "../components/artworktable";
+import Table from "../components/newtable";
+import ChatComponent from "../components/ChatMessage";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -9,8 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ArtTable from "../components/artworktable";
 import { Link } from "react-router-dom";
-import * as serverfuncs from "../serverfuncs";
+import * as serverfuncs from '../serverfuncs';
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,19 +36,20 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link to="/gallery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>
-          <MenuItem onClick={handleClose}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>View All Users</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/gllery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>
           <MenuItem onClick={handleClose}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
+          {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
         </Menu>
       </div>
     );
   }
 
-const AuctionPage = () => {
-    return(
-        <div>
-            <AppBar position="static">
+const TablePage = () => {
+        return(
+            <div>
+                <AppBar position="static">
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -56,15 +57,10 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-            <Auction />
-            {/* <h1>Login</h1>
-            username:<input type = 'text' id = 'liusername'></input>
-            <p></p>password:<input type = 'text' id = 'lipassword'></input>
-            <p></p><button onClick = {serverfuncs.logInUser}>log in</button>
-            <p></p><button onClick = {serverfuncs.logOutUser}>log out</button> */}
-        </div>
-    )
-
+                <Table />
+            </div>
+        )
+    
 }
 
-export default AuctionPage
+export default TablePage

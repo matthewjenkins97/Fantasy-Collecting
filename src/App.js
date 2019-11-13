@@ -22,10 +22,19 @@ import AdminPage from './pages/admin'
 
 import { default as Chatkit } from '@pusher/chatkit-server';
 
+//serverfuncs.isAdmin(localStorage.getItem('username'))) === true
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
 })
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    (localStorage.getItem('username') !== null)
+    ? <Component {...props} />
+    : <Redirect to='/' />
+  )} />
+)
 
 class Home extends Component  {
 
@@ -68,14 +77,14 @@ class Home extends Component  {
         <div>
           <Router>
             <Switch>
-              <Route exact path="/"  component={Login} />
-              <Route exact path="/tradeoption" component={TradeOption}/>
-              <Route exact path="/table" component={Table} />
-              <Route exact path="/arttable" component={ArtTable} />
-              <Route exact path="/gallery" component={MainPage} />
-              <Route exact path="/auction" component={Auction} />
+              <Route exact path="/"  component={Login} /> 
+              <PrivateRoute path="/tradeoption" component={TradeOption}/> 
+               <PrivateRoute path="/table" component={Table} />
+              <PrivateRoute path="/arttable" component={ArtTable} />
+              <PrivateRoute path="/gallery" component={MainPage} />
+              <PrivateRoute path="/auction" component={Auction} />
+            <PrivateRoute path="/admin" component={AdminPage}/> 
               <Route exact path="/404notfound" component={ErrorPage}/>
-              <Route exact path="/admin" component={AdminPage}/>
               <Redirect to="/404notfound"/>
             </Switch>
           </Router>
