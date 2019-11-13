@@ -14,8 +14,8 @@ var stateBeg = {columns: [
       { title: 'Theoretical Price', field: 'theoreticalprice', type: 'numeric' },
       { title: 'Actual Price', field: 'actualprice', type: 'numeric'},
       { title: 'Hidden', field: 'hidden'},
-      { title: 'Owner', field: 'owners' },
-      { title: 'Url', field: 'url' },
+      { title: 'Owner', field: 'owner' },
+      { title: 'URL', field: 'url' },
     ],
     data: rows,
 }
@@ -62,7 +62,7 @@ export default class ArtworkTable extends React.Component {
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                serverfuncs.createUser(newData);
+                serverfuncs.createArtwork(newData);
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
@@ -76,7 +76,7 @@ export default class ArtworkTable extends React.Component {
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                serverfuncs.updateUserData(newData);
+                serverfuncs.updateArtwork(newData);
               }, 600);
             }),
           onRowDelete: oldData =>
@@ -88,7 +88,7 @@ export default class ArtworkTable extends React.Component {
                 });
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                serverfuncs.deleteUser(oldData.title);
+                serverfuncs.deleteArtwork(oldData.title);
               }, 600);
             }),
         }}

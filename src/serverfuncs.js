@@ -5,14 +5,8 @@ import {conductTrade} from './tradefuncs';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
-export {getArtworkInfo, putArtworkInfo, deleteArtworkInfo,
-  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, 
-  createArtwork, updateUserData, deleteUser, 
-  
-  initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID,
-  addGuildersToTrade,
-  addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-isAdmin};
+export {updateArtwork, deleteArtwork, getArtworkInfo,
+  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, createArtwork, checkForTrade, updateUserData, deleteUser, initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin, isAdmin};
 /*
 
 
@@ -437,10 +431,12 @@ async function updateUserData(data) {
     },
     body: JSON.stringify(
         {username: data.username,
+        hash: MD5(data.password),
         name: data.name,
+        admin: false,
         guilders: data.money,
-        microresearchpoints: data.kudos,
-        numofpaintings: data.artworks,})
+        microresearchpoints: data.microresearchpoints,
+        numofpaintings: data.artworks})
   }).then(function (res) {
     console.log(res);
   })
@@ -461,11 +457,11 @@ async function createUser(user) {
       },
       body: JSON.stringify(
           {username: user.username,
-            hash: MD5('password'),
+            hash: MD5(user.password),
             name: user.name,
             admin: false,
             guilders: user.money,
-            microresearchpoints: user.kudos,
+            microresearchpoints: user.microresearchpoints,
             numofpaintings: user.artworks,
           }),
     }).then(function(res) {
@@ -495,31 +491,76 @@ function deleteUser(username) {
 //   console.log('binlog test');
 // }
 
-function createArtwork(artwork) {
-  fetch(apiURL + '/artworks/', {
-    method: 'post',
+// async function updateArtworkData(data) {
+//   fetch(apiURL + '/artworks/'+data.identifier, {
+//     method: 'put',
+//     mode: 'cors',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(
+//         {username: data.identifier,
+//         })
+//   }).then(function (res) {
+//     console.log(res);
+//   })
+// }
+
+async function createArtwork(artwork) {
+  //const stringName = localStorage.getItem('username');
+  const response = await fetch(apiURL + '/artworks/' + artwork.identifier);
+  const myJson = await response.json();
+  const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
+  if (typeof artworkInDB === 'undefined') {
+    console.log(artwork);
+    fetch(apiURL + '/users/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+          {identifier: artwork.identifier,
+          title: artwork.title,
+          artist: artwork.artist,
+          year: artwork.year,
+          theoreticalprice: artwork.theoreticalprice,
+          actualprice: artwork.actualprice,
+          hidden: artwork.hidden,
+          owner: artwork.owner,
+          url: artwork.url
+          }),
+    }).then(function(res) {
+      console.log(res);
+    })
+  } else {
+    console.log('Artwork already exists.');
+  }
+}
+
+async function updateArtwork(data) {
+  fetch(apiURL + '/artworks/'+data.identifier, {
+    method: 'put',
     mode: 'cors',
     headers: {
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
     },
     body: JSON.stringify(
-        {title: document.getElementById(artwork+'title').value,
-          artist: document.getElementById(artwork+'artist').value,
-          year: document.getElementById(artwork+'year').value,
-          theoreticalprice: parseInt(
-              document.getElementById(artwork+'theoretical').value),
-          actualprice: parseInt(document.getElementById(artwork+'actual').value),
-          hidden: document.getElementById(artwork+'hidden').checked,
-          owner: document.getElementById(artwork+'owner').value,
-          url: document.getElementById(artwork+'url').value,
-        }),
-  }).then(function(res) {
+        {title: data.title,
+        artist: data.artist,
+        year: data.year,
+        theoreticalprice: data.theoreticalprice,
+        actualprice: data.actualprice,
+        hidden: data.hidden,
+        owner: data.owner,
+        url: data.url,})
+  }).then(function (res) {
     console.log(res);
   })
 }
 
-function deleteArtworkInfo() {
-  fetch(apiURL + '/artworks/monalisa', {
+function deleteArtwork(artwork) {
+  fetch(apiURL + '/artworks/'+artwork, {
     method: 'delete',
     mode: 'cors',
   }).then(function(res) {
@@ -541,27 +582,27 @@ async function getArtworkInfo(art) {
   return artwork;
 }
 
-function putArtworkInfo() {
-    fetch(apiURL + '/artworks/monalisa', {
-        method: 'put',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            { title : 'Mona Lisa',
-                artist: 'leo',
-                year: 1500,
-                theoreticalprice: 100,
-                actualprice: 150,
-                hidden: true,
-                owner: 'dholley',
-                url: "none"   
-            })
-    }).then(function (res) {
-        console.log(res);
-    })
-}
+// function putArtworkInfo() {
+//     fetch(apiURL + '/artworks/monalisa', {
+//         method: 'put',
+//         mode: 'cors',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(
+//             { title : 'Mona Lisa',
+//                 artist: 'leo',
+//                 year: 1500,
+//                 theoreticalprice: 100,
+//                 actualprice: 150,
+//                 hidden: true,
+//                 owner: 'dholley',
+//                 url: "none"   
+//             })
+//     }).then(function (res) {
+//         console.log(res);
+//     })
+// }
 
 async function makeTrade() {
   const response = await fetch(apiURL + '/users/dholley');
