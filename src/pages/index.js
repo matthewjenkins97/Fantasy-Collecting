@@ -60,6 +60,7 @@ const MainPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <Button onClick={() => {console.log(localStorage.getItem('username'))}}>click</Button>
                 <Button style={{position: 'fixed'}}><ChatComponent /></Button>
                 <Homepage />
             </div>

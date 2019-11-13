@@ -30,7 +30,7 @@ const chatkit = new Chatkit({
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    (((typeof localStorage.getItem('username')) !== 'undefined') === true)
+    (localStorage.getItem('username') !== null)
     ? <Component {...props} />
     : <Redirect to='/' />
   )} />
