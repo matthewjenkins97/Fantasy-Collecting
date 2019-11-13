@@ -53,6 +53,7 @@ export default class Login extends React.Component{
     } else {
       console.log('login successful');
       localStorage.setItem('username', document.getElementById('liusername').value);
+      localStorage.setItem('admin', student.admin);
       if (student.admin === 1) {
         this.setState({gotoadmin: true});
       } else {
