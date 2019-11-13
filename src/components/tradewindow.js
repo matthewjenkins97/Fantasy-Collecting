@@ -101,12 +101,17 @@ async function expandArtworks() {
 
 var totalTradeItems = 0;
 var itemImages = [];
+var itemGuilders = []
 
 // function for adding current trade items to trade fields
 
 async function populateUserTradeFields(items) {
+  itemGuilders = [];
   itemImages = [];
   for(var item in items) {
+    if(/^\d+$/.test(items[item].offer)) {
+      itemGuilders.push([items[item].offer, items[item].buyer]);
+    }
     itemImages.push(await serverfuncs.getArtworkInfo(items[item].offer));
   }
   for(var i = 0; i < totalTradeItems; i++) {

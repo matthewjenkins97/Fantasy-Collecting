@@ -136,7 +136,7 @@ function removeItemsFromTrade() {
 
 function addGuildersToTrade(guilders) {
   console.log(guilders);
-  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+  fetch(apiURL + '/tradedetails/', {
     method: 'post',
     mode: 'cors',
     headers: {
