@@ -516,25 +516,6 @@ function deleteUser(username) {
 
 */
 
-// function testlog() {
-//   console.log('binlog test');
-// }
-
-// async function updateArtworkData(data) {
-//   fetch(apiURL + '/artworks/'+data.identifier, {
-//     method: 'put',
-//     mode: 'cors',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(
-//         {username: data.identifier,
-//         })
-//   }).then(function (res) {
-//     console.log(res);
-//   })
-// }
-
 async function createArtwork(artwork) {
   //const stringName = localStorage.getItem('username');
   const response = await fetch(apiURL + '/artworks/' + artwork.identifier);
@@ -612,3 +593,10 @@ async function getArtworkInfo(art) {
 }
 
 
+async function getHistory(artwork) {
+  //console.log("getting all users");
+  const response = await fetch(apiURL + '/history/' + artwork);
+  const myJson = await response.json();
+  const history = JSON.parse(JSON.stringify(myJson));
+  return history;
+}
