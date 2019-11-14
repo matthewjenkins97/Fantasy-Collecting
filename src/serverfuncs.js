@@ -6,7 +6,12 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
 export {updateArtwork, deleteArtwork, getArtworkInfo,
-  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks, createArtwork, checkForTrade, updateUserData, deleteUser, initiateTrade, acceptTrade, declineTrade, cancelTrade, setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade, removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin, isAdmin};
+  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks,
+  createArtwork, checkForTrade, updateUserData, deleteUser,
+  initiateTrade, acceptTrade, declineTrade, cancelTrade,
+  setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
+  removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
+  isAdmin};
 /*
 
 
@@ -72,7 +77,7 @@ async function checkForFinalize() {
   const myJson = await response.json();
   const trade = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof trade === 'undefined') {
-    clearInterval(RESPONSE_INTERVAL_REF);
+    clearIntervals();
     tradeFuncs.closeTrade();
     return;
   }
@@ -82,7 +87,6 @@ async function checkForFinalize() {
     tradeFuncs.closeTrade();
     if(trade.buyer == localStorage.getItem('username')) {
       sendFormToAdmin();
-      cancelTrade();
     }
   }
 }
@@ -95,7 +99,7 @@ async function updateItems() {
     console.log("TRADE CANELLED");
     clearInterval(ITEM_INTERVAL_REF);
     tradeFuncs.closeTrade();
-    cancelTrade();
+    clearIntervals();
     return;
   }
   const items = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
@@ -134,8 +138,19 @@ function removeItemsFromTrade() {
   })
 }
 
-function addGuildersToTrade(guilders) {
-  console.log(guilders);
+async function userHasEnough(name, guilders) {
+  var info = await fetch(apiURL + '/users/'+name);
+  info = await info.json();
+  info = JSON.parse(JSON.stringify(info))['0'];
+  console.log(info);
+  return parseInt(info.guilders) >= parseInt(guilders);
+}
+
+async function addGuildersToTrade(guilders) {
+  if(!(await userHasEnough(localStorage.getItem("username"), guilders))){
+    return;
+  }
+  document.getElementById("addguilders").value = "";
   fetch(apiURL + '/tradedetails/', {
     method: 'post',
     mode: 'cors',
@@ -211,11 +226,13 @@ async function checkForResponse() {
   if (typeof trade === 'undefined') {
     console.log("TRADE WAS CANCELLED");
     clearInterval(RESPONSE_INTERVAL_REF);
+    document.getElementById("ldsanim").style.display = "none";
+    document.getElementById("maininit").innerHTML = "trade";
     return;
   }
   if(trade.sellerinit == true) {
     CURRENT_TRADE_USER = trade.seller;
-    tradeFuncs.openTrade(false);
+    tradeFuncs.openTrade(false, CURRENT_TRADE_USER);
     clearInterval(RESPONSE_INTERVAL_REF);
     ITEM_INTERVAL_REF = setInterval(itemCheck, 1000);
   }
@@ -258,10 +275,9 @@ async function sendFormToAdmin() {
     offers = await offers.json();
     offers = JSON.parse(JSON.stringify(offers));
     for(var offer in offers) {
-      console.log("CONDUCTING TRADE");
-      console.log(offers[offer]);
-      conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
+      await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
     }
+    cancelTrade();
   }); 
 }
 
@@ -284,12 +300,10 @@ async function checkForTrade() {
     }
   }
   if(theTrades.length > 0) {
-    console.log("MATCHED FOR TRADE")
     document.getElementById("mainalert").style.display = 'block';
     tradeFuncs.addTrades(theTrades);
   }
   else {
-    console.log('no trade');
     tradeFuncs.addTrades(theTrades);
   }
 }
@@ -334,6 +348,19 @@ function cancelTrade() {
   }).then(function (res) {
     console.log(res);
   });
+  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+  clearIntervals();
+}
+
+function clearIntervals() {
   clearInterval(FINALIZE_INTERVAL_REF);
   clearInterval(RESPONSE_INTERVAL_REF);
   clearInterval(ITEM_INTERVAL_REF);
@@ -582,65 +609,6 @@ async function getArtworkInfo(art) {
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
   console.log(artwork);
   return artwork;
-}
-
-// function putArtworkInfo() {
-//     fetch(apiURL + '/artworks/monalisa', {
-//         method: 'put',
-//         mode: 'cors',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(
-//             { title : 'Mona Lisa',
-//                 artist: 'leo',
-//                 year: 1500,
-//                 theoreticalprice: 100,
-//                 actualprice: 150,
-//                 hidden: true,
-//                 owner: 'dholley',
-//                 url: "none"   
-//             })
-//     }).then(function (res) {
-//         console.log(res);
-//     })
-// }
-
-async function makeTrade() {
-  const response = await fetch(apiURL + '/users/dholley');
-  const myJson = await response.json();
-  const student = JSON.parse(JSON.stringify(myJson))['0'];
-
-  student.guilders -= 0; //value entered to give 
-  student.guilders += 0; //value entered to recieve
-
-  const artworks = ["monalisa", "starrynight"] ;
-
-  for (const artwork in artworks) {
-      fetch(apiURL + '/owners/'+artwork, {
-        method: 'put',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: {
-          name: 'monalisa',
-          owner: 'dholley'
-        },
-      }).then(function(res) {
-        console.log(res);
-      })
-  }
-  fetch(apiURL + '/artworks/dholley', {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: student,
-  }).then(function(res) {
-    console.log(res);
-  })
 }
 
 

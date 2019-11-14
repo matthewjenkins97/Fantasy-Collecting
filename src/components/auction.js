@@ -30,9 +30,13 @@ class Auction extends React.Component{
                 <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
 
                 <div style={{margin: 20,  }}>
-                <form>  Username: <input type="text" name="fname"></input><br></br>
+                {/* <form>  Username: <input type="text" name="fname"></input><br></br> */}
                 Bid: <input type="text" name="lname"></input><br></br>
-                <Button size="small" variant="contained" color="primary" type="submit" value="Submit">Submit Bid</Button></form>
+                <Button size="small" variant="contained" color="primary" type="submit" value="Submit">Submit Bid</Button>
+                <br></br>
+                <br></br>
+                <a>Current Highest Bidder:</a><br></br><a>N/A</a>
+                {/* </form> */}
                 </div>
               <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
               </div>

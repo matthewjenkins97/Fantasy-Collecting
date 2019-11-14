@@ -25,13 +25,17 @@ window.onbeforeunload = function (e) {
   return message;
 };
 
-/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
 function openNav() {
   document.getElementById("tradeinit").style.left = "0px";
   document.getElementById("maininit").style.left = "210px";
+
+  if(document.getElementById("maininit").innerHTML.toString() == "cancel") {
+    serverfuncs.cancelTrade();
+    document.getElementById("ldsanim").style.display = "none";
+    document.getElementById("maininit").innerHTML = "trade";
+  }
 }
 
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeNav() {
   document.getElementById("tradeinit").style.left = "-200px";
   document.getElementById("maininit").style.left = "10px";
@@ -42,18 +46,22 @@ function openalert() {
   document.getElementById("mainalert").style.left = "210px";
 }
 
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closealert() {
   document.getElementById("tradealert").style.left = "-200px";
   document.getElementById("mainalert").style.left = "10px";
 }
 
-function openTrade(isReceiving) {
+function openTrade(isReceiving, other) {
   document.getElementById("tradewindow").style.left = "0%";
-  receivingRequest = isReceiving
+  receivingRequest = isReceiving;
+  document.getElementById("otheritems").innerHTML = other;
+  document.getElementById("localitems").innerHTML = localStorage.getItem("username");
+
+  // if initiated trade, reset button
+  document.getElementById("ldsanim").style.display = "none";
+  document.getElementById("maininit").innerHTML = "trade";
 }
 
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
 function closeTrade() {
   document.getElementById("tradewindow").style.left = "-100%";
   document.getElementById("localtconfirm").checked = false;
@@ -73,6 +81,8 @@ async function expandUsers() {
     buttonnode.onclick = function() { 
       serverfuncs.initiateTrade(this.innerHTML);
       closeNav();
+      document.getElementById("ldsanim").style.display = "inline-block";
+      document.getElementById("maininit").innerHTML = "cancel";
     }
     document.getElementById("tradeusers").appendChild(buttonnode);
   }
@@ -82,7 +92,10 @@ async function expandUsers() {
 // funtion that displays artworks user can add to the trade
 var ARTWORKS_READ = false;
 async function expandArtworks() {
-  if(ARTWORKS_READ) return;
+  if(ARTWORKS_READ) {
+    document.getElementById("tradeartworks").style.height = "70px";
+    return;
+  }
   var artList = await serverfuncs.getAllArtworks();
   for(var art in artList) {
     if(artList[art].owner == localStorage.getItem('username')) {
@@ -91,27 +104,23 @@ async function expandArtworks() {
       buttonnode.innerHTML = artList[art].identifier;
       buttonnode.onclick = function() {
         serverfuncs.addArtworkToTrade(this.innerHTML.toString());
+        document.getElementById("tradeartworks").style.height = "0px";
       }
       document.getElementById("tradeartworks").appendChild(buttonnode);
     }
   }
-  document.getElementById("tradeartworks").style.height = "100px";
+  document.getElementById("tradeartworks").style.height = "70px";
   ARTWORKS_READ = true;
 }
 
 var totalTradeItems = 0;
 var itemImages = [];
-var itemGuilders = []
 
 // function for adding current trade items to trade fields
 
 async function populateUserTradeFields(items) {
-  itemGuilders = [];
   itemImages = [];
   for(var item in items) {
-    if(/^\d+$/.test(items[item].offer)) {
-      itemGuilders.push([items[item].offer, items[item].buyer]);
-    }
     itemImages.push(await serverfuncs.getArtworkInfo(items[item].offer));
   }
   for(var i = 0; i < totalTradeItems; i++) {
@@ -122,28 +131,46 @@ async function populateUserTradeFields(items) {
     catch {
     }
   }
+
+  // reset guilder fields
+
+  document.getElementById("currentlocalg").innerHTML = "guilders:0";
+  document.getElementById("currentotherg").innerHTML = "guilders:0";
+
+  // set trade items
+
   totalTradeItems = 0;
   for(var item in items) {
-    var parentid;
-    if(items[item].buyer == localStorage.getItem('username')) {
-      parentid = "otherartworks";
+    if(/^\d+$/.test(items[item].offer)) {
+      if(items[item].buyer == localStorage.getItem('username')) {
+        document.getElementById("currentotherg").innerHTML = "guilders: "+items[item].offer;
+      }
+      else {
+        document.getElementById("currentlocalg").innerHTML = "guilders: "+items[item].offer;
+      }
     }
     else {
-      parentid = "localartworks";
-    }
-    var textnode = document.createElement("a");
-    textnode.id = "trade_l_t"+item.toString();
-    textnode.innerHTML = items[item].offer;
-    textnode.style.position = 'relative';
-    document.getElementById(parentid).appendChild(textnode);
+      var parentid;
+      if(items[item].buyer == localStorage.getItem('username')) {
+        parentid = "otherartworks";
+      }
+      else {
+        parentid = "localartworks";
+      }
+      var textnode = document.createElement("a");
+      textnode.id = "trade_l_t"+item.toString();
+      textnode.innerHTML = items[item].offer;
+      textnode.style.position = 'relative';
+      document.getElementById(parentid).appendChild(textnode);
 
-    var imagenode = document.createElement("img");
-    imagenode.id = "trade_l_i"+item.toString();
-    imagenode.style.width = "200px";
-    imagenode.style.height= "200px";
-    imagenode.style.position = 'relative';
-    imagenode.src = require("../static/"+itemImages[item].url);
-    document.getElementById(parentid).appendChild(imagenode);
+      var imagenode = document.createElement("img");
+      imagenode.id = "trade_l_i"+item.toString();
+      imagenode.style.width = "200px";
+      imagenode.style.height= "200px";
+      imagenode.style.position = 'relative';
+      imagenode.src = require("../static/"+itemImages[item].url);
+      document.getElementById(parentid).appendChild(imagenode);
+    }
     totalTradeItems++;
   }
 }
@@ -180,7 +207,7 @@ function addTrades(theTrades) {
     buttonnode.onclick = function() {
       serverfuncs.acceptTrade(theTrades[parseInt(this.id[8])].tradeid);
       closealert();
-      openTrade(true);
+      openTrade(true, document.getElementById("trade_n"+this.id[8]).innerHTML);
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
       removeTrade(this.id[8]);
     }
@@ -237,6 +264,7 @@ class TradeWindow extends React.PureComponent {
     
     <div>
     {/* initiate trade window */}
+    <div id = "ldsanim" class="lds-dual-ring"></div>
     <div id="tradeinit" class="sidebarinit">
       <a class="closebtn" onClick={closeNav}>&times;</a>
 
@@ -245,30 +273,30 @@ class TradeWindow extends React.PureComponent {
       <div id = "tradeusers" class="dropdown-content"></div>
     </div>
 
-    <button id="maininit" class="openbtninit" onClick={() => {openNav(); expandUsers();}}>trade</button>
+    <button id="maininit" class="openbtninit" onClick={() => {
+      openNav();
+      expandUsers();}}>trade</button>
 
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
-      <a class="closebtn" onClick={closeTrade}>&times;</a>
+      <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>&times;</a>
 
-      <a id = "localitems" class = "myuser">LOCAL USER</a>
-
+      <a id = "localitems" class = "myuser">My Items</a>
 
 
       <div class = "addg">
-        <a onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>AddGuilders</a>
+        <a>AddGuilders</a>
         <input id = "addguilders" type = "number"/>
-
-        <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks
-          <div id = "tradeartworks" class="dropdown-content-art"/>
-        </div>
-        
+        <button onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>add guilders</button>
       </div>
-      
+
+      <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks(select)
+          <div id = "tradeartworks" class="dropdown-content-art"/>
+      </div>
 
 
       <div id = "localguilders" class = "localg">
-        <a id = "currentlocalg">guilders: 0</a>
+        <a id = "currentlocalg">guilders:0</a>
       </div>
 
       <div id = "localartworks" class = "locala"/>

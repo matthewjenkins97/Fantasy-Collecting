@@ -20,6 +20,7 @@ class Main extends Component  {
     super(props);
     tileData = [];
     this.getTileData();
+    document.body.className = "gallery";
   }
 
   // addTradeWindow(thisclass) {

@@ -1,33 +1,31 @@
-/* img:before { 
+
+.lds-dual-ring {
+  display: none;
+  width: 10px;
+  height: 10px;
+  position: fixed;
+  left: 95px;
+  top: 113px;
+}
+.lds-dual-ring:after {
   content: " ";
   display: block;
-
-  position: absolute;
-  top: -10px;
-  left: 0;
-  height: calc(100% + 10px);
-  width: 100%;
-  background-color: rgb(230, 230, 230);
-  border: 2px dotted rgb(200, 200, 200);
-  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, .7);
+  border-color: rgba(0, 0, 0, .7) transparent rgba(0, 0, 0, .7) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
 }
-
-img:after { 
-  content: "\f127" " Broken Image of " attr(alt);
-  display: block;
-  font-size: 16px;
-  font-style: normal;
-  font-family: FontAwesome;
-  color: rgb(100, 100, 100);
-  
-  position: absolute;
-  top: 5px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-} */
-
-
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /* The sidebar menu */
 .sidebarinit {
@@ -45,14 +43,7 @@ img:after {
   align-content: center;
 }
 /* The sidebar links */
-/* .sidebarinit a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-} */
+
 /* When you mouse over the navigation links, change their color */
 .sidebarinit a:hover {
   color: #52759cf1;
@@ -198,13 +189,14 @@ img:after {
 
 .addg {
   position: relative;
-  left: 35%;
-  top: 2%;
+  left: 5%;
+  top: 68%;
   color: aliceblue;
   z-index: 1;
 }
 
 .addg a {
+  font-size: 12px;
   position: relative;
   align-content: center;
 }
@@ -212,7 +204,12 @@ img:after {
 .addg input {
   position: relative;
   align-content: center;
-  width: 100x;
+  width: 20%;
+}
+
+.addg button {
+  position: relative;
+  align-content: center;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -308,25 +305,34 @@ h1 {
   color: white;
   padding: 10px 10px;
   border: none;
+
+  animation: btn-alert 3s linear infinite;
 }
+
+
 .openbtnalert:hover {
   background-color: #444;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  /* .sidebarinit {padding-top: 15px;}
-  .sidebarinit a {font-size: 18px;}
-  .sidebaralert {padding-top: 15px;}
-  .sidebaralert a {font-size: 18px;} */
+@keyframes btn-alert {
+  0% {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  50% {
+    background-color: rgba(80, 0, 0, 0.7);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
 }
-
-
 
 /* Dropdown Button */
 .dropbtn {
+  width: 50%;
   display: block;
   margin: auto;
+  border: none;
+  border-radius: 30px 30px 0px 0px;
   /* align-content: center; */
 
   background-color: rgb(64, 82, 185);
@@ -337,13 +343,13 @@ h1 {
 }
 
 .dropbtnArtworks {
-  position: relative;
-  align-content: center;
-  width: 128px;
+  position: absolute;
+  width: 35%;
   background-color: rgb(64, 82, 185);
   color: white;
   padding: 2px;
-  top: 5px;
+  top: 75%;
+  left: 5%;
   font-size: 14px;
 }
 
@@ -359,22 +365,22 @@ h1 {
 .dropdown-content {
   height: 0;
   width: 50%;
+  border-radius: 0px 0px 0px 30px;
   transition: height .5s;
   display: block;
   margin: auto;
   align-content: center;
-  background-color: #f1f1f1;
+  background-color: #ffffffb0;
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
 .dropdown-content-art {
-  height: 0;
+  height: 0px;
   width: 100%;
   transition: height .5s;
-  display: block;
-  margin: auto;
+  /* display: block; */
   align-content: center;
   background-color: #f1f1f1;
   position: relative;
@@ -383,19 +389,13 @@ h1 {
 }
 
 .dropdown-content-art a {
-  font-size: 10px;
+  font-size: 12px;
   color: black;
   padding: 2px;
   display: list-item;
   margin: auto;
   align-content: center;
   position: relative;
-}
-
-#dropdown-content {
-  transition: height;
-  /* padding: 10px; */
-  /* display:none; */
 }
 
 /* Links inside the dropdown */
@@ -407,12 +407,3 @@ h1 {
   align-content: center;
   position: relative;
 }
-
-/* Change color of dropdown links on hover
-.dropdown-content a:hover {background-color: #ddd;}
-
-Show the dropdown menu on hover
-.dropdown:hover .dropdown-content {display: block; transition: 1s;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-/* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
