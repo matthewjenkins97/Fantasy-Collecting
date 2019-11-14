@@ -34,6 +34,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.buyer,
       req.body.price,
       req.body.timestamp,
+      req.body.lasttrade,
     ];
 
     // dbEntry[4] (corresponding to our datetime object) needs to be converted to something mysql can accept
@@ -58,6 +59,27 @@ router.post('/', json(), function(req, res, next) {
   }
 });
 
-// you should not be able to remove history or modify it after the fact, so no put or delete statements are going to be provided.
+router.put('/:id', json(), function(req, res, next) {
+  const dbEntry = {
+    identifier: req.body.identifier,
+    seller: req.body.seller,
+    buyer: req.body.buyer,
+    price: req.body.price,
+    timestamp: req.body.timestamp,
+    lasttrade: req.body.lasttrade,
+  };
+
+  for (const item of Object.keys(dbEntry)) {
+    if (dbEntry[item] != undefined) {
+      if (typeof(dbEntry[item]) == 'string') {
+        connection.query(`UPDATE history SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
+      } else {
+        connection.query(`UPDATE history SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
+      }
+    }
+  }
+
+  res.sendStatus(200);
+});
 
 module.exports = router;
