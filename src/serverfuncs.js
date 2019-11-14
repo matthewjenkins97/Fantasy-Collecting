@@ -11,7 +11,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin};
+  isAdmin, getHistory};
 /*
 
 
