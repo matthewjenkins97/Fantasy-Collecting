@@ -13,7 +13,7 @@ export async function conductTrade(buyer, seller, offer) {
     })
     buyerBody = await buyerBody.json();
     buyerBody = buyerBody[0];
-    buyerBody.guilders -= offer;
+    buyerBody.guilders = (parseInt(buyerBody.guilders)+parseInt(offer));
     // buyerBody.numofpaintings += 1;
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
       method: 'put',
@@ -33,7 +33,7 @@ export async function conductTrade(buyer, seller, offer) {
     })
     sellerBody = await sellerBody.json();
     sellerBody = sellerBody[0];
-    sellerBody.guilders += offer;
+    sellerBody.guilders = (parseInt(sellerBody.guilders)-parseInt(offer));
     // sellerBody.microresearchpoints += 10;
     // sellerBody.numofpaintings -= 1;
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
