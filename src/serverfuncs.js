@@ -601,11 +601,17 @@ async function getArtworkInfo(art) {
   return artwork;
 }
 
-
 async function getHistory(artwork) {
   //console.log("getting all users");
   const response = await fetch(apiURL + '/history/' + artwork);
   const myJson = await response.json();
   const history = JSON.parse(JSON.stringify(myJson));
   return history;
+}
+
+async function getMicroresearch(artwork) {
+  const response = await fetch(apiURL + '/microresearch/' + artwork);
+  const myJson = await response.json();
+  const microresearch = JSON.parse(JSON.stringify(myJson));
+  return microresearch;
 }
