@@ -50,7 +50,6 @@ router.post('/', json(), function(req, res, next) {
 
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
-    'number': req.body.number,
     'identifier': req.body.identifier,
   };
 
