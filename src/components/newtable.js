@@ -10,11 +10,12 @@ var read = false;
 
 var stateBeg = {columns: [
       { title: 'Username', field: 'username' },
+      { title: 'Password', field: 'hash' },
       { title: 'Name', field: 'name' },
-      { title: 'Money', field: 'money' },
-      { title: 'Artworks', field: 'artworks', type: 'numeric' },
-      { title: 'Value', field: 'value', type: 'numeric' },
-      { title: 'Kudos', field: 'kudos' },
+      { title: 'Admin', field: 'admin', type: 'numeric' },
+      { title: 'Guilders', field: 'guilders', type: 'numeric' },
+      { title: 'Microresearch Points', field: 'microresearchpoints', type: 'numeric' },
+      { title: 'Number of Artworks', field: 'numofpaintings', type: 'numeric' },
     ],
     data: rows,
 }
@@ -31,11 +32,12 @@ export default class MaterialTableDemo extends React.Component {
     for(var user of users) {
       console.log(user);
       var dict = {username: user.username, 
+        hash: user.hash, 
         name: user.name, 
-        money: user.guilders, 
-        artworks: user.numofpaintings,
-        value: 0,
-        kudos: user.microresearchpoints,
+        admin: user.admin, 
+        guilders: user.guilders, 
+        numofpaintings: user.numofpaintings,
+        microresearchpoints: user.microresearchpoints,
       };
         
       rows.push(dict);

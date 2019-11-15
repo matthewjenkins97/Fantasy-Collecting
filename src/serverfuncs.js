@@ -452,6 +452,15 @@ async function getAllArtworks() {
 }
 
 async function updateUserData(data) {
+  const response = await fetch(apiURL + '/users/' + data.username);
+  const myJson = await response.json();
+  const students = JSON.parse(JSON.stringify(myJson));
+  if (data.hash === students[0].hash){
+    data.hash = students[0].hash;
+  } else {
+    data.hash = MD5(data.hash);
+  }
+
   fetch(apiURL + '/users/'+data.username, {
     method: 'put',
     mode: 'cors',
@@ -460,12 +469,12 @@ async function updateUserData(data) {
     },
     body: JSON.stringify(
         {username: data.username,
-        hash: MD5(data.password),
+        hash: data.hash,
         name: data.name,
-        admin: false,
-        guilders: data.money,
+        admin: data.admin,
+        guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
-        numofpaintings: data.artworks})
+        numofpaintings: data.numofpaintings})
   }).then(function (res) {
     console.log(res);
   })
@@ -486,12 +495,12 @@ async function createUser(user) {
       },
       body: JSON.stringify(
           {username: user.username,
-            hash: MD5(user.password),
+            hash: MD5(user.hash),
             name: user.name,
-            admin: false,
-            guilders: user.money,
+            admin: user.admin,
+            guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
-            numofpaintings: user.artworks,
+            numofpaintings: user.numofpaintings,
           }),
     }).then(function(res) {
       console.log(res);

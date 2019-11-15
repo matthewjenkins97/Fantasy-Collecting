@@ -54,23 +54,23 @@ const AdminPage = () => {
                     </Toolbar>
                 </AppBar>
                 <br />
-                <Typography variant="h3" color="inherit" align="center">Hello, Professor!</Typography>
+                <Typography variant="h2" style={{color: "#ffffff"}} align="center">Hello, Professor!</Typography>
                 <br />
-                <View style={{paddingLeft: '25%', paddingRight: '25%', flexDirection: 'column', justifyContent: 'center'}}>
+                <View style={{paddingLeft: '40%', paddingRight: '40%', flexDirection: 'column', justifyContent: 'center'}}>
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/table">Show Users</Link>
+                      ><Link style={{color: '#ffffff'}} to="/table">Users</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/arttable">Show Artworks</Link>
+                      ><Link style={{color: '#ffffff'}} to="/arttable">Artworks</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/arttable">Show Incoming Trades</Link>
+                      ><Link style={{color: '#ffffff'}} to="/arttable">Incoming Trades</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
