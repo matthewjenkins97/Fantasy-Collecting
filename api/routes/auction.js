@@ -19,15 +19,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
-  if (!req.body.title) {
+  if (!req.body.number) {
     res.sendStatus(400);
   } else {
-    // create our artwork identifier
-    let identifier = req.body.title;
-    identifier = identifier.replace(/\s/, '');
-    identifier = identifier.toLowerCase();
-    identifier = identifier.substr(0, 20);
-
     const dbEntry = [
       req.body.number,
       req.body.identifier,
