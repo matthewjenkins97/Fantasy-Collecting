@@ -8,6 +8,7 @@ import Popper from './popper';
 //import Table from './table';
 //import tileData from './tiledata';
 import TradeWindow from './tradewindow'
+import OtherGallery from './homepageofother'
 import { getAllArtworks } from '../serverfuncs';
 import { artworkImages } from './tiledata';
 
@@ -49,6 +50,7 @@ class Main extends Component  {
       <div>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
+        <div><OtherGallery/></div>
         <div><TradeWindow></TradeWindow></div>
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
