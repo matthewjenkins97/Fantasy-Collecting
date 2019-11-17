@@ -52,7 +52,10 @@ const AuctionPage = () => {
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
-                            Fantasy Collecting
+                            Fantasy Collecting -&nbsp;
+                        </Typography>
+                        <Typography variant="h6" color="inherit">
+                          {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>

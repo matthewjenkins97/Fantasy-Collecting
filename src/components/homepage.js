@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 //import AppBar from './appbar';
 import Typography from '@material-ui/core/Typography';
 //import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -34,9 +35,10 @@ class Main extends Component  {
       if(artworks[i].owner == localStorage.getItem('username')) {
         tileData.push({
             img: require("../static/"+artworks[i].url),
+            identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,
-            description: "NOT IN DB YET",
+            year: artworks[i].year,
           });
       }
     }
@@ -67,10 +69,10 @@ class Main extends Component  {
                 <img src={tile.img} alt={tile.title} height={500}/>
                 <Paper style={{ padding: 10 }}>
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
-                  <Typography variant="subtitle1" fontFamily="roboto">By: {tile.artist}</Typography>
-                <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-                  <Popper text={tile.description} />
-                </div>
+                  <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
+                  <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
+                  <Button><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
+                  <Button><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}

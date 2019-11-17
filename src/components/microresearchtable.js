@@ -8,9 +8,9 @@ var rows = [];
 var read = false;
 
 var stateBeg = {columns: [
-      { title: 'Buyer', field: 'buyer' },
-      { title: 'Seller', field: 'seller' },
-      { title: 'Selling Price', field: 'price', type: 'numeric'},
+      { title: 'User', field: 'username' },
+      { title: 'Microresearch', field: 'information' },
+      { title: 'Timestamp', field: 'timestamp'},
     ],
     data: rows,
 }
@@ -23,7 +23,7 @@ export default class ArtworkTable extends React.Component {
   }
   async getRows() {
     rows = [];
-    const history = await serverfuncs.getHistory("monalisa");
+    const history = await serverfuncs.getMicroresearch(this.props.identifier);
     for(var artwork of history) {
       // console.log(user);
       // var dict = {title: user.title, 

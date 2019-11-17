@@ -1,7 +1,6 @@
 import * as tradeFuncs from './components/tradewindow.js';
-import React from 'react';
 import {MD5} from './md5';
-import {conductTrade} from './tradefuncs';
+import { conductTrade } from './tradefuncs';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
@@ -11,7 +10,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory};
+  isAdmin, getHistory, getMicroresearch, getTradeDetails, approveTrade, denyTrade};
 /*
 
 
@@ -270,15 +269,40 @@ async function sendFormToAdmin() {
     body: JSON.stringify(
         {approved: true})
   }).then(async function (res) {
-    //console.log(res);
-    var offers = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
-    offers = await offers.json();
-    offers = JSON.parse(JSON.stringify(offers));
-    for(var offer in offers) {
-      await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
-    }
-    cancelTrade();
+    console.log(res);
   }); 
+}
+
+async function approveTrade(tid) {
+  var offers = await fetch(apiURL + '/tradedetails/' + tid);
+  offers = await offers.json();
+  offers = JSON.parse(JSON.stringify(offers));
+  for(var offer in offers) {
+    await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
+  }
+  cancelTrade();
+}
+
+async function denyTrade(tid) {
+    fetch(apiURL + '/trades/'+tid, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+  fetch(apiURL + '/tradedetails/'+tid, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+  clearIntervals();
 }
 
 /*
@@ -594,7 +618,7 @@ function deleteArtwork(artwork) {
 */
 
 async function getArtworkInfo(art) {
-  const response = await fetch(apiURL + '/artworks/'+art);
+  const response = await fetch(apiURL + '/artworks/' + art);
   const myJson = await response.json();
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
   console.log(artwork);
@@ -614,4 +638,11 @@ async function getMicroresearch(artwork) {
   const myJson = await response.json();
   const microresearch = JSON.parse(JSON.stringify(myJson));
   return microresearch;
+}
+
+async function getTradeDetails() {
+  const response = await fetch(apiURL + '/tradedetails/');
+  const myJson = await response.json();
+  const tradedetails = JSON.parse(JSON.stringify(myJson));
+  return tradedetails;
 }

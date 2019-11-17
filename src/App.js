@@ -19,6 +19,7 @@ import Auction from "./pages/auction";
 import ArtTable from './pages/arttable';
 import TradeOption from './pages/tradeoption'
 import AdminPage from './pages/admin'
+import TradeTable from './pages/tradetable'
 
 import { default as Chatkit } from '@pusher/chatkit-server';
 
@@ -90,9 +91,11 @@ class Home extends Component  {
               <PrivateRoute path="/tradeoption" component={TradeOption}/> 
                <AdminRoute path="/table" component={Table} />
               <AdminRoute path="/arttable" component={ArtTable} />
+              <AdminRoute path="/tradetable" component={TradeTable}/> 
               <PrivateRoute path="/gallery" component={MainPage} />
               <PrivateRoute path="/auction" component={Auction} />
-              <AdminRoute path="/admin" component={AdminPage}/> 
+              <AdminRoute path="/admin" component={AdminPage}/
+              > 
               <Route exact path="/404notfound" component={ErrorPage}/>
               <Redirect to="/404notfound"/>
             </Switch>

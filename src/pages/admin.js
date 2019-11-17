@@ -49,7 +49,10 @@ const AdminPage = () => {
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
-                            Fantasy Collecting
+                            Fantasy Collecting -&nbsp;
+                        </Typography>
+                        <Typography variant="h6" color="inherit">
+                          {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -70,7 +73,7 @@ const AdminPage = () => {
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/arttable">Incoming Trades</Link>
+                      ><Link style={{color: '#ffffff'}} to="/tradetable">Incoming Trades</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
