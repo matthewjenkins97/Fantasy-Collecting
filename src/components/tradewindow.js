@@ -29,10 +29,10 @@ function openNav() {
   document.getElementById("tradeinit").style.left = "0px";
   document.getElementById("maininit").style.left = "210px";
 
-  if(document.getElementById("maininit").innerHTML.toString() == "cancel") {
+  if(document.getElementById("maininit").innerHTML.toString() == "Cancel") {
     serverfuncs.cancelTrade();
     document.getElementById("ldsanim").style.display = "none";
-    document.getElementById("maininit").innerHTML = "trade";
+    document.getElementById("maininit").innerHTML = "Trade";
   }
 }
 
@@ -59,7 +59,7 @@ function openTrade(isReceiving, other) {
 
   // if initiated trade, reset button
   document.getElementById("ldsanim").style.display = "none";
-  document.getElementById("maininit").innerHTML = "trade";
+  document.getElementById("maininit").innerHTML = "Trade";
 }
 
 function closeTrade() {
@@ -82,7 +82,7 @@ async function expandUsers() {
       serverfuncs.initiateTrade(this.innerHTML);
       closeNav();
       document.getElementById("ldsanim").style.display = "inline-block";
-      document.getElementById("maininit").innerHTML = "cancel";
+      document.getElementById("maininit").innerHTML = "Cancel";
     }
     document.getElementById("tradeusers").appendChild(buttonnode);
   }
@@ -134,8 +134,8 @@ async function populateUserTradeFields(items) {
 
   // reset guilder fields
 
-  document.getElementById("currentlocalg").innerHTML = "guilders:0";
-  document.getElementById("currentotherg").innerHTML = "guilders:0";
+  document.getElementById("currentlocalg").innerHTML = "Guilders: 0";
+  document.getElementById("currentotherg").innerHTML = "Guilders: 0";
 
   // set trade items
 
@@ -143,10 +143,10 @@ async function populateUserTradeFields(items) {
   for(var item in items) {
     if(/^\d+$/.test(items[item].offer)) {
       if(items[item].buyer == localStorage.getItem('username')) {
-        document.getElementById("currentotherg").innerHTML = "guilders: "+items[item].offer;
+        document.getElementById("currentotherg").innerHTML = "Guilders:  "+items[item].offer;
       }
       else {
-        document.getElementById("currentlocalg").innerHTML = "guilders: "+items[item].offer;
+        document.getElementById("currentlocalg").innerHTML = "Guilders:  "+items[item].offer;
       }
     }
     else {
@@ -275,7 +275,7 @@ class TradeWindow extends React.PureComponent {
 
     <button id="maininit" class="openbtninit" onClick={() => {
       openNav();
-      expandUsers();}}>trade</button>
+      expandUsers();}}>Trade</button>
 
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
@@ -285,24 +285,24 @@ class TradeWindow extends React.PureComponent {
 
 
       <div class = "addg">
-        <a>AddGuilders</a>
+        <a>Guilders</a>
         <input id = "addguilders" type = "number"/>
-        <button onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>add guilders</button>
+        <button onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>Add</button>
       </div>
 
-      <div class="dropbtnArtworks" onClick = {expandArtworks}>Artworks(select)
+      <div class="dropbtnArtworks" onClick = {expandArtworks}>Select Artworks to Trade
           <div id = "tradeartworks" class="dropdown-content-art"/>
       </div>
 
 
       <div id = "localguilders" class = "localg">
-        <a id = "currentlocalg">guilders:0</a>
+        <a id = "currentlocalg">Guilders: 0</a>
       </div>
 
       <div id = "localartworks" class = "locala"/>
 
 
-      <a class = "localconfirm">confirm
+      <a class = "localconfirm">Confirm
         <input id = "localtconfirm" type = "checkbox" onClick = {
           () => {
             if(receivingRequest) serverfuncs.finalizeAsSeller(document.getElementById("localtconfirm").checked); 
@@ -311,9 +311,9 @@ class TradeWindow extends React.PureComponent {
         }/>
       </a>
 
-      <a id = "otheritems" class = "otheruser">OTHER USER</a>
+      <a id = "otheritems" class = "otheruser">Other User</a>
       <div id = "otherguilders" class = "otherg">
-      <a id = "currentotherg">guilders: 0</a>
+      <a id = "currentotherg">Guilders: 0</a>
       </div>
       <div id = "otherartworks" class = "othera"></div>
 
@@ -324,7 +324,7 @@ class TradeWindow extends React.PureComponent {
       <a class="closebtn" onClick={closealert}>&times;</a>
     </div>
 
-    <button id = "mainalert" class="openbtnalert" onClick={openalert}>!trade request</button>
+    <button id = "mainalert" class="openbtnalert" onClick={openalert}>Trade Request</button>
 
     </div>
     )

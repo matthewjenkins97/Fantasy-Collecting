@@ -11,15 +11,13 @@ export default class ArtworkInfo extends React.Component {
   render() {
     return <div>
       <Card raised='true' style={{width: '50%', height: '35%'}}>
-        <div style={{float: 'left', width: '50%'}}>
-          <img style={{width: '85%', height: '85%'}} src={require("../static/monalisa.jpg")}/>
-        </div>
-        <div style={{float: 'right', width: '50%'}}>
+        <div>
           <Typography><b>Title</b>: Mona Lisa</Typography>
           <Typography><b>Artist</b>: Leonardo Da Vinci</Typography>
           <Typography><b>Year</b>: 1512</Typography>
           <Typography><b>Current Selling Price</b>: 50</Typography>
-          <Button>Show History</Button>
+          <Button><i>Show History</i></Button>
+          <Button><i>Show Microresearch</i></Button>
         </div>
       </Card>
     </div>
