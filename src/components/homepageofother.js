@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-//import AppBar from './appbar';
 import Typography from '@material-ui/core/Typography';
-//import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'; 
 import Popper from './popper';
-//import Table from './table';
-//import tileData from './tiledata';
 import { getAllArtworks } from '../serverfuncs';
-import { artworkImages } from './tiledata';
 import './gallerydropdown.css';
 import * as serverfuncs from '../serverfuncs'
 
@@ -54,6 +50,7 @@ class OtherGallery extends Component  {
     }
     document.getElementById("galleryusers").style.height = "100px";
   }
+
   async getTileData(user) {
     tileData = [];
     const artworks = await getAllArtworks();
@@ -61,9 +58,10 @@ class OtherGallery extends Component  {
       if(artworks[i].owner == user) {
         tileData.push({
             img: require("../static/"+artworks[i].url),
+            identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,
-            description: "NOT IN DB YET",
+            year: artworks[i].year,
           });
       }
     }
@@ -82,7 +80,7 @@ class OtherGallery extends Component  {
 
             <div id = "galleryusers" class="dropdown-content"></div>
           </div>
-          <a id = "gallerybutton" class = "galleryButton" onClick = {() => {openUserMenu(); this.expandUsers(this);}}>view galleries</a>
+          <a id = "gallerybutton" class = "galleryButton" onClick = {() => {openUserMenu(); this.expandUsers(this);}}>View Galleries</a>
         </div>
         <div id = "gallerydropdown" class = "galleryDropdown">
             <a class="closebtn" onClick={raiseOtherGallery}>&times;</a>
@@ -105,10 +103,10 @@ class OtherGallery extends Component  {
                   <img src={tile.img} alt={tile.title} height={500}/>
                   <Paper style={{ padding: 10 }}>
                     <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
-                    <Typography variant="subtitle1" fontFamily="roboto">By: {tile.artist}</Typography>
-                  <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-                    <Popper text={tile.description} />
-                  </div>
+                    <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
+                    <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
+                    <Button><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
+                    <Button><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
                   </Paper>
                   {/* <GridListTileBar
                     title={tile.title}

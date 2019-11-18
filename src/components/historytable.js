@@ -22,6 +22,11 @@ export default class HistoryTable extends React.Component {
     this.getRows();
     this.state = stateBeg; 
   }
+
+  raiseHistoryTable() {
+    document.getElementById("gallerydropdown").style.top = "-600px";
+  }
+
   async getRows() {
     rows = [];
     const history = await serverfuncs.getHistory(this.props.identifier);
@@ -45,12 +50,14 @@ export default class HistoryTable extends React.Component {
   render() {
     return (
       <div>
-      {read ? (
-      <MaterialTable
-        title="History"
-        columns={this.state.columns}
-        data={this.state.data}
-      />
-    ) : (<h1>loading...</h1>)} </div> ); 
+        {read ? (
+        <MaterialTable
+          title="History"
+          columns={this.state.columns}
+          data={this.state.data}
+        />
+      ) : (<h1>loading...</h1>)} 
+      </div> 
+    ); 
   }
 }

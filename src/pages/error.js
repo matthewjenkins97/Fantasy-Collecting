@@ -1,14 +1,14 @@
 import React from "react";
-// import History from "../components/history";
-// import ArtworkInfo from "../components/artworkinfo";
+import HistoryTable from "../components/historytable";
+import MicroresearchTable from "../components/microresearchtable";
 
 
 const ErrorPage = () => {
         return(
             <div>
                 <h2>Page Not Found.</h2>
-                {/* <History></History>
-                <ArtworkInfo></ArtworkInfo> */}
+                <HistoryTable identifier="monalisa"></HistoryTable>
+                <MicroresearchTable identifier="monalisa"></MicroresearchTable>
             </div>
         )
     

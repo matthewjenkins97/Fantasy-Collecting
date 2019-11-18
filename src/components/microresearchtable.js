@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
+import './gallerydropdown.css';
 
 var rows = [];
 var read = false;
@@ -15,7 +16,7 @@ var stateBeg = {columns: [
     data: rows,
 }
 
-export default class ArtworkTable extends React.Component {
+export default class MicroresearchTable extends React.Component {
   constructor(props) {
     super(props);
     this.getRows();
@@ -23,21 +24,12 @@ export default class ArtworkTable extends React.Component {
   }
   async getRows() {
     rows = [];
-    const history = await serverfuncs.getMicroresearch(this.props.identifier);
-    for(var artwork of history) {
-      // console.log(user);
-      // var dict = {title: user.title, 
-      //   name: user.name, 
-      //   money: user.guilders, 
-      //   artworks: user.numofpaintings,
-      //   value: 0,
-      //   kudos: user.microresearchpoints,
-      // };
-        
-      rows.push(artwork);
+    const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
+    for(var microresearch of artworkMicroresearch) {
+      rows.push(microresearch);
     };
     this.state.data = rows;
-    this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
+    this.state.data = this.state.data.sort(function(a, b){return a.date[0] > b.date[0] ? 1 : -1});
     read = true;
     this.forceUpdate();
   }
@@ -46,10 +38,11 @@ export default class ArtworkTable extends React.Component {
       <div>
       {read ? (
       <MaterialTable
-        title="History"
+        title="Microresearch"
         columns={this.state.columns}
         data={this.state.data}
       />
-    ) : (<h1>loading...</h1>)} </div> ); 
+    ) : (<h1>loading...</h1>)}
+    </div>); 
   }
 }

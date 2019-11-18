@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-//import AppBar from './appbar';
 import Typography from '@material-ui/core/Typography';
-//import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Paper from '@material-ui/core/Paper'; 
-import Popper from './popper';
-//import Table from './table';
-//import tileData from './tiledata';
 import TradeWindow from './tradewindow'
 import OtherGallery from './homepageofother'
 import { getAllArtworks } from '../serverfuncs';
-import { artworkImages } from './tiledata';
 
 var tileData = [];
-
 
 class Main extends Component  {
 
@@ -73,8 +66,8 @@ class Main extends Component  {
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
-                  <Button><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
-                  <Button><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
+                  <Button onClick={console.log("History Button Pressed")}><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
+                  <Button onClick={console.log("Microresearch Button Pressed")}><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}
