@@ -33,7 +33,7 @@ export default function SimplePopper(props) {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper style={{width: 700}}>
-              <Typography className={classes.typography}>{props.text}</Typography>
+
             </Paper>
           </Fade>
         )}
