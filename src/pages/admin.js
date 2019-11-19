@@ -77,7 +77,7 @@ const AdminPage = () => {
                     </Button>
                     <Button variant="contained" 
                       color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff'}} to="/auction">Create Auction</Link>
+                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff'}} to="/adminauction">Create Auction</Link>
                     </Button>
                 </View>
             </div>
