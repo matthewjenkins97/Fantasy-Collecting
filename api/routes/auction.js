@@ -19,13 +19,19 @@ router.get('/', function(req, res, next) {
 
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
-  if (!req.body.number) {
+  if (!req.body.udebtufuer) {
     res.sendStatus(400);
   } else {
     const dbEntry = [
-      req.body.number,
       req.body.identifier,
+      req.body.number,
+      req.body.highestbid,
+      req.body.username,
+      req.body.deadline
     ];
+
+    // dbEntry[4] (corresponding to our datetime object) needs to be converted to something mysql can accept
+    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {
@@ -50,15 +56,21 @@ router.post('/', json(), function(req, res, next) {
 
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
-    'identifier': req.body.identifier,
+    identifier: req.body.identifier,
+    number: req.body.number,
+    highestbid: req.body.highestbid,
+    username: req.body.username,
+    deadline: req.body.deadline
   };
+
+  dbEntry.timestamp = new Date(dbEntry.timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
       if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE auction SET ${item} = '${dbEntry[item]}' WHERE number = '${req.params.id}'`);
+        connection.query(`UPDATE auction SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
       } else {
-        connection.query(`UPDATE auction SET ${item} = ${dbEntry[item]} WHERE number = '${req.params.id}'`);
+        connection.query(`UPDATE auction SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
       }
     }
   }

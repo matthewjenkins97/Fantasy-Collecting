@@ -69,6 +69,8 @@ router.put('/:id', json(), function(req, res, next) {
     lasttrade: req.body.lasttrade,
   };
 
+  dbEntry.timestamp = new Date(dbEntry.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
       if (typeof(dbEntry[item]) == 'string') {
