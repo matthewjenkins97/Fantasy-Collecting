@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
+import { default as Chatkit } from '@pusher/chatkit-server';
 
 var rows = [];
 var read = false;
@@ -20,12 +21,42 @@ var stateBeg = {columns: [
     data: rows,
 }
 
+const chatkit = new Chatkit({
+  instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+  key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
+})
+
 export default class MaterialTableDemo extends React.Component {
   constructor(props) {
     super(props);
     this.getRows();
     this.state = stateBeg; 
   }
+
+  createUser(username) {
+    chatkit.createUser({
+        id: username,
+        name: username,
+    })
+    .then((currentUser) => {
+        this.setState({
+            currentUsername: username,
+            currentId: username,
+            currentView: 'chatApp'
+        })
+    }).catch((err) => {
+             if(err.status === 400) {
+            this.setState({
+                currentUsername: username,
+                currentId: username,
+                currentView: 'chatApp'
+            })
+        } else {
+            console.log(err.status);
+        }
+    });
+}
+
   async getRows() {
     rows = [];
     const users = await serverfuncs.getAllUsers();
@@ -102,11 +133,15 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
+                console.log("USERNAME : ");
+                console.log(newData.username);
+                this.createUser(newData.username);
                 serverfuncs.createUser(newData);
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise(resolve => {
+              console.log("UPDATED");
               //this.data[this.data.indexOf(oldData)] = newData;
               setTimeout(() => {
                 resolve();
