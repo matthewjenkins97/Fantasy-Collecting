@@ -27,6 +27,10 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.username || !req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.username,
       req.body.identifier,
@@ -34,13 +38,11 @@ router.post('/', json(), function(req, res, next) {
       req.body.timestamp,
     ];
 
-    // dbEntry[3] (corresponding to our datetime object) needs to be converted
-    // to something mysql can accept
-    dbEntry[3] = new Date(dbEntry[3]).toISOString().slice(0, 19).replace('T', ' ');
-
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {
         dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
       }
     }
 
