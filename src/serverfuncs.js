@@ -270,6 +270,7 @@ async function sendFormToAdmin() {
         {approved: true})
   }).then(async function (res) {
     console.log(res);
+    cancelTrade();
   }); 
 }
 
@@ -280,7 +281,7 @@ async function approveTrade(tid) {
   for(var offer in offers) {
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
   }
-  cancelTrade();
+  
 }
 
 async function denyTrade(tid) {
@@ -525,6 +526,7 @@ async function createUser(user) {
             guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
             numofpaintings: user.numofpaintings,
+            blurb: "",
           }),
     }).then(function(res) {
       console.log(res);
