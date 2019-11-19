@@ -10,6 +10,7 @@ import ChatComponent from "../components/ChatMessage";
 import HistoryTable from "../components/historytable";
 import MicroresearchTable from "../components/microresearchtable"; 
 import MicroresearchPrompt from "../components/microresearchprompt"; 
+import { View } from "react-native";
 
 var tileData = [];
 
@@ -49,8 +50,11 @@ class Main extends Component  {
       <div>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
-        <div><OtherGallery/></div>
-        <div><TradeWindow></TradeWindow></div>
+        <div>
+          <div style={{position: "fixed", top: 150}}><ChatComponent /></div>
+          <div><OtherGallery/></div>
+          <div><TradeWindow></TradeWindow></div>
+        </div>
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
           paddingTop: 20,
@@ -85,7 +89,6 @@ class Main extends Component  {
               <div style={{padding: 10}}><img src="./static/dance.jpg" height={500} /></div>
               <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
           </Grid>
-           <Button style={{position: 'fixed'}}><ChatComponent /></Button>
         </div>
       </div>
       

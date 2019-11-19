@@ -4,7 +4,7 @@ import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
-import { default as chatkit } from '@pusher/chatkit-server';
+import { default as Chatkit } from '@pusher/chatkit-server';
 
 var rows = [];
 var read = false;
@@ -20,6 +20,11 @@ var stateBeg = {columns: [
     ],
     data: rows,
 }
+
+const chatkit = new Chatkit({
+  instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+  key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
+})
 
 export default class MaterialTableDemo extends React.Component {
   constructor(props) {
@@ -128,8 +133,9 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                console.log(newData[0]);
-                this.createUser(newData[0]);
+                console.log("USERNAME : ");
+                console.log(newData.username);
+                this.createUser(newData.username);
                 serverfuncs.createUser(newData);
               }, 600);
             }),
