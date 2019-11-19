@@ -1,3 +1,19 @@
+
+export {getAllAuctions, conductAuctionTrade}
+
+
+async function getAllAuctions() {
+  let auctions = await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+    method: 'get',
+    mode: 'cors',
+  })
+  auctions = await auctions.json();
+  console.log("AUCTIONS");
+  console.log(auctions);
+  return auctions;
+}
+
+
 async function conductAuctionTrade(artwork, user, offer) {
   // change current owner of painting to user
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {

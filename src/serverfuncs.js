@@ -623,7 +623,6 @@ async function getArtworkInfo(art) {
   const response = await fetch(apiURL + '/artworks/' + art);
   const myJson = await response.json();
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
-  console.log(artwork);
   return artwork;
 }
 
