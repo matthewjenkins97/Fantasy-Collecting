@@ -17,6 +17,7 @@ var stateBeg = {columns: [
       { title: 'Guilders', field: 'guilders', type: 'numeric' },
       { title: 'Microresearch Points', field: 'microresearchpoints', type: 'numeric' },
       { title: 'Number of Artworks', field: 'numofpaintings', type: 'numeric' },
+      { title: 'Blurb', field: 'blurb'},
     ],
     data: rows,
 }
@@ -69,6 +70,7 @@ export default class MaterialTableDemo extends React.Component {
         guilders: user.guilders, 
         numofpaintings: user.numofpaintings,
         microresearchpoints: user.microresearchpoints,
+        blurb: user.blurb
       };
         
       rows.push(dict);

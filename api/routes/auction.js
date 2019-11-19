@@ -30,7 +30,8 @@ router.post('/', json(), function(req, res, next) {
       req.body.number,
       req.body.highestbid,
       req.body.username,
-      req.body.deadline
+      req.body.deadline,
+      req.body.groupid
     ];
 
     for (const i in dbEntry) {
@@ -60,10 +61,11 @@ router.put('/:id', json(), function(req, res, next) {
     number: req.body.number,
     highestbid: req.body.highestbid,
     username: req.body.username,
-    deadline: req.body.deadline
+    deadline: req.body.deadline,
+    groupid: req.body.groupid
   };
 
-  dbEntry.timestamp = new Date(dbEntry.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+  dbEntry.deadline = new Date(dbEntry.deadline).toISOString().slice(0, 19).replace('T', ' ');
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
