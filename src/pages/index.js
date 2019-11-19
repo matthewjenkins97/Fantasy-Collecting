@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Homepage from "../components/homepage";
-import ChatComponent from "../components/ChatMessage";
 import Signup from "../components/Signup";
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -38,10 +37,7 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Table</Link></MenuItem>
           <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
-          <MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
-          {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
           {/* <MenuItem><ChatComponent /></MenuItem> */}
         </Menu>
@@ -56,12 +52,14 @@ const MainPage = () => {
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
-                            Fantasy Collecting
+                            Fantasy Collecting -&nbsp;
+                        </Typography>
+                        <Typography variant="h6" color="inherit">
+                          {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 {/* <Button onClick={() => {console.log(typeof localStorage.getItem('admin'))}}>click</Button> */}
-                <Button style={{position: 'fixed'}}><ChatComponent /></Button>
                 <Homepage />
             </div>
         )

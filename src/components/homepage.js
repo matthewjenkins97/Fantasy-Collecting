@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-//import AppBar from './appbar';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-//import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Paper from '@material-ui/core/Paper'; 
-import Popper from './popper';
-//import Table from './table';
-//import tileData from './tiledata';
 import TradeWindow from './tradewindow'
+import OtherGallery from './homepageofother'
 import { getAllArtworks } from '../serverfuncs';
-import { artworkImages } from './tiledata';
+import ChatComponent from "../components/ChatMessage";
+import HistoryTable from "../components/historytable";
+import MicroresearchTable from "../components/microresearchtable"; 
+import MicroresearchPrompt from "../components/microresearchprompt"; 
 
 var tileData = [];
-
 
 class Main extends Component  {
 
@@ -34,9 +33,10 @@ class Main extends Component  {
       if(artworks[i].owner == localStorage.getItem('username')) {
         tileData.push({
             img: require("../static/"+artworks[i].url),
+            identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,
-            description: "NOT IN DB YET",
+            year: artworks[i].year,
           });
       }
     }
@@ -49,6 +49,7 @@ class Main extends Component  {
       <div>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
+        <div><OtherGallery/></div>
         <div><TradeWindow></TradeWindow></div>
         <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
@@ -67,10 +68,11 @@ class Main extends Component  {
                 <img src={tile.img} alt={tile.title} height={500}/>
                 <Paper style={{ padding: 10 }}>
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
-                  <Typography variant="subtitle1" fontFamily="roboto">By: {tile.artist}</Typography>
-                <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-                  <Popper text={tile.description} />
-                </div>
+                  <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
+                  <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
+                  {/* <HistoryTable identifier={tile.identifier} />
+                  <MicroresearchTable identifier={tile.identifier} /> */}
+                  <MicroresearchPrompt identifier={tile.identifier} />
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}
@@ -83,6 +85,7 @@ class Main extends Component  {
               <div style={{padding: 10}}><img src="./static/dance.jpg" height={500} /></div>
               <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
           </Grid>
+           <Button style={{position: 'fixed'}}><ChatComponent /></Button>
         </div>
       </div>
       

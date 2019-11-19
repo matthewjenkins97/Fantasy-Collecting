@@ -12,6 +12,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const auctionRouter = require('./routes/auction');
 const artworksRouter = require('./routes/artworks');
 const historyRouter = require('./routes/history');
 const tradesRouter = require('./routes/trades');
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // use routes
+app.use('/auction', auctionRouter);
 app.use('/artworks', artworksRouter);
 app.use('/history', historyRouter);
 app.use('/trades', tradesRouter);

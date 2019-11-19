@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "../components/newtable";
+import Table from "../components/tradetable";
 import ChatComponent from "../components/ChatMessage";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,11 +36,8 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link to="/gllery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>
-          <MenuItem onClick={handleClose}><Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}>Artworks</Link></MenuItem>
-          <MenuItem onClick={handleClose}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
-          {/* <MenuItem onClick={handleClose}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log In</Link></MenuItem> */}
-          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/admin" style={{color: "#000000", textDecoration: "none"}}>Admin Homepage</Link></MenuItem>
+          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
         </Menu>
       </div>
     );
@@ -53,7 +50,10 @@ const TablePage = () => {
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
-                            Fantasy Collecting
+                            Fantasy Collecting -&nbsp;
+                        </Typography>
+                        <Typography variant="h6" color="inherit">
+                          {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>

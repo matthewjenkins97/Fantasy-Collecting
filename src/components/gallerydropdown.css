@@ -1,0 +1,74 @@
+.galleryDropdown {
+  color: white;
+  overflow: scroll;
+  position: absolute;
+  align-content: center;
+  height: 600px;
+  width: 600px;
+  top: -600px;
+  transition: top .5s;
+  left: 200px;
+  background-color: rgba(0, 0, 0, .7);
+  z-index: 2;
+}
+
+.galleryButton {
+  border-radius: 30px 30px 30px 30px;
+  left: 10px;
+  top: 55px;
+  position: fixed; 
+  transition: left .5s;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 10px 10px 10px;
+}
+
+.galleryButton:hover {
+  background-color: #444;
+}
+
+.sidebarinit {
+  border-radius: 0px 30px 30px 0px;
+  height: 200px; /* 100% Full-height */
+  width: 200px; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place relative to scroll */
+  top: 55px;
+  left: -200px;
+  transition: left 0.5s;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.7); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  /* transition: width 0.5s; 0.5 second transition effect to slide in the sidebar */
+  align-content: center;
+}
+/* The sidebar links */
+
+/* When you mouse over the navigation links, change their color */
+.sidebarinit a:hover {
+  color: #52759cf1;
+}
+/* Position and style the close button (top right corner) */
+.closebtn {
+  position: relative;
+  left: 10px;
+  top: 10px;
+  font-size: 20px;
+  color: #919191;
+}
+
+.dropdown-content {
+  height: 0;
+  width: 50%;
+  border-radius: 0px 0px 0px 30px;
+  transition: height .5s;
+  display: block;
+  margin: auto;
+  align-content: center;
+  background-color: #ffffffb0;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
