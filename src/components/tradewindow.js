@@ -279,7 +279,7 @@ class TradeWindow extends React.PureComponent {
 
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
-      <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>&times;</a>
+      <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>cancel</a>
 
       <a id = "localitems" class = "myuser">My Items</a>
 
