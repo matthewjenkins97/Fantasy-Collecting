@@ -23,7 +23,8 @@ name VARCHAR(255),
 admin BOOL,
 guilders SMALLINT,
 microresearchpoints SMALLINT, 
-numofpaintings SMALLINT);
+numofpaintings SMALLINT, 
+blurb TEXT);
 
 create table microresearch 
 (username VARCHAR(255), 
@@ -48,5 +49,8 @@ offer VARCHAR(255),
 approved BOOL);
 
 create table auction
-(number BIGINT, 
-identifier VARCHAR(255);
+(identifier VARCHAR(255)
+number BIGINT,
+highestbid BIGINT,
+username VARCHAR(255)
+deadline DATETIME);
