@@ -28,6 +28,9 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // timestamp (corresponding to our datetime object) needs to be converted to something mysql can accept
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.identifier,
       req.body.seller,
@@ -37,12 +40,11 @@ router.post('/', json(), function(req, res, next) {
       req.body.lasttrade,
     ];
 
-    // dbEntry[4] (corresponding to our datetime object) needs to be converted to something mysql can accept
-    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
-
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {
         dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
       }
     }
 

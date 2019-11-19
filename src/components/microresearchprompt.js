@@ -4,14 +4,16 @@ import * as serverfuncs from '../serverfuncs';
 import './gallerydropdown.css';
 import FilledInput from '@material-ui/core/Input';
 
-var buttonid = "";
-var divid = "";
-var identifier = "";
+let buttonid = "";
+let textid = "";
+let divid = "";
+let identifier = "";
 
 export default class MicroresearchPrompt extends React.Component {
   constructor(props) {
     super(props);
     buttonid = this.props.identifier + "MicroresearchPromptButton";
+    textid = this.props.identifier + "MicroresearchPromptText";
     divid = this.props.identifier + "MicroresearchPromptDropdown";
     identifier = this.props.identifier;
   }
@@ -24,6 +26,21 @@ export default class MicroresearchPrompt extends React.Component {
     document.getElementById(divid).style.top = "-600px";
   }
 
+  submitMicroresearch() {
+    const date = new Date();
+    const data = {
+      username: localStorage.getItem('username'),
+      identifier: identifier,
+      information: document.getElementById(textid).value,
+      timestamp: date
+    };
+
+    serverfuncs.postMicroresearch(data);
+
+    // raise table
+    document.getElementById(divid).style.top = "-600px";
+  }
+
   render() {
     return (
       <div>
@@ -33,9 +50,9 @@ export default class MicroresearchPrompt extends React.Component {
             <p>&nbsp;</p>
             <div style={{textAlign: 'center'}}>
               <h1>Add Microresearch for "{identifier}"</h1>
-              <FilledInput multiline='true'></FilledInput>
-              <Button style={{position: 'absolute', top: '50%'}}>Submit</Button>
+              <textarea style={{width: 400, height: 300}} id={textid} multiline='true'></textarea>
             </div>
+            <button onClick={this.submitMicroresearch} style={{margin:'auto', display:'block'}}>Submit</button>
           </div> 
       </div>
     ); 

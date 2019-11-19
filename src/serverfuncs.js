@@ -10,7 +10,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory, getMicroresearch, getTradeDetails, approveTrade, denyTrade};
+  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, approveTrade, denyTrade};
 /*
 
 
@@ -639,6 +639,23 @@ async function getMicroresearch(artwork) {
   const myJson = await response.json();
   const microresearch = JSON.parse(JSON.stringify(myJson));
   return microresearch;
+}
+
+async function postMicroresearch(data) {
+  fetch(apiURL + '/microresearch/', {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+        {identifier: data.identifier,
+        username: data.username,
+        text: data.text,
+        timestamp: data.timestamp})
+  }).then(function (res) {
+    console.log(res);
+  })
 }
 
 async function getTradeDetails() {

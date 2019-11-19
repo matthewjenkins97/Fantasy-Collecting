@@ -21,3 +21,8 @@ router.post('/', function(req, res) {
 });
 
 module.exports = router;
+
+// personal notes
+// content-type is application/x-www-form-urlencoded
+// body is form-data
+// key value is file: (picture)

@@ -19,9 +19,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
-  if (!req.body.udebtufuer) {
+  if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // deadline (corresponding to our datetime object) needs to be converted to something mysql can accept
+    req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.identifier,
       req.body.number,
@@ -29,9 +32,6 @@ router.post('/', json(), function(req, res, next) {
       req.body.username,
       req.body.deadline
     ];
-
-    // dbEntry[4] (corresponding to our datetime object) needs to be converted to something mysql can accept
-    dbEntry[4] = new Date(dbEntry[4]).toISOString().slice(0, 19).replace('T', ' ');
 
     for (const i in dbEntry) {
       if (typeof(dbEntry[i]) === 'string') {
