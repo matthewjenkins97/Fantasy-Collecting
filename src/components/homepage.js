@@ -6,6 +6,10 @@ import Paper from '@material-ui/core/Paper';
 import TradeWindow from './tradewindow'
 import OtherGallery from './homepageofother'
 import { getAllArtworks } from '../serverfuncs';
+import ChatComponent from "../components/ChatMessage";
+import HistoryTable from "../components/historytable";
+import MicroresearchTable from "../components/microresearchtable"; 
+import MicroresearchPrompt from "../components/microresearchprompt"; 
 
 var tileData = [];
 
@@ -66,8 +70,9 @@ class Main extends Component  {
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
-                  <Button onClick={console.log("History Button Pressed")}><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
-                  <Button onClick={console.log("Microresearch Button Pressed")}><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
+                  {/* <HistoryTable identifier={tile.identifier} />
+                  <MicroresearchTable identifier={tile.identifier} /> */}
+                  <MicroresearchPrompt identifier={tile.identifier} />
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}
@@ -80,6 +85,7 @@ class Main extends Component  {
               <div style={{padding: 10}}><img src="./static/dance.jpg" height={500} /></div>
               <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
           </Grid>
+           <Button style={{position: 'fixed'}}><ChatComponent /></Button>
         </div>
       </div>
       

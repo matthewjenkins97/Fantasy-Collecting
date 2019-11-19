@@ -36,6 +36,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.guilders,
       req.body.microresearchpoints,
       req.body.numofpaintings,
+      req.body.blurb
     ];
 
     for (const i in dbEntry) {
@@ -67,6 +68,7 @@ router.put('/:id', json(), function(req, res, next) {
     'guilders': req.body.guilders,
     'microresearchpoints': req.body.microresearchpoints,
     'numofpaintings': req.body.numofpaintings,
+    'blurb': req.body.blurb
   };
 
   for (const item of Object.keys(dbEntry)) {

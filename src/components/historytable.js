@@ -1,11 +1,12 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-//import EditIcon from 'material-ui/svg-icons/image/edit';
-//import Delete from 'material-ui/svg-icons/action/delete';
+import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
+import "./gallerydropdown.css";
 
 var rows = [];
 var read = false;
+var divid = "";
 
 var stateBeg = {columns: [
       { title: 'Date', field: 'timestamp'},
@@ -19,27 +20,23 @@ var stateBeg = {columns: [
 export default class HistoryTable extends React.Component {
   constructor(props) {
     super(props);
+    divid = this.props.identifier + "HistoryDropdown";
     this.getRows();
     this.state = stateBeg; 
   }
 
-  raiseHistoryTable() {
-    document.getElementById("gallerydropdown").style.top = "-600px";
+  lowerTable() {
+    document.getElementById(divid).style.top = "0px";
+  }
+
+  raiseTable() {
+    document.getElementById(divid).style.top = "-600px";
   }
 
   async getRows() {
     rows = [];
     const history = await serverfuncs.getHistory(this.props.identifier);
     for(var artwork of history) {
-      // console.log(user);
-      // var dict = {title: user.title, 
-      //   name: user.name, 
-      //   money: user.guilders, 
-      //   artworks: user.numofpaintings,
-      //   value: 0,
-      //   kudos: user.microresearchpoints,
-      // };
-        
       rows.push(artwork);
     };
     this.state.data = rows;
@@ -47,17 +44,24 @@ export default class HistoryTable extends React.Component {
     read = true;
     this.forceUpdate();
   }
+
   render() {
+    const title = "History for \"" + this.props.identifier + "\"";
     return (
       <div>
-        {read ? (
-        <MaterialTable
-          title="History"
-          columns={this.state.columns}
-          data={this.state.data}
-        />
-      ) : (<h1>loading...</h1>)} 
-      </div> 
+        <Button onClick={this.lowerTable}><i>History</i></Button>
+        <div id={divid} class="galleryDropdown">
+          <a class="closebtn" onClick={this.raiseTable}>&times;</a>
+          <p>&nbsp;</p>
+          {read ? (
+          <MaterialTable
+            title={title}
+            columns={this.state.columns}
+            data={this.state.data}
+          />
+        ) : (<h1>loading...</h1>)} 
+        </div> 
+      </div>
     ); 
   }
 }

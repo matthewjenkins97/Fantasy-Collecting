@@ -4,9 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'; 
 import Popper from './popper';
-import { getAllArtworks } from '../serverfuncs';
 import './gallerydropdown.css';
 import * as serverfuncs from '../serverfuncs'
+import HistoryTable from "../components/historytable";
+import MicroresearchTable from "../components/microresearchtable"; 
+
 
 var tileData = [];
 
@@ -53,7 +55,7 @@ class OtherGallery extends Component  {
 
   async getTileData(user) {
     tileData = [];
-    const artworks = await getAllArtworks();
+    const artworks = await serverfuncs.getAllArtworks();
     for(var i in artworks) {
       if(artworks[i].owner == user) {
         tileData.push({
@@ -105,8 +107,6 @@ class OtherGallery extends Component  {
                     <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                     <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
                     <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
-                    <Button><Typography variant="subtitle2" fontFamily="roboto">History</Typography></Button>
-                    <Button><Typography variant="subtitle2" fontFamily="roboto">Microresearch</Typography></Button>
                   </Paper>
                   {/* <GridListTileBar
                     title={tile.title}
