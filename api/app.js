@@ -14,11 +14,13 @@ const logger = require('morgan');
 
 const auctionRouter = require('./routes/auction');
 const artworksRouter = require('./routes/artworks');
+const groupsRouter = require('./routes/groups');
 const historyRouter = require('./routes/history');
 const tradesRouter = require('./routes/trades');
 const tradedetailsRouter = require('./routes/tradedetails');
 const microresearchRouter = require('./routes/microresearch');
 const usersRouter = require('./routes/users');
+const uploadRouter = require('./routes/upload')
 
 const app = express();
 
@@ -39,11 +41,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // use routes
 app.use('/auction', auctionRouter);
 app.use('/artworks', artworksRouter);
+app.use('/groups', groupsRouter);
 app.use('/history', historyRouter);
 app.use('/trades', tradesRouter);
 app.use('/tradedetails', tradedetailsRouter);
 app.use('/microresearch', microresearchRouter);
 app.use('/users', usersRouter);
+
+
+app.use('/upload', uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

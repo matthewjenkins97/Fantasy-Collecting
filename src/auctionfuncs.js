@@ -1,3 +1,73 @@
+
+export {getAllLots, getAllAuctions,
+  conductAuctionTrade, createAuction,
+  createLot}
+
+
+async function postBid() {
+  
+}
+
+async function getAllLots() {
+  let auctions = await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+    method: 'get',
+    mode: 'cors',
+  })
+  auctions = await auctions.json();
+  console.log("AUCTIONS");
+  console.log(auctions);
+  return auctions;
+}
+
+async function getAllAuctions() {
+  let auctions = await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`, {
+    method: 'get',
+    mode: 'cors',
+  })
+  auctions = await auctions.json();
+  console.log("AUCTIONS");
+  console.log(auctions);
+  return auctions;
+}
+
+async function createAuction(id, name, d) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`, {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      groupid: name,
+      identifier: id,
+      date: d,
+    }),
+  }).then((res) => {
+    console.log(res);
+  });
+}
+
+async function createLot(id, name) {
+  fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      identifier: name,
+      number: id,
+      highestbid: 0,
+      username: "sjarosi",
+      deadline: null,
+      groupid: null,
+    }),
+  }).then((res) => {
+    console.log(res);
+  });
+}
+
+
 async function conductAuctionTrade(artwork, user, offer) {
   // change current owner of painting to user
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {

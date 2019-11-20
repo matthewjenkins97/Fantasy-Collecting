@@ -1,56 +1,220 @@
 import React, { useState } from "react";
-import { View } from "react-native";
-//import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper'; 
+
+import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
 
-import Carousel from 'react-bootstrap/Carousel'
-import tileData from './tiledata';
+import './auctions.css'
+
+var currentLotId;
+
+var currentAuctions = [];
+
+function closeCreateDropdown() {
+  document.getElementById("createauctiondropdown").style.top = "-200px";
+}
+function openCreateDropdown() {
+  document.getElementById("createauctiondropdown").style.top = "0px";
+}
+function closeAddDropdown() {
+  document.getElementById("addauctiondropdown").style.display = "none";
+}
+function openAddDropdown(id) {
+  document.getElementById("addauctiondropdown").style.display = "block";
+  currentLotId = id;
+}
+
+function confirmBid() {
+  localStorage.getItem("username");
+}
+
+async function createAuction() {
+  await auctionfuncs.createAuction(
+    document.getElementById("auctionname").value,
+    Date.now().toString(),
+    null
+  );
+}
+async function addLotToAuction() {
+  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").value);
+}
 
 class AuctionAdmin extends React.Component{
     constructor(props) {
       super(props);
+      document.body.className = "auction";
     };
+
+    componentDidMount() {
+      this.loadAuctions();
+    }
+
+    async loadAuctions() {
+      for(var a in currentAuctions) {
+        try {
+          document.getElementById(currentAuctions[a]).remove();
+        }catch{}
+      }
+
+      currentAuctions = [];
+
+      const auctions = await auctionfuncs.getAllAuctions();
+
+      console.log("ALL AUCTIONS: ");
+      console.log(auctions);
+
+      const lots = await auctionfuncs.getAllLots();
+      for(var auction in auctions) {
+        await this.loadLots(auctions[auction].groupid, lots);
+      }
+      this.forceUpdate();
+    }
+
+    async loadLots(id, auctions) {
+      var auctionnode = document.createElement("div");
+      auctionnode.className = "auctionscroll";
+      auctionnode.id = "auctionscroll"+id.toString();
+      document.getElementById("auctions").append(auctionnode);
+      currentAuctions.push(auctionnode.id);
+
+      var addLotNode = document.createElement("button");
+      addLotNode.id = id;
+      addLotNode.innerHTML = "Create Lot"
+      addLotNode.onclick = function () {
+        openAddDropdown(this.id);
+      };
+      document.getElementById("auctionscroll"+id.toString()).append(addLotNode);
+
+      var auctionnumber = -1;
+
+      for(const a in auctions) {
+
+        if(auctions[a].number != id) continue;
+        auctionnumber++;
+        const source_of_image = await serverfuncs.getArtworkInfo(auctions[a].identifier);
+        var auction_scroll = auctionnode;
+
+        //const auction_scroll = document.getElementById("auctionscroll"+a.toString());
+
+        var imagenode = document.createElement("img");
+        imagenode.id = "auction_pic"+a.toString();
+        imagenode.src = require('../static/'+source_of_image.url);
+        imagenode.style.left = (10+550*auctionnumber).toString()+'px';
+        imagenode.onclick = function() {
+          document.getElementById("lotdropdown").style.top = "0px";
+          document.getElementById("lotnumber").innerHTML = "LOT "+a.toString();
+          document.getElementById("lotimage").src = this.src;
+          document.getElementById("lotinfo").innerHTML = "info";
+          document.getElementById("lotessay").innerHTML = "";
+        }
+        auction_scroll.append(imagenode);
+    
+        var textnode = document.createElement("a");
+        console.log(auctions[a].identifier);
+        textnode.innerHTML = 
+        "<pre> TITLE:  "+source_of_image.title+
+        "\n\nARTIST:  "+source_of_image.artist+
+        "\n\nYEAR:  "+source_of_image.year+
+        "\n\nOWNER:  "+source_of_image.owner+
+        "\n\n\nCURRENT HIGHEST BID:\n"+auctions[a].highestbid+
+        "\n\nHIGHEST BIDDER:\n"+auctions[a].username+
+        "</pre>";
+        textnode.style.left = (250+550*auctionnumber).toString()+'px';
+        auction_scroll.append(textnode);
+      }
+    }
   
     render(){
       return (
         <div>
-          <div style = {{alignContent: 'center'}}>
-            <a style = {{position: 'absolute'}}>auctions</a>
-            <button>add auction</button>
-          </div>
-          <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
-          textAlign: 'center',
-          paddingTop: 20,
-          paddingBottom: 10}}>Auction Page</Typography>
-          {tileData.map(tile => (
-            <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
-              
-              <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
-              <Paper style={{ padding: 10 }}>
-                <Typography variant="h6" fontFamily="roboto" style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
-                <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
+          <div id = "lotdropdown" className = "lotdropdown">
+            <a onClick = {() => {document.getElementById("lotdropdown").style.top = "-600px"}} style = {{
+              position: "absolute", top:"15px", right:"20px", fontSize: "20px"
+            }}>x</a>
+            <a id = "lotnumber" style={{position: "absolute", top:"20px", left:"40px", fontSize: "30px"}}>LOT X</a>
+            <img id = "lotimage" style={{
+              position: "absolute", height: "300px", width: "300px",
+              objectFit: "contain", top: "70px", left: "40px"
+             }}></img>
+            <a id = "lotinfo" style={{
+              position: "absolute", height: "300px", width: "300px",
+              objectFit: "contain", top: "70px", left: "300px"
+            }}>INFO</a>
+            <a style={{position: "absolute", top:"400px", left:"50px", fontSize: "30px"}}>LOT ESSAY</a>
+            <p id = "lotessay" style={{
+              position: "absolute", height: "100px", width: "500px",
+              objectFit: "contain", top: "450px", left: "40px", overflowX: "wrap",
+              overflowY: "scroll"
+            }}></p>
+            <input id = "userbid" type = "number" style = {{
+              position: "absolute",top: "300px", left: "390px"
+            }}></input>
+            <button onClick = {confirmBid} style = {{
+              position: "absolute",top: "320px", left: "420px"
 
-                <div style={{margin: 20,  }}>
-                {/* <form>  Username: <input type="text" name="fname"></input><br></br> */}
-                Bid: <input type="text" name="lname"></input><br></br>
-                <Button size="small" variant="contained" color="primary" type="submit" value="Submit">Submit Bid</Button>
-                <br></br>
-                <br></br>
-                <a>Current Highest Bidder:</a><br></br><a>N/A</a>
-                {/* </form> */}
-                </div>
-              <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-              </div>
-              </Paper>
-              {/* <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.artist}</span>}
-              /> */}
-            </View>
-          ))} 
+            }}>Place Bid</button>
+          </div>
+          <div className = 'title'>
+            <a>auctions</a>
+          </div>
+
+          <div style = {{textAlign: "center"}}>
+            <button onClick = {openCreateDropdown} style = {{
+              width: "100px", height: "50px", boxAlign: "center", borderRadius: "30px",
+              boxShadow: "none"
+            }}>Create Auction</button>
+          </div>
+
+          <br></br>
+
+          <div id = "createauctiondropdown" className = "createdropdown">
+            <a onClick = {closeCreateDropdown} style = {{
+              position: "absolute",
+              top: "5px",
+              left: "10px"
+            }}>x</a>
+            <a>create auction</a>
+            <br></br>
+            <br></br>
+            <a>auction name</a>
+            <br></br>
+            <input id = "auctionname" type = "text"></input>
+            <br></br>
+            <br></br>
+            <a>auction end date</a>
+            <br></br>
+            <input id = "auctiondate" type = "date"></input>
+            <br></br>
+            <br></br>
+            <button onClick = {async () => {closeCreateDropdown(); await createAuction(); this.loadAuctions();}}>submit</button>
+          </div>
+
+          <div id = "addauctiondropdown" style = {{
+            display: "none",
+            backgroundColor: "rgba(0, 0, 0, .7)",
+            position: "fixed",
+            top: "50%",
+            left: "40%",
+            width: "20%",
+            height: "20%",
+            zIndex: 1,
+            color: "white",
+            textAlign: "center",
+            }}>
+            <a>artwork id</a>
+            <br></br>
+            <input id = "addlotname" type = "text"></input>
+            <br></br>
+            <br></br>
+            <button onClick = {async () => {await closeAddDropdown(); await addLotToAuction(); this.loadAuctions();}}>submit</button>
+            <br></br>
+            <br></br>
+            <button onClick = {closeAddDropdown}>cancel</button>
+          </div>
+
+          {/* <a style = {{color: "white"}}>Browse Lots</a> */}
+          {/* <div id = "auctionscroll" class = "auctionscroll">
+          </div> */}
+          <div id = "auctions"/>
         </div>
       );
     }

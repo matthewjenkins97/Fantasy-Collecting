@@ -12,7 +12,13 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.query('SELECT * FROM auction', (err, results, fields) => {
+  connection.query('SELECT * FROM groups', (err, results, fields) => {
+    res.send(results);
+  });
+});
+
+router.get('/:id', function(req, res, next) {
+  connection.query(`SELECT * FROM groups WHERE groupid = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
@@ -22,16 +28,13 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-    // deadline (corresponding to our datetime object) needs to be converted to something mysql can accept
-    req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+    // date (corresponding to our datetime object) needs to be converted to something mysql can accept
+    req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
 
     const dbEntry = [
+      req.body.groupid,
       req.body.identifier,
-      req.body.number,
-      req.body.highestbid,
-      req.body.username,
-      req.body.deadline,
-      req.body.groupid
+      req.body.date,
     ];
 
     for (const i in dbEntry) {
@@ -44,7 +47,7 @@ router.post('/', json(), function(req, res, next) {
 
     const dbEntryArgs = dbEntry.join(', ');
 
-    connection.query(`INSERT INTO auction VALUES (${dbEntryArgs})`, (err, results, fields) => {
+    connection.query(`INSERT INTO groups VALUES (${dbEntryArgs})`, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -58,21 +61,17 @@ router.post('/', json(), function(req, res, next) {
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
     identifier: req.body.identifier,
-    number: req.body.number,
-    highestbid: req.body.highestbid,
-    username: req.body.username,
-    deadline: req.body.deadline,
-    groupid: req.body.groupid
+    date: req.body.date,
   };
 
-  dbEntry.deadline = new Date(dbEntry.deadline).toISOString().slice(0, 19).replace('T', ' ');
+  dbEntry.date = new Date(dbEntry.date).toISOString().slice(0, 19).replace('T', ' ');
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
       if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE auction SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
+        connection.query(`UPDATE groups SET ${item} = '${dbEntry[item]}' WHERE groupid = '${req.params.id}'`);
       } else {
-        connection.query(`UPDATE auction SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
+        connection.query(`UPDATE groups SET ${item} = ${dbEntry[item]} WHERE groupid = '${req.params.id}'`);
       }
     }
   }
@@ -81,7 +80,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.query(`DELETE FROM auction WHERE number = '${req.params.id}'`, (err, results, fields) => {
+  connection.query(`DELETE FROM groups WHERE groupid = '${req.params.id}'`, (err, results, fields) => {
     res.sendStatus(200);
   });
 });

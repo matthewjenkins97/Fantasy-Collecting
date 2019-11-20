@@ -10,7 +10,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory, getMicroresearch, getTradeDetails, approveTrade, denyTrade};
+  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, approveTrade, denyTrade, getUser};
 /*
 
 
@@ -459,6 +459,16 @@ async function isAdmin(user) {
   }
 }
 
+async function getUser(user) {
+  //console.log("getting all users");
+  const response = await fetch(apiURL + '/users' + user);
+  const myJson = await response.json();
+  const student = JSON.parse(JSON.stringify(myJson));
+  // console.log("student: ");
+  // console.log(student);
+  return student;
+}
+
 async function getAllUsers() {
   //console.log("getting all users");
   const response = await fetch(apiURL + '/users');
@@ -499,7 +509,8 @@ async function updateUserData(data) {
         admin: data.admin,
         guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
-        numofpaintings: data.numofpaintings})
+        numofpaintings: data.numofpaintings,
+        blurb: data.blurb})
   }).then(function (res) {
     console.log(res);
   })
@@ -526,7 +537,7 @@ async function createUser(user) {
             guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
             numofpaintings: user.numofpaintings,
-            blurb: "",
+            blurb: user.blurb,
           }),
     }).then(function(res) {
       console.log(res);
@@ -623,7 +634,6 @@ async function getArtworkInfo(art) {
   const response = await fetch(apiURL + '/artworks/' + art);
   const myJson = await response.json();
   const artwork = JSON.parse(JSON.stringify(myJson))['0'];
-  console.log(artwork);
   return artwork;
 }
 
@@ -640,6 +650,23 @@ async function getMicroresearch(artwork) {
   const myJson = await response.json();
   const microresearch = JSON.parse(JSON.stringify(myJson));
   return microresearch;
+}
+
+async function postMicroresearch(data) {
+  fetch(apiURL + '/microresearch/', {
+    method: 'post',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+        {identifier: data.identifier,
+        username: data.username,
+        information: data.information,
+        timestamp: data.timestamp})
+  }).then(function (res) {
+    console.log(res);
+  })
 }
 
 async function getTradeDetails() {
