@@ -31,7 +31,7 @@ class Main extends Component  {
     const artworks = await getAllArtworks();
     console.log(artworks);
     for(var i in artworks) {
-      if(artworks[i].owner == localStorage.getItem('username')) {
+      if(artworks[i].owner === localStorage.getItem('username') && artworks[i].hidden !== 1) {
         tileData.push({
             img: require("../static/"+artworks[i].url),
             identifier: artworks[i].identifier,
@@ -43,6 +43,10 @@ class Main extends Component  {
     }
     console.log("got artworks")
     this.forceUpdate();
+  }
+
+  saveBlurb() {
+    console.log(document.getElementById("blurb").value);
   }
 
   render() {
@@ -74,8 +78,8 @@ class Main extends Component  {
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
-                  {/* <HistoryTable identifier={tile.identifier} />
-                  <MicroresearchTable identifier={tile.identifier} /> */}
+                  <HistoryTable identifier={tile.identifier} />
+                  <MicroresearchTable identifier={tile.identifier} />
                   <MicroresearchPrompt identifier={tile.identifier} />
                 </Paper>
                 {/* <GridListTileBar
@@ -89,6 +93,15 @@ class Main extends Component  {
               <div style={{padding: 10}}><img src="./static/dance.jpg" height={500} /></div>
               <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
           </Grid>
+          <br />
+          <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
+          textAlign: 'center',
+          paddingTop: 20,
+          paddingBottom: 10}}>My Blurb</Typography>
+          <div style={{textAlign: 'center'}}>
+            <textarea style={{width: "50%"}} id="blurb" multiline="true"></textarea>
+          </div>
+          <Button style={{margin:'auto', display:'block'}} onClick={this.saveBlurb}>Save</Button>
         </div>
       </div>
       
