@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./imagedrop.css"
 import * as serverfuncs from '../serverfuncs';
 
@@ -26,10 +26,10 @@ function uploadFile(file) {
   xhr.open('POST', url, true)
 
   xhr.addEventListener('readystatechange', function(e) {
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       console.log("IMAGE SAVED");
     }
-    else if (xhr.readyState == 4 && xhr.status != 200) {
+    else if (xhr.readyState === 4 && xhr.status !== 200) {
       console.log("IMAGE UPLOAD FAILED");
     }
   })

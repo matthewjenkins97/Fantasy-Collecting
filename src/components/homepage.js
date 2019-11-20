@@ -31,7 +31,7 @@ class Main extends Component  {
     const artworks = await getAllArtworks();
     console.log(artworks);
     for(var i in artworks) {
-      if(artworks[i].owner == localStorage.getItem('username')) {
+      if(artworks[i].owner === localStorage.getItem('username')) {
         tileData.push({
             img: require("../static/"+artworks[i].url),
             identifier: artworks[i].identifier,
