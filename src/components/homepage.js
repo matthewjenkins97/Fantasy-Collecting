@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'; 
 import TradeWindow from './tradewindow'
 import OtherGallery from './homepageofother'
-import { getAllArtworks } from '../serverfuncs';
+import { getAllArtworks, setBlurb, getUser } from '../serverfuncs';
 import ChatComponent from "../components/ChatMessage";
 import HistoryTable from "../components/historytable";
 import MicroresearchTable from "../components/microresearchtable"; 
@@ -20,6 +20,7 @@ class Main extends Component  {
     super(props);
     tileData = [];
     this.getTileData();
+    this.getBlurb();
     document.body.className = "gallery";
   }
 
@@ -33,7 +34,7 @@ class Main extends Component  {
     for(var i in artworks) {
       if(artworks[i].owner === localStorage.getItem('username') && artworks[i].hidden !== 1) {
         tileData.push({
-            img: require("../static/"+artworks[i].url),
+            img: require("../static/" + artworks[i].url),
             identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,
@@ -45,8 +46,17 @@ class Main extends Component  {
     this.forceUpdate();
   }
 
+  async getBlurb() {
+    const user = localStorage.getItem('username');
+    let userInfo = await getUser(user);
+    userInfo = userInfo[0];
+    document.getElementById("galleryblurb").value = userInfo.blurb;
+  }
+
   saveBlurb() {
-    console.log(document.getElementById("blurb").value);
+    const username = localStorage.getItem('username');
+    const blurb = document.getElementById("blurb").value;
+    setBlurb(username, blurb);
   }
 
   render() {
@@ -99,7 +109,7 @@ class Main extends Component  {
           paddingTop: 20,
           paddingBottom: 10}}>My Blurb</Typography>
           <div style={{textAlign: 'center'}}>
-            <textarea style={{width: "50%"}} id="blurb" multiline="true"></textarea>
+            <textarea style={{width: "50%"}} id="galleryblurb" multiline="true"></textarea>
           </div>
           <Button style={{margin:'auto', display:'block'}} onClick={this.saveBlurb}>Save</Button>
         </div>

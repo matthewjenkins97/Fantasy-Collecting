@@ -10,7 +10,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, approveTrade, denyTrade, getUser};
+  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, approveTrade, denyTrade, getUser, setBlurb};
 /*
 
 
@@ -461,7 +461,7 @@ async function isAdmin(user) {
 
 async function getUser(user) {
   //console.log("getting all users");
-  const response = await fetch(apiURL + '/users' + user);
+  const response = await fetch(apiURL + '/users/' + user);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson));
   // console.log("student: ");
@@ -674,4 +674,18 @@ async function getTradeDetails() {
   const myJson = await response.json();
   const tradedetails = JSON.parse(JSON.stringify(myJson));
   return tradedetails;
+}
+
+async function setBlurb(user, blurb) {
+    fetch(apiURL + '/users/' + user, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+        {blurb: blurb})
+  }).then(function (res) {
+    console.log(res);
+  })
 }
