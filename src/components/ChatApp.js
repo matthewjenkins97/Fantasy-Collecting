@@ -33,14 +33,21 @@ class ChatApp extends Component {
 
     createRoom(roomName) {
         console.log("CREATING ROOM")
+        console.log(this.state.currentUser)
+        console.log(typeof this.state.otherUser)
+        console.log(typeof roomName);
         chatManager
             .connect()
             .then(currentUser => {
+                console.log("NAMENAME")
+                console.log(roomName)
+                console.log(this.state.currentUser.id)
+                console.log(this.state.otherUser)
                 currentUser.createRoom({
                 id: roomName,
                 name: roomName,
                 private: true,
-                addUserIds: [this.state.currentUser, this.state.otherUser],
+                addUserIds: [this.state.currentUser.id, this.state.otherUser],
                 customData: { foo: 42 },
             })})
             .then(room => {

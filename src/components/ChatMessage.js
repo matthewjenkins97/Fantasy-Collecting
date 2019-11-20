@@ -22,6 +22,9 @@ const userlist = [
     },
     {
         username: "mjenkins"
+    },
+    {
+        username: "jopatrny"
     }
 ]
 
