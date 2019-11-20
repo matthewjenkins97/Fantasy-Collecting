@@ -10,7 +10,6 @@ import HistoryTable from "../components/historytable";
 import MicroresearchTable from "../components/microresearchtable"; 
 
 var tileData = [];
-var blurb = "";
 
 function openUserMenu() {
   document.getElementById("galleryview").style.left = "0px";
@@ -31,8 +30,14 @@ class OtherGallery extends Component  {
   constructor(props){
     super(props);
     tileData = [];
-    blurb = "";
     //document.body.className = "gallery";
+  }
+
+  async getBlurb(user) {
+    let userInfo = await serverfuncs.getUser(user);
+    userInfo = userInfo[0];
+    console.log(userInfo.blurb)
+    document.getElementById("othergalleryblurb").innerHTML = userInfo.blurb;
   }
 
   async expandUsers(ref) {
@@ -55,10 +60,6 @@ class OtherGallery extends Component  {
   }
 
   async getTileData(user) {
-    let userInfo = serverfuncs.getUser(user);
-    console.log(userInfo);
-    blurb = userInfo.blurb;
-
     tileData = [];
     const artworks = await serverfuncs.getAllArtworks();
     for(var i in artworks) {
@@ -72,6 +73,7 @@ class OtherGallery extends Component  {
           });
       }
     }
+    this.getBlurb(user);
     this.forceUpdate();
     document.getElementById("subgalleryname").innerHTML = user+"'s Gallery";
   }
@@ -125,8 +127,11 @@ class OtherGallery extends Component  {
                 <div style={{padding: 10}}><img src="./static/sunflowers.jpg" height={500}/></div> */}
             </Grid>
             <div style={{padding: 10}}>
-              <h1>Gallery Information</h1>
-              <p style={{textAlign: "center"}}>{blurb}</p>
+              <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
+              textAlign: 'center',
+              paddingTop: 20,
+              paddingBottom: 10}}>Gallery Information</Typography>
+              <h1 style={{textAlign: "center"}} id="othergalleryblurb"></h1>
             </div>
           </div>
         </div>

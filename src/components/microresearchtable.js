@@ -5,44 +5,49 @@ import * as serverfuncs from '../serverfuncs';
 import './gallerydropdown.css';
 import { Typography } from '@material-ui/core';
 
-var rows = [];
-var read = false;
+export default class MicroresearchTable extends React.Component {
+  constructor(props) {
+    super(props);
 
-var divid = "";
+    // stuff for memory of table
+    this.rows = [];
+    this.read = false;
+    this.getRows = this.getRows.bind(this);
 
-var stateBeg = {columns: [
+    // needs to be done for divid to be preserved
+    this.lowerTable = this.lowerTable.bind(this)
+    this.raiseTable = this.raiseTable.bind(this)
+    this.divid = this.props.identifier + "MicroresearchDropdown";
+
+    this.getRows();
+    this.state = {columns: [
       { title: 'User', field: 'username' },
       { title: 'Microresearch', field: 'information' },
       { title: 'Timestamp', field: 'timestamp'},
     ],
-    data: rows,
-}
-
-export default class MicroresearchTable extends React.Component {
-  constructor(props) {
-    super(props);
-    divid = this.props.identifier + "MicroresearchDropdown";
-    this.getRows();
-    this.state = stateBeg; 
+    data: this.rows,
+    }; 
   }
 
   lowerTable() {
-    document.getElementById(divid).style.top = "0px";
+    document.getElementById(this.divid).style.top = "0px";
   }
 
   raiseTable() {
-    document.getElementById(divid).style.top = "-600px";
+    document.getElementById(this.divid).style.top = "-600px";
   }
 
   async getRows() {
-    rows = [];
+    this.rows = [];
     const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
     for(var microresearch of artworkMicroresearch) {
-      rows.push(microresearch);
+      if (microresearch.identifier === this.props.identifier) {
+        this.rows.push(microresearch);
+      }
     };
-    this.state.data = rows;
-    this.state.data = this.state.data.sort(function(a, b){return a.date[0] > b.date[0] ? 1 : -1});
-    read = true;
+    this.state.data = this.rows;
+    this.state.data = this.state.data.sort(function(a, b){return new Date(a.date) > new Date(b.date) ? 1 : -1});
+    this.read = true;
     this.forceUpdate();
   }
 
@@ -51,10 +56,10 @@ export default class MicroresearchTable extends React.Component {
     return (
       <div>
         <Button onClick={this.lowerTable}><i>Show Microresearch</i></Button>
-          <div id={divid} class="galleryDropdown">
+          <div id={this.divid} class="galleryDropdown">
             <a class="closebtn" onClick={this.raiseTable}>&times;</a>
             <p>&nbsp;</p>
-            {read ? (
+            {this.read ? (
             <MaterialTable
               title={title}
               columns={this.state.columns}
