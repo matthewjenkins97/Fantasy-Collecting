@@ -84,7 +84,7 @@ class AuctionAdmin extends React.Component{
           <div class = 'title'>
             <a>auctions</a>
           </div>
-          <a>Browse Lots</a>
+          <a style = {{color: "white"}}>Browse Lots</a>
           <div id = "auctionscroll" class = "auctionscroll">
           </div>
         </div>

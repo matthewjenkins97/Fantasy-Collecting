@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
+import ImageDrop from './imagedrop';
 
 var rows = [];
 var read = false;
@@ -51,6 +52,7 @@ export default class ArtworkTable extends React.Component {
     return (
       <div>
       {read ? (
+      <div>
       <MaterialTable
         title="Artworks"
         columns={this.state.columns}
@@ -94,6 +96,8 @@ export default class ArtworkTable extends React.Component {
             }),
         }}
       />
+      <ImageDrop/>
+      </div>
     ) : (<h1>loading...</h1>)} </div> ); 
   }
 }
