@@ -27,12 +27,11 @@ export default class MicroresearchPrompt extends React.Component {
   }
 
   submitMicroresearch() {
-    const date = new Date();
     const data = {
       username: localStorage.getItem('username'),
       identifier: identifier,
       information: document.getElementById(textid).value,
-      timestamp: date
+      timestamp: new Date()
     };
 
     serverfuncs.postMicroresearch(data);
