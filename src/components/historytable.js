@@ -4,44 +4,49 @@ import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
 import "./gallerydropdown.css";
 
-var rows = [];
-var read = false;
-var divid = "";
+export default class HistoryTable extends React.Component {
+  constructor(props) {
+    super(props);
 
-var stateBeg = {columns: [
+    // stuff for memory of table
+    this.rows = [];
+    this.read = false;
+    this.getRows = this.getRows.bind(this);
+
+    // needs to be done for divid and other this variables to be preserved
+    this.lowerTable = this.lowerTable.bind(this)
+    this.raiseTable = this.raiseTable.bind(this)
+
+    this.divid = this.props.identifier + "HistoryDropdown"
+
+    this.getRows();
+    this.state = {columns: [
       { title: 'Date', field: 'timestamp'},
       { title: 'Buyer', field: 'buyer' },
       { title: 'Seller', field: 'seller' },
       { title: 'Selling Price', field: 'price', type: 'numeric'},
     ],
-    data: rows,
-}
-
-export default class HistoryTable extends React.Component {
-  constructor(props) {
-    super(props);
-    divid = this.props.identifier + "HistoryDropdown";
-    this.getRows();
-    this.state = stateBeg; 
+    data: this.rows,
+    }; 
   }
 
   lowerTable() {
-    document.getElementById(divid).style.top = "0px";
+    document.getElementById(this.divid).style.top = "0px";
   }
 
   raiseTable() {
-    document.getElementById(divid).style.top = "-600px";
+    document.getElementById(this.divid).style.top = "-600px";
   }
 
   async getRows() {
-    rows = [];
+    this.rows = [];
     const history = await serverfuncs.getHistory(this.props.identifier);
     for(var artwork of history) {
-      rows.push(artwork);
+      this.rows.push(artwork);
     };
-    this.state.data = rows;
+    this.state.data = this.rows;
     this.state.data = this.state.data.sort(function(a, b){return a.timestamp[0] > b.timestamp[0] ? 1 : -1});
-    read = true;
+    this.read = true;
     this.forceUpdate();
   }
 
@@ -50,10 +55,10 @@ export default class HistoryTable extends React.Component {
     return (
       <div>
         <Button onClick={this.lowerTable}><i>History</i></Button>
-        <div id={divid} class="galleryDropdown">
+        <div id={this.divid} class="galleryDropdown">
           <a class="closebtn" onClick={this.raiseTable}>&times;</a>
           <p>&nbsp;</p>
-          {read ? (
+          {this.read ? (
           <MaterialTable
             title={title}
             columns={this.state.columns}
