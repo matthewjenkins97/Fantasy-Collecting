@@ -28,28 +28,28 @@ class ChatApp extends Component {
             general: props.general,
         }
         this.sendMessage = this.sendMessage.bind(this);
-        this.createRoom = this.createRoom.bind(this);
+        //this.createRoom = this.createRoom.bind(this);
     }
 
-    createRoom(roomName) {
-        console.log("CREATING ROOM")
-        chatManager
-            .connect()
-            .then(currentUser => {
-                currentUser.createRoom({
-                id: roomName,
-                name: roomName,
-                private: true,
-                addUserIds: [this.state.currentUser, this.state.otherUser],
-                customData: { foo: 42 },
-            })})
-            .then(room => {
-                console.log(`Created room called ${room.name}`)
-            })
-            .catch(err => {
-                console.log(`Error creating room ${err}`)
-          })
-    } 
+    // createRoom() {
+    //     // console.log("CREATING ROOM")
+    //     // chatManager
+    //     //     .connect()
+    //     //     .then(currentUser => {
+    //             this.state.currentUser.createRoom({
+    //             id: this.currentRoomId,
+    //             name: this.currentRoomId,
+    //             private: true,
+    //             addUserIds: [this.state.currentUser, this.state.otherUser],
+    //             customData: { foo: 42 },
+    //         // })})
+    //         // .then(room => {
+    //         //     console.log(`Created room called ${room.name}`)
+    //         // })
+    //         // .catch(err => {
+    //         //     console.log(`Error creating room ${err}`)
+    //       })
+    // } 
 
 
 
@@ -63,7 +63,7 @@ class ChatApp extends Component {
                 return;
             }
         }
-        this.createRoom(currentRoom);
+        //this.createRoom();
 
     }
 
@@ -78,7 +78,9 @@ class ChatApp extends Component {
     if (this.state.general == "general") {
         roomName = "642a21e5-92e6-42fd-8966-b4a151d7ea94";
     }
-    this.state.currentRoomId = roomName;
+    this.setState({
+        currentRoomId: roomName,
+    })
     // if (!this.state.created) {
     //     createRoom();
     // }
@@ -95,9 +97,26 @@ class ChatApp extends Component {
 
     chatManager
             .connect()
+            // .then(currentUser => {
+            //                 currentUser.createRoom({
+            //                 id: this.state.currentRoomId,
+            //                 name: this.state.currentRoomId,
+            //                 private: true,
+            //                 addUserIds: [this.state.currentUser, this.state.otherUser],
+            //                 customData: { foo: 42 },
+            //             })
+            //             console.log("******")
+            //             console.log(roomName)
+            //             .then(room => {
+            //                 console.log(`Created room called ${room.name}`)
+            //             })
+            //             .catch(err => {
+            //                 console.log(`Error creating room ${err}`)
+            //           })
+            // })
             .then(currentUser => {
                 console.log(currentUser.rooms);
-                this.checkRoom(currentUser.rooms, roomName);
+                //this.checkRoom(currentUser.rooms, roomName);
                 this.setState({ currentUser: currentUser })
                 return currentUser.subscribeToRoom({
                     roomId: roomName,
@@ -121,6 +140,8 @@ class ChatApp extends Component {
     }
 
     sendMessage(text) {
+        console.log("SEND MESSAGE");
+        console.log(this.state.currentUser);
         this.state.currentUser.sendMessage({
             roomId: this.state.currentRoomId,
             text
