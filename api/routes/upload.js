@@ -12,7 +12,7 @@ router.post('/', function(req, res) {
       let fstream = fs.createWriteStream('../src/static/' + filename); 
       file.pipe(fstream);
       fstream.on('close', function () {
-        res.send(`Upload succeeded! Your filename is ../src/static/artworks/${filename}.`);
+        res.send(`Upload succeeded! Your filename is ../src/static/${filename}.`);
       });
     });
   }

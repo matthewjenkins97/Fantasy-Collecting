@@ -20,7 +20,7 @@ function handleFiles(files) {
 
 
 function uploadFile(file) {
-  var url = '../static/artworks/.'
+  var url = '../static/.'
   var xhr = new XMLHttpRequest()
   var formData = new FormData()
   xhr.open('POST', url, true)
