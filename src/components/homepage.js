@@ -51,7 +51,7 @@ class Main extends Component  {
         {/* <PinGrid /> */}
         {/* <GridList /> */}
         <div>
-          <div style={{position: "fixed", top: 150}}><ChatComponent /></div>
+          <div><ChatComponent /></div>
           <div><OtherGallery/></div>
           <div><TradeWindow></TradeWindow></div>
         </div>

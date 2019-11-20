@@ -8,6 +8,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import { View } from "react-native";
 
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
@@ -60,21 +62,42 @@ class ChatMessage extends Component {
         render() {
             return (
                 <div>
-                    {/* style={{color: "white"}} */}
+                    <View style={{position: 'absolute', right: 0, bottom: 0, marginBottom: 400}}>
+                    {  this.state.currentView ?  
+                    (<CloseIcon onClick={() => this.changeView(this.state.currentView)}/>) 
+                    : (null)   
+                
+                }
+                    {  this.state.chatView ?  
+                    (<CloseIcon onClick={() => this.changeChat(this.state.chatView)}/>) 
+                    : (null)   
+                
+                }
+                    </View>
                     <div>
-                        {userlist.map(user => (
-                        //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
-                            <Button id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
-                        ))}
+                        {/* style={{color: "white"}} */}
+                        <div>
+                        <FormControl style={{position: "fixed", top: 150}}>
+                            <InputLabel>Users</InputLabel>
+                            <Select>
+                            {userlist.map(user => (
+                            //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
+                            <MenuItem><Button id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
+                            
+                            //<Button style={{position: "fixed"}} id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
+                            ))}
+                            </Select>
+                        </FormControl>
+                        </div>
+                        <MailIcon  style={{position: 'absolute', top: 200}} onClick={() => this.changeView(this.state.currentView)} />
+                        { this.state.currentView ? (<div className="App"><div className="form-container">
+                    <ChatApp general="general"/>
+                </div></div>) : (null) }
+                        { this.state.chatView ? (<div className="App"><div className="form-container">
+                    <ChatApp otherUser={this.state.otherChatter}/>
+                </div></div>) : (null) }
                     </div>
-                    <MailIcon  onClick={() => this.changeView(this.state.currentView)} />
-                    { this.state.currentView ? (<div className="App"><div className="form-container">
-                <ChatApp general="general"/>
-            </div></div>) : (null) }
-                    { this.state.chatView ? (<div className="App"><div className="form-container">
-                <ChatApp otherUser={this.state.otherChatter}/>
-            </div></div>) : (null) }
-                </div>
+            </div>
             )
         }
     }

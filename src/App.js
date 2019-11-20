@@ -25,10 +25,10 @@ import AdminAuction from './pages/adminauction';
 import { default as Chatkit } from '@pusher/chatkit-server';
 
 //serverfuncs.isAdmin(localStorage.getItem('username'))) === true
-const chatkit = new Chatkit({
-  instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-  key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
-})
+// const chatkit = new Chatkit({
+//   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+//   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
+// })
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
