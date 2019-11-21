@@ -12,21 +12,24 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.execute('SELECT * FROM microresearch', (err, results, fields) => {
+  connection.query('SELECT * FROM microresearch', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.execute(`SELECT * FROM microresearch WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+  connection.query(`SELECT * FROM microresearch WHERE username = '${req.params.id}' or identifier = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.post('/', json(), function(req, res, next) {
-  if (!req.body.identifier) {
+  if (!req.body.username || !req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
     const dbEntry = [
       req.body.username,
@@ -35,14 +38,17 @@ router.post('/', json(), function(req, res, next) {
       req.body.timestamp,
     ];
 
-    // setting nonexistent things to null
-    for (let i in dbEntry) {
-      if (dbEntry[i] === undefined) {
-        dbEntry[i] = null;
+    for (const i in dbEntry) {
+      if (typeof(dbEntry[i]) === 'string') {
+        dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
       }
     }
 
-    connection.execute('INSERT INTO microresearch VALUES (?, ?, ?, ?)', dbEntry, (err, results, fields) => {
+    const dbEntryArgs = dbEntry.join(', ');
+
+    connection.query(`INSERT INTO microresearch VALUES (${dbEntryArgs})`, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);

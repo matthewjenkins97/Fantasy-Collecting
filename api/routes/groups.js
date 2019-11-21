@@ -12,13 +12,13 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.execute('SELECT * FROM groups', (err, results, fields) => {
+  connection.query('SELECT * FROM groups', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.execute(`SELECT * FROM groups WHERE groupid = ?`, [req.params.id], (err, results, fields) => {
+  connection.query(`SELECT * FROM groups WHERE groupid = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
@@ -28,6 +28,8 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // date (corresponding to our datetime object) needs to be converted to something mysql can accept
+    req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
 
     const dbEntry = [
       req.body.groupid,
@@ -36,12 +38,16 @@ router.post('/', json(), function(req, res, next) {
     ];
 
     for (const i in dbEntry) {
-      if (dbEntry[i] == undefined) {
-        dbEntry[i] = null;
+      if (typeof(dbEntry[i]) === 'string') {
+        dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
       }
     }
 
-    connection.execute(`INSERT INTO groups VALUES (?, ?, ?)`, dbEntry, (err, results, fields) => {
+    const dbEntryArgs = dbEntry.join(', ');
+
+    connection.query(`INSERT INTO groups VALUES (${dbEntryArgs})`, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -58,9 +64,15 @@ router.put('/:id', json(), function(req, res, next) {
     date: req.body.date,
   };
 
+  dbEntry.date = new Date(dbEntry.date).toISOString().slice(0, 19).replace('T', ' ');
+
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
-      connection.execute(`UPDATE groups SET ${item} = ? WHERE groupid = ?`, [dbEntry[item], req.params.id]);
+      if (typeof(dbEntry[item]) == 'string') {
+        connection.query(`UPDATE groups SET ${item} = '${dbEntry[item]}' WHERE groupid = '${req.params.id}'`);
+      } else {
+        connection.query(`UPDATE groups SET ${item} = ${dbEntry[item]} WHERE groupid = '${req.params.id}'`);
+      }
     }
   }
 
@@ -68,7 +80,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.execute(`DELETE FROM groups WHERE groupid = ?`, [req.params.id], (err, results, fields) => {
+  connection.query(`DELETE FROM groups WHERE groupid = '${req.params.id}'`, (err, results, fields) => {
     res.sendStatus(200);
   });
 });

@@ -14,8 +14,7 @@ create table history
 seller VARCHAR(255), 
 buyer VARCHAR(255),
 price SMALLINT,
-timestamp DATETIME,
-lasttrade BIGINT);
+timestamp DATETIME);
 
 create table users 
 (username VARCHAR(255), 
@@ -40,7 +39,7 @@ seller VARCHAR(255),
 buyerinit BOOL,  
 sellerinit BOOL,  
 buyerapproved BOOL,  
-sellerapproved BOOL);
+sellerapproved BOOL)
 
 create table tradedetails
 (tradeid BIGINT, 
@@ -50,15 +49,8 @@ offer VARCHAR(255),
 approved BOOL);
 
 create table auction
-(identifier VARCHAR(255),
+(identifier VARCHAR(255)
 number BIGINT,
 highestbid BIGINT,
-username VARCHAR(255),
-deadline DATETIME, 
-groupid VARCHAR(255));
-
-// groups is a keyword for mysql >= 8.0.2 - consider renaming
-create table groups
-(groupid VARCHAR(255),
-identifier VARCHAR(255),
-date DATETIME);
+username VARCHAR(255)
+deadline DATETIME);

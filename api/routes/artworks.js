@@ -12,25 +12,30 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.execute('SELECT * FROM artworks', (err, results, fields) => {
+  connection.query('SELECT * FROM artworks', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.execute(`SELECT * FROM artworks WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+  connection.query(`SELECT * FROM artworks WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
-  if (!req.body.identifier) {
+  if (!req.body.title) {
     res.sendStatus(400);
   } else {
+    // create our artwork identifier
+    let identifier = req.body.title;
+    identifier = identifier.replace(/\s/, '');
+    identifier = identifier.toLowerCase();
+    identifier = identifier.substr(0, 20);
 
     const dbEntry = [
-      req.body.identifier,
+      identifier,
       req.body.title,
       req.body.artist,
       req.body.year,
@@ -42,12 +47,16 @@ router.post('/', json(), function(req, res, next) {
     ];
 
     for (const i in dbEntry) {
-      if (dbEntry[i] === undefined) {
-        dbEntry[i] = null;
+      if (typeof(dbEntry[i]) === 'string') {
+        dbEntry[i] = `'${dbEntry[i]}'`;
+      } else if (dbEntry[i] == undefined) {
+        dbEntry[i] = `NULL`;
       }
     }
 
-    connection.execute(`INSERT INTO artworks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    const dbEntryArgs = dbEntry.join(', ');
+
+    connection.query(`INSERT INTO artworks VALUES (${dbEntryArgs})`, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -60,19 +69,23 @@ router.post('/', json(), function(req, res, next) {
 
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
-    title: req.body.title,
-    artist: req.body.artist,
-    year: req.body.year,
-    theoreticalprice: req.body.theoreticalprice,
-    actualprice: req.body.actualprice,
-    hidden: req.body.hidden,
-    owner: req.body.owner,
-    url: req.body.url,
+    'title': req.body.title,
+    'artist': req.body.artist,
+    'year': req.body.year,
+    'theoreticalprice': req.body.theoreticalprice,
+    'actualprice': req.body.actualprice,
+    'hidden': req.body.hidden,
+    'owner': req.body.owner,
+    'url': req.body.url,
   };
 
   for (const item of Object.keys(dbEntry)) {
-    if (dbEntry[item] !== undefined) {
-      connection.execute(`UPDATE artworks SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
+    if (dbEntry[item] != undefined) {
+      if (typeof(dbEntry[item]) == 'string') {
+        connection.query(`UPDATE artworks SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
+      } else {
+        connection.query(`UPDATE artworks SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
+      }
     }
   }
 
@@ -80,7 +93,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.execute(`DELETE FROM artworks WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+  connection.query(`DELETE FROM artworks WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
     res.sendStatus(200);
   });
 });
