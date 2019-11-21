@@ -33,7 +33,8 @@ router.post('/', json(), function(req, res, next) {
       req.body.highestbid,
       req.body.username,
       req.body.deadline,
-      req.body.groupid
+      req.body.groupid,
+      req.body.lotessay,
     ];
 
     for (const i in dbEntry) {
@@ -42,7 +43,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO auction VALUES (?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO auction VALUES (?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -63,7 +64,8 @@ router.put('/:id', json(), function(req, res, next) {
     highestbid: req.body.highestbid,
     username: req.body.username,
     deadline: req.body.deadline,
-    groupid: req.body.groupid
+    groupid: req.body.groupid,
+    lotessay: req.body.lotessay
   };
 
   for (const item of Object.keys(dbEntry)) {
