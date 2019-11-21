@@ -1,0 +1,64 @@
+create table artworks 
+(identifier VARCHAR(255), 
+title VARCHAR(255), 
+artist VARCHAR(255),
+year VARCHAR(4),
+theoreticalprice SMALLINT,
+actualprice SMALLINT,
+hidden BOOL,
+owner VARCHAR(255), 
+url VARCHAR(255));
+
+create table history 
+(identifier VARCHAR(255), 
+seller VARCHAR(255), 
+buyer VARCHAR(255),
+price BIGINT,
+timestamp DATETIME,
+lasttrade BIGINT);
+
+create table users 
+(username VARCHAR(255), 
+hash VARCHAR(255),
+name VARCHAR(255), 
+admin BOOL,
+guilders SMALLINT,
+microresearchpoints SMALLINT, 
+numofpaintings SMALLINT, 
+blurb TEXT);
+
+create table microresearch 
+(username VARCHAR(255), 
+identifier VARCHAR(255), 
+information TEXT,
+timestamp DATETIME);
+
+create table trades 
+(tradeid BIGINT,  
+buyer VARCHAR(255),
+seller VARCHAR(255),
+buyerinit BOOL,  
+sellerinit BOOL,  
+buyerapproved BOOL,  
+sellerapproved BOOL);
+
+create table tradedetails
+(tradeid BIGINT, 
+buyer VARCHAR(255),
+seller VARCHAR(255),
+offer VARCHAR(255),    
+approved BOOL);
+
+create table auction
+(identifier VARCHAR(255),
+number BIGINT,
+highestbid BIGINT,
+username VARCHAR(255),
+deadline DATETIME, 
+groupid VARCHAR(255));
+
+// groups is a keyword for mysql >= 8.0.2 - consider renaming
+create table groups
+(groupid VARCHAR(255),
+identifier VARCHAR(255),
+date DATETIME);
