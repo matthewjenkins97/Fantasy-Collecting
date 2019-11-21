@@ -36,7 +36,7 @@ async function addLotToAuction() {
   await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").value);
 }
 
-class AuctionAdmin extends React.Component{
+class AuctionStudent extends React.Component{
     constructor(props) {
       super(props);
       //document.body.className = "auction";
@@ -75,44 +75,20 @@ class AuctionAdmin extends React.Component{
       titleNode.innerHTML = title;
       document.getElementById("auctions").append(titleNode);
 
-      var addLotNode = document.createElement("button");
-      addLotNode.id = id;
-      addLotNode.innerHTML = "Create Lot"
-      addLotNode.onclick = function () {
-        openAddDropdown(this.id);
-      };
-      document.getElementById("auctions").append(addLotNode);
+      // var addLotNode = document.createElement("button");
+      // addLotNode.id = id;
+      // addLotNode.innerHTML = "Create Lot"
+      // addLotNode.onclick = function () {
+      //   openAddDropdown(this.id);
+      // };
+      // document.getElementById("auctions").append(addLotNode);
 
-      var deleteNode = document.createElement("button");
-      deleteNode.id = "deletNode"+id;
-      deleteNode.innerHTML = "Delete Auction"
-      deleteNode.onclick = async function () {
-        await auctionfuncs.deleteAuction(id);
-        c_ref.loadAuctions();
-      };
-      document.getElementById("auctions").append(deleteNode);
-
-      var confirmNode = document.createElement("button");
-      confirmNode.id = "confirmNode"+id;
-      confirmNode.innerHTML = "Confirm Auction"
-      confirmNode.onclick = async function () {
-        for(var lot in auctions) {
-          await auctionfuncs.conductAuctionTrade(auctions[lot].identifier, auctions[lot].username, auctions[lot].highestbid);
-        }
-        await auctionfuncs.deleteAuction(id);
-        c_ref.loadAuctions();
-      };
-      document.getElementById("auctions").append(confirmNode);
 
       var auctionnode = document.createElement("div");
       auctionnode.className = "auctionscroll";
       auctionnode.id = "auctionscroll"+id.toString();
       document.getElementById("auctions").append(auctionnode);
       currentAuctions.push(auctionnode.id);
-      currentAuctions.push(titleNode.id);
-      currentAuctions.push(deleteNode.id);
-      currentAuctions.push(addLotNode.id);
-      currentAuctions.push(confirmNode.id);
 
       var auctionnumber = -1;
       for(const a in auctions) {
@@ -121,17 +97,6 @@ class AuctionAdmin extends React.Component{
         auctionnumber++;
         const source_of_image = await serverfuncs.getArtworkInfo(auctions[a].identifier);
         var auction_scroll = auctionnode;
-
-        var deleteNode = document.createElement("button");
-        deleteNode.innerHTML = "Delete Lot";
-        deleteNode.style.position = "absolute";
-        deleteNode.style.left = (auctionnumber*550).toString()+"px";
-        deleteNode.onclick = async function() {
-          console.log(auctions[a].identifier);
-          await auctionfuncs.deleteLot(auctions[a].identifier);
-        }
-        auction_scroll.append(deleteNode);
-
 
         var imagenode = document.createElement("img");
         imagenode.id = "auction_pic"+a.toString();
@@ -203,12 +168,12 @@ class AuctionAdmin extends React.Component{
             <a>auctions</a>
           </div>
 
-          <div style = {{textAlign: "center"}}>
+          {/* <div style = {{textAlign: "center"}}>
             <button onClick = {openCreateDropdown} style = {{
               width: "100px", height: "50px", boxAlign: "center", borderRadius: "30px",
               boxShadow: "none"
             }}>Create Auction</button>
-          </div>
+          </div> */}
 
           <br></br>
 
@@ -266,4 +231,4 @@ class AuctionAdmin extends React.Component{
     }
 }
 
-export default AuctionAdmin
+export default AuctionStudent

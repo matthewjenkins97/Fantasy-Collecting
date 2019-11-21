@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
+import AuctionStudent from "../components/studentauction"
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,7 +49,7 @@ function SimpleMenu() {
 const AuctionPage = () => {
     return(
         <div>
-            <AppBar position="static">
+            {/* <AppBar position="static">
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -59,7 +60,8 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-            <Auction />
+            <Auction /> */}
+            <AuctionStudent/>
             {/* <h1>Login</h1>
             username:<input type = 'text' id = 'liusername'></input>
             <p></p>password:<input type = 'text' id = 'lipassword'></input>

@@ -12,13 +12,13 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.query('SELECT * FROM history', (err, results, fields) => {
+  connection.execute('SELECT * FROM history', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM history WHERE identifier = '${req.params.id}'`, (err, results, fields) => {
+  connection.execute(`SELECT * FROM history WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
     res.send(results);
   });
 });
@@ -28,7 +28,8 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-    // timestamp (corresponding to our datetime object) needs to be converted to something mysql can accept
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
     req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
     const dbEntry = [
@@ -41,16 +42,12 @@ router.post('/', json(), function(req, res, next) {
     ];
 
     for (const i in dbEntry) {
-      if (typeof(dbEntry[i]) === 'string') {
-        dbEntry[i] = `'${dbEntry[i]}'`;
-      } else if (dbEntry[i] == undefined) {
-        dbEntry[i] = `NULL`;
+      if (dbEntry[i] === undefined) {
+        dbEntry[i] = null;
       }
     }
 
-    const dbEntryArgs = dbEntry.join(', ');
-
-    connection.query(`INSERT INTO history VALUES (${dbEntryArgs})`, (err, results, fields) => {
+    connection.query(`INSERT INTO history VALUES (?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -62,6 +59,10 @@ router.post('/', json(), function(req, res, next) {
 });
 
 router.put('/:id', json(), function(req, res, next) {
+  // timestamp (corresponding to our datetime object) needs to be converted
+  // to something mysql can accept
+  req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
   const dbEntry = {
     identifier: req.body.identifier,
     seller: req.body.seller,
@@ -71,15 +72,9 @@ router.put('/:id', json(), function(req, res, next) {
     lasttrade: req.body.lasttrade,
   };
 
-  dbEntry.timestamp = new Date(dbEntry.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-
   for (const item of Object.keys(dbEntry)) {
-    if (dbEntry[item] != undefined) {
-      if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE history SET ${item} = '${dbEntry[item]}' WHERE identifier = '${req.params.id}'`);
-      } else {
-        connection.query(`UPDATE history SET ${item} = ${dbEntry[item]} WHERE identifier = '${req.params.id}'`);
-      }
+    if (dbEntry[item] !== undefined) {
+      connection.execute(`UPDATE history SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
     }
   }
 

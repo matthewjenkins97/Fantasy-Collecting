@@ -14,7 +14,7 @@ var currentTradeIds = []
 
 window.onbeforeunload = function (e) {
   e.preventDefault();
-  serverfuncs.cancelTrade();
+  //serverfuncs.cancelTrade();
   var message = "leave?",
   e = e || window.event;
   // For IE and Firefox
