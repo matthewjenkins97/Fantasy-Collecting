@@ -1,11 +1,51 @@
 
 export {getAllLots, getAllAuctions,
   conductAuctionTrade, createAuction,
-  createLot}
+  createLot, postBid, deleteLot, deleteAuction}
 
 
-async function postBid() {
-  
+async function postBid(username, id, bid) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      identifier: null,
+      number: null,
+      highestbid: bid,
+      username: username,
+      deadline: null,
+      groupid: null
+    }),
+  }).then((res) => {
+    console.log(res);
+  });
+}
+
+async function deleteLot(id) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+}
+
+async function deleteAuction(id) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`+id, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
 }
 
 async function getAllLots() {
@@ -123,7 +163,7 @@ async function conductAuctionTrade(artwork, user, offer) {
   });
 }
 
-conductAuctionTrade('monalisa', 'dholley', 20);
+//conductAuctionTrade('monalisa', 'dholley', 20);
 
 // auction table
 // some function which combines trades and tradedetails and prints it out in a nice way for jarosi...?

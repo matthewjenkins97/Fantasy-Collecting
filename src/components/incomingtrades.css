@@ -1,0 +1,4 @@
+.tradedropdown {
+  height: 30px;
+  transition: height .5s;
+}
