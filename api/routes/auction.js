@@ -22,6 +22,11 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
+
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.identifier,
       req.body.number,
@@ -49,6 +54,10 @@ router.post('/', json(), function(req, res, next) {
 });
 
 router.put('/:id', json(), function(req, res, next) {
+  // deadline (corresponding to our datetime object) needs to be converted
+  // to something mysql can accept
+  req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+
   const dbEntry = {
     number: req.body.number,
     highestbid: req.body.highestbid,

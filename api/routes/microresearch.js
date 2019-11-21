@@ -28,6 +28,10 @@ router.post('/', json(), function(req, res, next) {
     res.sendStatus(400);
   } else {
 
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.username,
       req.body.identifier,
