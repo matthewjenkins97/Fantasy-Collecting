@@ -68,8 +68,8 @@ router.put('/:id', json(), function(req, res, next) {
   };
 
   for (const item of Object.keys(dbEntry)) {
-    if (dbEntry[item] != undefined) {
-      connection.execute(`UPDATE users SET ${item} = ? WHERE username = ?` [dbEntry[item], req.params.id]);
+    if (dbEntry[item] !== undefined) {
+      connection.execute(`UPDATE users SET ${item} = ? WHERE username = ?`, [dbEntry[item], req.params.id]);
     }
   }
 

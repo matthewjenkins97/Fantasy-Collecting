@@ -13,7 +13,7 @@ create table history
 (identifier VARCHAR(255), 
 seller VARCHAR(255), 
 buyer VARCHAR(255),
-price SMALLINT,
+price BIGINT,
 timestamp DATETIME,
 lasttrade BIGINT);
 

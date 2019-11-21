@@ -38,12 +38,12 @@ router.post('/', json(), function(req, res, next) {
     ];
 
     for (const i in dbEntry) {
-      if (dbEntry[i] == undefined) {
+      if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
     }
 
-    connection.query(`INSERT INTO history VALUES (?, ?, ?, ?, ?, ?)`, (err, results, fields) => {
+    connection.query(`INSERT INTO history VALUES (?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -65,8 +65,8 @@ router.put('/:id', json(), function(req, res, next) {
   };
 
   for (const item of Object.keys(dbEntry)) {
-    if (dbEntry[item] != undefined) {
-      connection.execute(`UPDATE history SET ${item} = ? WHERE identifier = ?'`, [dbEntry[item], req.params.id]);
+    if (dbEntry[item] !== undefined) {
+      connection.execute(`UPDATE history SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
     }
   }
 

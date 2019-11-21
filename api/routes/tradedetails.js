@@ -63,7 +63,7 @@ router.put('/:id', json(), function(req, res, next) {
   };
 
   for (const item of Object.keys(dbEntry)) {
-    if (dbEntry[item] != undefined) {
+    if (dbEntry[item] !== undefined) {
       connection.execute(`UPDATE tradedetails SET ${item} = ? WHERE tradeid = ?`, [dbEntry[item], req.params.id]);
     }
   }
