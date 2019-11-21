@@ -4,7 +4,6 @@ import MaterialTable from 'material-table';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 import "./incomingtrades.css";
-import { threadId } from 'worker_threads';
 
 function expandTradeDropdown(id) {
   document.getElementById(id).style.height = "200px";
@@ -12,7 +11,7 @@ function expandTradeDropdown(id) {
 function closeTradeDropdown(id) {
   document.getElementById(id).style.height = "30px";
 }
-//ar totalTrades = 0;
+var totalTrades = 0;
 export default class IncomingTrades extends React.Component {
   constructor(props) {
     super(props);
@@ -45,12 +44,17 @@ export default class IncomingTrades extends React.Component {
         expandTradeDropdown(this.id);
         // console.log(trade);
         // console.log(totalTrades);
-        //for(var t = 0; t <= totalTrades; t++) {
-          //console.log("TRADE SHIFTED");
-          //console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
-          //document.getElementById("trade"+t.toString()).style.top = 
-          //(parseInt(document.getElementById("trade"+t.toString()).style.top)+160).toString()+"px";
-        //}
+        for(var t = 0; t < totalTrades; t++) {
+          console.log(this.id.slice(5));
+          if(t > parseInt(this.id.slice(5))) {
+            try {
+            console.log("TRADE SHIFTED");
+            console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
+            document.getElementById("trade"+t.toString()).style.top = 
+            (parseInt(document.getElementById("trade"+t.toString()).style.top)+160).toString()+"px";
+            } catch {}
+          }
+        }
       };
 
       var confirmNode = document.createElement("button");
