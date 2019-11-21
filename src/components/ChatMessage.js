@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import { View } from "react-native";
+import * as serverfuncs from '../serverfuncs'
 
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
@@ -29,16 +30,33 @@ const userlist = [
 ]
 
 
+
 class ChatMessage extends Component {
         constructor(props) {
             super(props);
             this.state = {
                 currentView: false,
                 chatView: false,
-                otherChatter: undefined
+                otherChatter: undefined,
+                userList: []
               }
             this.changeView = this.changeView.bind(this);
+            this.getUsers = this.getUsers.bind(this);
+            this.getUsers();
         }
+
+
+
+        async getUsers(){
+            
+            var userlist = await serverfuncs.getAllUsers();
+            this.setState({
+                userList: userlist
+            })
+            console.log("USERS");
+            console.log(this.state.userList);
+        }
+
         changeView(current) {
             // let bool = true;
             // if (current === true) {
@@ -80,10 +98,10 @@ class ChatMessage extends Component {
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <FormControl style={{position: "fixed", top: 150, width: 100}}>
+                        <FormControl style={{position: "fixed", top: 180, width: 100}}>
                             <InputLabel style={{width: 100}}>Users</InputLabel>
                             <Select style={{width: 80}}>
-                            {userlist.map(user => (
+                            {this.state.userList.map(user => (
                             //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
                             <MenuItem><Button id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
                             
@@ -92,7 +110,7 @@ class ChatMessage extends Component {
                             </Select>
                         </FormControl>
                         </div>
-                        <MailIcon  style={{position: 'absolute', top: 200}} onClick={() => this.changeView(this.state.currentView)} />
+                        <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} />
                         { this.state.currentView ? (<div className="App"><div className="form-container">
                     <ChatApp general="general"/>
                 </div></div>) : (null) }
