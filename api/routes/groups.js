@@ -29,6 +29,11 @@ router.post('/', json(), function(req, res, next) {
     res.sendStatus(400);
   } else {
 
+    //req.body.date
+    // date (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.groupid,
       req.body.identifier,
@@ -53,6 +58,10 @@ router.post('/', json(), function(req, res, next) {
 });
 
 router.put('/:id', json(), function(req, res, next) {
+  // date (corresponding to our datetime object) needs to be converted
+  // to something mysql can accept
+  req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
+
   const dbEntry = {
     identifier: req.body.identifier,
     date: req.body.date,

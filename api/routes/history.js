@@ -28,6 +28,10 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
+    // timestamp (corresponding to our datetime object) needs to be converted
+    // to something mysql can accept
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
     const dbEntry = [
       req.body.identifier,
       req.body.seller,
@@ -55,6 +59,10 @@ router.post('/', json(), function(req, res, next) {
 });
 
 router.put('/:id', json(), function(req, res, next) {
+  // timestamp (corresponding to our datetime object) needs to be converted
+  // to something mysql can accept
+  req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
   const dbEntry = {
     identifier: req.body.identifier,
     seller: req.body.seller,
