@@ -12,13 +12,13 @@ const connection = mysql.createPool({
 });
 
 router.get('/', function(req, res, next) {
-  connection.query('SELECT * FROM tradedetails', (err, results, fields) => {
+  connection.execute('SELECT * FROM tradedetails', (err, results, fields) => {
     res.send(results);
   });
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.query(`SELECT * FROM tradedetails WHERE tradeid = ${req.params.id}`, (err, results, fields) => {
+  connection.execute(`SELECT * FROM tradedetails WHERE tradeid = ?`, [req.params.id], (err, results, fields) => {
     res.send(results);
   });
 });
@@ -37,16 +37,12 @@ router.post('/', json(), function(req, res, next) {
     ];
 
     for (const i in dbEntry) {
-      if (typeof(dbEntry[i]) === 'string') {
-        dbEntry[i] = `'${dbEntry[i]}'`;
-      } else if (dbEntry[i] == undefined) {
-        dbEntry[i] = `NULL`;
+      if (dbEntry[i] == undefined) {
+        dbEntry[i] = null;
       }
     }
 
-    const dbEntryArgs = dbEntry.join(', ');
-
-    connection.query(`INSERT INTO tradedetails VALUES (${dbEntryArgs})`, (err, results, fields) => {
+    connection.execute(`INSERT INTO tradedetails VALUES (?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -68,11 +64,7 @@ router.put('/:id', json(), function(req, res, next) {
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] != undefined) {
-      if (typeof(dbEntry[item]) == 'string') {
-        connection.query(`UPDATE tradedetails SET ${item} = '${dbEntry[item]}' WHERE tradeid = '${req.params.id}'`);
-      } else {
-        connection.query(`UPDATE tradedetails SET ${item} = ${dbEntry[item]} WHERE tradeid = '${req.params.id}'`);
-      }
+      connection.execute(`UPDATE tradedetails SET ${item} = ? WHERE tradeid = ?`, [dbEntry[item], req.params.id]);
     }
   }
 
@@ -80,7 +72,7 @@ router.put('/:id', json(), function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  connection.query(`DELETE FROM tradedetails WHERE tradeid = '${req.params.id}'`, (err, results, fields) => {
+  connection.execute(`DELETE FROM tradedetails WHERE tradeid = ?`, [req.params.id], (err, results, fields) => {
     res.sendStatus(200);
   });
 });

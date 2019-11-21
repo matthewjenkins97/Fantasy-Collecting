@@ -33,6 +33,7 @@ export default class MicroresearchPrompt extends React.Component {
       information: document.getElementById(this.textid).value,
       timestamp: new Date()
     };
+    console.log(data);
 
     serverfuncs.postMicroresearch(data);
 
