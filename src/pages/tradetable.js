@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ArtTable from "../components/artworktable";
 import { Link } from "react-router-dom";
 import * as serverfuncs from '../serverfuncs';
+import IncomingTrades from '../components/incomingtrades'
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,7 +58,8 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Table />
+                {/* <Table /> */}
+                <IncomingTrades/>
             </div>
         )
     

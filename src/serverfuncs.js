@@ -10,7 +10,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, approveTrade, denyTrade, getUser, setBlurb};
+  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, getTrades, approveTrade, denyTrade, getUser, setBlurb};
 /*
 
 
@@ -270,7 +270,7 @@ async function sendFormToAdmin() {
         {approved: true})
   }).then(async function (res) {
     console.log(res);
-    cancelTrade();
+    //cancelTrade();
   }); 
 }
 
@@ -671,6 +671,13 @@ async function postMicroresearch(data) {
 
 async function getTradeDetails() {
   const response = await fetch(apiURL + '/tradedetails/');
+  const myJson = await response.json();
+  const tradedetails = JSON.parse(JSON.stringify(myJson));
+  return tradedetails;
+}
+
+async function getTrades() {
+  const response = await fetch(apiURL + '/trades/');
   const myJson = await response.json();
   const tradedetails = JSON.parse(JSON.stringify(myJson));
   return tradedetails;
