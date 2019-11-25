@@ -11,6 +11,7 @@ import HistoryTable from "../components/historytable";
 import MicroresearchTable from "../components/microresearchtable"; 
 import MicroresearchPrompt from "../components/microresearchprompt"; 
 import { View } from "react-native";
+import Notification from './notification';
 
 var tileData = [];
 
@@ -62,6 +63,7 @@ class Main extends Component  {
   render() {
     return(
       <div>
+        <Notification/>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
         <div>

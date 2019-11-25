@@ -10,7 +10,13 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
-  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails, getTrades, approveTrade, denyTrade, getUser, setBlurb};
+  isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
+  getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
+
+showNotification, hideNotification};
+
+
+
 /*
 
 
@@ -26,6 +32,35 @@ function coroutine(f) {
     o.next(x);
   };
 }
+
+var NOT_REF;
+
+const notCheck = coroutine(function* () {
+  while(true) {
+    yield;
+    console.log("NOTIFICATION HIDDEN");
+    hideNotification();
+    clearInterval(NOT_REF);
+  }
+});
+
+
+function showNotification(notification) {
+  clearInterval(NOT_REF);
+  try {
+    document.getElementById("notification").style.top = "0px";
+    document.getElementById("notification").innerHTML = notification;
+    NOT_REF = setInterval(notCheck, 5000);
+  }
+  catch {
+
+  }
+}
+
+function hideNotification() {
+  document.getElementById("notification").style.top = "-110px";
+}
+
 
 /*
 
@@ -205,6 +240,7 @@ async function initiateTrade(user) {
         buyerapproved: false,
         sellerapproved: false})
   }).then(function (res) {
+    showNotification("Trade Initiated");
     console.log("trade requested sent to "+user);
     RESPONSE_INTERVAL_REF = setInterval(responseCheck, 2000);
   })
@@ -320,7 +356,8 @@ async function checkForTrade() {
   const response = await fetch(apiURL + '/trades/');
   const myJson = await response.json();
   for(var trade of myJson) {
-    if(trade.seller == localStorage.getItem('username')) {
+    if(trade.seller == localStorage.getItem('username')
+    && !(trade.sellerapproved === 1 && trade.buyerapproved === 1)) {
       theTrades.push(trade);
     }
   }
@@ -364,6 +401,10 @@ async function declineTrade(tid) {
 }
 
 function cancelTrade() {
+  // var trade = await fetch(apiURL + '/trades/'+CURRENT_TRADE_ID);
+  // trade = await trade.json();
+  // console.log(trade);
+  // if(trade.sellerapproved === 1 && trade.buyerapproved === 1) return;
   fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'delete',
     mode: 'cors',
@@ -371,7 +412,7 @@ function cancelTrade() {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
+    // console.log(res);
   });
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'delete',
@@ -380,9 +421,30 @@ function cancelTrade() {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
+    // console.log(res);
   });
   clearIntervals();
+}
+
+async function adminCancelTrade(id) {
+  await fetch(apiURL + '/trades/'+id, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+  await fetch(apiURL + '/tradedetails/'+id, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
 }
 
 function clearIntervals() {

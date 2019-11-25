@@ -12,12 +12,10 @@ async function postBid(username, id, bid) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      identifier: null,
-      number: null,
+      deadline: null, // remove soon
+
       highestbid: bid,
       username: username,
-      deadline: null,
-      groupid: null
     }),
   }).then((res) => {
     console.log(res);
