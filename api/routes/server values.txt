@@ -55,7 +55,8 @@ number BIGINT,
 highestbid BIGINT,
 username VARCHAR(255),
 deadline DATETIME, 
-groupid VARCHAR(255));
+groupid VARCHAR(255),
+lotessay TEXT);
 
 // groups is a keyword for mysql >= 8.0.2 - consider renaming
 create table groups

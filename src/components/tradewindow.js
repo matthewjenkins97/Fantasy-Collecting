@@ -9,17 +9,16 @@ import './tradewindow.css'
 export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
 
 var receivingRequest = false;
-
 var currentTradeIds = []
 
-window.onbeforeunload = function (e) {
-  e.preventDefault();
-  //serverfuncs.cancelTrade();
+window.onbeforeunload = function (event) {
+  event.preventDefault();
+  serverfuncs.cancelTrade();
   var message = "leave?",
-  e = e || window.event;
+  event = event || window.event;
   // For IE and Firefox
-  if (e) {
-    e.returnValue = message;
+  if (event) {
+    event.returnValue = message;
   }
   // For Safari
   return message;

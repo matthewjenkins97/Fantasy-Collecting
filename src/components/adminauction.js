@@ -129,6 +129,7 @@ class AuctionAdmin extends React.Component{
         deleteNode.onclick = async function() {
           console.log(auctions[a].identifier);
           await auctionfuncs.deleteLot(auctions[a].identifier);
+          c_ref.loadAuctions();
         }
         auction_scroll.append(deleteNode);
 
@@ -194,9 +195,8 @@ class AuctionAdmin extends React.Component{
             <input id = "userbid" type = "number" style = {{
               position: "absolute",top: "300px", left: "390px"
             }}></input>
-            <button onClick = {this.confirmBid} style = {{
-              position: "absolute",top: "320px", left: "420px"
-
+            <button onClick = {() => {this.confirmBid(); this.loadAuctions();}} 
+                    style = {{position: "absolute",top: "320px", left: "420px"
             }}>Place Bid</button>
           </div>
           <div className = 'title'>

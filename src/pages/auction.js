@@ -49,7 +49,7 @@ function SimpleMenu() {
 const AuctionPage = () => {
     return(
         <div>
-            {/* <AppBar position="static">
+            <AppBar position="static">
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -60,7 +60,6 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-            <Auction /> */}
             <AuctionStudent/>
             {/* <h1>Login</h1>
             username:<input type = 'text' id = 'liusername'></input>

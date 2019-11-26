@@ -1,0 +1,15 @@
+.notification {
+  background-color: black;
+  position: fixed;
+  top: -110px;
+  right: 0px;
+  text-align: center;
+  width: 200px;
+  height: 50px;
+  color: white;
+  background-color: rgba(0,0,0,.9);
+  padding: 30px;
+  transition: 1s;
+  overflow-x: wrap;
+  border-radius: 30px;
+}
