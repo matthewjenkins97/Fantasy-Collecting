@@ -149,9 +149,10 @@ body {
 }
 .chatapp  {
   margin: 0 auto;
-  height: 60vh;
-  border: 1px solid #a1a1a4;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 200px;
   /* padding-bottom: 100px; */
 }
 .header  {
@@ -162,13 +163,15 @@ body {
   border-bottom: 1px solid #3f51b5;
   background-color: #3f51b5;
   position: absolute;
-  width: 350px;
+  width: 339px
 }
 .message-list  {
   list-style-type: none;
-  padding: 0px 20px;
-  overflow: scroll;
-  max-height: calc(100vh - 150px);
+  padding: 0px 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 325px;
+  /* max-height: calc(100vh - 290px); */
   margin-bottom: 35px;
   text-align: left;
 }
@@ -178,8 +181,8 @@ body {
   margin: 0;
 }
 .message-text  {
-  margin-bottom: 20px;
-  margin-top: 5px
+  margin-top: 5px;
+  margin-bottom: 5px
 }
 .message-input  {
   width: 70%;

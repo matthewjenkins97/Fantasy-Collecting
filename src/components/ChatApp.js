@@ -5,6 +5,7 @@ import Input from './Input';
 import * as serverfuncs from "../serverfuncs";
 import { default as Chatkit } from '@pusher/chatkit-server';
 import sendMessageForm from "./sendMessageForm";
+import { View } from "react-native";
 
 
 var chatManager; 
@@ -141,6 +142,10 @@ class ChatApp extends Component {
     }
 
     render() {
+        var roomtitle = this.state.currentRoomId;
+        if (this.state.general == "general") {
+            roomtitle = "General";
+        }
         var userList = this.expandUsers(this);
         for (var user in userList){
             console.log(user);
@@ -182,15 +187,15 @@ class ChatApp extends Component {
                     //   </div>
                     // )
                 <div className="chatapp">
-                    <div>
-                    {/* <h2 className="header">General Room</h2> */}
-                        <div id="messages">
-                            <MessageList messages={this.state.messages} style={{position: 'absolute', bottom: 0, marginBottom: 50}}/>
+                    {/* <div> */}
+                    <h3 className="header">{roomtitle}</h3>
+                        <div id="messages" style={{marginTop: '17px'}}>
+                            <MessageList messages={this.state.messages} style={{position: 'absolute', bottom: 0}}/>
                         </div>
                         {/* <sendMessageForm onSubmit={this.sendMessage}/> */}
                         {/* typing event: 31:35 */}
                         <Input className="input-field" onSubmit={this.sendMessage} onClick={{}} onChange={{}}/> 
-                    </div>
+                    {/* </div> */}
                     </div> )
         
     }
