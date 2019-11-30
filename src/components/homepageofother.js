@@ -43,11 +43,16 @@ class OtherGallery extends Component  {
   async expandUsers(ref) {
     var userList = await serverfuncs.getAllUsers();
     for(var user in userList) {
+      if(userList[user].username === localStorage.getItem("username")
+      || userList[user].admin === 1) {
+        continue;
+      }
       try {
         document.getElementById("user_gt"+user.toString()).remove();
       } catch { }
       var buttonnode = document.createElement("a");
       buttonnode.id = "user_gt"+user.toString();
+      buttonnode.style.padding = "0px 0px 5px 0px";
       buttonnode.innerHTML = userList[user].username;
       buttonnode.onclick = function() { 
         ref.getTileData(this.innerHTML);

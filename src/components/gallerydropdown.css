@@ -62,7 +62,7 @@
 .dropdown-content {
   height: 0;
   width: 50%;
-  border-radius: 0px 0px 0px 30px;
+  border-radius: 0px 0px 0px 10px;
   transition: height .5s;
   display: block;
   margin: auto;

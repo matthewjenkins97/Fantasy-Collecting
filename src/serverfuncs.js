@@ -12,6 +12,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
   getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
+  removeArtworkFromTrade,
 
 showNotification, hideNotification};
 
@@ -38,7 +39,6 @@ var NOT_REF;
 const notCheck = coroutine(function* () {
   while(true) {
     yield;
-    console.log("NOTIFICATION HIDDEN");
     hideNotification();
     clearInterval(NOT_REF);
   }
@@ -142,8 +142,18 @@ async function updateItems() {
   tradeFuncs.populateUserTradeFields(final_items);
 }
 
-function addArtworkToTrade(artwork) {
-  fetch(apiURL + '/tradedetails', {
+async function addArtworkToTrade(artwork) {
+  var arts = await fetch(apiURL + '/tradedetails');
+  arts = await arts.json();
+  console.log("arts:");
+  console.log(arts);
+  for(var art in arts) {
+    if(arts[art].offer === artwork && arts[art].tradeid === CURRENT_TRADE_ID) {
+      return;
+    }
+  }
+
+  await fetch(apiURL + '/tradedetails', {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -172,6 +182,39 @@ function removeItemsFromTrade() {
   })
 }
 
+async function removeArtworkFromTrade(art) {
+  var offers = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
+  offers = await offers.json();
+  for(var offer in offers) {
+    if(offers[offer].offer == art) {
+      delete offers[offer];
+      break;
+    }
+  }
+  await fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  })
+
+  for(var offer in offers) {
+    await fetch(apiURL + '/tradedetails/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(offers[offer])
+    }).then(function (res) {
+      console.log(res);
+    })
+  }
+}
+
 async function userHasEnough(name, guilders) {
   var info = await fetch(apiURL + '/users/'+name);
   info = await info.json();
@@ -182,24 +225,55 @@ async function userHasEnough(name, guilders) {
 
 async function addGuildersToTrade(guilders) {
   if(!(await userHasEnough(localStorage.getItem("username"), guilders))){
+    showNotification("not enough guilders");
     return;
   }
-  document.getElementById("addguilders").value = "";
-  fetch(apiURL + '/tradedetails/', {
-    method: 'post',
+  var offers = await fetch(apiURL + '/tradedetails/' + CURRENT_TRADE_ID);
+  var change_g = false;
+  offers = await offers.json();
+  for(var offer in offers) {
+    if(offers[offer].seller === localStorage.getItem("username") && offers[offer].tradeid === CURRENT_TRADE_ID && !isNaN(offers[offer].offer)) {
+      offers[offer].offer = guilders;
+      change_g = true;
+      break;
+    }
+  }
+  await fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+    method: 'delete',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify(
-        {tradeid: CURRENT_TRADE_ID,
+  });
+  if(!change_g) {
+    await fetch(apiURL + '/tradedetails/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        tradeid: CURRENT_TRADE_ID,
         buyer: CURRENT_TRADE_USER,
-        seller: localStorage.getItem('username'),
+        seller: localStorage.getItem("username"),
         offer: guilders,
-        approved: false})
-  }).then(function (res) {
-    console.log(res);
-  })
+        approved: 0,
+      })
+    })
+  }
+  for(var offer in offers) {
+    await fetch(apiURL + '/tradedetails/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(offers[offer])
+    }).then(function (res) {
+      console.log(res);
+    })
+  }
+  document.getElementById("addguilders").value = "";
 }
 
 /*
@@ -400,11 +474,10 @@ async function declineTrade(tid) {
   })
 }
 
-function cancelTrade() {
-  // var trade = await fetch(apiURL + '/trades/'+CURRENT_TRADE_ID);
-  // trade = await trade.json();
-  // console.log(trade);
-  // if(trade.sellerapproved === 1 && trade.buyerapproved === 1) return;
+async function cancelTrade() {
+  var trade = await fetch(apiURL + '/trades/'+CURRENT_TRADE_ID);
+  trade = await trade.json();
+  if(trade.sellerapproved === 1 && trade.buyerapproved === 1) return;
   fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'delete',
     mode: 'cors',

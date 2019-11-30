@@ -1,12 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
-//import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+//import ReactDOM from "react-dom";
 import * as serverfuncs from '../serverfuncs';
 import './tradewindow.css'
-//import { serialize } from "v8";
-//import './checkmark.css'
 
 export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
+
+class IndexElem extends HTMLElement {
+  indexValue=0;
+  constructor() {  
+    super();
+  }
+}
+customElements.define('index-element', IndexElem);
+
+
 
 var receivingRequest = false;
 var currentTradeIds = []
@@ -71,11 +78,16 @@ function closeTrade() {
 async function expandUsers() {
   var userList = await serverfuncs.getAllUsers();
   for(var user in userList) {
+    if(userList[user].username === localStorage.getItem("username")
+    || userList[user].admin === 1) {
+      continue;
+    }
     try {
       document.getElementById("user_t"+user.toString()).remove();
     } catch { }
     var buttonnode = document.createElement("a");
     buttonnode.id = "user_t"+user.toString();
+    buttonnode.style.padding = "0px 0px 5px 0px";
     buttonnode.innerHTML = userList[user].username;
     buttonnode.onclick = function() { 
       serverfuncs.initiateTrade(this.innerHTML);
@@ -101,9 +113,9 @@ async function expandArtworks() {
       var buttonnode = document.createElement("a");
       buttonnode.id = "art_t"+art.toString();
       buttonnode.innerHTML = artList[art].identifier;
-      buttonnode.onclick = function() {
-        serverfuncs.addArtworkToTrade(this.innerHTML.toString());
-        document.getElementById("tradeartworks").style.height = "0px";
+      buttonnode.onclick = async function() {
+        await serverfuncs.addArtworkToTrade(this.innerHTML.toString());
+        //document.getElementById("tradeartworks").style.height = "0px";
       }
       document.getElementById("tradeartworks").appendChild(buttonnode);
     }
@@ -116,6 +128,8 @@ var totalTradeItems = 0;
 var itemImages = [];
 
 // function for adding current trade items to trade fields
+
+
 
 async function populateUserTradeFields(items) {
   itemImages = [];
@@ -130,14 +144,10 @@ async function populateUserTradeFields(items) {
     catch {
     }
   }
-
   // reset guilder fields
-
   document.getElementById("currentlocalg").innerHTML = "Guilders: 0";
   document.getElementById("currentotherg").innerHTML = "Guilders: 0";
-
   // set trade items
-
   totalTradeItems = 0;
   for(var item in items) {
     if(/^\d+$/.test(items[item].offer)) {
@@ -169,6 +179,16 @@ async function populateUserTradeFields(items) {
       imagenode.style.position = 'relative';
       imagenode.src = require("../static/"+itemImages[item].url);
       document.getElementById(parentid).appendChild(imagenode);
+
+      var deletenode = document.createElement("index-element");
+      deletenode.className = "closebtnart";
+      deletenode.indexValue = item;
+      deletenode.onclick = async function() {
+        serverfuncs.removeArtworkFromTrade(items[this.indexValue].offer);
+      }
+      deletenode.innerHTML = "x";
+      textnode.appendChild(deletenode);
+
     }
     totalTradeItems++;
   }
@@ -176,7 +196,6 @@ async function populateUserTradeFields(items) {
 
 var totalTrades = 0;
 var currentTrades = 0;
-
 // function for adding incoming trade requests to sidebar
 
 function addTrades(theTrades) {

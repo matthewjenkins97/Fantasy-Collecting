@@ -2,7 +2,7 @@ import React from 'react';
 import * as serverfuncs from '../serverfuncs';
 import "./incomingtrades.css";
 
-class TradeDetails extends HTMLAreaElement {
+class TradeDetails extends HTMLElement {
   index=0;
   numofdetails=0;
   expanded=false;
@@ -10,8 +10,7 @@ class TradeDetails extends HTMLAreaElement {
     super();
   }
 }
-
-customElements.define('trade-details', TradeDetails, { extends: 'a' });
+customElements.define('trade-details', TradeDetails);
 
 function expandTradeDropdown(id) {
   document.getElementById(id).style.height = "200px";
