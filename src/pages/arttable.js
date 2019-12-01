@@ -35,7 +35,10 @@ function SimpleMenu() {
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}><Link to="/admin" style={{color: "#000000", textDecoration: "none"}}>Admin Homepage</Link></MenuItem>
-          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/login" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/table" style={{color: "#000000", textDecoration: "none"}}>Users</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/adminauction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>
+          <MenuItem onClick={handleClose}><Link to="/tradetable" style={{color: "#000000", textDecoration: "none"}}>Trades</Link></MenuItem>
+          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
         </Menu>
       </div>
     );

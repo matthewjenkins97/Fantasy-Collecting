@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import { View } from "react-native";
 import * as serverfuncs from '../serverfuncs'
+import { Menu } from '@material-ui/core';
 
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
@@ -83,7 +84,7 @@ class ChatMessage extends Component {
         render() {
             return (
                 <div>
-                    <View style={{position: 'absolute', right: 0, bottom: 0, marginBottom: 400}}>
+                    <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
                     {  this.state.currentView ?  
                     (<CloseIcon onClick={() => this.changeView(this.state.currentView)}/>) 
                     : (null)   
@@ -98,19 +99,20 @@ class ChatMessage extends Component {
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <FormControl style={{position: "fixed", top: 180, width: 100}}>
-                            <InputLabel style={{width: 100}}>Users</InputLabel>
-                            <Select style={{width: 80}}>
+                        <FormControl style={{position: "fixed", top: 50, right: 0, background: 'white'}}>
+                            <InputLabel style={{width: 250}}>Message Users</InputLabel>
+                            <Select style={{width: 135}}>
                             {this.state.userList.map(user => (
                             //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
                             <MenuItem><Button id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
                             
                             //<Button style={{position: "fixed"}} id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
                             ))}
+                            <MenuItem><Button onClick={() => this.changeView(this.state.currentView)}>General Room</Button></MenuItem>
                             </Select>
                         </FormControl>
                         </div>
-                        <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} />
+                        {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
                         { this.state.currentView ? (<div className="App"><div className="form-container">
                     <ChatApp general="general"/>
                 </div></div>) : (null) }

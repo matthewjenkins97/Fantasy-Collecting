@@ -72,6 +72,7 @@ class ChatApp extends Component {
             }
         }
         this.createRoom(currentRoom);
+        this.setState({ created: true })
 
     }
 
@@ -106,6 +107,9 @@ class ChatApp extends Component {
             .then(currentUser => {
                 console.log(currentUser.rooms);
                 this.checkRoom(currentUser.rooms, roomName);
+                if (this.state.created) {
+                    this.forceUpdate();
+                }
                 this.setState({ currentUser: currentUser })
                 return currentUser.subscribeToRoom({
                     roomId: roomName,
@@ -142,7 +146,7 @@ class ChatApp extends Component {
     }
 
     render() {
-        var roomtitle = this.state.currentRoomId;
+        var roomtitle = this.state.otherUser;
         if (this.state.general == "general") {
             roomtitle = "General";
         }

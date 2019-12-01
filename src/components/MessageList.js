@@ -24,10 +24,10 @@ class MessageList extends Component {
                        elevation: 0, 
                        background: '#147efb', 
                        color: 'white',
-                        borderRadius: '20px',
+                        borderRadius: '15px',
                         marginLeft: '50px',
                         display: 'inline-block',
-                        marginBottom: -5
+                        marginBottom: -1
                         // display: 'flex',
                         // justifyContent: 'flexEnd'
                             }}>{message.text}</div></div></View>) : 
@@ -36,10 +36,10 @@ class MessageList extends Component {
                         padding: '10px',  
                         elevation: 0, 
                         background: '#CCCCCC',
-                        borderRadius: '20px',
+                        borderRadius: '15px',
                         marginRight: '50px',
                         display: 'inline-block',
-                        marginBottom: -5
+                        marginBottom: -1
                         }} 
                         className="message-text">
                             {message.text}

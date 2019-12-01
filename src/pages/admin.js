@@ -35,7 +35,6 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}><Link to="/admin" style={{color: "#000000", textDecoration: "none"}}>Admin Homepage</Link></MenuItem>
           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
         </Menu>
       </div>
@@ -63,21 +62,21 @@ const AdminPage = () => {
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/table">Users</Link>
+                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/table">Users</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/arttable">Artworks</Link>
+                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">Artworks</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
                       style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff'}} to="/tradetable">Incoming Trades</Link>
+                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">Incoming Trades</Link>
                     </Button>
                     <Button variant="contained" 
                       color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff'}} to="/adminauction">Create Auction</Link>
+                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">Create Auction</Link>
                     </Button>
                 </View>
             </div>
