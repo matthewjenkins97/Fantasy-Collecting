@@ -20,7 +20,7 @@ function handleFiles(files) {
 
 
 function uploadFile(file) {
-  var url = '../static/.'
+  var url = 'http://fantasycollecting.hamilton.edu/api/upload';
   var xhr = new XMLHttpRequest()
   var formData = new FormData()
   xhr.open('POST', url, true)
