@@ -35,7 +35,7 @@ class Main extends Component  {
     for(var i in artworks) {
       if(artworks[i].owner === localStorage.getItem('username') && artworks[i].hidden !== 1) {
         tileData.push({
-            img: require("../static/"+artworks[i].url),
+            img: require(artworks[i].url),
             identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,

@@ -70,7 +70,7 @@ class OtherGallery extends Component  {
     for(var i in artworks) {
       if(artworks[i].owner == user) {
         tileData.push({
-            img: require("../static/"+artworks[i].url),
+            img: require(artworks[i].url),
             identifier: artworks[i].identifier,
             title: artworks[i].title,
             artist: artworks[i].artist,
