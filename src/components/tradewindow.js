@@ -177,7 +177,7 @@ async function populateUserTradeFields(items) {
       imagenode.style.width = "200px";
       imagenode.style.height= "200px";
       imagenode.style.position = 'relative';
-      imagenode.src = require("../static/"+itemImages[item].url);
+      imagenode.src = itemImages[item].url;
       document.getElementById(parentid).appendChild(imagenode);
 
       var deletenode = document.createElement("index-element");
@@ -297,6 +297,7 @@ class TradeWindow extends React.PureComponent {
 
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
+      <div class = "centering">
       <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>cancel</a>
 
       <a id = "localitems" class = "myuser">My Items</a>
@@ -334,7 +335,7 @@ class TradeWindow extends React.PureComponent {
       <a id = "currentotherg">Guilders: 0</a>
       </div>
       <div id = "otherartworks" class = "othera"></div>
-
+      </div>
     </div>
 
     {/* alert window */}

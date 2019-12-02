@@ -12,6 +12,7 @@ import MicroresearchTable from "../components/microresearchtable";
 import MicroresearchPrompt from "../components/microresearchprompt"; 
 import { View } from "react-native";
 import Notification from './notification';
+import "./gallerydropdown.css"
 
 var tileData = [];
 
