@@ -70,11 +70,7 @@ router.put('/:id', json(), function(req, res, next) {
 
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
-      connection.execute(`UPDATE auction SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id], (err, results, fields) => {
-      if (err) {
-        console.error(err);
-        res.sendStatus(500);
-      }});
+      connection.execute(`UPDATE auction SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
     }
   }
 

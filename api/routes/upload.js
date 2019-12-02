@@ -9,10 +9,10 @@ router.use(busboy());
 router.post('/', function(req, res) {
   if (req.busboy) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      let fstream = fs.createWriteStream('../src/static/' + filename); 
+      let fstream = fs.createWriteStream('~/public_html/static/media' + filename); 
       file.pipe(fstream);
       fstream.on('close', function () {
-        res.send(`Upload succeeded! Your filename is ../src/static/${filename}.`);
+        res.send(`Upload succeeded! Your filename is ${filename}.`);
       });
     });
   }
