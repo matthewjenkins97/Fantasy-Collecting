@@ -12,7 +12,7 @@ router.post('/', function(req, res) {
       let fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename); 
       file.pipe(fstream);
       fstream.on('close', function () {
-        res.send(`Upload succeeded! Your filename is ${filename}.`);
+        res.send(`Upload succeeded! Your file is located at http://fantasycollecting.hamilton.edu/static/media/${filename}.`);
       });
     });
   }

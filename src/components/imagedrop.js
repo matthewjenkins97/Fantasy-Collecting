@@ -18,7 +18,6 @@ function handleFiles(files) {
   ([...files]).forEach(uploadFile)
 }
 
-
 function uploadFile(file) {
   var url = 'http://fantasycollecting.hamilton.edu/api/upload';
   var xhr = new XMLHttpRequest()
@@ -28,7 +27,7 @@ function uploadFile(file) {
   xhr.addEventListener('readystatechange', function(e) {
     if (xhr.readyState === 4 && xhr.status === 200) {
       console.log("IMAGE SAVED");
-      document.getElementById("status").innerHTML = xhr.status;
+      document.getElementById("status").innerHTML = xhr.responseText;
     }
     else if (xhr.readyState === 4 && xhr.status !== 200) {
       console.log("IMAGE UPLOAD FAILED");
@@ -39,7 +38,6 @@ function uploadFile(file) {
   formData.append('file', file)
   xhr.send(formData)
 }
-
 
 class ImageDrop extends React.Component{
     constructor(props) {
@@ -80,10 +78,9 @@ class ImageDrop extends React.Component{
       return (
         <div id="drop-area">
           <form class="my-form">
-            <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-            <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles}/>
-            <label class="button" for="fileElem">Select some files</label>
-            <p id="status"></p>
+            <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
+            <br />
+            <i id="status"></i>
           </form>
         </div>
       );
