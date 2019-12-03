@@ -136,7 +136,7 @@ class AuctionAdmin extends React.Component{
 
         var imagenode = document.createElement("img");
         imagenode.id = "auction_pic"+a.toString();
-        imagenode.src = require('../static/'+source_of_image.url);
+        imagenode.src = source_of_image.url;
         imagenode.style.left = (10+550*auctionnumber).toString()+'px';
         imagenode.onclick = function() {
           document.getElementById("lotdropdown").style.top = "0px";
