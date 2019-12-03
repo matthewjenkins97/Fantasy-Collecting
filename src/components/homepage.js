@@ -8,11 +8,11 @@ import OtherGallery from './homepageofother'
 import { getAllArtworks, setBlurb, getUser } from '../serverfuncs';
 import ChatComponent from "../components/ChatMessage";
 import HistoryTable from "../components/historytable";
-import MicroresearchTable from "../components/microresearchtable"; 
-import MicroresearchPrompt from "../components/microresearchprompt"; 
 import { View } from "react-native";
 import Notification from './notification';
 import "./gallerydropdown.css"
+import MicroresearchPrompt from "../components/microresearchprompt.js";
+import MicroresearchTable from "../components/microresearchtable.js";
 
 var tileData = [];
 
@@ -112,7 +112,7 @@ class Main extends Component  {
           paddingTop: 20,
           paddingBottom: 10}}>My Blurb</Typography>
           <div style={{textAlign: 'center'}}>
-            <textarea style={{width: "50%"}} id="galleryblurb" multiline="true"></textarea>
+            <textarea style={{width: "50%", height: 100}} id="galleryblurb" multiline="true"></textarea>
           </div>
           <Button style={{margin:'auto', display:'block'}} onClick={this.saveBlurb}>Save</Button>
         </div>

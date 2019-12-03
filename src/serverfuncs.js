@@ -625,7 +625,7 @@ async function updateUserData(data) {
   const response = await fetch(apiURL + '/users/' + data.username);
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson));
-  if (data.hash === students[0].hash){
+  if (data.hash === "*****"){
     data.hash = students[0].hash;
   } else {
     data.hash = MD5(data.hash);

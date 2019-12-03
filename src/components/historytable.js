@@ -42,6 +42,7 @@ export default class HistoryTable extends React.Component {
     this.rows = [];
     const history = await serverfuncs.getHistory(this.props.identifier);
     for(var artwork of history) {
+      artwork.timestamp = new Date(artwork.timestamp).toLocaleString();
       this.rows.push(artwork);
     };
     this.state.data = this.rows;
