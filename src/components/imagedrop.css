@@ -5,6 +5,7 @@
   font-family: sans-serif;
   margin: 100px auto;
   padding: 20px;
+  color: white;
 }
 #drop-area.highlight {
   border-color: purple;

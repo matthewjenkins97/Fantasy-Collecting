@@ -42,7 +42,7 @@
   left: -200px;
   transition: left 0.5s;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.7); /* Black*/
+  background-color: #002f86; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* transition: width 0.5s; 0.5 second transition effect to slide in the sidebar */
   align-content: center;
@@ -59,6 +59,7 @@
   left: 10px;
   top: 10px;
   font-size: 20px;
+  cursor: pointer;
   color: #919191;
 }
 /* The button used to open the sidebar */
@@ -71,25 +72,25 @@
   font-size: 20px;
   cursor: pointer;
   border: none;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #002f86;
   color: white;
   padding: 10px 10px 10px 10px;
 }
 .openbtninit:hover {
-  background-color: #444;
+  background-color: #d6ba8b;
 }
 
 
 /* The sidebar menu */
 .tradewin {
   height: 80%; /* 100% Full-height */
-  width: 100%; /* 0 width - change this with JavaScript */
+  width: 80%; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 50;
   left: -100%;
   transition: left .5s;
-  background-color: rgba(0, 0, 0, .9); /* Black*/
+  background-color: #002f86; /* Black*/
   overflow: scroll; /* Disable horizontal scroll */
   padding-top: 5px; /* Place content 60px from the top */
   transition: 0.7s; /* 0.5 second transition effect to slide in the sidebar */
@@ -114,7 +115,7 @@
   /* padding: 8px 8px 8px 8px; */
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #d6ba8b;
   display: block;
   transition: color 0.3s;
   left: 20px;
@@ -125,7 +126,7 @@
   /* padding: 8px 8px 8px 8px; */
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #d6ba8b;
   display: block;
   transition: color 0.3s;
   left: 730px;
@@ -155,7 +156,7 @@
   left: 20px;
   height: 300px;
   width: 300px;
-  background: rgba(205, 205, 238, 0.5);
+  background: #d6ba8b;
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -176,7 +177,7 @@
   left: 530px;
   height: 300px;
   width: 300px;
-  background: rgba(205, 205, 238, 0.5);
+  background: #d6ba8b;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -230,8 +231,9 @@
   top: 530px;
   left: 385px;
   font-size: 20px;
-  background-color: red;
+  background-color: #d6ba8b;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .closebtnart {
@@ -290,7 +292,7 @@ h1 {
   left: -200px;
   transition: left .5s; 
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #002f86;
   overflow-x: hidden; /* Disable horizontal scroll */
 }
 /* The sidebar links */
@@ -298,6 +300,7 @@ h1 {
   font-size: 25px;
   color: #818181;
   display: block;
+  cursor: pointer;
 }
 /* When you mouse over the navigation links, change their color */
 .sidebaralert a:hover {
@@ -309,6 +312,7 @@ h1 {
   left: 10px;
   top: 10px;
   font-size: 20px;
+  cursor: pointer;
   color: #919191;
 }
 /* The button used to open the sidebar */
@@ -322,7 +326,7 @@ h1 {
   transition: left .5s;
 
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #002f86;
   color: white;
   padding: 10px 10px;
   border: none;
@@ -332,18 +336,18 @@ h1 {
 
 
 .openbtnalert:hover {
-  background-color: #444;
+  background-color: #d6ba8b;
 }
 
 @keyframes btn-alert {
   0% {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: #002f86;
   }
   50% {
-    background-color: rgba(80, 0, 0, 0.7);
+    background-color: #002f86;
   }
   100% {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: #002f86;
   }
 }
 
@@ -356,7 +360,7 @@ h1 {
   border-radius: 30px 30px 0px 0px;
   /* align-content: center; */
 
-  background-color: rgb(64, 82, 185);
+  background-color: #d6ba8b;
   color: white;
 
   padding: 2px;
@@ -366,7 +370,7 @@ h1 {
 .dropbtnArtworks {
   position: absolute;
   width: 200px;
-  background-color: rgb(64, 82, 185);
+  background-color: #d6ba8b;
   color: white;
   padding: 2px;
   top: 480px;
@@ -391,7 +395,7 @@ h1 {
   display: block;
   margin: auto;
   align-content: center;
-  background-color: #ffffffb0;
+  background-color: #d6ba8b;
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -403,7 +407,7 @@ h1 {
   transition: height .5s;
   /* display: block; */
   align-content: center;
-  background-color: #f1f1f1;
+  background-color: #d6ba8b;
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -417,6 +421,7 @@ h1 {
   margin: auto;
   align-content: center;
   position: relative;
+  cursor: pointer;
 }
 
 /* Links inside the dropdown */
@@ -427,4 +432,5 @@ h1 {
   margin: auto;
   align-content: center;
   position: relative;
+  cursor: pointer;
 }

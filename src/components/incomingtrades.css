@@ -1,5 +1,46 @@
 .tradedropdown {
-  height: 30px;
+  position: absolute;
+  background-color: #002f86;
+  font-size: 20px;
+  text-align: center;
+  height: 35px;
   transition: .5s;
-  border-radius: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 80%;
+  left: 10%;
+  min-width: 700px;
+}
+
+.confirmbutton {
+  border-radius: 10px;
+  position: absolute;
+  right: 100px;
+  top: 3px;
+  background-color: #d6ba8b;
+  padding: 3px;
+}
+
+.denybutton {
+  border-radius: 10px;
+  position: absolute;
+  right: 48px;
+  top: 3px;
+  background-color: #d6ba8b;
+  padding: 3px;
+}
+
+.expandbutton {
+  border-radius: 10px;
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transition: .5s;
+  background-color: #d6ba8b;
+  padding: 3px;
+}
+
+.expandbutton:hover {
+  background-color: #d6ba8b;
+  padding: 3px;
 }

@@ -1,15 +1,17 @@
 .notification {
-  background-color: black;
   position: fixed;
   top: -110px;
   right: 0px;
   text-align: center;
   width: 200px;
-  height: 50px;
-  color: white;
-  background-color: rgba(0,0,0,.9);
+  height: 20px;
+  background-color: #d6ba8b;
   padding: 30px;
   transition: 1s;
   overflow-x: wrap;
   border-radius: 30px;
+  z-index: 1;
+  border: solid;
+  border-width: 2px;
+  border-color: black;
 }

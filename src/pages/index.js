@@ -48,7 +48,7 @@ function SimpleMenu() {
 const MainPage = () => {
         return(
             <div>
-                <AppBar position="static">
+                <AppBar position="static" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">

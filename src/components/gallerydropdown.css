@@ -4,11 +4,11 @@
   position: absolute;
   align-content: center;
   height: 600px;
-  width: 600px;
+  width: 800px;
   top: -600px;
   transition: top .5s;
   left: 200px;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: #002f86;
   z-index: 2;
 }
 
@@ -21,13 +21,13 @@
   font-size: 20px;
   cursor: pointer;
   border: none;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #002f86;
   color: white;
   padding: 10px 10px 10px 10px;
 }
 
 .galleryButton:hover {
-  background-color: #444;
+  background-color: #d6ba8b;
 }
 
 .sidebarinit {
@@ -39,7 +39,7 @@
   left: -200px;
   transition: left 0.5s;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.7); /* Black*/
+  background-color: #002f86; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* transition: width 0.5s; 0.5 second transition effect to slide in the sidebar */
   align-content: center;
@@ -48,7 +48,7 @@
 
 /* When you mouse over the navigation links, change their color */
 .sidebarinit a:hover {
-  color: #52759cf1;
+  color: #d6ba8b;
 }
 /* Position and style the close button (top right corner) */
 .closebtn {
