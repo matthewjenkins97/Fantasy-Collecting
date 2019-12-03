@@ -28,9 +28,11 @@ function uploadFile(file) {
   xhr.addEventListener('readystatechange', function(e) {
     if (xhr.readyState === 4 && xhr.status === 200) {
       console.log("IMAGE SAVED");
+      document.getElementById("status").innerHTML = xhr.status;
     }
     else if (xhr.readyState === 4 && xhr.status !== 200) {
       console.log("IMAGE UPLOAD FAILED");
+      document.getElementById("status").innerHTML = "Something went wrong. Try uploading again.";
     }
   })
 
@@ -79,8 +81,9 @@ class ImageDrop extends React.Component{
         <div id="drop-area">
           <form class="my-form">
             <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)"/>
+            <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles}/>
             <label class="button" for="fileElem">Select some files</label>
+            <p id="status"></p>
           </form>
         </div>
       );
