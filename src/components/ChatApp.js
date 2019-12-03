@@ -190,7 +190,7 @@ class ChatApp extends Component {
                     //     </div>
                     //   </div>
                     // )
-                <div className="chatapp">
+                <div className="chatapp" >
                     {/* <div> */}
                     <h3 className="header">{roomtitle}</h3>
                         <div id="messages" style={{marginTop: '17px'}}>

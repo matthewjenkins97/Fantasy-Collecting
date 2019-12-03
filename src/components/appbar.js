@@ -24,7 +24,6 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      
       <AppBar position="static" >
         <Toolbar variant="dense">
           <Typography variant="h6" color="inherit">

@@ -3,6 +3,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import ChatComponent from "../components/ChatMessage";
+import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -44,6 +46,7 @@ function SimpleMenu() {
 const AdminPage = () => {
           return(
             <div>
+                <div><ChatComponent /></div>
                 <AppBar position="static">
                     <Toolbar variant="dense">
                         {SimpleMenu()}
@@ -56,28 +59,32 @@ const AdminPage = () => {
                     </Toolbar>
                 </AppBar>
                 <br />
-                <Typography variant="h2" style={{color: "#ffffff"}} align="center">Hello, Professor!</Typography>
-                <br />
-                <View style={{paddingLeft: '40%', paddingRight: '40%', flexDirection: 'column', justifyContent: 'center'}}>
-                    <Button variant="contained" 
-                      color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/table">Users</Link>
-                    </Button>
-                    <Button variant="contained" 
-                      color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">Artworks</Link>
-                    </Button>
-                    <Button variant="contained" 
-                      color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}
-                      ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">Incoming Trades</Link>
-                    </Button>
-                    <Button variant="contained" 
-                      color="primary"
-                      style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">Create Auction</Link>
-                    </Button>
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <Paper style={{width: 600, marginTop: 30, padding: 20}}>
+                  <Typography variant="h3"  align="center">Hello, Professor!</Typography>
+                  <br />
+                  <View style={{paddingLeft: '40%', paddingRight: '40%', flexDirection: 'column', justifyContent: 'center'}}>
+                      <Button variant="contained" 
+                        color="primary"
+                        style={{marginTop: 10, marginBottom: 20}}
+                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/table">Users</Link>
+                      </Button>
+                      <Button variant="contained" 
+                        color="primary"
+                        style={{marginTop: 10, marginBottom: 20}}
+                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">Artworks</Link>
+                      </Button>
+                      <Button variant="contained" 
+                        color="primary"
+                        style={{marginTop: 10, marginBottom: 20}}
+                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">Incoming Trades</Link>
+                      </Button>
+                      <Button variant="contained" 
+                        color="primary"
+                        style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">Create Auction</Link>
+                      </Button>
+                  </View>
+                </Paper>
                 </View>
             </div>
         )

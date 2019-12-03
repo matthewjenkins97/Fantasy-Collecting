@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import AdminAuction from "../components/adminauction";
 import Table from "../components/artworktable";
 import AppBar from '@material-ui/core/AppBar';
+import ChatComponent from "../components/ChatMessage";
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -61,7 +62,8 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-            <AdminAuction />
+                <ChatComponent />
+            <AdminAuction style={{flex: 1, zIndex: 1}}/>
             {/* <h1>Login</h1>
             username:<input type = 'text' id = 'liusername'></input>
             <p></p>password:<input type = 'text' id = 'lipassword'></input>
