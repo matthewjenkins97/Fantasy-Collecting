@@ -50,7 +50,7 @@ function SimpleMenu() {
 const MainPage = () => {
         return(
             <div>
-                <AppBar position="static">
+                <AppBar position="static" style={{backgroundColor: "#002f86"}}>
                       <Toolbar variant="dense">
                         
                       <Grid
@@ -63,7 +63,7 @@ const MainPage = () => {
                         </Grid>
                         <Grid item xs={'80%'}>
                             <Typography variant="h6" color="inherit" style={{marginTop: 9}}>
-                              Fantasy Collecting -&nbsp; {localStorage.getItem('username')}
+                              Fantasy Collecting -&nbsp;{localStorage.getItem('username')}
                             </Typography>
                             {/* <Typography variant="h6" color="inherit">
                               {localStorage.getItem('username')}
@@ -71,7 +71,7 @@ const MainPage = () => {
                           
                         </Grid>
                           <Grid item xs>
-                            <Typography variant={{}} style={{float: 'right', marginTop: 9}}>1000</Typography>
+                            <Typography variant="h6" style={{float: 'right', marginTop: 9}}>1000</Typography>
                           </Grid>
                       </Grid>
                       
