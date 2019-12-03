@@ -22,17 +22,17 @@ export default function SimplePopper(props) {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
+  const id = open ? props.identifier + '-simple-popper' : undefined;
 
   return (
     <div>
       <Button aria-describedby={id} onClick={handleClick} style={{fontStyle: 'italic'}}>
-        More Info
+        Microresearch
       </Button>
       <Popper id={id} open={open} anchorEl={anchorEl} transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
-            <Paper style={{width: 700}}>
+            <Paper style={{width: 500}}>
 
             </Paper>
           </Fade>
