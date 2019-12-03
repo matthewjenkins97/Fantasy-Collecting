@@ -99,12 +99,13 @@ class ChatMessage extends Component {
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <FormControl style={{position: "fixed", top: 50, right: 0, background: 'white'}}>
-                            <InputLabel style={{width: 250}}>Message Users</InputLabel>
+                        <FormControl style={{position: "fixed", top: 50, right: 0, background: 'white', borderRadius: '5px',}}>
+                            {/* <InputLabel style={{width: 250}}>Message Users</InputLabel> */}
+                            Message Users
                             <Select style={{width: 135}}>
                             {this.state.userList.map(user => (
                             //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
-                            <MenuItem><Button id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
+                            <MenuItem><Button onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
                             
                             //<Button style={{position: "fixed"}} id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
                             ))}

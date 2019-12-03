@@ -13,6 +13,8 @@ import Button from '@material-ui/core/Button';
 import { View } from 'react-native';
 import * as serverfuncs from '../serverfuncs.js';
 
+import { NavLink } from 'react-router-dom'
+
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
   
@@ -46,7 +48,6 @@ function SimpleMenu() {
 const AdminPage = () => {
           return(
             <div>
-                <div><ChatComponent /></div>
                 <AppBar position="static">
                     <Toolbar variant="dense">
                         {SimpleMenu()}
@@ -60,32 +61,41 @@ const AdminPage = () => {
                 </AppBar>
                 <br />
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                <Paper style={{width: 600, marginTop: 30, padding: 20}}>
+                <Paper style={{width: 500, marginTop: 30, padding: 20}}>
                   <Typography variant="h3"  align="center">Hello, Professor!</Typography>
                   <br />
-                  <View style={{paddingLeft: '40%', paddingRight: '40%', flexDirection: 'column', justifyContent: 'center'}}>
-                      <Button variant="contained" 
-                        color="primary"
-                        style={{marginTop: 10, marginBottom: 20}}
-                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/table">Users</Link>
-                      </Button>
-                      <Button variant="contained" 
-                        color="primary"
-                        style={{marginTop: 10, marginBottom: 20}}
-                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">Artworks</Link>
-                      </Button>
-                      <Button variant="contained" 
-                        color="primary"
-                        style={{marginTop: 10, marginBottom: 20}}
-                        ><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">Incoming Trades</Link>
-                      </Button>
-                      <Button variant="contained" 
-                        color="primary"
-                        style={{marginTop: 10, marginBottom: 20}}><Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">Create Auction</Link>
-                      </Button>
+                    <View style={{paddingLeft: '10%', paddingRight: '10%', flexDirection: 'column', alignItems: 'center'}}>
+                    <Link style={{color: '#ffffff', textDecoration: 'none', justifyContent: 'center'}} to="/table">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          ><span style={{fontSize: '1.5em'}}>Users</span>
+                        </Button>
+                        </Link>
+                        <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          ><span style={{fontSize: '1.5em'}}>Artworks</span>
+                        </Button>
+                        </Link>
+                        <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          ><span style={{fontSize: '1.5em'}}>Incoming Trades</span>
+                        </Button>
+                        </Link>
+                        <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
+                        </Button>
+                        </Link>
                   </View>
                 </Paper>
                 </View>
+                <div><ChatComponent /></div>
             </div>
         )
 }
