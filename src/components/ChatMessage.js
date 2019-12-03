@@ -86,12 +86,12 @@ class ChatMessage extends Component {
                 <div>
                     <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
                     {  this.state.currentView ?  
-                    (<CloseIcon onClick={() => this.changeView(this.state.currentView)}/>) 
+                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
                     : (null)   
                 
                 }
                     {  this.state.chatView ?  
-                    (<CloseIcon onClick={() => this.changeChat(this.state.chatView)}/>) 
+                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
                     : (null)   
                 
                 }
@@ -114,10 +114,10 @@ class ChatMessage extends Component {
                         </div>
                         {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
                         { this.state.currentView ? (<div className="App"><div className="form-container">
-                    <ChatApp general="general"/>
+                    <ChatApp general="general" style={{flex: 1, zIndex: 1}}/>
                 </div></div>) : (null) }
                         { this.state.chatView ? (<div className="App"><div className="form-container">
-                    <ChatApp otherUser={this.state.otherChatter}/>
+                    <ChatApp otherUser={this.state.otherChatter} style={{flex: 1, zIndex: 1}}/>
                 </div></div>) : (null) }
                     </div>
             </div>

@@ -4,6 +4,7 @@ import Auction from "../components/auction";
 import Table from "../components/artworktable";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ChatComponent from "../components/ChatMessage";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -58,6 +59,7 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+            <div><ChatComponent /></div>
             <AuctionStudent/>
             {/* <h1>Login</h1>
             username:<input type = 'text' id = 'liusername'></input>

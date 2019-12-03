@@ -61,6 +61,7 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <div><ChatComponent /></div>
                 {/* <Table /> */}
                 <IncomingTrades/>
             </div>
