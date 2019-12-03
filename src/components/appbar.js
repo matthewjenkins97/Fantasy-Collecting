@@ -24,7 +24,7 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" >
+      <AppBar position="static" style={{backgroundColor: "#002f86"}}>
         <Toolbar variant="dense">
           <Typography variant="h6" color="inherit">
             Fantasy Collecting

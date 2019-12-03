@@ -71,7 +71,7 @@ const MainPage = () => {
                           
                         </Grid>
                           <Grid item xs>
-                            <Typography style={{float: 'right', marginTop: 9}}>1000</Typography>
+                            <Typography variant={{}} style={{float: 'right', marginTop: 9}}>1000</Typography>
                           </Grid>
                       </Grid>
                       

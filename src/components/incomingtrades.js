@@ -1,6 +1,7 @@
 import React from 'react';
 import * as serverfuncs from '../serverfuncs';
 import "./incomingtrades.css";
+import Notification from "./notification";
 
 class TradeDetails extends HTMLElement {
   index=0;
@@ -12,28 +13,38 @@ class TradeDetails extends HTMLElement {
 }
 customElements.define('trade-details', TradeDetails);
 
+class ExpandButton extends HTMLElement {
+  index=0;
+  constructor() {
+    super();
+  }
+}
+customElements.define('expand-button', ExpandButton);
+
 function expandTradeDropdown(id) {
   document.getElementById(id).style.height = "200px";
 }
 function closeTradeDropdown(id) {
-  document.getElementById(id).style.height = "30px";
+  document.getElementById(id).style.height = "35px";
 }
 var totalTrades = 0;
 export default class IncomingTrades extends React.Component {
   constructor(props) {
     super(props);
-    document.body.className = "";
+    //document.body.className = "";
   }
 
   componentDidMount() {
     this.getIncomingTrades(this);
   }
 
-  callForceUpdate() {
-    this.forceUpdate();
-  }
-
   async getIncomingTrades(c_ref) {
+    for(var i = 0; i < totalTrades; i++) {
+      try{
+        document.getElementById("trade"+i).remove();
+      }
+      catch{}
+    }
     const trades = await serverfuncs.getTrades();
     const details = await serverfuncs.getTradeDetails();
     totalTrades = 0;
@@ -45,21 +56,22 @@ export default class IncomingTrades extends React.Component {
       auctionNode.index = trade;
       auctionNode.className = "tradedropdown";
       auctionNode.style.color = "white";
-      auctionNode.style.backgroundColor = "rgba(0, 0, 0, .7)";
-      auctionNode.style.position = "absolute";
-      auctionNode.style.width = "80%";
-      auctionNode.style.left = "10%";
-      auctionNode.style.fontSize = "20px";
       auctionNode.style.top = (100 + trade * 40).toString()+"px";
       auctionNode.innerHTML = 
-      trades[trade].buyer + " <==> " + trades[trade].seller;
-      auctionNode.onclick = function () {
-        if(this.expanded) {
-          this.expanded = false;
-          closeTradeDropdown(this.id);
+      trades[trade].buyer + " trading with " + trades[trade].seller;
+
+      var expandNode = document.createElement("expand-button");
+      expandNode.innerHTML = "expand";
+      expandNode.className = "expandbutton";
+      expandNode.index = trade;
+      expandNode.onclick = function () {
+        const anode = document.getElementById("trade"+this.index.toString());
+        if(anode.expanded) {
+          anode.expanded = false;
+          closeTradeDropdown(anode.id);
           for(var t = 0; t < totalTrades; t++) {
-            console.log(this.id.slice(5));
-            if(t > parseInt(this.id.slice(5))) {
+            console.log(anode.id.slice(5));
+            if(t > parseInt(anode.id.slice(5))) {
               try {
               console.log("TRADE SHIFTED");
               console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
@@ -70,10 +82,10 @@ export default class IncomingTrades extends React.Component {
           }
         }
         else {
-          expandTradeDropdown(this.id);
+          expandTradeDropdown(anode.id);
           for(var t = 0; t < totalTrades; t++) {
-            console.log(this.id.slice(5));
-            if(t > parseInt(this.id.slice(5))) {
+            console.log(anode.id.slice(5));
+            if(t > parseInt(anode.id.slice(5))) {
               try {
               console.log("TRADE SHIFTED");
               console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
@@ -82,26 +94,29 @@ export default class IncomingTrades extends React.Component {
               } catch {}
             }
           }
-          this.expanded = true;
+          anode.expanded = true;
         }
       };
+      auctionNode.append(expandNode);
 
-      var confirmNode = document.createElement("button");
+      var confirmNode = document.createElement("p");
       confirmNode.innerHTML = "confirm";
-      confirmNode.style.backgroundColor = "green";
+      confirmNode.className = "confirmbutton";
       confirmNode.onclick = async function() {
-        await serverfuncs.approveTrade(trades[trade].tradeid);
-        await serverfuncs.adminCancelTrade(trades[trade].tradeid);
-        c_ref.callForceUpdate();
+        serverfuncs.approveTrade(trades[trade].tradeid);
+        serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        c_ref.getIncomingTrades(c_ref);
+        serverfuncs.showNotification("trade confirmed");
       }
       auctionNode.append(confirmNode);
 
-      var denyNode = document.createElement("button");
+      var denyNode = document.createElement("p");
       denyNode.innerHTML = "deny";
-      denyNode.style.backgroundColor = "red";
+      denyNode.className = "denybutton";
       denyNode.onclick = async function() {
         await serverfuncs.adminCancelTrade(trades[trade].tradeid);
-        c_ref.callForceUpdate();
+        c_ref.getIncomingTrades(c_ref);
+        serverfuncs.showNotification("trade denied");
       }
       auctionNode.append(denyNode);
 
@@ -117,7 +132,7 @@ export default class IncomingTrades extends React.Component {
           document.getElementById("trade"+trade.toString()).append(breakNode);
 
           var detailNode = document.createElement("a");
-          detailNode.text = details[detail].offer + ">>" +details[detail].buyer;
+          detailNode.text = details[detail].offer + " >> " +details[detail].buyer;
           document.getElementById("trade"+trade.toString()).append(detailNode);
         }
       }
@@ -128,6 +143,7 @@ export default class IncomingTrades extends React.Component {
   render() {
     return (
       <div style = {{textAlign: "center "}}>
+        <Notification/>
         <a style = {{fontSize:"30px"}}>Incoming Trades</a>
         <div id = "incomingtrades"></div>
       </div>
