@@ -57,4 +57,11 @@ router.post('/', json(), function(req, res, next) {
   }
 });
 
+router.delete('/:id', function(req, res, next) {
+  connection.execute(`DELETE FROM microresearch WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+    res.sendStatus(200);
+  });
+});
+
+
 module.exports = router;

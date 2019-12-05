@@ -12,10 +12,10 @@ import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { View } from 'react-native';
 import * as serverfuncs from '../serverfuncs.js';
-
 import { NavLink } from 'react-router-dom'
 
 function SimpleMenu() {
+    document.body.className = "background";
     const [anchorEl, setAnchorEl] = React.useState(null);
   
     const handleClick = event => {

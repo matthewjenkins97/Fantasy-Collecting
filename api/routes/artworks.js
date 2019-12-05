@@ -36,7 +36,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.year,
       req.body.theoreticalprice,
       req.body.actualprice,
-      req.body.hidden,
+      // req.body.hidden,
       req.body.owner,
       req.body.url,
     ];
@@ -47,7 +47,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO artworks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO artworks VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -65,7 +65,7 @@ router.put('/:id', json(), function(req, res, next) {
     year: req.body.year,
     theoreticalprice: req.body.theoreticalprice,
     actualprice: req.body.actualprice,
-    hidden: req.body.hidden,
+    // hidden: req.body.hidden,
     owner: req.body.owner,
     url: req.body.url,
   };

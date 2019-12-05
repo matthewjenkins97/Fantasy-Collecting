@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
 
-import './auctions.css'
+import './backgroundlogin.css'
 
 var currentLotId;
 
@@ -39,7 +39,7 @@ async function addLotToAuction() {
 class AuctionAdmin extends React.Component{
     constructor(props) {
       super(props);
-      //document.body.className = "auction";
+      document.body.className = "background";
     };
 
     componentDidMount() {

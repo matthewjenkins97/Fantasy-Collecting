@@ -14,6 +14,7 @@ import * as serverfuncs from '../serverfuncs';
 import IncomingTrades from '../components/incomingtrades'
 
 function SimpleMenu() {
+    document.body.className = "background";
     const [anchorEl, setAnchorEl] = React.useState(null);
   
     const handleClick = event => {

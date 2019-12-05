@@ -2,6 +2,7 @@ import React from 'react';
 import * as serverfuncs from '../serverfuncs';
 import "./incomingtrades.css";
 import Notification from "./notification";
+import "./backgroundlogin.css";
 
 class TradeDetails extends HTMLElement {
   index=0;
@@ -9,6 +10,7 @@ class TradeDetails extends HTMLElement {
   expanded=false;
   constructor() {
     super();
+    document.body.className = "background";
   }
 }
 customElements.define('trade-details', TradeDetails);
@@ -17,6 +19,7 @@ class ExpandButton extends HTMLElement {
   index=0;
   constructor() {
     super();
+    document.body.className = "background";
   }
 }
 customElements.define('expand-button', ExpandButton);

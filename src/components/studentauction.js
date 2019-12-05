@@ -159,7 +159,7 @@ class AuctionStudent extends React.Component{
             <input id = "userbid" type = "number" style = {{
               position: "absolute",top: "300px", left: "390px"
             }}></input>
-            <button onClick = {this.confirmBid} style = {{
+            <button onClick = {() => {this.confirmBid(); this.loadAuctions();}} style = {{
               position: "absolute",top: "320px", left: "420px"
 
             }}>Place Bid</button>
