@@ -3,8 +3,6 @@ import MaterialTable from 'material-table';
 //import EditIcon from 'material-ui/svg-icons/image/edit';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
-import Check from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 
 var rows = [];
 var read = false;
@@ -21,6 +19,7 @@ var stateBeg = {columns: [
 export default class TradeTable extends React.Component {
   constructor(props) {
     super(props);
+    this.identifier = props.identifier;
     this.getRows();
     this.state = stateBeg; 
   }
@@ -33,36 +32,18 @@ export default class TradeTable extends React.Component {
       }
     }
     this.state.data = rows;
-    this.state.data = this.state.data.sort(function(a, b){return a.tradeid[0] > b.tradeid[0] ? 1 : -1});
     read = true;
     this.forceUpdate();
   }
   render() {
+    const title = "Trade Details for " + this.identifier;
     return (
       <div>
       {read ? (
       <MaterialTable
-        title="Incoming Trades"
+        title={title}
         columns={this.state.columns}
         data={this.state.data}
-        actions={[
-          {icon: Check,
-          tooltip: 'Confirm Trade',
-          onClick: (event, rowData) => {
-            serverfuncs.approveTrade(rowData.tradeid);
-            console.log('Trade confirmed')
-            // then update table
-            // this.getRows();
-
-          }},
-          {icon: CloseIcon,
-          tooltip: 'Deny Trade',
-          onClick: (event, rowData) => {
-            console.log('Trade denied')
-            serverfuncs.denyTrade(rowData.tradeid);
-            // this.getRows();
-          }},
-        ]}
       />
     ) : (<h1>loading...</h1>)} </div> ); 
   }

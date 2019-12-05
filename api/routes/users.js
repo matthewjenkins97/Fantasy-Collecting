@@ -35,7 +35,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.admin,
       req.body.guilders,
       req.body.microresearchpoints,
-      req.body.numofpaintings,
+      // req.body.numofpaintings,
       req.body.blurb
     ];
 
@@ -45,7 +45,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -63,7 +63,7 @@ router.put('/:id', json(), function(req, res, next) {
     admin: req.body.admin,
     guilders: req.body.guilders,
     microresearchpoints: req.body.microresearchpoints,
-    numofpaintings: req.body.numofpaintings,
+    // numofpaintings: req.body.numofpaintings,
     blurb: req.body.blurb
   };
 

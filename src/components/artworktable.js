@@ -16,7 +16,6 @@ var stateBeg = {columns: [
       { title: 'Year', field: 'year', type: 'numeric'},
       { title: 'Theoretical Price', field: 'theoreticalprice', type: 'numeric' },
       { title: 'Actual Price', field: 'actualprice', type: 'numeric'},
-      { title: 'Hidden', field: 'hidden'},
       { title: 'Owner', field: 'owner' },
       { title: 'URL', field: 'url' },
     ],

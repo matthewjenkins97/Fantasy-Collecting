@@ -64,7 +64,6 @@ router.put('/:id', json(), function(req, res, next) {
   req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
   const dbEntry = {
-    identifier: req.body.identifier,
     seller: req.body.seller,
     buyer: req.body.buyer,
     price: req.body.price,
@@ -80,5 +79,12 @@ router.put('/:id', json(), function(req, res, next) {
 
   res.sendStatus(200);
 });
+
+router.delete('/:id', function(req, res, next) {
+  connection.execute(`DELETE FROM history WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+    res.sendStatus(200);
+  });
+});
+
 
 module.exports = router;
