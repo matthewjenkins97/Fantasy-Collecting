@@ -99,7 +99,7 @@ class ChatMessage extends Component {
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <FormControl style={{position: "fixed", top: 50, right: 0, background: 'white', borderRadius: '5px',}}>
+                        <FormControl style={{position: "fixed", top: 60, right: 0, background: 'white', borderRadius: '5px',}}>
                             {/* <InputLabel style={{width: 250}}>Message Users</InputLabel> */}
                             Message Users
                             <Select style={{width: 135}}>
