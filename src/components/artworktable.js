@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 //import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 import ImageDrop from './imagedrop';
+import "./backgroundlogin.css"
 
 var rows = [];
 var read = false;
@@ -27,6 +28,7 @@ export default class ArtworkTable extends React.Component {
     super(props);
     this.getRows();
     this.state = stateBeg; 
+    document.body.className = "background";
   }
   async getRows() {
     rows = [];
