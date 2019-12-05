@@ -42,6 +42,7 @@ export default class MicroresearchTable extends React.Component {
     const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
     for(var microresearch of artworkMicroresearch) {
       if (microresearch.identifier === this.props.identifier) {
+        microresearch.timestamp = new Date(microresearch.timestamp).toLocaleString();
         this.rows.push(microresearch);
       }
     };

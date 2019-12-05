@@ -43,7 +43,7 @@ export default class MicroresearchPrompt extends React.Component {
   render() {
     return (
       <div>
-        <Button onClick={this.lowerTable}><i>Add Microresearch</i></Button>
+        <Button onClick={this.lowerTable}><i>Add Microresearch...</i></Button>
           <div id={this.divid} class="galleryDropdown">
             <a class="closebtn" onClick={this.raiseTable}>&times;</a>
             <p>&nbsp;</p>

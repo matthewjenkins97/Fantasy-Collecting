@@ -66,7 +66,7 @@ export default class MaterialTableDemo extends React.Component {
     for(var user of users) {
       console.log(user);
       var dict = {username: user.username, 
-        hash: user.hash, 
+        hash: "*****", 
         name: user.name, 
         admin: user.admin, 
         guilders: user.guilders, 
