@@ -1,10 +1,10 @@
 .notification {
+  color: black;
   position: fixed;
-  top: -110px;
+  top: -200px;
   right: 0px;
   text-align: center;
   width: 200px;
-  height: 20px;
   background-color: #d6ba8b;
   padding: 30px;
   transition: 1s;

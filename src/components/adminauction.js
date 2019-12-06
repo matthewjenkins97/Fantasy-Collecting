@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
+import Notification from './notification';
 
 import './backgroundlogin.css'
 
@@ -33,7 +34,7 @@ async function createAuction() {
   );
 }
 async function addLotToAuction() {
-  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").value);
+  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").value, document.getElementById("addlotessay").value);
 }
 
 class AuctionAdmin extends React.Component{
@@ -68,8 +69,6 @@ class AuctionAdmin extends React.Component{
     }
 
     async loadLots(title, id, auctions, c_ref) {
-      console.log("LOTS:");
-      console.log(auctions);
       var titleNode = document.createElement("pre");
       titleNode.id = "titlenode"+id;
       titleNode.innerHTML = title;
@@ -142,8 +141,15 @@ class AuctionAdmin extends React.Component{
           document.getElementById("lotdropdown").style.top = "0px";
           document.getElementById("lotnumber").innerHTML = "LOT "+a.toString();
           document.getElementById("lotimage").src = this.src;
-          document.getElementById("lotinfo").innerHTML = "info";
-          document.getElementById("lotessay").innerHTML = "";
+          document.getElementById("lotinfo").innerHTML = 
+          "<pre>INFO:\n\n"+
+          "\nARTIST:  "+source_of_image.artist+
+          "\nYEAR:  "+source_of_image.year+
+          "\nOWNER:  "+source_of_image.owner+
+          "\nCURRENT HIGHEST BID:"+auctions[a].highestbid+
+          "\nHIGHEST BIDDER:"+auctions[a].username+
+          "</pre>";;
+          document.getElementById("lotessay").innerHTML = auctions[a].lotessay;
           currentLotName = auctions[a].identifier;
         }
         auction_scroll.append(imagenode);
@@ -184,13 +190,14 @@ class AuctionAdmin extends React.Component{
              }}></img>
             <a id = "lotinfo" style={{
               position: "absolute", height: "300px", width: "300px",
-              objectFit: "contain", top: "70px", left: "300px"
+              objectFit: "contain", top: "70px", left: "300px", overflowX: "wrap", overflowY: "auto"
             }}>INFO</a>
+            <p id = "lotdropdowninfo"></p>
             <a style={{position: "absolute", top:"400px", left:"50px", fontSize: "30px"}}>LOT ESSAY</a>
             <p id = "lotessay" style={{
               position: "absolute", height: "100px", width: "500px",
               objectFit: "contain", top: "450px", left: "40px", overflowX: "wrap",
-              overflowY: "scroll"
+              overflowY: "auto"
             }}></p>
             <input id = "userbid" type = "number" style = {{
               position: "absolute",top: "300px", left: "390px"
@@ -238,17 +245,22 @@ class AuctionAdmin extends React.Component{
             display: "none",
             backgroundColor: "rgba(0, 0, 0, .7)",
             position: "fixed",
-            top: "50%",
-            left: "40%",
-            width: "20%",
-            height: "20%",
+            borderRadius: "10px",
+            top: "30%",
+            left: "30%",
+            width: "40%",
+            height: "40%",
             zIndex: 1,
             color: "white",
             textAlign: "center",
             }}>
-            <a>artwork id</a>
+            <a>lot id</a>
             <br></br>
             <input id = "addlotname" type = "text"></input>
+            <br></br>
+            <a>lot essay</a>
+            <br></br>
+            <textarea id = "addlotessay" type = "text" style={{height: "20%", width: "80%"}}></textarea>
             <br></br>
             <br></br>
             <button onClick = {async () => {await closeAddDropdown(); await addLotToAuction(); this.loadAuctions();}}>submit</button>

@@ -12,6 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
+import Notification from "../components/notification";
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,6 +27,7 @@ function SimpleMenu() {
   
     return (
       <div>
+        <Notification/>
           <IconButton edge="start" color="inherit" aria-label="menu"
           aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MenuIcon />
