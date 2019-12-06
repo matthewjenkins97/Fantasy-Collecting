@@ -12,6 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { View } from "react-native";
 import * as serverfuncs from '../serverfuncs'
 import { Menu } from '@material-ui/core';
+import './message.css';
 
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
@@ -30,6 +31,16 @@ const userlist = [
     }
 ]
 
+function openNav() {
+    document.getElementById("messageinit").style.left = "0px";
+    document.getElementById("messagebutt").style.left = "210px";
+  }
+  
+function closeNav() {
+  document.getElementById("messageinit").style.left = "-200px";
+  document.getElementById("messagebutt").style.left = "10px";
+}
+
 
 
 class ChatMessage extends Component {
@@ -42,11 +53,8 @@ class ChatMessage extends Component {
                 userList: []
               }
             this.changeView = this.changeView.bind(this);
-            this.getUsers = this.getUsers.bind(this);
-            this.getUsers();
+            //this.getUsers = this.getUsers.bind(this);
         }
-
-
 
         async getUsers(){
             
@@ -81,6 +89,32 @@ class ChatMessage extends Component {
             console.log(this.state.chatView);
             console.log(this.state.otherChatter);
         }
+
+        async componentDidMount() {
+            await this.getUsers();
+            var c_ref = this;
+            console.log("mounted");
+            for(var user in this.state.userList) {
+                var buttonnode = document.createElement("a");
+                // buttonnode.id = "user_t"+user.toString();
+                buttonnode.style.padding = "0px 0px 5px 0px";
+                buttonnode.innerHTML = this.state.userList[user].username;
+                buttonnode.onclick = function() { 
+                    c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
+                }
+                document.getElementById("messageusers").appendChild(buttonnode);
+            }
+
+            var buttonnode = document.createElement("a");
+            // buttonnode.id = "user_t"+user.toString();
+            buttonnode.style.padding = "0px 0px 5px 0px";
+            buttonnode.innerHTML = "General Room";
+            buttonnode.onclick = function() { 
+                c_ref.changeView(c_ref.state.currentView);
+            }
+            document.getElementById("messageusers").appendChild(buttonnode);
+        }
+
         render() {
             return (
                 <div>
@@ -99,12 +133,23 @@ class ChatMessage extends Component {
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <FormControl style={{position: "fixed", top: 55, left: 10, background: 'white', borderRadius: '5px',}}>
+                        <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
+                        </p>
+                        <div id="messageinit" class="sidebarinit">
+                            <a class="closebtn" onClick={closeNav}>&times;</a>
+
+                            <button class="dropbtn">Users</button>
+
+                            <div id = "messageusers" class="dropdown-content"></div>
+                        </div>
+
+                        <FormControl style={{display: "none", borderRadius: "5px", backgroundColor: "#002f86", color: "white", position: "fixed",
+                                             top: "50px", left: "10px", fontSize: "20px", padding: "10px", height: "25px"}}>
                             {/* <InputLabel style={{width: 250}}>Message Users</InputLabel> */}
                             Message Users
-                            <Select style={{width: 135}}>
+                            <Select>
                             {this.state.userList.map(user => (
-                            //<Button id={user.username} onClick={() => {{this.changeChat(this.state.chatView, document.getElementById({user.username}).id); console.log(document.getElementById({user.username}).id)}}}>dholley</Button>
+
                             <MenuItem><Button onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
                             
                             //<Button style={{position: "fixed"}} id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
