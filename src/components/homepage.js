@@ -64,7 +64,6 @@ class Main extends Component  {
   render() {
     return(
       <div>
-        <Notification/>
         {/* <PinGrid /> */}
         {/* <GridList /> */}
         <div>

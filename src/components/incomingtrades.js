@@ -106,8 +106,8 @@ export default class IncomingTrades extends React.Component {
       confirmNode.innerHTML = "confirm";
       confirmNode.className = "confirmbutton";
       confirmNode.onclick = async function() {
-        serverfuncs.approveTrade(trades[trade].tradeid);
-        serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        await serverfuncs.approveTrade(trades[trade].tradeid);
+        //serverfuncs.adminCancelTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade confirmed");
       }

@@ -36,9 +36,9 @@ export default function SimpleMenu(props) {
         onClose={handleClose}
       >
         {props.mode ? 
-           (<MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/auction" style={{color: "#000000", textDecoration: "none"}}>Auction</Link></MenuItem>)
-           : (<MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}><Link to="/gallery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem>) }
-           <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
+           (<Link to="/auction" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}>Auction</MenuItem></Link>)
+           : (<Link to="/gallery" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => {handleClose(); serverfuncs.cancelTrade();}}>My Gallery</MenuItem></Link>) }
+           <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
       </Menu>
     </div>
   );

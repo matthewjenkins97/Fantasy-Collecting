@@ -111,7 +111,7 @@ export default class Login extends React.Component{
                   </div>
                   <Button variant="contained" 
                   color="primary"
-                  style={{marginTop: 10, marginBottom: 20}}
+                  style={{marginTop: 10, marginBottom: 20, backgroundColor: "#002f86"}}
                   onClick={() => (this.logInUser())}>Log In
                   </Button>
                   {/* username:<input type = 'text' id = 'liusername'></input>

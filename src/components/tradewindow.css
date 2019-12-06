@@ -34,7 +34,7 @@
 
 /* The sidebar menu */
 .sidebarinit {
-  border-radius: 0px 30px 30px 0px;
+  border-radius: 0px 5px 5px 0px;
   height: 200px; /* 100% Full-height */
   width: 200px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place relative to scroll */
@@ -64,9 +64,9 @@
 }
 /* The button used to open the sidebar */
 .openbtninit {
-  border-radius: 30px 30px 30px 30px;
+  border-radius: 5px;
   left: 10px;
-  top: 100px;
+  top: 155px;
   position: fixed; 
   transition: left .5s;
   font-size: 20px;
@@ -148,7 +148,7 @@
 }
 
 .locala {
-  border-radius: 30px 0px 0px 0px;
+  border-radius: 5px 0px 0px 0px;
   position: absolute;
   text-align: center;
   align-content: center;
@@ -169,7 +169,7 @@
 }
 
 .othera {
-  border-radius: 30px 0px 0px 0px;
+  border-radius: 5px 0px 0px 0px;
   position: absolute;
   text-align: center;
   align-content: center;
@@ -232,7 +232,7 @@
   left: 385px;
   font-size: 20px;
   background-color: #d6ba8b;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -284,7 +284,7 @@ h1 {
 
 /* ALERT SIDE MENU */
 .sidebaralert {
-  border-radius: 0px 30px 30px 0px;
+  border-radius: 0px 5px 5px 0px;
   height: 400px; /* 100% Full-height */
   width: 200px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
@@ -318,10 +318,10 @@ h1 {
 /* The button used to open the sidebar */
 .openbtnalert {
   display: none;
-  border-radius: 30px 30px 30px 30px;
+  border-radius: 5px;
   font-size: 20px;
   position: fixed;
-  top: 150px;
+  top: 205px;
   left: 10px;
   transition: left .5s;
 

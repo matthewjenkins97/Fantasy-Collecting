@@ -7,6 +7,8 @@ import * as serverfuncs from "../serverfuncs";
 import AuctionStudent from "../components/studentauction";
 import SimpleMenu from "../components/simpleMenu";
 import Grid from '@material-ui/core/Grid';
+import Notification from '../components/notification';
+//import MoneyIcon from '@material-ui/icons/monetization_on';
 //import Guilder from "../../node_modules/cryptocurrency-icons/svg/white/game.svg";
 
 
@@ -36,6 +38,7 @@ class AuctionPage extends Component {
     render() {
     return(
         <div>
+          <Notification/>
                 <AppBar position="static" style={{backgroundColor: "#002f86"}}>
                       <Toolbar variant="dense">
                         
@@ -56,10 +59,13 @@ class AuctionPage extends Component {
                             </Typography> */}
                           
                         </Grid>
-                          <Grid item xs>
-                            {/* <Guilder /> */}
-                            <Typography variant="h6" style={{float: 'right', marginTop: 9}}>{this.state.guilders}</Typography>
-                          </Grid>
+                        <Grid item xs>
+                            
+                            <Typography variant="h6" style={{float: 'right', marginTop: 10}}>
+                              <i style={{alignSelf: 'center'}} class="material-icons">
+                                monetization_on
+                                </i>  {this.state.guilders}</Typography>
+                            </Grid>
                       </Grid>
                       
                       </Toolbar>

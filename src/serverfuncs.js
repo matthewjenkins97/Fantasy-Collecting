@@ -58,7 +58,7 @@ function showNotification(notification) {
 }
 
 function hideNotification() {
-  document.getElementById("notification").style.top = "-110px";
+  document.getElementById("notification").style.top = "-"+document.getElementById("notification").offsetHeight+"px";
 }
 
 
@@ -370,7 +370,7 @@ function finalizeAsBuyer(check) {
 }
 
 async function sendFormToAdmin() {
-  fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
+  await fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
     headers: {
@@ -380,7 +380,6 @@ async function sendFormToAdmin() {
         {approved: true})
   }).then(async function (res) {
     console.log(res);
-    //cancelTrade();
   }); 
 }
 
@@ -388,10 +387,43 @@ async function approveTrade(tid) {
   var offers = await fetch(apiURL + '/tradedetails/' + tid);
   offers = await offers.json();
   offers = JSON.parse(JSON.stringify(offers));
+  var artworks = await getAllArtworks();
+  var users = await getAllUsers();
   for(var offer in offers) {
+
+    var userguilders = 0;
+    var username = "";
+    var artworkowner = "";
+    for(var u in users) {
+      if(users[u].username === offers[offer].seller) {
+        userguilders = users[u].guilders;
+        username = users[u].username;
+      }
+    }
+    for(var a in artworks) {
+      if(artworks[a].identifier === offers[offer].offer) {
+        artworkowner = artworks[a].owner;
+      }
+    }
+
+    if(/^\d+$/.test(offers[offer].offer)) {
+      if(parseInt(userguilders) < parseInt(offers[offer].offer)) {
+        showNotification("users no longer have the required items for this trade");
+        return;
+      }
+    }
+    else {
+      if(username != artworkowner) {
+        showNotification("users no longer have the required items for this trade");
+        return;
+      }
+    }
+  }
+  for(var offer in offers) {
+    console.log(offers);
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
   }
-  
+  showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
 }
 
 async function denyTrade(tid) {

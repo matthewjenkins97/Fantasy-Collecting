@@ -1,6 +1,6 @@
 .title {
   font-size: 100px;
-  /* color: white; */
+  color: white;
   text-align: center;
 }
 .auction {
@@ -10,11 +10,12 @@
 .auctionscroll {
   text-align: center;
   position: relative;
-  background-color: rgba(0, 0, 0, .9);
+  background-color: #002f86;
   color: white;
   width: 100%;
   height: 300px;
   overflow-x: auto;
+  z-index: 0;
 }
 
 .auctionscroll img {
@@ -51,7 +52,7 @@
 }
 
 .createdropdown {
-  border-radius: 0px 0px 0px 30px;
+  border-radius: 0px 0px 0px 5px;
   color: white;
   position: absolute;
   text-align: center;

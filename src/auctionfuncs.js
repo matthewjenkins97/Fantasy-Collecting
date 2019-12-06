@@ -1,4 +1,6 @@
 
+import {showNotification} from "./serverfuncs";
+
 export {getAllLots, getAllAuctions,
   conductAuctionTrade, createAuction,
   createLot, postBid, deleteLot, deleteAuction}
@@ -19,6 +21,7 @@ async function postBid(username, id, bid) {
     }),
   }).then((res) => {
     console.log(res);
+    showNotification("posted bid of "+bid+" on "+id);
   });
 }
 
@@ -31,6 +34,7 @@ async function deleteLot(id) {
     },
   }).then(function (res) {
     console.log(res);
+    showNotification("deleted lot "+id);
   });
 }
 
@@ -43,6 +47,7 @@ async function deleteAuction(id) {
     },
   }).then(function (res) {
     console.log(res);
+    showNotification("deleted auction "+id);
   });
 }
 
@@ -82,10 +87,11 @@ async function createAuction(id, name, d) {
     }),
   }).then((res) => {
     console.log(res);
+    showNotification("created auction "+name+" with name "+id);
   });
 }
 
-async function createLot(id, name) {
+async function createLot(id, name, essay) {
   fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
     method: 'post',
     mode: 'cors',
@@ -99,9 +105,11 @@ async function createLot(id, name) {
       username: "sjarosi",
       deadline: null,
       groupid: null,
+      lotessay: essay,
     }),
   }).then((res) => {
     console.log(res);
+    showNotification("created lot "+id+" with name "+name);
   });
 }
 
