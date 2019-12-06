@@ -39,7 +39,7 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => (serverfuncs.logOutUser())}><Link to="/" style={{color: "#000000", textDecoration: "none"}}>Log Out</Link></MenuItem>
+          <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
         </Menu>
       </div>
     );
@@ -68,28 +68,28 @@ const AdminPage = () => {
                     <Link style={{color: '#ffffff', textDecoration: 'none', justifyContent: 'center'}} to="/table">
                         <Button variant="contained" 
                           color="primary"
-                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}
                           ><span style={{fontSize: '1.5em'}}>Users</span>
                         </Button>
                         </Link>
                         <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/arttable">
                         <Button variant="contained" 
                           color="primary"
-                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}
                           ><span style={{fontSize: '1.5em'}}>Artworks</span>
                         </Button>
                         </Link>
                         <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/tradetable">
                         <Button variant="contained" 
                           color="primary"
-                          style={{marginTop: 10, marginBottom: 20, width: 400}}
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}
                           ><span style={{fontSize: '1.5em'}}>Incoming Trades</span>
                         </Button>
                         </Link>
                         <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminauction">
                         <Button variant="contained" 
                           color="primary"
-                          style={{marginTop: 10, marginBottom: 20, width: 400}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
                         </Button>
                         </Link>
                   </View>

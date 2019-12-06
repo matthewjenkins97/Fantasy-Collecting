@@ -676,7 +676,6 @@ async function updateUserData(data) {
         admin: data.admin,
         guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
-        numofpaintings: data.numofpaintings,
         blurb: data.blurb})
   }).then(function (res) {
     console.log(res);
@@ -703,7 +702,6 @@ async function createUser(user) {
             admin: user.admin,
             guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
-            numofpaintings: user.numofpaintings,
             blurb: user.blurb,
           }),
     }).then(function(res) {
@@ -749,7 +747,6 @@ async function createArtwork(artwork) {
           year: artwork.year,
           theoreticalprice: artwork.theoreticalprice,
           actualprice: artwork.actualprice,
-          hidden: artwork.hidden,
           owner: artwork.owner,
           url: artwork.url
           }),
@@ -774,7 +771,6 @@ async function updateArtwork(data) {
         year: data.year,
         theoreticalprice: data.theoreticalprice,
         actualprice: data.actualprice,
-        hidden: data.hidden,
         owner: data.owner,
         url: data.url,})
   }).then(function (res) {

@@ -38,6 +38,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.groupid,
       req.body.identifier,
       req.body.date,
+      req.body.allowstudents,
     ];
 
     for (const i in dbEntry) {
@@ -46,7 +47,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO groups VALUES (?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO groups VALUES (?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -65,6 +66,7 @@ router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
     identifier: req.body.identifier,
     date: req.body.date,
+    allowstudents: req.body.allowstudents,
   };
 
   for (const item of Object.keys(dbEntry)) {

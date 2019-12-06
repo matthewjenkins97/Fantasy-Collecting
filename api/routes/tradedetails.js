@@ -34,6 +34,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.seller,
       req.body.offer,
       req.body.approved,
+      req.body.archived,
     ];
 
     for (const i in dbEntry) {
@@ -42,7 +43,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO tradedetails VALUES (?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO tradedetails VALUES (?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -60,6 +61,7 @@ router.put('/:id', json(), function(req, res, next) {
     offer: req.body.offer,
     timestamp: req.body.timestamp,
     approved: req.body.approved,
+    archived: req.body.archived,
   };
 
   for (const item of Object.keys(dbEntry)) {
