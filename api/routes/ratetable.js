@@ -17,6 +17,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next) {
+  connection.execute(`SELECT * FROM ratetable WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+    res.send(results);
+  });
+});
+
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
   if (!req.body.identifier) {
