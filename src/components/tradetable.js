@@ -1,45 +1,45 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-//import EditIcon from 'material-ui/svg-icons/image/edit';
-//import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
-
-var rows = [];
-var read = false;
-
-var stateBeg = {columns: [
-      { title: 'Trade ID', field: 'tradeid'}, 
-      { title: 'Buyer', field: 'buyer' },
-      { title: 'Seller', field: 'seller' },
-      { title: 'Offer', field: 'offer' },
-    ],
-    data: rows,
-}
 
 export default class TradeTable extends React.Component {
   constructor(props) {
     super(props);
-    this.identifier = props.identifier;
+
+    this.rows = [];
+    this.read = false;
+
+    this.tradeid = props.identifier;
+    this.getRows = this.getRows.bind(this);
     this.getRows();
-    this.state = stateBeg; 
+    this.state = {columns: [
+        { title: 'Buyer', field: 'buyer' },
+        { title: 'Seller', field: 'seller' },
+        { title: 'Offer', field: 'offer' },
+      ],
+      data: this.rows,
+    }; 
   }
+
   async getRows() {
-    rows = [];
+    this.rows = [];
     const trades = await serverfuncs.getTradeDetails();
     for(var trade of trades) {
-      if (trade.approved === 1) {
-          rows.push(trade);
+      console.log(trade.tradeid)
+      if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
+        this.rows.push(trade);
       }
     }
-    this.state.data = rows;
-    read = true;
+    this.state.data = this.rows;
+    this.read = true;
     this.forceUpdate();
   }
+
   render() {
-    const title = "Trade Details for " + this.identifier;
+    const title = "Trade Details for " + this.tradeid;
     return (
       <div>
-      {read ? (
+      {this.read ? (
       <MaterialTable
         title={title}
         columns={this.state.columns}

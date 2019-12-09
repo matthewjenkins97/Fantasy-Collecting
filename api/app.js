@@ -20,7 +20,9 @@ const tradesRouter = require('./routes/trades');
 const tradedetailsRouter = require('./routes/tradedetails');
 const microresearchRouter = require('./routes/microresearch');
 const usersRouter = require('./routes/users');
-const uploadRouter = require('./routes/upload')
+const ratetableRouter = require('./routes/ratetable')
+
+const uploadRouter = require('./routes/upload');
 
 const app = express();
 
@@ -47,7 +49,7 @@ app.use('/trades', tradesRouter);
 app.use('/tradedetails', tradedetailsRouter);
 app.use('/microresearch', microresearchRouter);
 app.use('/users', usersRouter);
-
+app.use('/ratetable', ratetableRouter);
 
 app.use('/upload', uploadRouter);
 

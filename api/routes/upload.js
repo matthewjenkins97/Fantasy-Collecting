@@ -6,6 +6,10 @@ const fs = require('fs')
 
 router.use(busboy());
 
+router.get('/', function(req, res) {
+  res.send(fs.readdirSync('/home/fantasycollect/public_html/static/media/'));
+});
+
 router.post('/', function(req, res) {
   if (req.busboy) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {

@@ -35,7 +35,8 @@ router.post('/', json(), function(req, res, next) {
       req.body.admin,
       req.body.guilders,
       req.body.microresearchpoints,
-      req.body.blurb
+      req.body.blurb,
+      req.body.formcompleted
     ];
 
     for (const i in dbEntry) {
@@ -44,7 +45,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO users (username, hash, name, admin, guilders, microresearchpoints, blurb) VALUES (?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -62,7 +63,8 @@ router.put('/:id', json(), function(req, res, next) {
     admin: req.body.admin,
     guilders: req.body.guilders,
     microresearchpoints: req.body.microresearchpoints,
-    blurb: req.body.blurb
+    blurb: req.body.blurb,
+    formcompleted: req.body.formcompleted,
   };
 
   for (const item of Object.keys(dbEntry)) {

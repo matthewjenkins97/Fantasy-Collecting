@@ -135,7 +135,7 @@ class OtherGallery extends Component  {
               <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
               textAlign: 'center',
               paddingTop: 20,
-              paddingBottom: 10}}>Gallery Information</Typography>
+              paddingBottom: 10}}>Gallery Announcements</Typography>
               <h1 style={{textAlign: "center"}} id="othergalleryblurb"></h1>
             </div>
           </div>

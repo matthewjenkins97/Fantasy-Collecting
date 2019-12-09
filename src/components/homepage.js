@@ -109,7 +109,7 @@ class Main extends Component  {
           <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
           paddingTop: 20,
-          paddingBottom: 10}}>My Blurb</Typography>
+          paddingBottom: 10}}>My Gallery Announcements</Typography>
           <div style={{textAlign: 'center'}}>
             <textarea style={{width: "50%", height: 100}} id="galleryblurb" multiline="true"></textarea>
           </div>
