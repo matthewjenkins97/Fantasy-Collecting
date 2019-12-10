@@ -10,6 +10,8 @@ export default class TradeTable extends React.Component {
     this.read = false;
 
     this.tradeid = props.identifier;
+    this.divid = props.identifier + "TradeDropdown"
+
     this.getRows = this.getRows.bind(this);
     this.getRows();
     this.state = {columns: [

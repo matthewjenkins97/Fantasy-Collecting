@@ -850,77 +850,69 @@ async function resetGame() {
   let users = await getAllUsers();
   for (let user of users) {
     if (user.admin !== 1) {
-      // console.log(user.username);
-
-      // fetch(apiURL + '/users/' + artwork.identifier, {
-      //   method: 'delete',
-      //   mode: 'cors',
-      //   headers: {
-      //       'Content-Type': 'application/json'
-      //   },
-      // }).then(function (res) {
-      //   console.log(res);
-      // })
+      fetch(apiURL + '/users/' + user.username, {
+        method: 'delete',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+      }).then(function (res) {
+        console.log(res);
+      })
     }
   }
 
   let artworks = await getAllArtworks();
   for (let artwork of artworks) {
     // remove all history
-
-    console.log(apiURL + '/history/' + artwork.identifier)
-    // fetch(apiURL + '/history/' + artwork.identifier, {
-    //   method: 'delete',
-    //   mode: 'cors',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    // }).then(function (res) {
-    //   console.log(res);
-    // })
+    fetch(apiURL + '/history/' + artwork.identifier, {
+      method: 'delete',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+    }).then(function (res) {
+      console.log(res);
+    })
 
     // remove all microresearch
+    fetch(apiURL + '/microresearch/' + artwork.identifier, {
+      method: 'delete',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+    }).then(function (res) {
+      console.log(res);
+    })
 
-    console.log(apiURL + '/microresearch/' + artwork.identifier)
-    // fetch(apiURL + '/microresearch/' + artwork.identifier, {
-    //   method: 'delete',
-    //   mode: 'cors',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    // }).then(function (res) {
-    //   console.log(res);
-    // })
-
-    // remove all ratetable
-
-    console.log(apiURL + '/ratetable/' + artwork.identifier)
-    // fetch(apiURL + '/ratetable/' + artwork.identifier, {
-    //   method: 'delete',
-    //   mode: 'cors',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    // }).then(function (res) {
-    //   console.log(res);
-    // })
+    // remove all ratetable information
+    fetch(apiURL + '/ratetable/' + artwork.identifier, {
+      method: 'delete',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+    }).then(function (res) {
+      console.log(res);
+    })
 
   }
 
   // remove all archived tradedetails
   let tradedetails = await getTradeDetails();
   for (let trade of tradedetails) {
-    console.log(apiURL + '/tradedetails/' + trade.tradeid)
-    // fetch(apiURL + '/tradedetails/' + trade.tradeid, {
-    //   method: 'delete',
-    //   mode: 'cors',
-    //   headers: {
-    //       'Content-Type': 'application/json'
-    //   },
-    // }).then(function (res) {
-    //   console.log(res);
-    // })
-
+    if (trade.archived === 1) {
+      fetch(apiURL + '/tradedetails/' + trade.tradeid, {
+        method: 'delete',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+      }).then(function (res) {
+        console.log(res);
+      })
+    }
   }
 
   logOutUser();

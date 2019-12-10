@@ -19,7 +19,7 @@ export default class MicroresearchPrompt extends React.Component {
   }
 
   lowerTable() {
-    document.getElementById(this.divid).style.top = "0px";
+    document.getElementById(this.divid).style.top = "50px";
   }
 
   raiseTable() {

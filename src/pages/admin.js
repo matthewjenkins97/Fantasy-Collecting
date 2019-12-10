@@ -70,7 +70,7 @@ const AdminPage = () => {
                 <br />
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Paper style={{width: 500, marginTop: 30, padding: 20}}>
-                  <Typography variant="h3"  align="center">Hello, Professor!</Typography>
+                  <Typography variant="h3"  align="center">Administrator Page</Typography>
                   <br />
                     <View style={{paddingLeft: '10%', paddingRight: '10%', flexDirection: 'column', alignItems: 'center'}}>
                     <Link style={{color: '#ffffff', textDecoration: 'none', justifyContent: 'center'}} to="/table">
@@ -105,7 +105,7 @@ const AdminPage = () => {
                           onClick={checkConfirmation}
                           style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}
                           >Reset Game</span>
-                      </Button>
+                        </Button>
                   </View>
                 </Paper>
                 </View>
