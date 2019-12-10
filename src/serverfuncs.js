@@ -5,7 +5,7 @@ export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 /* eslint-disable require-jsdoc */
 export {updateArtwork, deleteArtwork, getArtworkInfo,
-  logBackInUser, logOutUser, getAllUsers, createUser, getAllArtworks,
+  logOutUser, getAllUsers, createUser, getAllArtworks,
   createArtwork, checkForTrade, updateUserData, deleteUser,
   initiateTrade, acceptTrade, declineTrade, cancelTrade,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
@@ -15,8 +15,6 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   removeArtworkFromTrade,
 
 showNotification, hideNotification};
-
-
 
 /*
 
@@ -542,10 +540,13 @@ async function adminCancelTrade(id) {
     console.log(res);
   });
   await fetch(apiURL + '/tradedetails/'+id, {
-    method: 'delete',
+    method: 'put',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
+    },
+    body: {
+      archived: 1
     },
   }).then(function (res) {
     console.log(res);
@@ -586,22 +587,7 @@ function finalizeAsSeller(check) {
 
 */
 
-async function logBackInUser() {
-  //let history = useHistory();
-  const stringName = localStorage.getItem('username');
-  const response = await fetch(apiURL + '/users/' + stringName);
-  const myJson = await response.json();
-  const student = JSON.parse(JSON.stringify(myJson))['0'];
-  if (typeof student === 'undefined') {
-    localStorage.clear();
-  } else {
-    if(student.admin === 1) {
-      //history.push("/table");
-    } else {
-      //history.push('/');
-    }
-  }
-}
+
 
 function logOutUser() {
   localStorage.clear();

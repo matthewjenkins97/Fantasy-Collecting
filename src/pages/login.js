@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
 
 console.log(window.location);
-if (localStorage.getItem('username') !== null && window.location.pathname == '/login') {
-    serverfuncs.logBackInUser();
+if (localStorage.getItem('username') !== null && window.location.pathname === '/login') {
+    //serverfuncs.logBackInUser();
 }
 const LoginPage = () => {
         return(
