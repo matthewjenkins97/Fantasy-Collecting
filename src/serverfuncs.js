@@ -13,8 +13,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
   getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
   removeArtworkFromTrade,
-
-showNotification, hideNotification};
+  showNotification, hideNotification, resetGame};
 
 
 
@@ -858,4 +857,28 @@ async function setBlurb(user, blurb) {
   }).then(function (res) {
     console.log(res);
   })
+}
+
+async function resetGame() {
+  // remove all users except those marked as admins
+  let users = getAllUsers();
+  for (let user of users) {
+    console.log(user);
+  }
+
+  // remove all history
+  // remove all microresearch
+  // remove all ratetable
+  let artworks = getAllArtworks();
+  for (let artwork of artworks) {
+    console.log(artwork);
+  }
+
+  // remove all archived tradedetails
+  let tradedetails = getTradeDetails();
+  for (let trade of tradedetails) {
+    console.log(trade);
+  }
+
+  // logOutUser();
 }
