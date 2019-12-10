@@ -421,7 +421,9 @@ async function approveTrade(tid) {
     console.log(offers);
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
   }
+  try {
   showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
+  }catch{console.log("no trade details");}
 }
 
 async function denyTrade(tid) {
@@ -539,6 +541,8 @@ async function adminCancelTrade(id) {
   }).then(function (res) {
     console.log(res);
   });
+  console.log("CALLED");
+  console.log(id);
   await fetch(apiURL + '/tradedetails/'+id, {
     method: 'put',
     mode: 'cors',
