@@ -61,7 +61,9 @@ router.post('/', json(), function(req, res, next) {
 router.put('/:id', json(), function(req, res, next) {
   // date (corresponding to our datetime object) needs to be converted
   // to something mysql can accept
-  req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
+  if (req.body.date !== undefined) {
+    req.body.date = new Date(req.body.date).toISOString().slice(0, 19).replace('T', ' ');
+  }
 
   const dbEntry = {
     identifier: req.body.identifier,

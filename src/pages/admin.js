@@ -14,6 +14,14 @@ import { View } from 'react-native';
 import * as serverfuncs from '../serverfuncs.js';
 import { NavLink } from 'react-router-dom'
 
+function checkConfirmation() {
+  if (window.confirm("WARNING: Resetting the game means removing all non-admin users, all artwork metadata (including history, microresearch, and theoretical price data), and all archived trade details. Press OK if you want to continue.")) {
+    if (window.confirm("WARNING: THIS CANNOT BE UNDONE. Press OK if you are 100% certain you want to reset the game.")) {
+      serverfuncs.resetGame();
+    }
+  }
+}
+
 function SimpleMenu() {
     document.body.className = "background";
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -92,6 +100,12 @@ const AdminPage = () => {
                           style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
                         </Button>
                         </Link>
+                        <Button variant="contained" 
+                          color="primary"
+                          onClick={checkConfirmation}
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}
+                          >Reset Game</span>
+                      </Button>
                   </View>
                 </Paper>
                 </View>

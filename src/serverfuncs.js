@@ -847,24 +847,81 @@ async function setBlurb(user, blurb) {
 
 async function resetGame() {
   // remove all users except those marked as admins
-  let users = getAllUsers();
+  let users = await getAllUsers();
   for (let user of users) {
-    console.log(user);
+    if (user.admin !== 1) {
+      // console.log(user.username);
+
+      // fetch(apiURL + '/users/' + artwork.identifier, {
+      //   method: 'delete',
+      //   mode: 'cors',
+      //   headers: {
+      //       'Content-Type': 'application/json'
+      //   },
+      // }).then(function (res) {
+      //   console.log(res);
+      // })
+    }
   }
 
-  // remove all history
-  // remove all microresearch
-  // remove all ratetable
-  let artworks = getAllArtworks();
+  let artworks = await getAllArtworks();
   for (let artwork of artworks) {
-    console.log(artwork);
+    // remove all history
+
+    console.log(apiURL + '/history/' + artwork.identifier)
+    // fetch(apiURL + '/history/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+    // remove all microresearch
+
+    console.log(apiURL + '/microresearch/' + artwork.identifier)
+    // fetch(apiURL + '/microresearch/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+    // remove all ratetable
+
+    console.log(apiURL + '/ratetable/' + artwork.identifier)
+    // fetch(apiURL + '/ratetable/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
   }
 
   // remove all archived tradedetails
-  let tradedetails = getTradeDetails();
+  let tradedetails = await getTradeDetails();
   for (let trade of tradedetails) {
-    console.log(trade);
+    console.log(apiURL + '/tradedetails/' + trade.tradeid)
+    // fetch(apiURL + '/tradedetails/' + trade.tradeid, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
   }
 
-  // logOutUser();
+  logOutUser();
 }
