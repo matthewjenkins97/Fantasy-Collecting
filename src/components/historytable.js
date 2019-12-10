@@ -61,11 +61,16 @@ export default class HistoryTable extends React.Component {
     // stuff for memory of table
     this.rows = [];
     this.read = false;
+
+    this.tradeTableState = false;
+    this.currentTradeID = undefined;
+
     this.getRows = this.getRows.bind(this);
 
     // needs to be done for divid and other this variables to be preserved
     this.lowerTable = this.lowerTable.bind(this)
     this.raiseTable = this.raiseTable.bind(this)
+    this.showTradeTable = this.showTradeTable.bind(this);
 
     this.divid = this.props.identifier + "HistoryDropdown"
 
@@ -101,6 +106,16 @@ export default class HistoryTable extends React.Component {
     this.forceUpdate();
   }
 
+  // showTradeTable(tradeid) {
+  //   if (this.tradeTableState) {
+  //     this.tradeTableState = false;
+  //   } else {
+  //     this.tradeTableState = true;
+  //   }
+  //   console.log(this.tradeTableState);
+  //   this.currentTradeID = tradeid;
+  // }
+
   render() {
     const title = "History for \"" + this.props.identifier + "\"";
     return (
@@ -120,7 +135,7 @@ export default class HistoryTable extends React.Component {
               tooltip: 'Trade Information',
               onClick: (event, rowData) => {
                 if (rowData.tradeid !== null) {
-                  console.log(rowData.tradeid)
+                  this.showTradeTable(rowData.tradeid);
                 } else {
                   alert("No trade information found.")
                 }
@@ -128,7 +143,9 @@ export default class HistoryTable extends React.Component {
             }
           ]}
           />
-        ) : (<h1>loading...</h1>)} 
+          ) : (<h1>loading...</h1>)} 
+          {/* {this.tradeTableState &&
+          <TradeTable identifier={this.currentTradeID} />} */}
         </div> 
       </div>
     ); 

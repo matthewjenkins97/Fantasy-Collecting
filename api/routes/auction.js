@@ -58,8 +58,10 @@ router.post('/', json(), function(req, res, next) {
 router.put('/:id', json(), function(req, res, next) {
   // deadline (corresponding to our datetime object) needs to be converted
   // to something mysql can accept
-  req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
-
+  if (req.body.deadline !== undefined) {
+    req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+  }
+  
   const dbEntry = {
     number: req.body.number,
     highestbid: req.body.highestbid,

@@ -59,7 +59,6 @@ router.put('/:id', json(), function(req, res, next) {
     buyer: req.body.buyer,
     seller: req.body.seller,
     offer: req.body.offer,
-    timestamp: req.body.timestamp,
     approved: req.body.approved,
     archived: req.body.archived,
   };

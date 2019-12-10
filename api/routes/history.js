@@ -38,7 +38,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.buyer,
       req.body.price,
       req.body.timestamp,
-      req.body.lasttrade,
+      req.body.tradeid,
     ];
 
     for (const i in dbEntry) {
@@ -61,14 +61,16 @@ router.post('/', json(), function(req, res, next) {
 router.put('/:id', json(), function(req, res, next) {
   // timestamp (corresponding to our datetime object) needs to be converted
   // to something mysql can accept
-  req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+  if (req.body.timestamp !== undefined) {
+    req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
+  }
 
   const dbEntry = {
     seller: req.body.seller,
     buyer: req.body.buyer,
     price: req.body.price,
     timestamp: req.body.timestamp,
-    lasttrade: req.body.lasttrade,
+    tradeid: req.body.tradeid,
   };
 
   for (const item of Object.keys(dbEntry)) {

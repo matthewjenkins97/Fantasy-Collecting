@@ -13,8 +13,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
   getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
   removeArtworkFromTrade,
-
-showNotification, hideNotification};
+  showNotification, hideNotification, resetGame};
 
 /*
 
@@ -848,4 +847,85 @@ async function setBlurb(user, blurb) {
   }).then(function (res) {
     console.log(res);
   })
+}
+
+async function resetGame() {
+  // remove all users except those marked as admins
+  let users = await getAllUsers();
+  for (let user of users) {
+    if (user.admin !== 1) {
+      // console.log(user.username);
+
+      // fetch(apiURL + '/users/' + artwork.identifier, {
+      //   method: 'delete',
+      //   mode: 'cors',
+      //   headers: {
+      //       'Content-Type': 'application/json'
+      //   },
+      // }).then(function (res) {
+      //   console.log(res);
+      // })
+    }
+  }
+
+  let artworks = await getAllArtworks();
+  for (let artwork of artworks) {
+    // remove all history
+
+    console.log(apiURL + '/history/' + artwork.identifier)
+    // fetch(apiURL + '/history/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+    // remove all microresearch
+
+    console.log(apiURL + '/microresearch/' + artwork.identifier)
+    // fetch(apiURL + '/microresearch/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+    // remove all ratetable
+
+    console.log(apiURL + '/ratetable/' + artwork.identifier)
+    // fetch(apiURL + '/ratetable/' + artwork.identifier, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+  }
+
+  // remove all archived tradedetails
+  let tradedetails = await getTradeDetails();
+  for (let trade of tradedetails) {
+    console.log(apiURL + '/tradedetails/' + trade.tradeid)
+    // fetch(apiURL + '/tradedetails/' + trade.tradeid, {
+    //   method: 'delete',
+    //   mode: 'cors',
+    //   headers: {
+    //       'Content-Type': 'application/json'
+    //   },
+    // }).then(function (res) {
+    //   console.log(res);
+    // })
+
+  }
+
+  logOutUser();
 }
