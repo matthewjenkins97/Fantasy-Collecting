@@ -44,8 +44,37 @@ class ImageDrop extends React.Component{
       super(props);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
       this.setUpDrop();
+      this.getAllImages();
+    }
+
+    async getAllImages() {
+      const imageDisplay = document.getElementById("imagebank");
+      var images = await fetch("http://fantasycollecting.hamilton.edu/api/upload");
+      images = await images.json();
+      console.log(images);
+      for(var i in images.photos) {
+        console.log(images.photos[i]);
+        var imageNode = document.createElement("p");
+        imageNode.style.backgroundImage = "url('http://fantasycollecting.hamilton.edu/static/media/" + images.photos[i] + "')";
+        imageNode.style.width = "200px";
+        imageNode.style.height = "200px";
+        imageNode.style.backgroundSize = "100%";
+        imageNode.style.objectFit = "contain";
+        imageNode.style.display = "inline-block";
+        imageNode.style.padding = "10px";
+        var urlNode = document.createElement("h1");
+        urlNode.innerHTML = images.photos[i];
+        urlNode.style.backgroundColor = "rgba(0, 0, 0, .3)";
+        urlNode.style.borderRadius = "5px";
+        urlNode.style.color = "white";
+        urlNode.style.width = "180px";
+        urlNode.style.padding = "5px";
+
+        imageNode.appendChild(urlNode);
+        imageDisplay.append(imageNode);
+      }
     }
 
     setUpDrop() {
@@ -76,12 +105,21 @@ class ImageDrop extends React.Component{
 
     render(){
       return (
-        <div id="drop-area">
-          <form class="my-form">
-            <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
-            <br />
-            <i id="status"></i>
-          </form>
+        <div>
+          <div id="drop-area">
+            <form class="my-form">
+              <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
+              <br />
+              <i id="status"></i>
+            </form>
+          </div>
+
+          <div id="imagebank" style = {{padding: "10px", overflowX: "wrap", backgroundColor: "rgba(255, 255, 255, .7)"}}>
+           
+
+          </div>
+
+
         </div>
       );
     }

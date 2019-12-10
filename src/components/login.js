@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { View } from "react-native";
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import * as serverfuncs from '../serverfuncs';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Appbar from '../components/appbar';
 import { MD5 } from '../../src/md5';
 import './backgroundlogin.css';
+import * as serverfuncs from '../serverfuncs';
 
 
 // @media all and (min-width: 480px) {
@@ -30,6 +31,9 @@ export default class Login extends React.Component{
       gotostudent: false}};
     this.handleChange = this.handleChange.bind(this);
     document.body.className = "background";
+    if(localStorage.getItem('username') !== 'undefined') {
+      this.logBackInUser();
+    }
   };
 
   handleChange(event) {
@@ -37,8 +41,23 @@ export default class Login extends React.Component{
     this.setState({password: event.target.password});
   }
   
+  logBackInUser = async () => {
+    const stringName = localStorage.getItem('username');
+    const response = await fetch('http://fantasycollecting.hamilton.edu/api/users/' + stringName);
+    const myJson = await response.json();
+    const student = JSON.parse(JSON.stringify(myJson))['0'];
+    if (typeof student === 'undefined') {
+      localStorage.clear();
+    } else {
+      if(student.admin === 1) {
+        this.setState({gotoadmin: true});
+      } else {
+        this.setState({gotostudent: true});
+      }
+    }
+  }
+  
   logInUser = async () => {
-    //let history = useHistory();
     const stringName = document.getElementById('liusername').value;
     const response = await fetch(serverfuncs.apiURL + '/users/' + stringName);
     const myJson = await response.json();

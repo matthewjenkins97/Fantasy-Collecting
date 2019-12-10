@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import * as serverfuncs from '../serverfuncs';
 import Grid from '@material-ui/core/Grid';
+import Notification from "../components/notification";
 
 
 var guilders = 0;
@@ -48,7 +49,8 @@ class MainPage extends Component {
   render(){
         return(
             <div>
-                <AppBar position="static" style={{backgroundColor: "#002f86"}}>
+              <Notification/>
+                <AppBar position="fixed" style={{backgroundColor: "#002f86"}}>
                       <Toolbar variant="dense">
                         
                       <Grid
@@ -79,6 +81,8 @@ class MainPage extends Component {
                       
                       </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
                 {/* <Button onClick={() => {console.log(typeof localStorage.getItem('admin'))}}>click</Button> */}
                 <Homepage />
             </div>
