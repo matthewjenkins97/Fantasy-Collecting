@@ -13,7 +13,7 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
     })
     buyerBody = await buyerBody.json();
     buyerBody = buyerBody[0];
-    buyerBody.guilders = (parseInt(buyerBody.guilders) - parseInt(offer));
+    buyerBody.guilders = (parseInt(buyerBody.guilders) + parseInt(offer));
 
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
       method: 'put',
@@ -33,7 +33,7 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
     })
     sellerBody = await sellerBody.json();
     sellerBody = sellerBody[0];
-    sellerBody.guilders = (parseInt(sellerBody.guilders) + parseInt(offer));
+    sellerBody.guilders = (parseInt(sellerBody.guilders) - parseInt(offer));
 
     fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
       method: 'put',
