@@ -5,54 +5,54 @@ import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
 import "./gallerydropdown.css";
 
-class TradeTable extends React.Component {
-  constructor(props) {
-    super(props);
+// class TradeTable extends React.Component {
+//   constructor(props) {
+//     super(props);
 
-    this.rows = [];
-    this.read = false;
+//     this.rows = [];
+//     this.read = false;
 
-    this.tradeid = props.identifier;
-    this.divid = props.identifier + "TradeDropdown"
+//     this.tradeid = props.identifier;
+//     this.divid = props.identifier + "TradeDropdown"
 
-    this.getRows = this.getRows.bind(this);
-    this.getRows();
-    this.state = {columns: [
-        { title: 'Buyer', field: 'buyer' },
-        { title: 'Seller', field: 'seller' },
-        { title: 'Offer', field: 'offer' },
-      ],
-      data: this.rows,
-    }; 
-  }
+//     this.getRows = this.getRows.bind(this);
+//     this.getRows();
+//     this.state = {columns: [
+//         { title: 'Buyer', field: 'buyer' },
+//         { title: 'Seller', field: 'seller' },
+//         { title: 'Offer', field: 'offer' },
+//       ],
+//       data: this.rows,
+//     }; 
+//   }
 
-  async getRows() {
-    this.rows = [];
-    const trades = await serverfuncs.getTradeDetails();
-    for(var trade of trades) {
-      console.log(trade.tradeid)
-      if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
-        this.rows.push(trade);
-      }
-    }
-    this.state.data = this.rows;
-    this.read = true;
-    this.forceUpdate();
-  }
+//   async getRows() {
+//     this.rows = [];
+//     const trades = await serverfuncs.getTradeDetails();
+//     for(var trade of trades) {
+//       console.log(trade.tradeid)
+//       if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
+//         this.rows.push(trade);
+//       }
+//     }
+//     this.state.data = this.rows;
+//     this.read = true;
+//     this.forceUpdate();
+//   }
 
-  render() {
-    const title = "Trade Details for " + this.tradeid;
-    return (
-      <div>
-      {this.read ? (
-      <MaterialTable
-        title={title}
-        columns={this.state.columns}
-        data={this.state.data}
-      />
-    ) : (<h1>loading...</h1>)} </div> ); 
-  }
-}
+//   render() {
+//     const title = "Trade Details for " + this.tradeid;
+//     return (
+//       <div>
+//       {this.read ? (
+//       <MaterialTable
+//         title={title}
+//         columns={this.state.columns}
+//         data={this.state.data}
+//       />
+//     ) : (<h1>loading...</h1>)} </div> ); 
+//   }
+// }
 
 export default class HistoryTable extends React.Component {
   constructor(props) {
@@ -62,15 +62,15 @@ export default class HistoryTable extends React.Component {
     this.rows = [];
     this.read = false;
 
-    this.tradeTableState = false;
-    this.currentTradeID = undefined;
+    // this.tradeTableState = false;
+    // this.currentTradeID = undefined;
 
     this.getRows = this.getRows.bind(this);
 
     // needs to be done for divid and other this variables to be preserved
     this.lowerTable = this.lowerTable.bind(this)
     this.raiseTable = this.raiseTable.bind(this)
-    this.showTradeTable = this.showTradeTable.bind(this);
+    // this.showTradeTable = this.showTradeTable.bind(this);
 
     this.divid = this.props.identifier + "HistoryDropdown"
 
@@ -86,7 +86,7 @@ export default class HistoryTable extends React.Component {
   }
 
   lowerTable() {
-    document.getElementById(this.divid).style.top = "0px";
+    document.getElementById(this.divid).style.top = "50px";
   }
 
   raiseTable() {
@@ -135,7 +135,7 @@ export default class HistoryTable extends React.Component {
               tooltip: 'Trade Information',
               onClick: (event, rowData) => {
                 if (rowData.tradeid !== null) {
-                  this.showTradeTable(rowData.tradeid);
+                  // this.showTradeTable(rowData.tradeid);
                 } else {
                   alert("No trade information found.")
                 }

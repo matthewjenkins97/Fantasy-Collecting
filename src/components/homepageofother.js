@@ -57,7 +57,7 @@ class OtherGallery extends Component  {
       buttonnode.onclick = function() { 
         ref.getTileData(this.innerHTML);
         closeUserMenu();
-        document.getElementById("gallerydropdown").style.top = "0px";
+        document.getElementById("gallerydropdown").style.top = "50px";
       }
       document.getElementById("galleryusers").appendChild(buttonnode);
     }
