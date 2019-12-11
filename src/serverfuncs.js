@@ -540,8 +540,6 @@ async function adminCancelTrade(id) {
   }).then(function (res) {
     console.log(res);
   });
-  console.log("CALLED");
-  console.log(id);
   await fetch(apiURL + '/tradedetails/'+id, {
     method: 'put',
     mode: 'cors',
@@ -549,7 +547,7 @@ async function adminCancelTrade(id) {
         'Content-Type': 'application/json'
     },
     body: {
-      archived: 1
+      archived: true,
     },
   }).then(function (res) {
     console.log(res);
