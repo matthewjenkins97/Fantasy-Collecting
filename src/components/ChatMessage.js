@@ -117,53 +117,38 @@ class ChatMessage extends Component {
 
         render() {
             return (
-                <div>
+                <div style={{zIndex: 10, position: "fixed"}}>
                     <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
                     {  this.state.currentView ?  
                     (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
                     : (null)   
                 
-                }
+                    }
                     {  this.state.chatView ?  
                     (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
                     : (null)   
                 
-                }
+                    }
                     </View>
                     <div>
                         {/* style={{color: "white"}} */}
                         <div>
-                        <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
-                        </p>
-                        <div id="messageinit" class="sidebarinit">
-                            <a class="closebtn" onClick={closeNav}>&times;</a>
+                            <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
+                            </p>
+                            <div id="messageinit" class="sidebarinit">
+                                <a class="closebtn" onClick={closeNav}>&times;</a>
 
-                            <button class="dropbtn">Users</button>
+                                <button class="dropbtn">Users</button>
 
-                            <div id = "messageusers" class="dropdown-content"></div>
-                        </div>
-
-                        <FormControl style={{display: "none", borderRadius: "5px", backgroundColor: "#002f86", color: "white", position: "fixed",
-                                             top: "50px", left: "10px", fontSize: "20px", padding: "10px", height: "25px"}}>
-                            {/* <InputLabel style={{width: 250}}>Message Users</InputLabel> */}
-                            Message Users
-                            <Select>
-                            {this.state.userList.map(user => (
-
-                            <MenuItem><Button onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button></MenuItem>    
-                            
-                            //<Button style={{position: "fixed"}} id={user.username} onClick={() => {this.changeChat(this.state.chatView, user.username)}}>{user.username}</Button>
-                            ))}
-                            <MenuItem><Button onClick={() => this.changeView(this.state.currentView)}>General Room</Button></MenuItem>
-                            </Select>
-                        </FormControl>
+                                <div id = "messageusers" class="dropdown-content"></div>
+                            </div>
                         </div>
                         {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
                         { this.state.currentView ? (<div className="App"><div className="form-container">
-                    <ChatApp general="general" style={{flex: 1, zIndex: 1}}/>
+                    <ChatApp general="general" style={{position: "fixed", flex: 1, zIndex: 5}}/>
                 </div></div>) : (null) }
                         { this.state.chatView ? (<div className="App"><div className="form-container">
-                    <ChatApp otherUser={this.state.otherChatter} style={{flex: 1, zIndex: 1}}/>
+                    <ChatApp otherUser={this.state.otherChatter} style={{position: "fixed",flex: 1, zIndex: 5}}/>
                 </div></div>) : (null) }
                     </div>
             </div>
