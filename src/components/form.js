@@ -20,7 +20,7 @@ class Form extends React.Component{
       images = await images.json();
       for(var i in images.photos) {
         var currentImage = await fetch('http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i]);
-        if(currentImage.rateable) { 
+        if(currentImage.rateable === 1) { 
           tileData.push({
             img: 'http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i],
             title: currentImage.title,
