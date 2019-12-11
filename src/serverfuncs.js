@@ -805,8 +805,8 @@ async function createArtwork(artwork) {
           theoreticalprice: artwork.theoreticalprice,
           actualprice: artwork.actualprice,
           owner: artwork.owner,
-          url: artwork.url
-          }),
+          url: artwork.url,
+          rateable: artwork.rateable}),
     }).then(function(res) {
       console.log(res);
     })
@@ -841,7 +841,8 @@ async function updateArtwork(data) {
         theoreticalprice: data.theoreticalprice,
         actualprice: data.actualprice,
         owner: data.owner,
-        url: data.url,})
+        url: data.url,
+        rateable: data.rateable})
   }).then(function (res) {
     console.log(res);
   })
