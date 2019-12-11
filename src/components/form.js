@@ -6,12 +6,29 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'; 
 import * as serverfuncs from '../serverfuncs';
 
-import tileData from './tiledata';
+//import tileData from './tiledata';
+
+var tileData = [];
 
 class Form extends React.Component{
     constructor(props) {
       super(props);
     };
+
+    async getArtworks() {
+      var images = await fetch("http://fantasycollecting.hamilton.edu/api/upload");
+      images = await images.json();
+      for(var i in images.photos) {
+        var currentImage = await fetch('http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i]);
+        if(currentImage.rateable) { 
+          tileData.push({
+            img: 'http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i],
+            title: currentImage.title,
+            artist: currentImage.artist,
+          });
+        }
+      }
+    }
   
     render(){
       return (
