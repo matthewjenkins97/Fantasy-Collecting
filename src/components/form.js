@@ -13,6 +13,10 @@ var tileData = [];
 class Form extends React.Component{
     constructor(props) {
       super(props);
+      this.state = {
+        tileData: []
+      }
+      this.getArtworks();
     };
 
     async getArtworks() {
@@ -28,6 +32,10 @@ class Form extends React.Component{
           });
         }
       }
+      this.setState({
+        tileData = tileData
+      })
+      this.forceUpdate();
     }
   
     render(){
