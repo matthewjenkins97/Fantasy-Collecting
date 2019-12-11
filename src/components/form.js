@@ -13,12 +13,9 @@ var tileData = [];
 class Form extends React.Component{
     constructor(props) {
       super(props);
-<<<<<<< HEAD
       this.state = {
         tileData: []
       }
-=======
->>>>>>> 454d2128a4e4f6186bde7e223f079eca0b5a7649
       this.getArtworks();
     };
 
@@ -34,12 +31,6 @@ class Form extends React.Component{
           });
         }
       }
-<<<<<<< HEAD
-      this.setState({
-        tileData = tileData
-      })
-=======
->>>>>>> 454d2128a4e4f6186bde7e223f079eca0b5a7649
       this.forceUpdate();
     }
   
