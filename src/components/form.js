@@ -13,21 +13,22 @@ var tileData = [];
 class Form extends React.Component{
     constructor(props) {
       super(props);
+      this.getArtworks();
     };
 
     async getArtworks() {
-      var images = await fetch("http://fantasycollecting.hamilton.edu/api/upload");
+      var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
       images = await images.json();
-      for(var i in images.photos) {
-        var currentImage = await fetch('http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i]);
-        if(currentImage.rateable === 1) { 
+      for(var i in images) {
+        if(images[i].rateable === 1) { 
           tileData.push({
-            img: 'http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i],
-            title: currentImage.title,
-            artist: currentImage.artist,
+            img: images[i].url,
+            title: images[i].title,
+            artist: images[i].artist,
           });
         }
       }
+      this.forceUpdate();
     }
   
     render(){
