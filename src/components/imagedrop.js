@@ -66,7 +66,7 @@ class ImageDrop extends React.Component{
         imageNode.style.padding = "10px";
         var urlNode = document.createElement("h1");
         urlNode.innerHTML = images.photos[i];
-        urlNode.style.backgroundColor = "rgba(0, 0, 0, .3)";
+        urlNode.style.backgroundColor = "rgba(0, 0, 0, .5)";
         urlNode.style.borderRadius = "5px";
         urlNode.style.color = "white";
         urlNode.style.width = "180px";
@@ -114,9 +114,7 @@ class ImageDrop extends React.Component{
             </form>
           </div>
 
-          <div id="imagebank" style = {{padding: "10px", overflowX: "wrap", backgroundColor: "rgba(255, 255, 255, .7)"}}>
-           
-
+          <div id="imagebank" style = {{padding: "10px", overflowX: "wrap", backgroundColor: "rgba(255, 255, 255, .9)"}}>
           </div>
 
 
