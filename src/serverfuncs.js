@@ -824,8 +824,8 @@ async function updateArtwork(data) {
   if (!data.actualprice) {
     data.actualprice = 0;
   }
-  if (!artwork.rateable) {
-    artwork.rateable = 0;
+  if (!data.rateable) {
+    data.rateable = 0;
   }
 
   fetch(apiURL + '/artworks/'+data.identifier, {
