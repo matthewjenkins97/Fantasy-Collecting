@@ -806,7 +806,7 @@ async function createArtwork(artwork) {
           actualprice: artwork.actualprice,
           owner: artwork.owner,
           url: artwork.url,
-          rateable: data.rateable}),
+          rateable: artwork.rateable}),
     }).then(function(res) {
       console.log(res);
     })
