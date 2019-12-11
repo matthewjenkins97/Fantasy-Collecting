@@ -45,7 +45,7 @@ const notCheck = coroutine(function* () {
 function showNotification(notification) {
   clearInterval(NOT_REF);
   try {
-    document.getElementById("notification").style.top = "0px";
+    document.getElementById("notification").style.top = "50px";
     document.getElementById("notification").innerHTML = notification;
     NOT_REF = setInterval(notCheck, 5000);
   }
