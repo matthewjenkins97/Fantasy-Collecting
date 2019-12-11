@@ -107,7 +107,7 @@ export default class IncomingTrades extends React.Component {
       confirmNode.className = "confirmbutton";
       confirmNode.onclick = async function() {
         await serverfuncs.approveTrade(trades[trade].tradeid);
-        await serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        // await serverfuncs.adminCancelTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade confirmed");
       }
@@ -117,7 +117,7 @@ export default class IncomingTrades extends React.Component {
       denyNode.innerHTML = "deny";
       denyNode.className = "denybutton";
       denyNode.onclick = async function() {
-        await serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        await serverfuncs.denyTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade denied");
       }

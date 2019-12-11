@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import "./gallerydropdown.css";
 import * as serverfuncs from '../serverfuncs';
 
 export default class TradeTable extends React.Component {
@@ -13,6 +14,10 @@ export default class TradeTable extends React.Component {
     this.divid = props.identifier + "TradeDropdown"
 
     this.getRows = this.getRows.bind(this);
+
+    this.lowerTable = this.lowerTable.bind(this)
+    this.raiseTable = this.raiseTable.bind(this)
+
     this.getRows();
     this.state = {columns: [
         { title: 'Buyer', field: 'buyer' },
@@ -21,6 +26,14 @@ export default class TradeTable extends React.Component {
       ],
       data: this.rows,
     }; 
+  }
+
+  lowerTable() {
+    document.getElementById(this.divid).style.top = "0px";
+  }
+
+  raiseTable() {
+    document.getElementById(this.divid).style.top = "-600px";
   }
 
   async getRows() {
@@ -34,19 +47,25 @@ export default class TradeTable extends React.Component {
     }
     this.state.data = this.rows;
     this.read = true;
+
+    // document.getElementById(this.divid).style.top = "50px";
+
     this.forceUpdate();
   }
 
   render() {
     const title = "Trade Details for " + this.tradeid;
     return (
-      <div>
-      {this.read ? (
-      <MaterialTable
-        title={title}
-        columns={this.state.columns}
-        data={this.state.data}
-      />
-    ) : (<h1>loading...</h1>)} </div> ); 
+      <div id={this.divid} class="tradeTableDropdown">
+        <a class="closebtn" onClick={this.raiseTable}>&times;</a>
+        {this.read ? (
+        <MaterialTable
+          title={title}
+          columns={this.state.columns}
+          data={this.state.data}
+        />
+      ) : (<h1>loading...</h1>)} 
+      </div> 
+    ); 
   }
 }

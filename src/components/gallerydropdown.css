@@ -12,6 +12,19 @@
   z-index: 1;
 }
 
+.tradeTableDropdown {
+  color: white;
+  overflow: scroll;
+  position: absolute;
+  align-content: center;
+  height: 600px;
+  width: 800px;
+  top: -600px;
+  transition: top .5s;
+  background-color: #d6ba8b;
+  z-index: auto;
+}
+
 .galleryButton {
   border-radius: 5px;
   left: 10px;

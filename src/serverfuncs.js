@@ -11,7 +11,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
-  getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
+  getTrades, approveTrade, denyTrade, getUser, setBlurb,
   removeArtworkFromTrade,
   showNotification, hideNotification, resetGame};
 
@@ -418,9 +418,33 @@ async function approveTrade(tid) {
   }
   for(var offer in offers) {
     console.log(offers);
-    await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer);
+    await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer, tid);
   }
   try {
+  // mark trade as archived, delete trades stuff
+  fetch(apiURL + '/trades/'+tid, {
+    method: 'delete',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+  }).then(function (res) {
+    console.log(res);
+  });
+  
+  fetch(apiURL + '/tradedetails/'+tid, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      archived: 1
+    }),
+  }).then(function (res) {
+    console.log(res);
+  });
+
   showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
   }catch{console.log("no trade details");}
 }
@@ -540,6 +564,7 @@ async function adminCancelTrade(id) {
   }).then(function (res) {
     console.log(res);
   });
+
   await fetch(apiURL + '/tradedetails/'+id, {
     method: 'put',
     mode: 'cors',
@@ -551,8 +576,9 @@ async function adminCancelTrade(id) {
       archived: true,
     }),
   }).then(function (res) {
-    console.log(res);
+    // console.log(res);
   });
+  clearIntervals();
 }
 
 function clearIntervals() {
