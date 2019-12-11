@@ -47,8 +47,8 @@ class ChatMessage extends Component {
         constructor(props) {
             super(props);
             this.state = {
-                currentView: false,
-                chatView: false,
+                currentView: false, //general open or not
+                chatView: false, //DM open or not
                 otherChatter: undefined,
                 userList: []
               }
