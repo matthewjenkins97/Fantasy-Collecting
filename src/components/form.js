@@ -52,8 +52,6 @@ class Form extends React.Component{
                 <br></br>
                 <input type="text" name="lname" min="1" max="10" maxlength="2"></input><br></br></label>
                 <br></br>
-                <Button size="small" variant="outlined" type="submit" value="Submit"
-                style={{fontSize: 10, color: "#002f86"}}>Submit Estimate</Button>
                 <br></br>
                 <br></br>
                 </form>
@@ -68,8 +66,10 @@ class Form extends React.Component{
               /> */}
             </View>
           ))}
-            <Button variant="contained" color="secondary" type="submit" value="Submit"
-            style={{backgroundColor: "#002f86", alignItem: 'center', margin: 20}}>DONE</Button> 
+          <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>  
+              <div>
+            <Button size="large" variant="contained" color="secondary" type="submit" value="Submit"
+            style={{fontSize: 20, backgroundColor: "#002f86", alignItem: 'center', margin: 20}}>SUBMIT FORM</Button> </div></View>
 
         </div>
       );
