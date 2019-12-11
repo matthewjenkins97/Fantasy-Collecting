@@ -39,7 +39,7 @@ class AuctionPage extends Component {
     return(
         <div>
           <Notification/>
-                <AppBar position="static" style={{backgroundColor: "#002f86"}}>
+                <AppBar position="fixed" style={{backgroundColor: "#002f86"}}>
                       <Toolbar variant="dense">
                         
                       <Grid
@@ -70,6 +70,8 @@ class AuctionPage extends Component {
                       
                       </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
             <div><ChatComponent /></div>
             <AuctionStudent/>
             {/* <h1>Login</h1>

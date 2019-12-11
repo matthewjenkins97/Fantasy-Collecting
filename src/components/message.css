@@ -1,3 +1,7 @@
+.test {
+  z-index: 10;
+}
+
 .messageButton {
   border-radius: 5px;
   left: 10px;

@@ -11,7 +11,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   setTradeUser, setTradeID, addGuildersToTrade, addArtworkToTrade,
   removeItemsFromTrade, finalizeAsBuyer, finalizeAsSeller, sendFormToAdmin,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
-  getTrades, approveTrade, denyTrade, getUser, setBlurb, adminCancelTrade,
+  getTrades, approveTrade, denyTrade, getUser, setBlurb,
   removeArtworkFromTrade,
   showNotification, hideNotification, resetGame};
 
@@ -45,7 +45,7 @@ const notCheck = coroutine(function* () {
 function showNotification(notification) {
   clearInterval(NOT_REF);
   try {
-    document.getElementById("notification").style.top = "0px";
+    document.getElementById("notification").style.top = "50px";
     document.getElementById("notification").innerHTML = notification;
     NOT_REF = setInterval(notCheck, 5000);
   }
@@ -420,9 +420,9 @@ async function approveTrade(tid) {
     console.log(offers);
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer, tid);
   }
-
+  try {
   // mark trade as archived, delete trades stuff
-  fetch(apiURL + '/trades/'+tid, {
+  await fetch(apiURL + '/trades/'+tid, {
     method: 'delete',
     mode: 'cors',
     headers: {
@@ -432,7 +432,7 @@ async function approveTrade(tid) {
     console.log(res);
   });
   
-  fetch(apiURL + '/tradedetails/'+tid, {
+  await fetch(apiURL + '/tradedetails/'+tid, {
     method: 'put',
     mode: 'cors',
     headers: {
@@ -446,6 +446,7 @@ async function approveTrade(tid) {
   });
 
   showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
+  }catch{console.log("no trade details");}
 }
 
 async function denyTrade(tid) {
@@ -565,11 +566,15 @@ async function adminCancelTrade(id) {
   });
 
   await fetch(apiURL + '/tradedetails/'+id, {
-    method: 'delete',
+    method: 'put',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
+    body: JSON.stringify(
+      {
+      archived: true,
+    }),
   }).then(function (res) {
     // console.log(res);
   });
@@ -672,6 +677,20 @@ async function updateUserData(data) {
     data.hash = MD5(data.hash);
   }
 
+  // defaulting number based info
+  if (!data.admin) {
+    data.admin = 0;
+  }
+  if (!data.formcompleted) {
+    data.formcompleted = 0;
+  }
+  if (!data.guilders) {
+    data.guilders = 0;
+  }
+  if (!data.microresearchpoints) {
+    data.microresearchpoints = 0;
+  }
+
   fetch(apiURL + '/users/'+data.username, {
     method: 'put',
     mode: 'cors',
@@ -683,6 +702,7 @@ async function updateUserData(data) {
         hash: data.hash,
         name: data.name,
         admin: data.admin,
+        formcompleted: data.formcompleted,
         guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
         blurb: data.blurb})
@@ -698,6 +718,21 @@ async function createUser(user) {
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
     console.log(user);
+
+    // defaulting number based info 
+    if (!user.admin) {
+      user.admin = 0;
+    }
+    if (!user.formcompleted) {
+      user.formcompleted = 0;
+    }
+    if (!user.guilders) {
+      user.guilders = 0;
+    }
+    if (!user.microresearchpoints) {
+      user.microresearchpoints = 0;
+    }
+
     fetch(apiURL + '/users/', {
       method: 'post',
       mode: 'cors',
@@ -709,6 +744,7 @@ async function createUser(user) {
             hash: MD5(user.hash),
             name: user.name,
             admin: user.admin,
+            formcompleted: user.formcompleted,
             guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
             blurb: user.blurb,
@@ -717,7 +753,7 @@ async function createUser(user) {
       console.log(res);
     })
   } else {
-    console.log('User already exists.');
+    alert('User already exists.');
   }
 }
 
@@ -743,6 +779,18 @@ async function createArtwork(artwork) {
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof artworkInDB === 'undefined') {
     console.log(artwork);
+
+    // defaulting number based info 
+    if (!artwork.theoreticalprice) {
+      artwork.theoreticalprice = 0;
+    }
+    if (!artwork.actualprice) {
+      artwork.actualprice = 0;
+    }
+    if (!artwork.rateable) {
+      artwork.rateable = 0;
+    }
+
     fetch(apiURL + '/artworks/', {
       method: 'post',
       mode: 'cors',
@@ -763,11 +811,23 @@ async function createArtwork(artwork) {
       console.log(res);
     })
   } else {
-    console.log('Artwork already exists.');
+    alert('Artwork already exists.');
   }
 }
 
 async function updateArtwork(data) {
+
+  // defaulting number based info 
+  if (!data.theoreticalprice) {
+    data.theoreticalprice = 0;
+  }
+  if (!data.actualprice) {
+    data.actualprice = 0;
+  }
+  if (!data.rateable) {
+    data.rateable = 0;
+  }
+
   fetch(apiURL + '/artworks/'+data.identifier, {
     method: 'put',
     mode: 'cors',

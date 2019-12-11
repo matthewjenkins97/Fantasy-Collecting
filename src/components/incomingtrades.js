@@ -52,6 +52,7 @@ export default class IncomingTrades extends React.Component {
     const details = await serverfuncs.getTradeDetails();
     totalTrades = 0;
     for(var trade in trades) {
+      if(trades[trade].sellerapproved === 0 || trades[trade].buyerapproved === 0) continue;
       totalTrades++;
 
       var auctionNode = document.createElement("trade-details");
@@ -107,7 +108,7 @@ export default class IncomingTrades extends React.Component {
       confirmNode.className = "confirmbutton";
       confirmNode.onclick = async function() {
         await serverfuncs.approveTrade(trades[trade].tradeid);
-        //serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        // await serverfuncs.adminCancelTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade confirmed");
       }
@@ -117,7 +118,7 @@ export default class IncomingTrades extends React.Component {
       denyNode.innerHTML = "deny";
       denyNode.className = "denybutton";
       denyNode.onclick = async function() {
-        await serverfuncs.adminCancelTrade(trades[trade].tradeid);
+        await serverfuncs.denyTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade denied");
       }
@@ -147,7 +148,7 @@ export default class IncomingTrades extends React.Component {
     return (
       <div style = {{textAlign: "center "}}>
         <Notification/>
-        <a style = {{fontSize:"30px"}}>Incoming Trades</a>
+        <h2 style = {{fontSize:"30px", color:"#FFFFFF"}}>Incoming Trades</h2>
         <div id = "incomingtrades"></div>
       </div>
     )
