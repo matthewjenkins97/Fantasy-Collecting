@@ -677,6 +677,20 @@ async function updateUserData(data) {
     data.hash = MD5(data.hash);
   }
 
+  // defaulting number based info
+  if (!data.admin) {
+    data.admin = 0;
+  }
+  if (!data.formcompleted) {
+    data.formcompleted = 0;
+  }
+  if (!data.guilders) {
+    data.guilders = 0;
+  }
+  if (!data.microresearchpoints) {
+    data.microresearchpoints = 0;
+  }
+
   fetch(apiURL + '/users/'+data.username, {
     method: 'put',
     mode: 'cors',
@@ -688,6 +702,7 @@ async function updateUserData(data) {
         hash: data.hash,
         name: data.name,
         admin: data.admin,
+        formcompleted: data.formcompleted,
         guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
         blurb: data.blurb})
@@ -703,6 +718,21 @@ async function createUser(user) {
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
     console.log(user);
+
+    // defaulting number based info 
+    if (!user.admin) {
+      user.admin = 0;
+    }
+    if (!user.formcompleted) {
+      user.formcompleted = 0;
+    }
+    if (!user.guilders) {
+      user.guilders = 0;
+    }
+    if (!user.microresearchpoints) {
+      user.microresearchpoints = 0;
+    }
+
     fetch(apiURL + '/users/', {
       method: 'post',
       mode: 'cors',
@@ -714,6 +744,7 @@ async function createUser(user) {
             hash: MD5(user.hash),
             name: user.name,
             admin: user.admin,
+            formcompleted: user.formcompleted,
             guilders: user.guilders,
             microresearchpoints: user.microresearchpoints,
             blurb: user.blurb,
@@ -722,7 +753,7 @@ async function createUser(user) {
       console.log(res);
     })
   } else {
-    console.log('User already exists.');
+    alert('User already exists.');
   }
 }
 
@@ -748,6 +779,18 @@ async function createArtwork(artwork) {
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof artworkInDB === 'undefined') {
     console.log(artwork);
+
+    // defaulting number based info 
+    if (!artwork.theoreticalprice) {
+      artwork.theoreticalprice = 0;
+    }
+    if (!artwork.actualprice) {
+      artwork.actualprice = 0;
+    }
+    if (!artwork.rateable) {
+      artwork.rateable = 0;
+    }
+
     fetch(apiURL + '/artworks/', {
       method: 'post',
       mode: 'cors',
@@ -768,11 +811,23 @@ async function createArtwork(artwork) {
       console.log(res);
     })
   } else {
-    console.log('Artwork already exists.');
+    alert('Artwork already exists.');
   }
 }
 
 async function updateArtwork(data) {
+
+  // defaulting number based info 
+  if (!data.theoreticalprice) {
+    data.theoreticalprice = 0;
+  }
+  if (!data.actualprice) {
+    data.actualprice = 0;
+  }
+  if (!artwork.rateable) {
+    artwork.rateable = 0;
+  }
+
   fetch(apiURL + '/artworks/'+data.identifier, {
     method: 'put',
     mode: 'cors',
