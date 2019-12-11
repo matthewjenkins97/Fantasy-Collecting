@@ -148,7 +148,7 @@ export default class IncomingTrades extends React.Component {
     return (
       <div style = {{textAlign: "center "}}>
         <Notification/>
-        <a style = {{fontSize:"30px"}}>Incoming Trades</a>
+        <h2 style = {{fontSize:"30px", color:"#FFFFFF"}}>Incoming Trades</h2>
         <div id = "incomingtrades"></div>
       </div>
     )

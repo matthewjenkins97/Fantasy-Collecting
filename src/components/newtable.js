@@ -14,7 +14,8 @@ var stateBeg = {columns: [
       { title: 'Username', field: 'username' },
       { title: 'Password', field: 'hash' },
       { title: 'Name', field: 'name' },
-      { title: 'Admin', field: 'admin', type: 'numeric' },
+      { title: 'Admin?', field: 'admin', type: 'numeric' },
+      { title: 'Completed form?', field: 'formcompleted', type: 'numeric' },
       { title: 'Guilders', field: 'guilders', type: 'numeric' },
       { title: 'Microresearch Points', field: 'microresearchpoints', type: 'numeric' },
       { title: 'Blurb', field: 'blurb'},
@@ -68,6 +69,7 @@ export default class MaterialTableDemo extends React.Component {
         hash: "*****", 
         name: user.name, 
         admin: user.admin, 
+        formcompleted: user.formcompleted,
         guilders: user.guilders, 
         microresearchpoints: user.microresearchpoints,
         blurb: user.blurb
