@@ -5,54 +5,70 @@ import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
 import "./gallerydropdown.css";
 
-// class TradeTable extends React.Component {
-//   constructor(props) {
-//     super(props);
+class TradeTable extends React.Component {
+  constructor(props) {
+    super(props);
 
-//     this.rows = [];
-//     this.read = false;
+    this.rows = [];
+    this.read = false;
 
-//     this.tradeid = props.identifier;
-//     this.divid = props.identifier + "TradeDropdown"
+    this.tradeid = props.identifier;
+    this.divid = "TradeDropdown" + props.identifier;
 
-//     this.getRows = this.getRows.bind(this);
-//     this.getRows();
-//     this.state = {columns: [
-//         { title: 'Buyer', field: 'buyer' },
-//         { title: 'Seller', field: 'seller' },
-//         { title: 'Offer', field: 'offer' },
-//       ],
-//       data: this.rows,
-//     }; 
-//   }
+    this.getRows = this.getRows.bind(this);
 
-//   async getRows() {
-//     this.rows = [];
-//     const trades = await serverfuncs.getTradeDetails();
-//     for(var trade of trades) {
-//       console.log(trade.tradeid)
-//       if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
-//         this.rows.push(trade);
-//       }
-//     }
-//     this.state.data = this.rows;
-//     this.read = true;
-//     this.forceUpdate();
-//   }
+    this.raiseTable = this.raiseTable.bind(this)
 
-//   render() {
-//     const title = "Trade Details for " + this.tradeid;
-//     return (
-//       <div>
-//       {this.read ? (
-//       <MaterialTable
-//         title={title}
-//         columns={this.state.columns}
-//         data={this.state.data}
-//       />
-//     ) : (<h1>loading...</h1>)} </div> ); 
-//   }
-// }
+    this.getRows();
+    this.state = {columns: [
+        { title: 'Buyer', field: 'buyer' },
+        { title: 'Seller', field: 'seller' },
+        { title: 'Offer', field: 'offer' },
+      ],
+      data: this.rows,
+    }; 
+  }
+
+  raiseTable() {
+    document.getElementById(this.divid).style.top = "-600px";
+  }
+
+  async getRows() {
+    this.rows = [];
+    const trades = await serverfuncs.getTradeDetails();
+    for(var trade of trades) {
+      if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
+        this.rows.push(trade);
+      }
+    }
+    this.state.data = this.rows;
+    this.read = true;
+    this.forceUpdate();
+  }
+
+  render() {
+    const title = "Trade Details for " + this.tradeid;
+    return (
+      <div id={this.divid} class="tradeTableDropdown">
+        <a class="closebtn" onClick={this.raiseTable}>&times;</a>
+        <p>&nbsp;</p>
+        {this.read ? (
+        <MaterialTable
+          title={title}
+          columns={this.state.columns}
+          data={this.state.data}
+          options={{
+            rowStyle: {
+              "z-index": 3
+            }
+          }}
+        />
+      ) : (<h1>loading...</h1>)} 
+      </div> 
+    ); 
+  }
+}
+
 
 export default class HistoryTable extends React.Component {
   constructor(props) {
@@ -62,17 +78,17 @@ export default class HistoryTable extends React.Component {
     this.rows = [];
     this.read = false;
 
-    // this.tradeTableState = false;
-    // this.currentTradeID = undefined;
+    this.tradetables = [];
 
     this.getRows = this.getRows.bind(this);
 
     // needs to be done for divid and other this variables to be preserved
     this.lowerTable = this.lowerTable.bind(this)
     this.raiseTable = this.raiseTable.bind(this)
-    // this.showTradeTable = this.showTradeTable.bind(this);
 
-    this.divid = this.props.identifier + "HistoryDropdown"
+    this.render = this.render.bind(this);
+
+    this.divid = this.props.identifier + "HistoryDropdown";
 
     this.getRows();
     this.state = {columns: [
@@ -94,27 +110,25 @@ export default class HistoryTable extends React.Component {
   }
 
   async getRows() {
-    this.rows = [];
     const history = await serverfuncs.getHistory(this.props.identifier);
-    for(var artwork of history) {
-      artwork.timestamp = new Date(artwork.timestamp).toLocaleString();
-      this.rows.push(artwork);
+
+    for(let i = 0; i < history.length; i++) {
+      history[i].timestamp = new Date(history[i].timestamp).toLocaleString();
+
+      if (history[i].tradeid !== null) {
+        history[i].tradetableid = "TradeDropdown" + history[i].tradeid;
+        this.tradetables.push(history[i].tradeid);
+      } else {
+        history[i].tradetableid = null;
+      }
+     
+      this.rows.push(history[i]);
     };
     this.state.data = this.rows;
     this.state.data = this.state.data.sort(function(a, b){return a.timestamp[0] > b.timestamp[0] ? 1 : -1});
     this.read = true;
     this.forceUpdate();
   }
-
-  // showTradeTable(tradeid) {
-  //   if (this.tradeTableState) {
-  //     this.tradeTableState = false;
-  //   } else {
-  //     this.tradeTableState = true;
-  //   }
-  //   console.log(this.tradeTableState);
-  //   this.currentTradeID = tradeid;
-  // }
 
   render() {
     const title = "History for \"" + this.props.identifier + "\"";
@@ -134,8 +148,8 @@ export default class HistoryTable extends React.Component {
               icon: SearchIcon,
               tooltip: 'Trade Information',
               onClick: (event, rowData) => {
-                if (rowData.tradeid !== null) {
-                  // this.showTradeTable(rowData.tradeid);
+                if (rowData.tradetableid !== null) {
+                  document.getElementById(rowData.tradetableid).style.top = "0px";
                 } else {
                   alert("No trade information found.")
                 }
@@ -144,8 +158,9 @@ export default class HistoryTable extends React.Component {
           ]}
           />
           ) : (<h1>loading...</h1>)} 
-          {/* {this.tradeTableState &&
-          <TradeTable identifier={this.currentTradeID} />} */}
+          {this.tradetables.map((tradetableid) => (
+            <TradeTable identifier={tradetableid} />
+          ))}
         </div> 
       </div>
     ); 
