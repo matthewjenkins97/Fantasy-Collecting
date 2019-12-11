@@ -422,7 +422,7 @@ async function approveTrade(tid) {
   }
   try {
   // mark trade as archived, delete trades stuff
-  fetch(apiURL + '/trades/'+tid, {
+  await fetch(apiURL + '/trades/'+tid, {
     method: 'delete',
     mode: 'cors',
     headers: {
@@ -432,7 +432,7 @@ async function approveTrade(tid) {
     console.log(res);
   });
   
-  fetch(apiURL + '/tradedetails/'+tid, {
+  await fetch(apiURL + '/tradedetails/'+tid, {
     method: 'put',
     mode: 'cors',
     headers: {

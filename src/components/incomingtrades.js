@@ -52,6 +52,7 @@ export default class IncomingTrades extends React.Component {
     const details = await serverfuncs.getTradeDetails();
     totalTrades = 0;
     for(var trade in trades) {
+      if(trades[trade].sellerapproved === 0 || trades[trade].buyerapproved === 0) continue;
       totalTrades++;
 
       var auctionNode = document.createElement("trade-details");
