@@ -51,7 +51,7 @@ function SimpleMenu() {
 const TablePage = () => {
         return(
             <div>
-                <AppBar position="static" style = {{backgroundColor: "#002f86"}}>
+                <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -62,6 +62,8 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
                 <div><ChatComponent /></div>
                 {/* <Table /> */}
                 <IncomingTrades/>

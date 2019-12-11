@@ -546,9 +546,10 @@ async function adminCancelTrade(id) {
     headers: {
         'Content-Type': 'application/json'
     },
-    body: {
+    body: JSON.stringify(
+      {
       archived: true,
-    },
+    }),
   }).then(function (res) {
     console.log(res);
   });
