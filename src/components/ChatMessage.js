@@ -118,14 +118,14 @@ class ChatMessage extends Component {
         render() {
             return (
                 <div style={{zIndex: 10, position: "fixed"}}>
-                    <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
+                    <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 380}}>
                     {  this.state.currentView ?  
-                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
+                    (<CloseIcon style={{background: 'white', zIndex: 300}} onClick={() => this.changeView(this.state.currentView)}/>) 
                     : (null)   
                 
                     }
                     {  this.state.chatView ?  
-                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
+                    (<CloseIcon style={{background: 'white', zIndex: 99}} onClick={() => this.changeChat(this.state.chatView)}/>) 
                     : (null)   
                 
                     }
