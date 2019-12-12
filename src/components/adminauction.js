@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
-import Notification from './notification';
 
 import './backgroundlogin.css'
 
@@ -16,7 +15,7 @@ function closeCreateDropdown() {
   document.getElementById("createauctiondropdown").style.top = "-200px";
 }
 function openCreateDropdown() {
-  document.getElementById("createauctiondropdown").style.top = "0px";
+  document.getElementById("createauctiondropdown").style.top = "50px";
 }
 function closeAddDropdown() {
   document.getElementById("addauctiondropdown").style.display = "none";
@@ -58,8 +57,13 @@ class AuctionAdmin extends React.Component{
 
       const auctions = await auctionfuncs.getAllAuctions();
 
-      console.log("ALL AUCTIONS: ");
-      console.log(auctions);
+      try{document.getElementById("bnode").remove()}catch{}
+      var buttonNode = document.createElement("button");
+      buttonNode.onclick = () => openCreateDropdown();
+      buttonNode.className = "createButton";
+      buttonNode.innerHTML = "Create Auction";
+      buttonNode.id = "bnode";
+      document.getElementById("abutton").appendChild(buttonNode);
 
       const lots = await auctionfuncs.getAllLots();
       for(var auction in auctions) {
@@ -69,10 +73,16 @@ class AuctionAdmin extends React.Component{
     }
 
     async loadLots(title, id, auctions, c_ref) {
-      var titleNode = document.createElement("pre");
+      var titleNode = document.createElement("p");
       titleNode.id = "titlenode"+id;
       titleNode.innerHTML = title;
       document.getElementById("auctions").append(titleNode);
+      titleNode.style.color = "white";
+      titleNode.style.backgroundColor = "#002f86";
+      titleNode.style.width = "auto";
+      titleNode.style.borderRadius = "5px";
+      titleNode.style.width = "20%";
+      titleNode.style.padding = "5px";
 
       var addLotNode = document.createElement("button");
       addLotNode.id = id;
@@ -107,11 +117,13 @@ class AuctionAdmin extends React.Component{
       auctionnode.className = "auctionscroll";
       auctionnode.id = "auctionscroll"+id.toString();
       document.getElementById("auctions").append(auctionnode);
+      document.getElementById("auctions").append(document.createElement("br"));
       currentAuctions.push(auctionnode.id);
       currentAuctions.push(titleNode.id);
       currentAuctions.push(deleteNode.id);
       currentAuctions.push(addLotNode.id);
       currentAuctions.push(confirmNode.id);
+      
 
       var auctionnumber = -1;
       for(const a in auctions) {
@@ -138,7 +150,7 @@ class AuctionAdmin extends React.Component{
         imagenode.src = source_of_image.url;
         imagenode.style.left = (10+550*auctionnumber).toString()+'px';
         imagenode.onclick = function() {
-          document.getElementById("lotdropdown").style.top = "0px";
+          document.getElementById("lotdropdown").style.top = "50px";
           document.getElementById("lotnumber").innerHTML = "LOT "+a.toString();
           document.getElementById("lotimage").src = this.src;
           document.getElementById("lotinfo").innerHTML = 
@@ -210,15 +222,6 @@ class AuctionAdmin extends React.Component{
             <a>auctions</a>
           </div>
 
-          <div style = {{textAlign: "center"}}>
-            <button onClick = {openCreateDropdown} style = {{
-              width: "100px", height: "50px", boxAlign: "center", borderRadius: "30px",
-              boxShadow: "none"
-            }}>Create Auction</button>
-          </div>
-
-          <br></br>
-
           <div id = "createauctiondropdown" className = "createdropdown">
             <a onClick = {closeCreateDropdown} style = {{
               position: "absolute",
@@ -269,10 +272,10 @@ class AuctionAdmin extends React.Component{
             <button onClick = {closeAddDropdown}>cancel</button>
           </div>
 
-          {/* <a style = {{color: "white"}}>Browse Lots</a> */}
-          {/* <div id = "auctionscroll" class = "auctionscroll">
-          </div> */}
+          
           <div id = "auctions"/>
+          <br></br>
+          <div id = "abutton" style = {{textAlign: "center"}}/>
         </div>
       );
     }
