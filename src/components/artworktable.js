@@ -34,15 +34,6 @@ export default class ArtworkTable extends React.Component {
     rows = [];
     const artworks = await serverfuncs.getAllArtworks();
     for(var artwork of artworks) {
-      // console.log(user);
-      // var dict = {title: user.title, 
-      //   name: user.name, 
-      //   money: user.guilders, 
-      //   artworks: user.numofpaintings,
-      //   value: 0,
-      //   kudos: user.microresearchpoints,
-      // };
-        
       rows.push(artwork);
     };
     this.state.data = rows;
@@ -50,6 +41,7 @@ export default class ArtworkTable extends React.Component {
     read = true;
     this.forceUpdate();
   }
+
   render() {
     return (
       <div>
@@ -72,7 +64,6 @@ export default class ArtworkTable extends React.Component {
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise(resolve => {
-              //this.data[this.data.indexOf(oldData)] = newData;
               setTimeout(() => {
                 resolve();
                 this.state.data = this.state.data.filter(function(value, index, arr){

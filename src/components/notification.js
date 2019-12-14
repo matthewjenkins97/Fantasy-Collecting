@@ -9,7 +9,7 @@ class Notification extends React.PureComponent {
   render() {
     return (
     
-    <div id = "notification" class = "notification">
+    <div id = "notification" className = "notification">
       notification
     </div>
     

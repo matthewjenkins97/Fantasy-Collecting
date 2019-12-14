@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
+import Notification from "../components/notification";
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -47,6 +48,7 @@ function SimpleMenu() {
 const TablePage = () => {
         return(
             <div>
+              <Notification/>
                 <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}

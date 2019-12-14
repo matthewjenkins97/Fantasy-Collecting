@@ -33,17 +33,17 @@ class ChatApp extends Component {
     }
 
     createRoom(roomName) {
-        console.log("CREATING ROOM")
-        console.log(this.state.currentUser)
-        console.log(typeof this.state.otherUser)
-        console.log(typeof roomName);
+        // console.log("CREATING ROOM")
+        // console.log(this.state.currentUser)
+        // console.log(typeof this.state.otherUser)
+        // console.log(typeof roomName);
         chatManager
             .connect()
             .then(currentUser => {
-                console.log("NAMENAME")
-                console.log(roomName)
-                console.log(this.state.currentUser.id)
-                console.log(this.state.otherUser)
+                // console.log("NAMENAME")
+                // console.log(roomName)
+                // console.log(this.state.currentUser.id)
+                // console.log(this.state.otherUser)
                 currentUser.createRoom({
                 id: roomName,
                 name: roomName,
@@ -52,21 +52,21 @@ class ChatApp extends Component {
                 customData: { foo: 42 },
             })})
             .then(room => {
-                console.log(`Created room called ${room.name}`)
+                //console.log(`Created room called ${room.name}`)
             })
             .catch(err => {
-                console.log(`Error creating room ${err}`)
+                //console.log(`Error creating room ${err}`)
           })
     } 
 
 
 
     checkRoom(rooms, currentRoom){
-        console.log("CHECK ROOMS");
-        console.log(currentRoom);
+        // console.log("CHECK ROOMS");
+        // console.log(currentRoom);
         for (var thing in rooms){
-            console.log(rooms[thing]);
-            console.log(rooms[thing].id);
+            // console.log(rooms[thing]);
+            // console.log(rooms[thing].id);
             if (rooms[thing].id == currentRoom){
                 return;
             }
@@ -170,6 +170,7 @@ class ChatApp extends Component {
               flexDirection: 'column',
             },
          }
+         console.log(this.state.messages.length);
                     return (
                     //   <div style={styles.container}>
                     //     <div style={styles.chatContainer}>

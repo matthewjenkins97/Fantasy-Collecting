@@ -13,8 +13,6 @@ class IndexElem extends HTMLElement {
 }
 customElements.define('index-element', IndexElem);
 
-
-
 var receivingRequest = false;
 var currentTradeIds = []
 

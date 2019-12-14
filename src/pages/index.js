@@ -73,7 +73,7 @@ class MainPage extends Component {
                           <Grid item xs>
                             
                           <Typography variant="h6" style={{float: 'right', marginTop: 10}}>
-                            <i style={{alignSelf: 'center'}} class="material-icons">
+                            <i style={{alignSelf: 'center'}} className="material-icons">
                               monetization_on
                               </i>  {this.state.guilders}</Typography>
                           </Grid>

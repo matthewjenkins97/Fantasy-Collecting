@@ -20,7 +20,6 @@ async function postBid(username, id, bid) {
       username: username,
     }),
   }).then((res) => {
-    console.log(res);
     showNotification("posted bid of "+bid+" on "+id);
   });
 }
@@ -33,7 +32,6 @@ async function deleteLot(id) {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
     showNotification("deleted lot "+id);
   });
 }
@@ -46,7 +44,6 @@ async function deleteAuction(id) {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
     showNotification("deleted auction "+id);
   });
 }
@@ -66,8 +63,6 @@ async function getAllAuctions() {
     mode: 'cors',
   })
   auctions = await auctions.json();
-  console.log("AUCTIONS");
-  console.log(auctions);
   return auctions;
 }
 
@@ -84,14 +79,12 @@ async function createAuction(name, id, d) {
       date: d,
     }),
   }).then((res) => {
-    showNotification("created auction "+name+" with name "+id);
+    showNotification("created auction "+id+" with name "+name);
   });
 }
 
 async function createLot(id, name, essay) {
   var currentlots = await getAllLots();
-  console.log("currentlots");
-  console.log(currentlots);
   for(var cl in currentlots) {
     if(currentlots[cl].number.toString() === id.toString() && currentlots[cl].identifier.toString() === name.toString()) {
       showNotification("artwork "+name+" already exists in this auction");
@@ -132,7 +125,6 @@ async function conductAuctionTrade(artwork, user, offer) {
       owner: user
     }),
   }).then((res) => {
-    console.log(res)
   });
 
   // subtract user's payment from their account, increment number of paintings
@@ -152,7 +144,6 @@ async function conductAuctionTrade(artwork, user, offer) {
     },
     body: JSON.stringify(userBody),
   }).then((res) => {
-    console.log(res)
   });
 
   // post transaction to history
@@ -171,11 +162,7 @@ async function conductAuctionTrade(artwork, user, offer) {
     },
     body: JSON.stringify(historyBody),
   }).then((res) => {
-    console.log(res)
   });
 }
-
-//conductAuctionTrade('monalisa', 'dholley', 20);
-
 // auction table
 // some function which combines trades and tradedetails and prints it out in a nice way for jarosi...?

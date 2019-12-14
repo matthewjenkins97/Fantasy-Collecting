@@ -69,7 +69,7 @@ class AuctionAdmin extends React.Component{
 
       currentAuctions = [];
 
-      const auctions = await auctionfuncs.getAllAuctions();
+      var auctions = await auctionfuncs.getAllAuctions();
 
       try{document.getElementById("bnode").remove()}catch{}
       var buttonNode = document.createElement("button");
@@ -79,14 +79,14 @@ class AuctionAdmin extends React.Component{
       buttonNode.id = "bnode";
       document.getElementById("abutton").appendChild(buttonNode);
 
-      const lots = await auctionfuncs.getAllLots();
+      var lots = await auctionfuncs.getAllLots();
       for(var auction in auctions) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
       }
       this.forceUpdate();
     }
 
-    async loadLots(title, id, auctions, c_ref) {
+    async loadLots(title, id, lots, c_ref) {
       var titleNode = document.createElement("p");
       titleNode.id = "titlenode"+id;
       titleNode.innerHTML = title;
@@ -119,8 +119,10 @@ class AuctionAdmin extends React.Component{
       confirmNode.id = "confirmNode"+id;
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
-        for(var lot in auctions) {
-          await auctionfuncs.conductAuctionTrade(auctions[lot].identifier, auctions[lot].username, auctions[lot].highestbid);
+        for(var lot in lots) {
+          if(lots[lot].number.toString() === id.toString()) {
+            await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, lots[lot].highestbid);
+          }
         }
         await auctionfuncs.deleteAuction(id);
         c_ref.loadAuctions();
@@ -140,11 +142,11 @@ class AuctionAdmin extends React.Component{
       
 
       var auctionnumber = -1;
-      for(const a in auctions) {
+      for(const l in lots) {
 
-        if(auctions[a].number != id) continue;
+        if(lots[l].number != id) continue;
         auctionnumber++;
-        const source_of_image = await serverfuncs.getArtworkInfo(auctions[a].identifier);
+        const source_of_image = await serverfuncs.getArtworkInfo(lots[l].identifier);
         var auction_scroll = auctionnode;
 
         var deleteNode = document.createElement("button");
@@ -152,31 +154,31 @@ class AuctionAdmin extends React.Component{
         deleteNode.style.position = "absolute";
         deleteNode.style.left = (auctionnumber*550).toString()+"px";
         deleteNode.onclick = async function() {
-          console.log(auctions[a].identifier);
-          await auctionfuncs.deleteLot(auctions[a].identifier);
+          console.log(lots[l].identifier);
+          await auctionfuncs.deleteLot(lots[l].identifier);
           c_ref.loadAuctions();
         }
         auction_scroll.append(deleteNode);
 
 
         var imagenode = document.createElement("img");
-        imagenode.id = "auction_pic"+a.toString();
+        imagenode.id = "auction_pic"+l.toString();
         imagenode.src = source_of_image.url;
         imagenode.style.left = (10+550*auctionnumber).toString()+'px';
         imagenode.onclick = function() {
           document.getElementById("lotdropdown").style.top = "50px";
-          document.getElementById("lotnumber").innerHTML = "LOT "+a.toString();
+          document.getElementById("lotnumber").innerHTML = "LOT "+l.toString();
           document.getElementById("lotimage").src = this.src;
           document.getElementById("lotinfo").innerHTML = 
           "<pre>INFO:\n\n"+
           "\nARTIST:  "+source_of_image.artist+
           "\nYEAR:  "+source_of_image.year+
           "\nOWNER:  "+source_of_image.owner+
-          "\nCURRENT HIGHEST BID:"+auctions[a].highestbid+
-          "\nHIGHEST BIDDER:"+auctions[a].username+
+          "\nCURRENT HIGHEST BID:"+lots[l].highestbid+
+          "\nHIGHEST BIDDER:"+lots[l].username+
           "</pre>";;
-          document.getElementById("lotessay").innerHTML = auctions[a].lotessay;
-          currentLotName = auctions[a].identifier;
+          document.getElementById("lotessay").innerHTML = lots[l].lotessay;
+          currentLotName = lots[l].identifier;
         }
         auction_scroll.append(imagenode);
     
@@ -186,8 +188,8 @@ class AuctionAdmin extends React.Component{
         "\n\nARTIST:  "+source_of_image.artist+
         "\n\nYEAR:  "+source_of_image.year+
         "\n\nOWNER:  "+source_of_image.owner+
-        "\n\n\nCURRENT HIGHEST BID:\n"+auctions[a].highestbid+
-        "\n\nHIGHEST BIDDER:\n"+auctions[a].username+
+        "\n\n\nCURRENT HIGHEST BID:\n"+lots[l].highestbid+
+        "\n\nHIGHEST BIDDER:\n"+lots[l].username+
         "</pre>";
         textnode.style.left = (250+550*auctionnumber).toString()+'px';
         auction_scroll.append(textnode);
@@ -233,7 +235,7 @@ class AuctionAdmin extends React.Component{
             }}>Place Bid</button>
           </div>
           <div className = 'title'>
-            <a>auctions</a>
+            <a>Auctions</a>
           </div>
 
           <div id = "createauctiondropdown" className = "createdropdown">
@@ -293,6 +295,8 @@ class AuctionAdmin extends React.Component{
           <div id = "auctions"/>
           <br></br>
           <div id = "abutton" style = {{textAlign: "center"}}/>
+          <br></br>
+          <br></br>
         </div>
       );
     }

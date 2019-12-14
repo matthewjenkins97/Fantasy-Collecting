@@ -107,7 +107,7 @@ class ImageDrop extends React.Component{
       return (
         <div>
           <div id="drop-area">
-            <form class="my-form">
+            <form className="my-form">
               <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
               <br />
               <i id="status"></i>

@@ -49,15 +49,12 @@ class ChatMessage extends Component {
             this.setState({
                 userList: userlist
             })
-            console.log("USERS");
-            console.log(this.state.userList);
         }
 
         changeView(current) {
             this.setState({
                 currentView: !current
             })
-            console.log(this.state.currentView);
         }
 
         changeChat(current, otheruser) {
@@ -65,8 +62,6 @@ class ChatMessage extends Component {
                 chatView: !current,
                 otherChatter: otheruser
             })
-            console.log(this.state.chatView);
-            console.log(this.state.otherChatter);
         }
 
         async componentDidMount() {
@@ -114,12 +109,12 @@ class ChatMessage extends Component {
                         <div>
                             <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
                             </p>
-                            <div id="messageinit" class="sidebarinit">
-                                <a class="closebtn" onClick={closeNav}>&times;</a>
+                            <div id="messageinit" className="sidebarinit">
+                                <a className="closebtn" onClick={closeNav}>&times;</a>
 
-                                <button class="dropbtn">Users</button>
+                                <button className="dropbtn">Users</button>
 
-                                <div id = "messageusers" class="dropdown-content"></div>
+                                <div id = "messageusers" className="dropdown-content"></div>
                             </div>
                         </div>
                         {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}

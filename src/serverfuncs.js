@@ -116,6 +116,7 @@ async function checkForFinalize() {
     clearInterval(FINALIZE_INTERVAL_REF);
     clearInterval(ITEM_INTERVAL_REF);
     tradeFuncs.closeTrade();
+    showNotification("trade sent to admin");
     if(trade.buyer == localStorage.getItem('username')) {
       sendFormToAdmin();
     }
@@ -388,13 +389,15 @@ async function approveTrade(tid) {
     var username = "";
     var artworkowner = "";
     for(var u in users) {
-      if(users[u].username === offers[offer].seller) {
+      if(users[u].username.toString() === offers[offer].seller.toString()) {
         userguilders = users[u].guilders;
         username = users[u].username;
       }
     }
     for(var a in artworks) {
-      if(artworks[a].identifier === offers[offer].offer) {
+      if(artworks[a].identifier.toString() === offers[offer].offer.toString()) {
+        console.log("ARTWORK FOUND");
+        console.log(artworks[a].owner);
         artworkowner = artworks[a].owner;
       }
     }
@@ -548,32 +551,32 @@ async function cancelTrade() {
   clearIntervals();
 }
 
-async function adminCancelTrade(id) {
-  await fetch(apiURL + '/trades/'+id, {
-    method: 'delete',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-  }).then(function (res) {
-    console.log(res);
-  });
+// async function adminCancelTrade(id) {
+//   await fetch(apiURL + '/trades/'+id, {
+//     method: 'delete',
+//     mode: 'cors',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//   }).then(function (res) {
+//     console.log(res);
+//   });
 
-  await fetch(apiURL + '/tradedetails/'+id, {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(
-      {
-      archived: true,
-    }),
-  }).then(function (res) {
-    // console.log(res);
-  });
-  clearIntervals();
-}
+//   await fetch(apiURL + '/tradedetails/'+id, {
+//     method: 'put',
+//     mode: 'cors',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(
+//       {
+//       archived: true,
+//     }),
+//   }).then(function (res) {
+//     // console.log(res);
+//   });
+//   clearIntervals();
+// }
 
 function clearIntervals() {
   clearInterval(FINALIZE_INTERVAL_REF);
