@@ -58,6 +58,8 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
                 <Table />
             </div>
         )

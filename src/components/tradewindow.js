@@ -210,7 +210,6 @@ function addTrades(theTrades) {
       document.getElementById("trade_d"+i.toString()).remove();
     }
     catch {
-      console.log("out of range");
     }
   }
   currentTrades = 0;
@@ -218,6 +217,7 @@ function addTrades(theTrades) {
   for(var trade in theTrades) {
     var textnode = document.createElement("h1");
     textnode.id = "trade_n"+trade.toString();
+    textnode.className = "tradealertdrop";
     textnode.innerHTML = theTrades[trade].buyer;
     document.getElementById("tradealert").appendChild(textnode);
 
@@ -232,7 +232,9 @@ function addTrades(theTrades) {
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
       removeTrade(this.id[8]);
     }
+    //document.getElementById(textnode.id).appendChild(buttonnode);
     document.getElementById("tradealert").appendChild(buttonnode);
+
 
     var divnode = document.createElement("div");
     divnode.id = "trade_d"+trade.toString();
@@ -246,7 +248,9 @@ function addTrades(theTrades) {
       serverfuncs.declineTrade(theTrades[trade].tradeid);
       removeTrade(parseInt(this.id[8]));
     }
+    //document.getElementById(textnode.id).appendChild(buttonnode2);
     document.getElementById("tradealert").appendChild(buttonnode2);
+
     
     totalTrades = trade;
     currentTrades = trade+1;
@@ -258,7 +262,6 @@ function addTrades(theTrades) {
 }
 
 function removeTrade(index) {
-  console.log("removing trade from requests");
   try {
     document.getElementById("trade_n"+index.toString()).remove();
     document.getElementById("trade_ba"+index.toString()).remove();

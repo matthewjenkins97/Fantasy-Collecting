@@ -33,7 +33,21 @@ async function createAuction() {
   );
 }
 async function addLotToAuction() {
-  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").value, document.getElementById("addlotessay").value);
+  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").innerHTML, document.getElementById("addlotessay").value);
+}
+
+async function loadArtworksForLot() {
+  const artworks = await serverfuncs.getAllArtworks();
+  for(var a in artworks) {
+    var buttonNode = document.createElement("p");
+    buttonNode.innerHTML = artworks[a].identifier;
+    buttonNode.onclick = function() {
+      document.getElementById("addlotname").innerHTML = this.innerHTML;
+      document.getElementById("addlotname").style.height = "20px";
+    }
+    document.getElementById("addlotname").appendChild(buttonNode);
+  }
+  document.getElementById("addlotname").style.height = "100px";
 }
 
 class AuctionAdmin extends React.Component{
@@ -61,7 +75,7 @@ class AuctionAdmin extends React.Component{
       var buttonNode = document.createElement("button");
       buttonNode.onclick = () => openCreateDropdown();
       buttonNode.className = "createButton";
-      buttonNode.innerHTML = "Create Auction";
+      buttonNode.innerHTML = "Create Auction...";
       buttonNode.id = "bnode";
       document.getElementById("abutton").appendChild(buttonNode);
 
@@ -226,7 +240,8 @@ class AuctionAdmin extends React.Component{
             <a onClick = {closeCreateDropdown} style = {{
               position: "absolute",
               top: "5px",
-              left: "10px"
+              left: "10px",
+              cursor: "pointer"
             }}>x</a>
             <a>create auction</a>
             <br></br>
@@ -256,10 +271,12 @@ class AuctionAdmin extends React.Component{
             zIndex: 1,
             color: "white",
             textAlign: "center",
+            alignContent: "center"
             }}>
-            <a>lot id</a>
             <br></br>
-            <input id = "addlotname" type = "text"></input>
+            <p id = "addlotname" className = "addlotdrop" onClick = {() => {
+              loadArtworksForLot();
+            }}>select artwork</p>
             <br></br>
             <a>lot essay</a>
             <br></br>

@@ -446,25 +446,23 @@ async function approveTrade(tid) {
 }
 
 async function denyTrade(tid) {
-    fetch(apiURL + '/trades/'+tid, {
+    await fetch(apiURL + '/trades/'+tid, {
     method: 'delete',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
   });
-  fetch(apiURL + '/tradedetails/'+tid, {
+  await fetch(apiURL + '/tradedetails/'+tid, {
     method: 'delete',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
   });
-  clearIntervals();
+  //clearIntervals();
 }
 
 /*
@@ -476,7 +474,7 @@ async function denyTrade(tid) {
 */
 
 async function checkForTrade() {
-  if(!window.location.toString().endsWith("/gallery")) return; 
+  if(!window.location.toString().endsWith("/gallery") && !window.location.toString().endsWith("/auction")) return;
   var theTrades = [];
   const response = await fetch(apiURL + '/trades/');
   const myJson = await response.json();

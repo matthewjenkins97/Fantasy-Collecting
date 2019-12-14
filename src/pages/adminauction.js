@@ -27,7 +27,6 @@ function SimpleMenu() {
   
     return (
       <div>
-        <Notification/>
           <IconButton edge="start" color="inherit" aria-label="menu"
           aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MenuIcon />
@@ -53,6 +52,7 @@ function SimpleMenu() {
 const AuctionPage = () => {
     return(
         <div>
+            <Notification/>
             <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}

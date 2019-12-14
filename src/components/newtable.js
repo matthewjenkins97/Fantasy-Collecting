@@ -64,7 +64,6 @@ export default class MaterialTableDemo extends React.Component {
     rows = [];
     const users = await serverfuncs.getAllUsers();
     for(var user of users) {
-      console.log(user);
       var dict = {username: user.username, 
         hash: "*****", 
         name: user.name, 
@@ -93,65 +92,28 @@ export default class MaterialTableDemo extends React.Component {
         title="Users"
         columns={this.state.columns}
         data={this.state.data}
-        // actions={[
-        //   {
-        //     icon: 'save',
-        //     tooltip: 'Save User',
-        //     //onClick: (event, rowData) => alert("You saved " + rowData.name)
-        //   }
-        // ]}
-        // actions={[
-        //   {
-        //     icon: () => 
-        //     <Button
-        //     onClick={() => function() {}}
-        //     color="primary"
-        //     variant="contained"
-        //     style={{textTransform: 'none'}}
-        //     size="small"
-        //     >
-        //     View Gallery
-        //     </Button>,
-        //   },
-          //{
-            // icon: props => (
-            // <Button
-            //   onClick={(event, rowData) =>
-            //     console.log("add user", rowData, props)
-            //   }
-            // >
-            //   Add New User
-            // </Button>
-          // ),
-            // tooltip: "Add New User",
-            // isFreeAction: true,
-            // onClick: (event, rowData) =>
-            //   console.log("You are editing " + rowData.fname)
-          //},
-        //]}
+ 
         editable={{
           onRowAdd: newData =>
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
+                newData.hash = "*****";
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
-                console.log("USERNAME : ");
-                console.log(newData.username);
                 this.createUser(newData.username);
                 serverfuncs.createUser(newData);
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise(resolve => {
-              console.log("UPDATED");
-              //this.data[this.data.indexOf(oldData)] = newData;
               setTimeout(() => {
                 resolve();
                 this.state.data = this.state.data.filter(function(value, index, arr){
                   return arr[index].username !== oldData.username;
                 });
+                newData.hash = "*****";
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });

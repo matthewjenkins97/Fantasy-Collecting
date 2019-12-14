@@ -314,6 +314,7 @@ h1 {
   display: block;
   margin: auto;
   align-content: center;
+  cursor: pointer;
 }
 
 .requestinput {
@@ -324,14 +325,26 @@ h1 {
   align-content: center;
 }
 
+.tradealertdrop {
+  overflow: hidden;
+  /* background-color: #d6ba8b; */
+  border-radius: 5px;
+  height: 20px;
+  width: 100px;
+  cursor: pointer;
+}
+
+.tradealertdrop:hover{
+  /* color: black; */
+}
 
 /* ALERT SIDE MENU */
 .sidebaralert {
   border-radius: 0px 5px 5px 0px;
-  height: 400px; /* 100% Full-height */
+  height: 200px; /* 100% Full-height */
   width: 200px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  top: 150px;
+  top: 55px;
   left: -200px;
   transition: left .5s; 
   z-index: 100;
@@ -347,7 +360,7 @@ h1 {
 }
 /* When you mouse over the navigation links, change their color */
 .sidebaralert a:hover {
-  color: #52759cf1;
+  color: #d6ba8b;
 }
 /* Position and style the close button (top right corner) */
 .sidebaralert .closebtn {
@@ -357,6 +370,7 @@ h1 {
   font-size: 20px;
   cursor: pointer;
   color: #919191;
+  max-width: 20px;
 }
 /* The button used to open the sidebar */
 .openbtnalert {
@@ -374,7 +388,7 @@ h1 {
   padding: 10px 10px;
   border: none;
 
-  animation: btn-alert 3s linear infinite;
+  /* animation: btn-alert 3s linear infinite; */
 }
 
 
@@ -382,7 +396,7 @@ h1 {
   background-color: #d6ba8b;
 }
 
-@keyframes btn-alert {
+/* @keyframes btn-alert {
   0% {
     background-color: #002f86;
   }
@@ -392,7 +406,7 @@ h1 {
   100% {
     background-color: #002f86;
   }
-}
+} */
 
 /* Dropdown Button */
 .dropbtn {
@@ -400,7 +414,7 @@ h1 {
   display: block;
   margin: auto;
   border: none;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
   /* align-content: center; */
 
   background-color: #d6ba8b;

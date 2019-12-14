@@ -57,7 +57,9 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Table />
+                <br></br>
+                <br></br>
+                <Table/>
             </div>
         )
     

@@ -57,8 +57,6 @@ async function getAllLots() {
     mode: 'cors',
   })
   auctions = await auctions.json();
-  console.log("AUCTIONS");
-  console.log(auctions);
   return auctions;
 }
 
@@ -73,7 +71,7 @@ async function getAllAuctions() {
   return auctions;
 }
 
-async function createAuction(id, name, d) {
+async function createAuction(name, id, d) {
   await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`, {
     method: 'post',
     mode: 'cors',
@@ -81,18 +79,27 @@ async function createAuction(id, name, d) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      groupid: name,
-      identifier: id,
+      groupid: id,
+      identifier: name,
       date: d,
     }),
   }).then((res) => {
-    console.log(res);
     showNotification("created auction "+name+" with name "+id);
   });
 }
 
 async function createLot(id, name, essay) {
-  fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+  var currentlots = await getAllLots();
+  console.log("currentlots");
+  console.log(currentlots);
+  for(var cl in currentlots) {
+    if(currentlots[cl].number.toString() === id.toString() && currentlots[cl].identifier.toString() === name.toString()) {
+      showNotification("artwork "+name+" already exists in this auction");
+      return;
+    }
+  }
+
+  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
     method: 'post',
     mode: 'cors',
     headers: {
@@ -108,7 +115,6 @@ async function createLot(id, name, essay) {
       lotessay: essay,
     }),
   }).then((res) => {
-    console.log(res);
     showNotification("created lot "+id+" with name "+name);
   });
 }
