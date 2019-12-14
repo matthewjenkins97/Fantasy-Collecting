@@ -49,7 +49,7 @@ function SimpleMenu() {
 const TablePage = () => {
         return(
             <div>
-                <AppBar position="static" style = {{backgroundColor: "#002f86"}}>
+                <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">

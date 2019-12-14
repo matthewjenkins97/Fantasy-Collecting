@@ -56,7 +56,7 @@ function SimpleMenu() {
 const AdminPage = () => {
           return(
             <div>
-                <AppBar position="static" style={{backgroundColor: "#002f86"}}>
+                <AppBar position="fixed" style={{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -67,6 +67,8 @@ const AdminPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br />
+                <br />
                 <br />
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Paper style={{width: 500, marginTop: 30, padding: 20}}>

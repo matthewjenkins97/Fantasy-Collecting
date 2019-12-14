@@ -19,18 +19,6 @@ const chatkit = new Chatkit({
   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
 })
 
-const userlist = [
-    {
-        username: "dholley"
-    },
-    {
-        username: "mjenkins"
-    },
-    {
-        username: "jopatrny"
-    }
-]
-
 function openNav() {
     document.getElementById("messageinit").style.left = "0px";
     document.getElementById("messagebutt").style.left = "210px";
@@ -53,7 +41,6 @@ class ChatMessage extends Component {
                 userList: []
               }
             this.changeView = this.changeView.bind(this);
-            //this.getUsers = this.getUsers.bind(this);
         }
 
         async getUsers(){
@@ -67,10 +54,6 @@ class ChatMessage extends Component {
         }
 
         changeView(current) {
-            // let bool = true;
-            // if (current === true) {
-            //     bool = false;
-            // }
             this.setState({
                 currentView: !current
             })
@@ -78,10 +61,6 @@ class ChatMessage extends Component {
         }
 
         changeChat(current, otheruser) {
-            // let bool = true;
-            // if (current === true) {
-            //     bool = false;
-            // }
             this.setState({
                 chatView: !current,
                 otherChatter: otheruser
@@ -93,16 +72,16 @@ class ChatMessage extends Component {
         async componentDidMount() {
             await this.getUsers();
             var c_ref = this;
-            console.log("mounted");
             for(var user in this.state.userList) {
-                var buttonnode = document.createElement("a");
-                // buttonnode.id = "user_t"+user.toString();
-                buttonnode.style.padding = "0px 0px 5px 0px";
-                buttonnode.innerHTML = this.state.userList[user].username;
-                buttonnode.onclick = function() { 
-                    c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
+                if(this.state.userList[user].username !== localStorage.getItem("username")) {
+                    var buttonnode = document.createElement("a");
+                    buttonnode.style.padding = "0px 0px 5px 0px";
+                    buttonnode.innerHTML = this.state.userList[user].username;
+                    buttonnode.onclick = function() { 
+                        c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
+                    }
+                    document.getElementById("messageusers").appendChild(buttonnode);
                 }
-                document.getElementById("messageusers").appendChild(buttonnode);
             }
 
             var buttonnode = document.createElement("a");

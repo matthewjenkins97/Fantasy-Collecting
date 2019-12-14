@@ -26,6 +26,34 @@
   }
 }
 
+.lds-dual-ring2 {
+  display: none;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 415px;
+  top: 430px;
+}
+.lds-dual-ring2:after {
+  content: " ";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, .7);
+  border-color: rgba(0, 0, 0, .7) transparent rgba(0, 0, 0, .7) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .centering {
   position: absolute;
   top: 10%;
@@ -41,7 +69,7 @@
   top: 100px;
   left: -200px;
   transition: left 0.5s;
-  z-index: 1;
+  z-index: 100;
   background-color: #002f86; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   /* transition: width 0.5s; 0.5 second transition effect to slide in the sidebar */
@@ -84,9 +112,9 @@
 /* The sidebar menu */
 .tradewin {
   height: 80%; /* 100% Full-height */
-  width: 80%; /* 0 width - change this with JavaScript */
+  width: 100%; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 10; /* Stay on top */
   top: 50;
   left: -100%;
   transition: left .5s;
@@ -183,9 +211,20 @@
 }
 
 .localconfirm {
+  overflow: hidden;
+  align-content: center;
   position: absolute;
-  top: 480px;
+  padding: 5px;
+  top: 460px;
   left: 375px;
+  background-color: #d6ba8b;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.localconfirm:hover{
+  color: black;
 }
 
 .localconfirm input {
@@ -234,6 +273,10 @@
   background-color: #d6ba8b;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.tradewin .closebtn:hover {
+  color: black;
 }
 
 .closebtnart {
@@ -291,7 +334,7 @@ h1 {
   top: 150px;
   left: -200px;
   transition: left .5s; 
-  z-index: 1;
+  z-index: 100;
   background-color: #002f86;
   overflow-x: hidden; /* Disable horizontal scroll */
 }
@@ -376,6 +419,15 @@ h1 {
   top: 480px;
   left: 20px;
   font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dropbtnArtworks:hover{
+  color:black;
+}
+.dropbtnArtworks a:hover {
+  color: white;
 }
 
 /* The container <div> - needed to position the dropdown content */

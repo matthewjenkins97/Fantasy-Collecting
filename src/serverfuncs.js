@@ -142,8 +142,6 @@ async function updateItems() {
 async function addArtworkToTrade(artwork) {
   var arts = await fetch(apiURL + '/tradedetails');
   arts = await arts.json();
-  console.log("arts:");
-  console.log(arts);
   for(var art in arts) {
     if(arts[art].offer === artwork && arts[art].tradeid === CURRENT_TRADE_ID) {
       return;
@@ -163,7 +161,6 @@ async function addArtworkToTrade(artwork) {
         offer: artwork,
         approved: 0})
   }).then(function (res) {
-    console.log(res);
   })
 }
 
@@ -175,7 +172,6 @@ function removeItemsFromTrade() {
         'Content-Type': 'application/json'
     },
   }).then(function (res) {
-    console.log(res);
   })
 }
 

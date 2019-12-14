@@ -78,10 +78,6 @@ class ChatApp extends Component {
 
 
   componentDidMount() {
-    console.log("ROOOOOOONS");
-    console.log(this.state.currentUser.rooms);
-    console.log(this.state.otherUser);
-    console.log(this.state.currentUser);
     let roomName = [this.state.otherUser, this.state.currentUser];
     roomName = roomName.sort().join("_") + "_room";
     if (this.state.general == "general") {
@@ -105,7 +101,6 @@ class ChatApp extends Component {
     chatManager
             .connect()
             .then(currentUser => {
-                console.log(currentUser.rooms);
                 this.checkRoom(currentUser.rooms, roomName);
                 if (this.state.created) {
                     this.forceUpdate();
@@ -151,9 +146,6 @@ class ChatApp extends Component {
             roomtitle = "General";
         }
         var userList = this.expandUsers(this);
-        for (var user in userList){
-            console.log(user);
-        }
         const styles = {
             container: {
               height: '100vh',

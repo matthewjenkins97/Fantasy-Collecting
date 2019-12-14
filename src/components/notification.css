@@ -10,7 +10,7 @@
   transition: 1s;
   overflow-x: wrap;
   border-radius: 5px;
-  z-index: 1;
+  z-index: 1000;
   border: solid;
   border-width: 2px;
   border-color: black;
