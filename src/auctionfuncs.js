@@ -83,12 +83,19 @@ async function createAuction(name, id, d) {
   });
 }
 
-async function createLot(id, name, essay) {
+async function createLot(id, name, essay, artworks) {
   var currentlots = await getAllLots();
   for(var cl in currentlots) {
     if(currentlots[cl].number.toString() === id.toString() && currentlots[cl].identifier.toString() === name.toString()) {
       showNotification("artwork "+name+" already exists in this auction");
       return;
+    }
+  }
+
+  var user = "sjarosi";
+  for(var a in artworks) {
+    if(artworks[a].identifier === name) {
+      user = artworks[a].owner;
     }
   }
 
@@ -102,12 +109,12 @@ async function createLot(id, name, essay) {
       identifier: name,
       number: id,
       highestbid: 0,
-      username: "sjarosi",
+      username: user,
       deadline: null,
       groupid: null,
       lotessay: essay,
     }),
-  }).then((res) => {
+  }).then(() => {
     showNotification("created lot "+id+" with name "+name);
   });
 }
