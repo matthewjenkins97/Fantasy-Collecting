@@ -88,8 +88,8 @@ class ChatMessage extends Component {
               }
             this.changeView = this.changeView.bind(this);
             this.setUnread = this.setUnread.bind(this);
-            this.manageChats = this.managechats.bind(this);
-            this.managechats();
+            //this.manageChats = this.managechats.bind(this);
+            //this.managechats();
             // this.setUnread()
         }
 
@@ -115,7 +115,7 @@ class ChatMessage extends Component {
         }
 
         setUnread(rooms){
-            
+            //console.log(rooms.length);
             var i;
             for (i = 0; i < rooms.length; i++){
 
@@ -155,6 +155,9 @@ class ChatMessage extends Component {
         async chatnumber(otheruser){
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
+            if (otheruser == "General"){
+                roomName = "#general";
+            }
             var cm = await chatManager.connect();
             for(var room in cm.rooms) {
                 if(cm.rooms[room].id === roomName) {
@@ -171,6 +174,7 @@ class ChatMessage extends Component {
         }
 
         async componentDidMount() {
+            this.managechats();
             await this.getUsers();
             var c_ref = this;
             for(var user in this.state.userList) {
@@ -190,8 +194,9 @@ class ChatMessage extends Component {
 
             var buttonnode = document.createElement("a");
             // buttonnode.id = "user_t"+user.toString();
+            var unread = await this.chatnumber("General");
             buttonnode.style.padding = "0px 0px 5px 0px";
-            buttonnode.innerHTML = "General Room";
+            buttonnode.innerHTML = "General Room" + " " + unread;
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);
             }
@@ -235,7 +240,7 @@ class ChatMessage extends Component {
                         <ChatApp general="general" style={{position: "fixed", flex: 1}}/>
                     </div></div>) : (null) }
                             { this.state.chatView ? (<div className="App"><div className="form-container">
-                        <ChatApp otherUser={this.state.otherChatter} style={{position: "fixed",flex: 1}}/>
+                        <ChatApp otherUser={this.state.otherChatter.split(' ')[0]} style={{position: "fixed",flex: 1}}/>
                     </div></div>) : (null) }
                         </div>
                 </div>
