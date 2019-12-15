@@ -64,20 +64,27 @@ class ChatMessage extends Component {
         }
 
         setUnread(rooms){
-            
-            console.log(rooms.length);
+            //console.log(rooms.length);
             var i;
             for (i = 0; i < rooms.length; i++){
-                console.log(rooms[i].name);
+                //console.log(rooms[i].name);
                 if (rooms[i].name != undefined){
                     this.setState({
                         unread: [...this.state.unread, [rooms[i].name, rooms[i].unreadCount]],
                     })
                 }
             }
-            console.log("THIS IS ROOM");
-            console.log("unread");
-            console.log(this.state.unread);
+            //console.log("THIS IS ROOM");
+           //console.log(rooms[28].name);
+            // for (var room in rooms){
+            //     console.log("roo name");
+            //     console.log(room.name);
+            //     this.setState({
+            //         unread: [...this.state.unread, [room.name, room.unreadCount]],
+            //     })
+            // }
+            //console.log("unread");
+            //console.log(this.state.unread);
         }
 
         managechats(){
@@ -94,16 +101,26 @@ class ChatMessage extends Component {
             chatManager
                 .connect()
                 .then(currentUser => {
-                    console.log("ROOMS");
-                    console.log(currentUser.rooms);
+                    // console.log("ROOMS");
+                    // console.log(currentUser.rooms);
                     this.setUnread(currentUser.rooms);
-                    console.log("!!!!!UNREAD");
-                    console.log(roomName.unreadcount);
+                    // console.log("!!!!!UNREAD");
+                    // console.log(roomName.unreadCount);
                 })
         }
 
-        chatnumber(otheruser){
-            console.log("LENGTH" + this.state.unread.length);
+        async chatnumber(otheruser){
+            let roomName = [otheruser, localStorage.getItem('username')];
+            roomName = roomName.sort().join("_") + "_room";
+            if (otheruser == "General"){
+                roomName = "#general";
+            }
+            var cm = await chatManager.connect();
+            for(var room in cm.rooms) {
+                if(cm.rooms[room].id === roomName) {
+                    return cm.rooms[room].unreadCount;
+                }
+            }
         }
 
         async componentDidMount() {
@@ -114,7 +131,9 @@ class ChatMessage extends Component {
                 if(this.state.userList[user].username !== localStorage.getItem("username")) {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
-                    buttonnode.innerHTML = this.state.userList[user].username + this.chatnumber(this.state.userList[user].username);
+                    var unread = await this.chatnumber(this.state.userList[user].username);
+                    buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
+                    //this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
                     }
@@ -125,8 +144,9 @@ class ChatMessage extends Component {
 
             var buttonnode = document.createElement("a");
             // buttonnode.id = "user_t"+user.toString();
+            var unread = await this.chatnumber("General");
             buttonnode.style.padding = "0px 0px 5px 0px";
-            buttonnode.innerHTML = "General Room";
+            buttonnode.innerHTML = "General Room" + " " + unread;
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);
             }
@@ -170,7 +190,7 @@ class ChatMessage extends Component {
                         <ChatApp general="general" style={{position: "fixed", flex: 1}}/>
                     </div></div>) : (null) }
                             { this.state.chatView ? (<div className="App"><div className="form-container">
-                        <ChatApp otherUser={this.state.otherChatter} style={{position: "fixed",flex: 1}}/>
+                        <ChatApp otherUser={this.state.otherChatter.split(' ')[0]} style={{position: "fixed",flex: 1}}/>
                     </div></div>) : (null) }
                         </div>
                 </div>
