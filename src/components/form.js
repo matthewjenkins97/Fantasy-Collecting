@@ -58,6 +58,7 @@ class Form extends React.Component{
           textAlign: 'center',
           paddingTop: 20,
           paddingBottom: 10}}>Estimated Values</Typography>
+          <form>
           {tileData.map(tile => (
             <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
               
@@ -67,7 +68,6 @@ class Form extends React.Component{
                 <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
                 
                 <div style={{margin: 20,  }}>
-                <form>
                 {/* <form>  Username: <input type="text" name="fname"></input><br></br> */}
                 <label>Estimated Value (1-10): 
                 <br></br>
@@ -75,7 +75,6 @@ class Form extends React.Component{
                 <br></br>
                 <br></br>
                 <br></br>
-                </form>
                 {/* </form> */}
                 </div>
               <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
@@ -128,6 +127,7 @@ class Form extends React.Component{
 
             }}>SUBMIT FORM</Button> </div></View>
 
+        </form>
         </div>
       );
     }

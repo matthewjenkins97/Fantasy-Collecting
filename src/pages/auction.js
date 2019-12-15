@@ -8,6 +8,7 @@ import AuctionStudent from "../components/studentauction";
 import SimpleMenu from "../components/simpleMenu";
 import Grid from '@material-ui/core/Grid';
 import Notification from '../components/notification';
+import Guilder from '../static/guilder.svg';
 //import MoneyIcon from '@material-ui/icons/monetization_on';
 //import Guilder from "../../node_modules/cryptocurrency-icons/svg/white/game.svg";
 
@@ -62,9 +63,11 @@ class AuctionPage extends Component {
                         <Grid item xs>
                             
                             <Typography variant="h6" style={{float: 'right', marginTop: 10}}>
-                              <i style={{alignSelf: 'center'}} class="material-icons">
+                              {/* <i style={{alignSelf: 'center'}} class="material-icons">
                                 monetization_on
-                                </i>  {this.state.guilders}</Typography>
+                                </i>   */}
+                                <img src={Guilder}  height="20" width="20"></img>
+                                  {this.state.guilders}</Typography>
                             </Grid>
                       </Grid>
                       
