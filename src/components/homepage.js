@@ -122,7 +122,7 @@ class Main extends Component  {
           </div>
           <Button style={{margin:'auto', display:'block'}} onClick={this.saveBlurb}>Save</Button>
         </div>
-        <button id = "ratingbutton" onClick = {() => {this.openForm()}} className = "openFormButton">!Rate Artworks!</button>
+        <button id = "ratingbutton" onClick = {() => {this.openForm()}} className = "openFormButton">Rate Artworks</button>
         <div id = "ratingpage" style = {{overflowX: "hidden", color: "white", zIndex: 10000, backgroundColor: "rgba(0, 0, 0, .7)", position: "absolute", top: "0px", width: "100%", left: "-100%", transition: "1s"}}>
           <Form/>
         </div>
