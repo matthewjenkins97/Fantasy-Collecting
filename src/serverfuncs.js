@@ -32,6 +32,12 @@ function coroutine(f) {
   };
 }
 
+const messageCheck = coroutine(function* () {
+  while(true) {
+    yield;
+  }
+});
+
 var NOT_REF;
 
 const notCheck = coroutine(function* () {

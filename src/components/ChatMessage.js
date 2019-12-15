@@ -13,6 +13,8 @@ const chatkit = new Chatkit({
   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
 })
 
+var rooms = [];
+
 function openNav() {
     document.getElementById("messageinit").style.left = "0px";
     document.getElementById("messagebutt").style.left = "210px";
@@ -58,7 +60,7 @@ async function getRoomMessagesForThisUser(id) {
 async function setRoomCount(id, count) {
     var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
     rooms = await rooms.json();
-    await fetch('http://fantasycollecting.hamilton.edu/api/messages'+localStorage.getItem('username'), {
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
         method: 'delete',
         mode: 'cors',
     });
@@ -66,12 +68,12 @@ async function setRoomCount(id, count) {
         if(rooms[r].id === id) {
             rooms[r].unreadCount = count
         }
+        await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
+            method: 'post',
+            mode: 'cors',
+            body: rooms
+        })
     }
-    await fetch('http://fantasycollecting.hamilton.edu/api/messages', {
-        method: 'post',
-        mode: 'cors',
-        body: rooms
-    })
 }
 
 
@@ -164,6 +166,7 @@ class ChatMessage extends Component {
                 if(typeof cm.rooms[r] !== 'undefined')
                 await postRoomData(cm.rooms[r].name);
             }
+            await postRoomData("General")
             this.setUnread(cm.rooms);
         }
 
