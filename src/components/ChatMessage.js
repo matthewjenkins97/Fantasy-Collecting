@@ -37,8 +37,8 @@ class ChatMessage extends Component {
               }
             this.changeView = this.changeView.bind(this);
             this.setUnread = this.setUnread.bind(this);
-            this.manageChats = this.managechats.bind(this);
-            this.managechats();
+            //this.manageChats = this.managechats.bind(this);
+            //this.managechats();
             // this.setUnread()
         }
 
@@ -76,14 +76,6 @@ class ChatMessage extends Component {
                 }
             }
             console.log("THIS IS ROOM");
-            console.log(rooms[28].name);
-            // for (var room in rooms){
-            //     console.log("roo name");
-            //     console.log(room.name);
-            //     this.setState({
-            //         unread: [...this.state.unread, [room.name, room.unreadCount]],
-            //     })
-            // }
             console.log("unread");
             console.log(this.state.unread);
         }
@@ -111,18 +103,18 @@ class ChatMessage extends Component {
         }
 
         chatnumber(otheruser){
-            console.log("LENGTH" + this.state.unread);
+            console.log("LENGTH" + this.state.unread.length);
         }
 
         async componentDidMount() {
+            this.managechats();
             await this.getUsers();
             var c_ref = this;
             for(var user in this.state.userList) {
                 if(this.state.userList[user].username !== localStorage.getItem("username")) {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
-                    buttonnode.innerHTML = this.state.userList[user].username +   this.chatnumber(this.state.userList[user].username);
-                    //this.chatnumber(this.state.userList[user].username);
+                    buttonnode.innerHTML = this.state.userList[user].username + this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
                     }
