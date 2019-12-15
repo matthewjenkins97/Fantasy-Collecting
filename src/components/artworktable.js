@@ -65,7 +65,7 @@ export default class ArtworkTable extends React.Component {
               setTimeout(() => {
                 resolve();
                 this.state.data.push(newData);
-                this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
+                this.state.data = this.state.data.sort(function(a, b){return a.identifier[0] > b.identifier[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.createArtwork(newData);
                 this.forceUpdate();
@@ -80,7 +80,7 @@ export default class ArtworkTable extends React.Component {
                   return arr[index].title !== oldData.title;
                 });
                 this.state.data.push(newData);
-                this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
+                this.state.data = this.state.data.sort(function(a, b){return a.identifier[0] > b.identifier[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.updateArtwork(newData);
                 this.forceUpdate();
@@ -93,7 +93,7 @@ export default class ArtworkTable extends React.Component {
                 this.state.data = this.state.data.filter(function(value, index, arr){
                   return arr[index].title !== oldData.title;
                 });
-                this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
+                this.state.data = this.state.data.sort(function(a, b){return a.identifier[0] > b.identifier[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.deleteArtwork(oldData.identifier);
                 this.forceUpdate();

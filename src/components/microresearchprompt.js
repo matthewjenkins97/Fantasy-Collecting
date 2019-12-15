@@ -38,6 +38,9 @@ export default class MicroresearchPrompt extends React.Component {
 
     // raise table
     document.getElementById(this.divid).style.top = "-600px";
+
+    // refresh
+    setTimeout( () => { window.location.reload() }, 500);
   }
 
   render() {
