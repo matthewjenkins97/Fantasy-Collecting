@@ -114,8 +114,17 @@ class ChatMessage extends Component {
             })
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
+            console.log(roomName);
             if (this.state.chatView == true){
-                
+                console.log("HERE");
+                var i;
+                for (i = 0; i < this.state.unread.length; i++){
+                    //console.log(this.state.unread[i]);
+                    if (this.state.unread[i][0] === roomName){
+                        setRoomCount(roomName, this.state.unread[i][1]);
+                        //console.log(this.state.unread[i][1]);
+                    }
+                }
             }
         }
 
@@ -130,6 +139,7 @@ class ChatMessage extends Component {
                     })
                 }
             }
+            console.log(rooms);
             // for (var room in rooms){
   
             //     this.setState({
@@ -161,7 +171,7 @@ class ChatMessage extends Component {
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
             if (otheruser == "General"){
-                roomName = "#general";
+                roomName = "642a21e5-92e6-42fd-8966-b4a151d7ea94";
             }
             var cm = await chatManager.connect();
             for(var room in cm.rooms) {
@@ -194,7 +204,7 @@ class ChatMessage extends Component {
                     }
                     //this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
-                        c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
+                        c_ref.changeChat(c_ref.state.chatView, this.innerHTML.split(' ')[0]);
                     }
                     document.getElementById("messageusers").appendChild(buttonnode);
                 }
