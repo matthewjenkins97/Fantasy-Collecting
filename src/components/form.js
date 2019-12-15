@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'; 
 import * as serverfuncs from '../serverfuncs';
+import { relative } from "path";
 
 //import tileData from './tiledata';
 
@@ -28,6 +29,7 @@ class Form extends React.Component{
             img: images[i].url,
             title: images[i].title,
             artist: images[i].artist,
+            identifier: images[i].identifier,
           });
         }
       }
@@ -54,7 +56,7 @@ class Form extends React.Component{
                 {/* <form>  Username: <input type="text" name="fname"></input><br></br> */}
                 <label>Estimated Value (1-10): 
                 <br></br>
-                <input required="required" type="number" name="value" min="1" max="10" maxlength="2"></input><br></br></label>
+                <input id = {"rate"+tile.identifier} type="text" name="lname" min="1" max="10" maxlength="2"></input><br></br></label>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -72,8 +74,35 @@ class Form extends React.Component{
           <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>  
               <div>
             <Button size="large" variant="contained" color="secondary" type="submit" value="Submit"
-            style={{fontSize: 20, backgroundColor: "#002f86", alignItem: 'center', margin: 20}}>SUBMIT FORM</Button> </div></View>
-          </form>
+            style={{fontSize: 20, backgroundColor: "#002f86", alignItem: 'center', margin: 20}}
+            onClick = {async () => {
+              
+              var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
+              images = await images.json();
+              for(var i in images) {
+                  var rating;
+                  try{
+                    rating = document.getElementById("rate"+images[i].identifier);
+                  }
+                  catch {
+                    continue;
+                  }
+                  if(rating !== null) {
+                    console.log("hi");
+                    await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
+                      method: 'post',
+                      headers: {'Content-Type': 'application/json'},
+                      mode: 'cors',
+                      body: JSON.stringify({
+                        identifier: images[i].identifier,
+                        price: parseInt(rating.value)
+                      })
+                    }).then(function(res){console.log("yo");})
+                  }
+              }
+            }}>SUBMIT FORM</Button> </div></View>
+
+        </form>
         </div>
       );
     }

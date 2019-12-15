@@ -53,7 +53,7 @@ function SimpleMenu() {
 const AuctionPage = () => {
     return(
         <div>
-            <AppBar position="static" style = {{backgroundColor: "#002f86"}}>
+            <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -64,6 +64,8 @@ const AuctionPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
                 <ChatComponent />
             <AdminAuction style={{flex: 1, zIndex: 1}}/>
             {/* <h1>Login</h1>

@@ -3,6 +3,19 @@
   color: white;
   text-align: center;
 }
+
+.stitle {
+  font-size: 100px;
+  color: black;
+  text-align: center;
+}
+
+.createButton {
+  width: 100px;
+  height: 50px;
+  box-align: "center";
+  border-radius: 5px;
+}
 .auction {
   background-image: url('../static/auctionhouse.jpg');
   background-size: contain;
@@ -48,7 +61,7 @@
   top: -600px;
   transition: top .5s;
   right: 0;
-  z-index: 1;
+  z-index: 20;
 }
 
 .createdropdown {
@@ -62,7 +75,7 @@
   top: -200px;
   transition: top .5s;
   right: 0;
-  z-index: 1;
+  z-index: 20;
 }
 
 ::-webkit-scrollbar {
