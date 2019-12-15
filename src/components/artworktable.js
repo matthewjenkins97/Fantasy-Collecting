@@ -46,7 +46,7 @@ export default class ArtworkTable extends React.Component {
       rows.push(artwork);
     };
     this.state.data = rows;
-    this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
+    this.state.data = this.state.data.sort(function(a, b){return a.identifier[0] > b.identifier[0] ? 1 : -1});
     read = true;
     this.forceUpdate();
   }

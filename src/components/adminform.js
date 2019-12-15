@@ -105,8 +105,8 @@ class AdminForm extends React.Component{
                   });
                 }
               }
-              serverfuncs.showNotification("hidden values of artworks assigned")
-            }}>Create Hidden Values</Button> </div></View>
+              serverfuncs.showNotification("theoretical prices of artworks assigned")
+            }}>Create Theoretical Prices</Button> </div></View>
 
         </div>
       );

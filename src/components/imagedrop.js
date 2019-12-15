@@ -28,6 +28,28 @@ function uploadFile(file) {
     if (xhr.readyState === 4 && xhr.status === 200) {
       console.log("IMAGE SAVED");
       document.getElementById("status").innerHTML = xhr.responseText;
+
+      // adding prompt which 
+      if (window.confirm("Upload successful! Do you want to turn this photo into an artwork for the game?")) {
+        // file.name - convert to all lowercase and remove the ending
+        let identifier = file.name;
+        identifier = identifier.replace(/\.[^/.]+$/, "")
+        identifier = identifier.toLowerCase();
+
+        // generate url
+        const url = "http://fantasycollecting.hamilton.edu/static/media/" + file.name;
+
+        // make artwork
+        const artworkData = {
+          identifier: identifier,
+          url: url
+        };
+
+        // add artwork and reload
+        serverfuncs.createArtwork(artworkData);
+        // window.location.reload(true);
+      }
+
     }
     else if (xhr.readyState === 4 && xhr.status !== 200) {
       console.log("IMAGE UPLOAD FAILED");
@@ -116,7 +138,6 @@ class ImageDrop extends React.Component{
 
           <div id="imagebank" style = {{padding: "10px", overflowX: "wrap", backgroundColor: "rgba(255, 255, 255, .9)"}}>
           </div>
-
 
         </div>
       );
