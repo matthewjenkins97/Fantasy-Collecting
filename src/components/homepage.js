@@ -97,9 +97,9 @@ class Main extends Component  {
                   <Typography variant="h6" fontFamily="roboto">{tile.title}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Artist: {tile.artist}</Typography>
                   <Typography variant="subtitle1" fontFamily="roboto">Year: {tile.year}</Typography>
-                  <HistoryTable identifier={tile.identifier} />
-                  <MicroresearchTable identifier={tile.identifier} />
-                  <MicroresearchPrompt identifier={tile.identifier} />
+                  <HistoryTable identifier={tile.identifier}/>
+                  <MicroresearchTable identifier={tile.identifier}/>
+                  <MicroresearchPrompt identifier={tile.identifier}/>
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}

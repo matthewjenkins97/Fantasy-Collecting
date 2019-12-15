@@ -70,3 +70,8 @@ allowstudents BOOL);
 create table ratetable
 (identifier VARCHAR(255), 
 price BIGINT);
+
+create table messages
+(username VARCHAR(255), 
+room VARCHAR(255), 
+messagecount BIGINT);

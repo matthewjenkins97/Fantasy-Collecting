@@ -114,7 +114,7 @@ async function expandArtworks() {
       buttonnode.innerHTML = artList[art].identifier;
       buttonnode.onclick = async function() {
         await serverfuncs.addArtworkToTrade(this.innerHTML.toString());
-        //document.getElementById("tradeartworks").style.height = "0px";
+        await serverfuncs.clearApproval();
       }
       document.getElementById("tradeartworks").appendChild(buttonnode);
     }
@@ -185,6 +185,7 @@ async function populateUserTradeFields(items) {
         deletenode.indexValue = item;
         deletenode.onclick = async function() {
           serverfuncs.removeArtworkFromTrade(items[this.indexValue].offer);
+          await serverfuncs.clearApproval();
         }
         deletenode.innerHTML = "x";
         textnode.appendChild(deletenode);
@@ -272,7 +273,6 @@ function removeTrade(index) {
     }
   }
   catch {
-    console.log('failed to delete request');
   }
 }
 
@@ -323,7 +323,10 @@ class TradeWindow extends React.PureComponent {
       <div class = "addg">
         <a>Guilders</a>
         <input id = "addguilders" type = "number"/>
-        <button onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>Add</button>
+        <button onClick = {async () => {
+          await serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);
+          await serverfuncs.clearApproval();
+      }}>Add</button>
       </div>
 
       <div class="dropbtnArtworks" onClick = {expandArtworks}>Select Artworks to Trade...
@@ -345,12 +348,6 @@ class TradeWindow extends React.PureComponent {
             confirmanimation();
           }
         }>Confirm Trade
-        {/* <input id = "localtconfirm" type = "checkbox" onClick = {
-          () => {
-            if(receivingRequest) serverfuncs.finalizeAsSeller(document.getElementById("localtconfirm").checked); 
-            else serverfuncs.finalizeAsBuyer(document.getElementById("localtconfirm").checked);
-          }
-        }/> */}
       </a>
       <div id = "ldsanim2" class="lds-dual-ring2"></div>
 

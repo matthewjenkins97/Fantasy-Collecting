@@ -128,9 +128,16 @@ class AuctionAdmin extends React.Component{
       confirmNode.id = "confirmNode"+id;
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
+        const artworks = await serverfuncs.getAllArtworks();
+        console.log("all artworks");
+        console.log(artworks);
         for(var lot in lots) {
           if(lots[lot].number.toString() === id.toString()) {
-            await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, lots[lot].highestbid);
+            for(var a in artworks) {
+              if(artworks[a].identifier.toString() === lots[lot].identifier.toString()) {
+                await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, artworks[a].owner, lots[lot].highestbid);
+              }
+            }
           }
         }
         await auctionfuncs.deleteAuction(id);

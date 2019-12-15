@@ -120,7 +120,7 @@ async function createLot(id, name, essay, artworks) {
 }
 
 
-async function conductAuctionTrade(artwork, user, offer) {
+async function conductAuctionTrade(artwork, user, seller, offer) {
   // change current owner of painting to user
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {
     method: 'put',
@@ -129,7 +129,8 @@ async function conductAuctionTrade(artwork, user, offer) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      owner: user
+      owner: user,
+      actualprice: offer
     }),
   }).then((res) => {
   });
@@ -142,7 +143,6 @@ async function conductAuctionTrade(artwork, user, offer) {
   userBody = await userBody.json();
   userBody = userBody[0];
   userBody.guilders -= offer;
-  userBody.numofpaintings += 1;
   fetch(`http://fantasycollecting.hamilton.edu/api/users/${user}`, {
     method: 'put',
     mode: 'cors',
@@ -150,7 +150,23 @@ async function conductAuctionTrade(artwork, user, offer) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(userBody),
-  }).then((res) => {
+  });
+
+  // add to seller guilders
+  let sellerBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
+    method: 'get',
+    mode: 'cors',
+  })
+  sellerBody = await sellerBody.json();
+  sellerBody = sellerBody[0];
+  sellerBody.guilders -= offer;
+  fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(sellerBody),
   });
 
   // post transaction to history
@@ -171,5 +187,3 @@ async function conductAuctionTrade(artwork, user, offer) {
   }).then((res) => {
   });
 }
-// auction table
-// some function which combines trades and tradedetails and prints it out in a nice way for jarosi...?

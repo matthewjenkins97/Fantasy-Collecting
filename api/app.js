@@ -21,6 +21,7 @@ const tradedetailsRouter = require('./routes/tradedetails');
 const microresearchRouter = require('./routes/microresearch');
 const usersRouter = require('./routes/users');
 const ratetableRouter = require('./routes/ratetable')
+const messagesRouter = require('./routes/messages')
 
 const uploadRouter = require('./routes/upload');
 
@@ -50,6 +51,7 @@ app.use('/tradedetails', tradedetailsRouter);
 app.use('/microresearch', microresearchRouter);
 app.use('/users', usersRouter);
 app.use('/ratetable', ratetableRouter);
+app.use('/messages', messagesRouter);
 
 app.use('/upload', uploadRouter);
 
