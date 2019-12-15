@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import * as serverfuncs from "../serverfuncs";
+import Notification from "../components/notification";
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,6 +39,7 @@ function SimpleMenu() {
           <Link to="/table" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Users</MenuItem></Link>
           <Link to="/adminauction" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Auction</MenuItem></Link>
           <Link to="/tradetable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Trades</MenuItem></Link>
+          <Link to="/adminform" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Ratings</MenuItem></Link>
           <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
         </Menu>
       </div>
@@ -47,7 +49,8 @@ function SimpleMenu() {
 const TablePage = () => {
         return(
             <div>
-                <AppBar position="static" style = {{backgroundColor: "#002f86"}}>
+              <Notification/>
+                <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -58,6 +61,8 @@ const TablePage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br></br>
+                <br></br>
                 <Table />
             </div>
         )

@@ -33,17 +33,17 @@ class ChatApp extends Component {
     }
 
     createRoom(roomName) {
-        console.log("CREATING ROOM")
-        console.log(this.state.currentUser)
-        console.log(typeof this.state.otherUser)
-        console.log(typeof roomName);
+        // console.log("CREATING ROOM")
+        // console.log(this.state.currentUser)
+        // console.log(typeof this.state.otherUser)
+        // console.log(typeof roomName);
         chatManager
             .connect()
             .then(currentUser => {
-                console.log("NAMENAME")
-                console.log(roomName)
-                console.log(this.state.currentUser.id)
-                console.log(this.state.otherUser)
+                // console.log("NAMENAME")
+                // console.log(roomName)
+                // console.log(this.state.currentUser.id)
+                // console.log(this.state.otherUser)
                 currentUser.createRoom({
                 id: roomName,
                 name: roomName,
@@ -52,21 +52,21 @@ class ChatApp extends Component {
                 customData: { foo: 42 },
             })})
             .then(room => {
-                console.log(`Created room called ${room.name}`)
+                //console.log(`Created room called ${room.name}`)
             })
             .catch(err => {
-                console.log(`Error creating room ${err}`)
+                //console.log(`Error creating room ${err}`)
           })
     } 
 
 
 
     checkRoom(rooms, currentRoom){
-        console.log("CHECK ROOMS");
-        console.log(currentRoom);
+        // console.log("CHECK ROOMS");
+        // console.log(currentRoom);
         for (var thing in rooms){
-            console.log(rooms[thing]);
-            console.log(rooms[thing].id);
+            // console.log(rooms[thing]);
+            // console.log(rooms[thing].id);
             if (rooms[thing].id == currentRoom){
                 return;
             }
@@ -78,10 +78,6 @@ class ChatApp extends Component {
 
 
   componentDidMount() {
-    console.log("ROOOOOOONS");
-    console.log(this.state.currentUser.rooms);
-    console.log(this.state.otherUser);
-    console.log(this.state.currentUser);
     let roomName = [this.state.otherUser, this.state.currentUser];
     roomName = roomName.sort().join("_") + "_room";
     if (this.state.general == "general") {
@@ -105,7 +101,6 @@ class ChatApp extends Component {
     chatManager
             .connect()
             .then(currentUser => {
-                console.log(currentUser.rooms);
                 this.checkRoom(currentUser.rooms, roomName);
                 if (this.state.created) {
                     this.forceUpdate();
@@ -151,9 +146,6 @@ class ChatApp extends Component {
             roomtitle = "General";
         }
         var userList = this.expandUsers(this);
-        for (var user in userList){
-            console.log(user);
-        }
         const styles = {
             container: {
               height: '100vh',
@@ -178,6 +170,7 @@ class ChatApp extends Component {
               flexDirection: 'column',
             },
          }
+         console.log(this.state.messages.length);
                     return (
                     //   <div style={styles.container}>
                     //     <div style={styles.chatContainer}>

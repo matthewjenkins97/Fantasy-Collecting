@@ -13,8 +13,6 @@ class IndexElem extends HTMLElement {
 }
 customElements.define('index-element', IndexElem);
 
-
-
 var receivingRequest = false;
 var currentTradeIds = []
 
@@ -70,7 +68,8 @@ function openTrade(isReceiving, other) {
 
 function closeTrade() {
   document.getElementById("tradewindow").style.left = "-100%";
-  document.getElementById("localtconfirm").checked = false;
+  document.getElementById("confirmbutton").innerHTML = "Confirm Trade";
+  document.getElementById("ldsanim2").style.display = "none";
 }
 
 // shows all available users to trade with
@@ -180,14 +179,16 @@ async function populateUserTradeFields(items) {
       imagenode.src = itemImages[item].url;
       document.getElementById(parentid).appendChild(imagenode);
 
-      var deletenode = document.createElement("index-element");
-      deletenode.className = "closebtnart";
-      deletenode.indexValue = item;
-      deletenode.onclick = async function() {
-        serverfuncs.removeArtworkFromTrade(items[this.indexValue].offer);
+      if(parentid === "localartworks") {
+        var deletenode = document.createElement("index-element");
+        deletenode.className = "closebtnart";
+        deletenode.indexValue = item;
+        deletenode.onclick = async function() {
+          serverfuncs.removeArtworkFromTrade(items[this.indexValue].offer);
+        }
+        deletenode.innerHTML = "x";
+        textnode.appendChild(deletenode);
       }
-      deletenode.innerHTML = "x";
-      textnode.appendChild(deletenode);
 
     }
     totalTradeItems++;
@@ -207,7 +208,6 @@ function addTrades(theTrades) {
       document.getElementById("trade_d"+i.toString()).remove();
     }
     catch {
-      console.log("out of range");
     }
   }
   currentTrades = 0;
@@ -215,6 +215,7 @@ function addTrades(theTrades) {
   for(var trade in theTrades) {
     var textnode = document.createElement("h1");
     textnode.id = "trade_n"+trade.toString();
+    textnode.className = "tradealertdrop";
     textnode.innerHTML = theTrades[trade].buyer;
     document.getElementById("tradealert").appendChild(textnode);
 
@@ -229,7 +230,9 @@ function addTrades(theTrades) {
       serverfuncs.setTradeUser(document.getElementById("trade_n"+this.id[8]).innerHTML);
       removeTrade(this.id[8]);
     }
+    //document.getElementById(textnode.id).appendChild(buttonnode);
     document.getElementById("tradealert").appendChild(buttonnode);
+
 
     var divnode = document.createElement("div");
     divnode.id = "trade_d"+trade.toString();
@@ -243,7 +246,9 @@ function addTrades(theTrades) {
       serverfuncs.declineTrade(theTrades[trade].tradeid);
       removeTrade(parseInt(this.id[8]));
     }
+    //document.getElementById(textnode.id).appendChild(buttonnode2);
     document.getElementById("tradealert").appendChild(buttonnode2);
+
     
     totalTrades = trade;
     currentTrades = trade+1;
@@ -255,7 +260,6 @@ function addTrades(theTrades) {
 }
 
 function removeTrade(index) {
-  console.log("removing trade from requests");
   try {
     document.getElementById("trade_n"+index.toString()).remove();
     document.getElementById("trade_ba"+index.toString()).remove();
@@ -270,6 +274,20 @@ function removeTrade(index) {
   catch {
     console.log('failed to delete request');
   }
+}
+
+var waiting = false;
+
+function confirmanimation() {
+  if(waiting) {
+    document.getElementById("confirmbutton").innerHTML = "Confirm Trade";
+    document.getElementById("ldsanim2").style.display = "none";
+  }
+  else {
+    document.getElementById("confirmbutton").innerHTML = "Cancel Confirm";
+    document.getElementById("ldsanim2").style.display = "inline-block";
+  }
+  waiting = !waiting;
 }
 
 class TradeWindow extends React.PureComponent {
@@ -298,7 +316,6 @@ class TradeWindow extends React.PureComponent {
     {/* trade window */}
     <div id="tradewindow" class='tradewin' display='none'>
       <div class = "centering">
-      <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>cancel</a>
 
       <a id = "localitems" class = "myuser">My Items</a>
 
@@ -309,7 +326,7 @@ class TradeWindow extends React.PureComponent {
         <button onClick = {() => {serverfuncs.addGuildersToTrade(document.getElementById("addguilders").value);}}>Add</button>
       </div>
 
-      <div class="dropbtnArtworks" onClick = {expandArtworks}>Select Artworks to Trade
+      <div class="dropbtnArtworks" onClick = {expandArtworks}>Select Artworks to Trade...
           <div id = "tradeartworks" class="dropdown-content-art"/>
       </div>
 
@@ -321,14 +338,23 @@ class TradeWindow extends React.PureComponent {
       <div id = "localartworks" class = "locala"/>
 
 
-      <a class = "localconfirm">Confirm
-        <input id = "localtconfirm" type = "checkbox" onClick = {
+      <a id = "confirmbutton" class = "localconfirm" onClick = {
+          () => {
+            if(receivingRequest) serverfuncs.finalizeAsSeller(!waiting); 
+            else serverfuncs.finalizeAsBuyer(!waiting);
+            confirmanimation();
+          }
+        }>Confirm Trade
+        {/* <input id = "localtconfirm" type = "checkbox" onClick = {
           () => {
             if(receivingRequest) serverfuncs.finalizeAsSeller(document.getElementById("localtconfirm").checked); 
             else serverfuncs.finalizeAsBuyer(document.getElementById("localtconfirm").checked);
           }
-        }/>
+        }/> */}
       </a>
+      <div id = "ldsanim2" class="lds-dual-ring2"></div>
+
+      <a class="closebtn" onClick={() => {closeTrade(); serverfuncs.cancelTrade();}}>Cancel</a>
 
       <a id = "otheritems" class = "otheruser">Other User</a>
       <div id = "otherguilders" class = "otherg">

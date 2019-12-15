@@ -42,6 +42,7 @@ function SimpleMenu() {
           <Link to="/table" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Users</MenuItem></Link>
           <Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Artworks</MenuItem></Link>
           <Link to="/adminauction" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Auction</MenuItem></Link>
+          <Link to="/adminform" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Ratings</MenuItem></Link>
           <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
         </Menu>
       </div>

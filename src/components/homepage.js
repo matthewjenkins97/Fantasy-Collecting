@@ -13,6 +13,8 @@ import Notification from './notification';
 import "./gallerydropdown.css"
 import MicroresearchPrompt from "../components/microresearchprompt.js";
 import MicroresearchTable from "../components/microresearchtable.js";
+import Form from './form';
+import "./ratings.css";
 
 var tileData = [];
 
@@ -59,6 +61,11 @@ class Main extends Component  {
     const username = localStorage.getItem('username');
     const blurb = document.getElementById("galleryblurb").value;
     setBlurb(username, blurb);
+  }
+
+  openForm() {
+    document.getElementById("ratingpage").style.left = "0%";
+
   }
 
   render() {
@@ -114,6 +121,10 @@ class Main extends Component  {
             <textarea style={{width: "50%", height: 100}} id="galleryblurb" multiline="true"></textarea>
           </div>
           <Button style={{margin:'auto', display:'block'}} onClick={this.saveBlurb}>Save</Button>
+        </div>
+        <button id = "ratingbutton" onClick = {() => {this.openForm()}} className = "openFormButton">Rate Artworks</button>
+        <div id = "ratingpage" style = {{overflowX: "hidden", color: "white", zIndex: 10000, backgroundColor: "rgba(0, 0, 0, .7)", position: "absolute", top: "0px", width: "100%", left: "-100%", transition: "1s"}}>
+          <Form/>
         </div>
       </div>
       

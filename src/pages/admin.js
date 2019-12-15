@@ -56,7 +56,7 @@ function SimpleMenu() {
 const AdminPage = () => {
           return(
             <div>
-                <AppBar position="static" style={{backgroundColor: "#002f86"}}>
+                <AppBar position="fixed" style={{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
@@ -67,6 +67,8 @@ const AdminPage = () => {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+                <br />
+                <br />
                 <br />
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Paper style={{width: 500, marginTop: 30, padding: 20}}>
@@ -98,6 +100,12 @@ const AdminPage = () => {
                         <Button variant="contained" 
                           color="primary"
                           style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
+                        </Button>
+                        </Link>
+                        <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminform">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Artwork Ratings</span>
                         </Button>
                         </Link>
                         <Button variant="contained" 

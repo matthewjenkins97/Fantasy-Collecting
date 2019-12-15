@@ -1,64 +1,61 @@
 import React from "react";
 import { View } from "react-native";
-//import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'; 
 import * as serverfuncs from '../serverfuncs';
-import { relative } from "path";
-
-//import tileData from './tiledata';
 
 var tileData = [];
 
-class Form extends React.Component{
+class AdminForm extends React.Component{
     constructor(props) {
       super(props);
+      document.body.className = "background";
       this.state = {
         tileData: []
       }
       this.getArtworks();
-      this.checkIfDone();
     };
-    OnComponentDidMount() {
-      this.checkIfDone();
+    async getAverageValue(ident) {
+      var ratings = await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/");
+      ratings = await ratings.json();
+      var average = 0;
+      var numofratings = 0;
+      for(var r in ratings) {
+        if(ratings[r].identifier === ident) {
+          numofratings++;
+          average+=parseInt(ratings[r].price);
+        }
+      }
+      average /= numofratings;
+      return average;
     }
     async getArtworks() {
+      tileData = [];
       var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
       images = await images.json();
       for(var i in images) {
         if(images[i].rateable === 1) { 
+          var av = await this.getAverageValue(images[i].identifier);
           tileData.push({
             img: images[i].url,
             title: images[i].title,
             artist: images[i].artist,
             identifier: images[i].identifier,
+            average: av.toString().slice(0,5),
           });
         }
       }
       this.forceUpdate();
     }
-
-    
-    async checkIfDone() {
-      const users = await serverfuncs.getAllUsers();
-      for(var u in users) {
-        if(users[u].username === localStorage.getItem('username')) {
-          if(users[u].formcompleted === 0) {
-            document.getElementById("ratingbutton").style.display = "inline-block";
-          }
-        }
-      }
-    }
   
     render(){
       return (
-        <div>
+        <div style = {{color: "white"}}>
           <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
           textAlign: 'center',
           paddingTop: 20,
           paddingBottom: 10}}>Estimated Values</Typography>
-          <form>
           {tileData.map(tile => (
             <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
               
@@ -68,22 +65,18 @@ class Form extends React.Component{
                 <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
                 
                 <div style={{margin: 20,  }}>
-                {/* <form>  Username: <input type="text" name="fname"></input><br></br> */}
-                <label>Estimated Value (1-10): 
+                <form>
+                <label>Average Value: 
+                </label>
                 <br></br>
-                <input id = {"rate"+tile.identifier} type="text" name="lname" min="1" max="10" maxlength="2"></input><br></br></label>
+                <p>{tile.average}</p>
                 <br></br>
                 <br></br>
-                <br></br>
-                {/* </form> */}
+                </form>
                 </div>
               <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
               </div>
               </Paper>
-              {/* <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.artist}</span>}
-              /> */}
             </View>
           ))}
           <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>  
@@ -91,46 +84,33 @@ class Form extends React.Component{
             <Button size="large" variant="contained" color="secondary" type="submit" value="Submit"
             style={{fontSize: 20, backgroundColor: "#002f86", alignItem: 'center', margin: 20}}
             onClick = {async () => {
-              
               var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
               images = await images.json();
               for(var i in images) {
-                  var rating;
-                  try{
-                    rating = document.getElementById("rate"+images[i].identifier);
-                  }
-                  catch {
-                    continue;
-                  }
-                  if(rating !== null) {
-                    await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
-                      method: 'post',
-                      headers: {'Content-Type': 'application/json'},
-                      mode: 'cors',
-                      body: JSON.stringify({
-                        identifier: images[i].identifier,
-                        price: parseInt(rating.value)
-                      })
-                    });
-                  }
+                if(images[i].rateable === 1) {
+                  var tp = await this.getAverageValue(images[i].identifier);
+                  tp*=100;
+                  tp = Math.round(tp);
+                  console.log(tp);
+                  await fetch("http://fantasycollecting.hamilton.edu/api/artworks/"+images[i].identifier, 
+                  {
+                    method: 'put',
+                    mode: 'cors',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      theoreticalprice: tp,
+                    }),
+                  });
+                }
               }
-              await fetch("http://fantasycollecting.hamilton.edu/api/users/"+localStorage.getItem('username'), {
-                method: 'put',
-                headers: {'Content-Type': 'application/json'},
-                mode: 'cors',
-                body: JSON.stringify({
-                  formcompleted: 1
-                })
-              });
-              document.getElementById("ratingpage").style.left = "-100%";
-              document.getElementById("ratingbutton").style.display = "none";
+              serverfuncs.showNotification("theoretical prices of artworks assigned")
+            }}>Create Theoretical Prices</Button> </div></View>
 
-            }}>SUBMIT FORM</Button> </div></View>
-
-        </form>
         </div>
       );
     }
 }
 
-export default Form
+export default AdminForm

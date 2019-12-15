@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
 
+import OtherGallery from './homepageofother';
+import TradeWindow from './tradewindow';
+
 import './auctions.css'
 
 var currentLotId;
@@ -137,6 +140,8 @@ class AuctionStudent extends React.Component{
   render(){
     return (
       <div>
+        <div><OtherGallery/></div>
+        <div><TradeWindow/></div>
         <div id = "lotdropdown" className = "lotdropdown">
           <a onClick = {() => {document.getElementById("lotdropdown").style.top = "-600px"}} style = {{
             position: "absolute", top:"15px", right:"20px", fontSize: "20px"

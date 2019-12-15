@@ -1,17 +1,20 @@
+
+import AdminForm from "../components/adminform";
 import React from "react";
-import Table from "../components/newtable";
-import ChatComponent from "../components/ChatMessage";
+import ReactDOM from "react-dom";
+import AdminAuction from "../components/adminauction";
+import Table from "../components/artworktable";
 import AppBar from '@material-ui/core/AppBar';
+import ChatComponent from "../components/ChatMessage";
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ArtTable from "../components/artworktable";
 import { Link } from "react-router-dom";
-import * as serverfuncs from '../serverfuncs';
-import Notification from '../components/notification';
+import * as serverfuncs from "../serverfuncs";
+import Notification from "../components/notification";
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -37,35 +40,39 @@ function SimpleMenu() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          {/* <MenuItem onClick={handleClose}><Link to="/gallery" style={{color: "#000000", textDecoration: "none"}}>My Gallery</Link></MenuItem> */}
           <Link to="/admin" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Admin Homepage</MenuItem></Link>
+          <Link to="/table" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Users</MenuItem></Link>
           <Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Artworks</MenuItem></Link>
-          <Link to="/adminauction" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Auction</MenuItem></Link>
           <Link to="/tradetable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Trades</MenuItem></Link>
-          <Link to="/adminform" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Ratings</MenuItem></Link>
+          <Link to="/adminauction" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Auction</MenuItem></Link>
           <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
         </Menu>
       </div>
     );
   }
 
-const TablePage = () => {
+const FormPage = () => {
         return(
             <div>
-              <Notification/>
+                <Notification/>
                 <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}
                         <Typography variant="h6" color="inherit">
-                            Fantasy Collecting
+                            Fantasy Collecting -&nbsp;
+                        </Typography>
+                        <Typography variant="h6" color="inherit">
+                          {localStorage.getItem('username')}
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <br></br>
                 <br></br>
-                <Table/>
+                <AdminForm />
             </div>
         )
     
 }
 
-export default TablePage
+export default FormPage

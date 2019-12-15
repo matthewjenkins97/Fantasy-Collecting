@@ -10,7 +10,6 @@ class TradeDetails extends HTMLElement {
   expanded=false;
   constructor() {
     super();
-    document.body.className = "background";
   }
 }
 customElements.define('trade-details', TradeDetails);
@@ -19,7 +18,6 @@ class ExpandButton extends HTMLElement {
   index=0;
   constructor() {
     super();
-    document.body.className = "background";
   }
 }
 customElements.define('expand-button', ExpandButton);
@@ -34,7 +32,7 @@ var totalTrades = 0;
 export default class IncomingTrades extends React.Component {
   constructor(props) {
     super(props);
-    //document.body.className = "";
+    document.body.className = "background";
   }
 
   componentDidMount() {
@@ -60,7 +58,7 @@ export default class IncomingTrades extends React.Component {
       auctionNode.index = trade;
       auctionNode.className = "tradedropdown";
       auctionNode.style.color = "white";
-      auctionNode.style.top = (100 + trade * 40).toString()+"px";
+      auctionNode.style.top = (150 + trade * 40).toString()+"px";
       auctionNode.innerHTML = 
       trades[trade].buyer + " trading with " + trades[trade].seller;
 
@@ -74,11 +72,8 @@ export default class IncomingTrades extends React.Component {
           anode.expanded = false;
           closeTradeDropdown(anode.id);
           for(var t = 0; t < totalTrades; t++) {
-            console.log(anode.id.slice(5));
             if(t > parseInt(anode.id.slice(5))) {
               try {
-              console.log("TRADE SHIFTED");
-              console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
               document.getElementById("trade"+t.toString()).style.top = 
               (parseInt(document.getElementById("trade"+t.toString()).style.top)-170).toString()+"px";
               } catch {}
@@ -88,11 +83,8 @@ export default class IncomingTrades extends React.Component {
         else {
           expandTradeDropdown(anode.id);
           for(var t = 0; t < totalTrades; t++) {
-            console.log(anode.id.slice(5));
             if(t > parseInt(anode.id.slice(5))) {
               try {
-              console.log("TRADE SHIFTED");
-              console.log(parseInt(document.getElementById("trade"+t.toString()).style.top));
               document.getElementById("trade"+t.toString()).style.top = 
               (parseInt(document.getElementById("trade"+t.toString()).style.top)+170).toString()+"px";
               } catch {}
@@ -103,22 +95,23 @@ export default class IncomingTrades extends React.Component {
       };
       auctionNode.append(expandNode);
 
-      var confirmNode = document.createElement("p");
+      var confirmNode = document.createElement("expand-button");
+      confirmNode.index = trade;
       confirmNode.innerHTML = "confirm";
       confirmNode.className = "confirmbutton";
       confirmNode.onclick = async function() {
-        await serverfuncs.approveTrade(trades[trade].tradeid);
+        await serverfuncs.approveTrade(trades[this.index].tradeid);
         // await serverfuncs.adminCancelTrade(trades[trade].tradeid);
         c_ref.getIncomingTrades(c_ref);
-        serverfuncs.showNotification("trade confirmed");
       }
       auctionNode.append(confirmNode);
 
-      var denyNode = document.createElement("p");
+      var denyNode = document.createElement("expand-button");
+      denyNode.index = trade;
       denyNode.innerHTML = "deny";
       denyNode.className = "denybutton";
       denyNode.onclick = async function() {
-        await serverfuncs.denyTrade(trades[trade].tradeid);
+        await serverfuncs.denyTrade(trades[this.index].tradeid);
         c_ref.getIncomingTrades(c_ref);
         serverfuncs.showNotification("trade denied");
       }
@@ -148,7 +141,7 @@ export default class IncomingTrades extends React.Component {
     return (
       <div style = {{textAlign: "center "}}>
         <Notification/>
-        <h2 style = {{fontSize:"30px", color:"#FFFFFF"}}>Incoming Trades</h2>
+        <div className = "title">Incoming Trades</div>
         <div id = "incomingtrades"></div>
       </div>
     )

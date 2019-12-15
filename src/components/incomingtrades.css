@@ -1,3 +1,13 @@
+.title {
+  font-size: 40px;
+  color: white;
+  font-family: roboto;
+  font-variant: h4;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
 .tradedropdown {
   position: absolute;
   background-color: #002f86;
@@ -19,6 +29,11 @@
   top: 3px;
   background-color: #d6ba8b;
   padding: 3px;
+  cursor: pointer;
+}
+
+.confirmbutton:hover {
+  color: black;
 }
 
 .denybutton {
@@ -28,6 +43,11 @@
   top: 3px;
   background-color: #d6ba8b;
   padding: 3px;
+  cursor: pointer;
+}
+
+.denybutton:hover {
+  color: black;
 }
 
 .expandbutton {
@@ -35,9 +55,13 @@
   position: absolute;
   left: 3px;
   top: 3px;
-  transition: .5s;
   background-color: #d6ba8b;
   padding: 3px;
+  cursor: pointer;
+}
+
+.expandbutton:hover {
+  color: black;
 }
 
 .expandbutton:hover {

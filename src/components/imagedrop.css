@@ -1,14 +1,15 @@
 #drop-area {
-  border: 2px dashed #ccc;
+  border: 2px dashed grey;
   border-radius: 20px;
   width: 480px;
   font-family: sans-serif;
   margin: 100px auto;
   padding: 20px;
-  color: white;
+  color: black;
+  background-color: rgba(255, 255, 255, .9);
 }
 #drop-area.highlight {
-  border-color: purple;
+  border-color: black;
 }
 p {
   margin-top: 0;

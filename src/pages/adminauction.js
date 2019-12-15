@@ -27,7 +27,6 @@ function SimpleMenu() {
   
     return (
       <div>
-        <Notification/>
           <IconButton edge="start" color="inherit" aria-label="menu"
           aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MenuIcon />
@@ -44,6 +43,7 @@ function SimpleMenu() {
           <Link to="/table" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Users</MenuItem></Link>
           <Link to="/arttable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Artworks</MenuItem></Link>
           <Link to="/tradetable" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Trades</MenuItem></Link>
+          <Link to="/adminform" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={handleClose}>Ratings</MenuItem></Link>
           <Link to="/" style={{color: "#000000", textDecoration: "none"}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
         </Menu>
       </div>
@@ -53,6 +53,7 @@ function SimpleMenu() {
 const AuctionPage = () => {
     return(
         <div>
+            <Notification/>
             <AppBar position="fixed" style = {{backgroundColor: "#002f86"}}>
                     <Toolbar variant="dense">
                         {SimpleMenu()}

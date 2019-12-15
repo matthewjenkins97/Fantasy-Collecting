@@ -5,9 +5,9 @@ artist VARCHAR(255),
 year VARCHAR(4),
 theoreticalprice SMALLINT,
 actualprice SMALLINT,
-hidden BOOL,
 owner VARCHAR(255), 
-url VARCHAR(255));
+url VARCHAR(255),
+rateable BOOL);
 
 create table history 
 (identifier VARCHAR(255), 
@@ -15,7 +15,7 @@ seller VARCHAR(255),
 buyer VARCHAR(255),
 price BIGINT,
 timestamp DATETIME,
-lasttrade BIGINT);
+tradeid BIGINT);
 
 create table users 
 (username VARCHAR(255), 
@@ -24,8 +24,8 @@ name VARCHAR(255),
 admin BOOL,
 guilders SMALLINT,
 microresearchpoints SMALLINT, 
-numofpaintings SMALLINT, 
-blurb TEXT);
+blurb TEXT,
+formcompleted BOOL);
 
 create table microresearch 
 (username VARCHAR(255), 
@@ -47,7 +47,8 @@ create table tradedetails
 buyer VARCHAR(255),
 seller VARCHAR(255),
 offer VARCHAR(255),    
-approved BOOL);
+approved BOOL,
+archived BOOL);
 
 create table auction
 (identifier VARCHAR(255),
@@ -56,10 +57,16 @@ highestbid BIGINT,
 username VARCHAR(255),
 deadline DATETIME, 
 groupid VARCHAR(255),
-lotessay TEXT);
+lotessay TEXT, 
+pricevisible BOOL);
 
 // groups is a keyword for mysql >= 8.0.2 - consider renaming
 create table groups
 (groupid VARCHAR(255),
 identifier VARCHAR(255),
-date DATETIME);
+date DATETIME, 
+allowstudents BOOL);
+
+create table ratetable
+(identifier VARCHAR(255), 
+price BIGINT);
