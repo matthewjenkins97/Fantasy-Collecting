@@ -129,7 +129,8 @@ async function conductAuctionTrade(artwork, user, offer) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      owner: user
+      owner: user,
+      actualprice: offer
     }),
   }).then((res) => {
   });
@@ -142,7 +143,6 @@ async function conductAuctionTrade(artwork, user, offer) {
   userBody = await userBody.json();
   userBody = userBody[0];
   userBody.guilders -= offer;
-  userBody.numofpaintings += 1;
   fetch(`http://fantasycollecting.hamilton.edu/api/users/${user}`, {
     method: 'put',
     mode: 'cors',
@@ -171,5 +171,3 @@ async function conductAuctionTrade(artwork, user, offer) {
   }).then((res) => {
   });
 }
-// auction table
-// some function which combines trades and tradedetails and prints it out in a nice way for jarosi...?
