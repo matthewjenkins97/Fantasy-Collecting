@@ -63,12 +63,12 @@ export default class Login extends React.Component{
     const myJson = await response.json();
     const student = JSON.parse(JSON.stringify(myJson))['0'];
     if (typeof student === 'undefined') {
-      console.log('username does not exist');
+      alert("Username or password are incorrect. Please try again with correct credentials.")
     }
     else if(student.hash !== MD5(document.getElementById('lipassword').value)) {
       console.log(student.hash);
       console.log(MD5(document.getElementById('lipassword').value));
-      console.log('incorrect password for username');
+      alert("Username or password are incorrect. Please try again with correct credentials.")
     } else {
       console.log('login successful');
       localStorage.setItem('username', document.getElementById('liusername').value);

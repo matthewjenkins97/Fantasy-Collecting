@@ -34,6 +34,15 @@ export default class ArtworkTable extends React.Component {
     rows = [];
     const artworks = await serverfuncs.getAllArtworks();
     for(var artwork of artworks) {
+      // console.log(user);
+      // var dict = {title: user.title, 
+      //   name: user.name, 
+      //   money: user.guilders, 
+      //   artworks: user.numofpaintings,
+      //   value: 0,
+      //   kudos: user.microresearchpoints,
+      // };
+        
       rows.push(artwork);
     };
     this.state.data = rows;
@@ -41,7 +50,6 @@ export default class ArtworkTable extends React.Component {
     read = true;
     this.forceUpdate();
   }
-
   render() {
     return (
       <div>
@@ -60,10 +68,12 @@ export default class ArtworkTable extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.createArtwork(newData);
+                this.forceUpdate();
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
             new Promise(resolve => {
+              //this.data[this.data.indexOf(oldData)] = newData;
               setTimeout(() => {
                 resolve();
                 this.state.data = this.state.data.filter(function(value, index, arr){
@@ -73,6 +83,7 @@ export default class ArtworkTable extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.updateArtwork(newData);
+                this.forceUpdate();
               }, 600);
             }),
           onRowDelete: oldData =>
@@ -85,6 +96,7 @@ export default class ArtworkTable extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.title[0] > b.title[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.deleteArtwork(oldData.identifier);
+                this.forceUpdate();
               }, 600);
             }),
         }}

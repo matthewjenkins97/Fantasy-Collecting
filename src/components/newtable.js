@@ -104,6 +104,7 @@ export default class MaterialTableDemo extends React.Component {
                 this.setState({ ...this.state, ...this.state.data });
                 this.createUser(newData.username);
                 serverfuncs.createUser(newData);
+                this.forceUpdate();
               }, 600);
             }),
           onRowUpdate: (newData, oldData) =>
@@ -118,6 +119,7 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.updateUserData(newData);
+                this.forceUpdate();
               }, 600);
             }),
           onRowDelete: oldData =>
@@ -130,6 +132,7 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 serverfuncs.deleteUser(oldData.username);
+                this.forceUpdate();
               }, 600);
             }),
         }}
