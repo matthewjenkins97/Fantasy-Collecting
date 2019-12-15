@@ -3,9 +3,11 @@ import ChatApp from './ChatApp.js';
 import { default as Chatkit } from '@pusher/chatkit-server';
 import CloseIcon from '@material-ui/icons/Close';
 import { View } from "react-native";
+import { ChatManager, TokenProvider, ChatkitProvider } from '@pusher/chatkit-client';
 import * as serverfuncs from '../serverfuncs'
 import './message.css';
 
+var chatManager;
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
@@ -30,9 +32,14 @@ class ChatMessage extends Component {
                 currentView: false, //general open or not
                 chatView: false, //DM open or not
                 otherChatter: undefined,
-                userList: []
+                userList: [],
+                unread: []
               }
             this.changeView = this.changeView.bind(this);
+            this.setUnread = this.setUnread.bind(this);
+            this.manageChats = this.managechats.bind(this);
+            this.managechats();
+            // this.setUnread()
         }
 
         async getUsers(){
@@ -56,6 +63,57 @@ class ChatMessage extends Component {
             })
         }
 
+        setUnread(rooms){
+            
+            console.log(rooms.length);
+            var i;
+            for (i = 0; i < rooms.length; i++){
+                console.log(rooms[i].name);
+                if (rooms[i].name != undefined){
+                    this.setState({
+                        unread: [...this.state.unread, [rooms[i].name, rooms[i].unreadCount]],
+                    })
+                }
+            }
+            console.log("THIS IS ROOM");
+            console.log(rooms[28].name);
+            // for (var room in rooms){
+            //     console.log("roo name");
+            //     console.log(room.name);
+            //     this.setState({
+            //         unread: [...this.state.unread, [room.name, room.unreadCount]],
+            //     })
+            // }
+            console.log("unread");
+            console.log(this.state.unread);
+        }
+
+        managechats(){
+            chatManager = new ChatManager({
+                instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+                userId: localStorage.getItem('username'),
+                //userId: this.props.currentId,
+                tokenProvider: new TokenProvider({
+                    url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+                })
+            })
+            let roomName = [this.state.otherChatter, localStorage.getItem('username')];
+            roomName = roomName.sort().join("_") + "_room";
+            chatManager
+                .connect()
+                .then(currentUser => {
+                    console.log("ROOMS");
+                    console.log(currentUser.rooms);
+                    this.setUnread(currentUser.rooms);
+                    console.log("!!!!!UNREAD");
+                    console.log(roomName.unreadcount);
+                })
+        }
+
+        chatnumber(otheruser){
+            console.log("LENGTH" + this.state.unread);
+        }
+
         async componentDidMount() {
             await this.getUsers();
             var c_ref = this;
@@ -63,12 +121,14 @@ class ChatMessage extends Component {
                 if(this.state.userList[user].username !== localStorage.getItem("username")) {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
-                    buttonnode.innerHTML = this.state.userList[user].username;
+                    buttonnode.innerHTML = this.state.userList[user].username +   this.chatnumber(this.state.userList[user].username);
+                    //this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
                     }
                     document.getElementById("messageusers").appendChild(buttonnode);
                 }
+                this.managechats();
             }
 
             var buttonnode = document.createElement("a");

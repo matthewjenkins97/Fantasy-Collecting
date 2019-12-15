@@ -9,7 +9,7 @@
 	.st3{fill:#FFFFFF;}
 	.st4{font-family:'Futura-Medium';}
 	.st5{font-size:300px;}
-	.st6{fill:none;stroke:#FFFFFF;stroke-width:32;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#FFFFFF;stroke-width:38;stroke-miterlimit:10;}
 </style>
 <g id="Layer_1">
 </g>
@@ -19,7 +19,7 @@
 		<path class="st2" d="M385-17v381H-6V-17H385 M386-18H-7v383h393V-18L386-18z"/>
 	</g>
 	<text transform="matrix(1 0 0 1 52.3062 294.3179)" class="st3 st4 st5">G</text>
-	<line class="st6" x1="180" y1="20" x2="180" y2="78"/>
-	<line class="st6" x1="180" y1="289" x2="180" y2="347"/>
+	<line class="st6" x1="180" y1="14" x2="180" y2="78"/>
+	<line class="st6" x1="180" y1="288" x2="180" y2="352"/>
 </g>
 </svg>

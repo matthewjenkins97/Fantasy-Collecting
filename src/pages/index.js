@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import * as serverfuncs from '../serverfuncs';
 import Grid from '@material-ui/core/Grid';
 import Notification from "../components/notification";
+import Guilder from '../static/guilder.svg';
 
 
 var guilders = 0;
@@ -73,9 +74,7 @@ class MainPage extends Component {
                           <Grid item xs>
                             
                           <Typography variant="h6" style={{float: 'right', marginTop: 10}}>
-                            <i style={{alignSelf: 'center'}} className="material-icons">
-                              monetization_on
-                              </i>  {this.state.guilders}</Typography>
+                          <img src={Guilder}  height="20" width="20"></img>  {this.state.guilders}</Typography>
                           </Grid>
                       </Grid>
                       
