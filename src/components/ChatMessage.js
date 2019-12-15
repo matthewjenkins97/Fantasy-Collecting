@@ -23,6 +23,57 @@ function closeNav() {
   document.getElementById("messagebutt").style.left = "10px";
 }
 
+async function postRoomData(name) {
+    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
+    rooms = await rooms.json();
+    for(var r in rooms) {
+        if(typeof name === 'undefined') return;
+        if(rooms[r].room.toString() === name.toString()) return;
+    }
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
+        method: 'post',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "username": localStorage.getItem('username'),
+            "room": name.toString(),
+            "messagecount": 0,
+        })
+    })
+}
+
+async function getRoomMessagesForThisUser(id) {
+    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
+    rooms = await rooms.json();
+    for(var room in rooms) {
+        if(rooms[room].room.toString() === id.toString()) {
+            console.log(rooms[room].messagecount);
+            return rooms[room].messagecount;
+        }
+    }
+}
+
+async function setRoomCount(id, count) {
+    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
+    rooms = await rooms.json();
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages'+localStorage.getItem('username'), {
+        method: 'delete',
+        mode: 'cors',
+    });
+    for(var r in rooms) {
+        if(rooms[r].id === id) {
+            rooms[r].unreadCount = count
+        }
+    }
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages', {
+        method: 'post',
+        mode: 'cors',
+        body: rooms
+    })
+}
+
 
 
 class ChatMessage extends Component {
@@ -65,30 +116,24 @@ class ChatMessage extends Component {
 
         setUnread(rooms){
             
-            //console.log(rooms.length);
             var i;
             for (i = 0; i < rooms.length; i++){
-                //console.log(rooms[i].name);
+
                 if (rooms[i].name != undefined){
                     this.setState({
                         unread: [...this.state.unread, [rooms[i].name, rooms[i].unreadCount]],
                     })
                 }
             }
-            //console.log("THIS IS ROOM");
-           //console.log(rooms[28].name);
             // for (var room in rooms){
-            //     console.log("roo name");
-            //     console.log(room.name);
+  
             //     this.setState({
             //         unread: [...this.state.unread, [room.name, room.unreadCount]],
             //     })
             // }
-            //console.log("unread");
-            //console.log(this.state.unread);
         }
 
-        managechats(){
+        async managechats(){
             chatManager = new ChatManager({
                 instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
                 userId: localStorage.getItem('username'),
@@ -97,17 +142,14 @@ class ChatMessage extends Component {
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
                 })
             })
-            let roomName = [this.state.otherChatter, localStorage.getItem('username')];
-            roomName = roomName.sort().join("_") + "_room";
-            chatManager
-                .connect()
-                .then(currentUser => {
-                    // console.log("ROOMS");
-                    // console.log(currentUser.rooms);
-                    this.setUnread(currentUser.rooms);
-                    // console.log("!!!!!UNREAD");
-                    // console.log(roomName.unreadCount);
-                })
+            // let roomName = [this.state.otherChatter, localStorage.getItem('username')];
+            // roomName = roomName.sort().join("_") + "_room";
+            var cm = await chatManager.connect();
+            for(var r in cm.rooms) {
+                if(typeof cm.rooms[r] !== 'undefined')
+                await postRoomData(cm.rooms[r].name);
+            }
+            this.setUnread(cm.rooms);
         }
 
         async chatnumber(otheruser){
@@ -116,7 +158,14 @@ class ChatMessage extends Component {
             var cm = await chatManager.connect();
             for(var room in cm.rooms) {
                 if(cm.rooms[room].id === roomName) {
-                    return cm.rooms[room].unreadCount;
+                    console.log(cm.rooms[room].unreadCount);
+                    var userm = await getRoomMessagesForThisUser(cm.rooms[room].id)
+                    if(userm < cm.rooms[room].unreadCount) {
+                        return " !";
+                    }
+                    else {
+                        return "";
+                    }
                 }
             }
         }
@@ -129,14 +178,14 @@ class ChatMessage extends Component {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
                     var unread = await this.chatnumber(this.state.userList[user].username);
-                    buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
+                    buttonnode.innerHTML = this.state.userList[user].username + unread;
                     //this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
                     }
                     document.getElementById("messageusers").appendChild(buttonnode);
                 }
-                this.managechats();
+                //this.managechats();
             }
 
             var buttonnode = document.createElement("a");
