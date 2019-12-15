@@ -102,6 +102,12 @@ const AdminPage = () => {
                           style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Create Auction</span>
                         </Button>
                         </Link>
+                        <Link style={{color: '#ffffff', textDecoration: 'none'}} to="/adminform">
+                        <Button variant="contained" 
+                          color="primary"
+                          style={{marginTop: 10, marginBottom: 20, width: 400, backgroundColor: "#002f86"}}><span style={{fontSize: '1.5em'}}>Artwork Ratings</span>
+                        </Button>
+                        </Link>
                         <Button variant="contained" 
                           color="primary"
                           onClick={checkConfirmation}

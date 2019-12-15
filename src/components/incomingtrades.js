@@ -10,7 +10,6 @@ class TradeDetails extends HTMLElement {
   expanded=false;
   constructor() {
     super();
-    document.body.className = "background";
   }
 }
 customElements.define('trade-details', TradeDetails);
@@ -19,7 +18,6 @@ class ExpandButton extends HTMLElement {
   index=0;
   constructor() {
     super();
-    document.body.className = "background";
   }
 }
 customElements.define('expand-button', ExpandButton);
@@ -34,7 +32,7 @@ var totalTrades = 0;
 export default class IncomingTrades extends React.Component {
   constructor(props) {
     super(props);
-    //document.body.className = "";
+    document.body.className = "background";
   }
 
   componentDidMount() {
