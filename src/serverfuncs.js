@@ -13,7 +13,8 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   isAdmin, getHistory, getMicroresearch, postMicroresearch, getTradeDetails,
   getTrades, approveTrade, denyTrade, getUser, setBlurb,
   removeArtworkFromTrade,
-  showNotification, hideNotification, resetGame};
+  showNotification, hideNotification, resetGame,
+clearApproval};
 
 /*
 
@@ -103,6 +104,20 @@ const responseCheck = coroutine(function* () {
   }
 });
 
+async function clearApproval() {
+  await fetch(apiURL + '/trades/' + CURRENT_TRADE_ID, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      buyerapproved: 0,
+      sellerapproved: 0,
+    })
+  });
+}
+
 async function checkForFinalize() {
   const response = await fetch(apiURL + '/trades/' + CURRENT_TRADE_ID);
   const myJson = await response.json();
@@ -110,6 +125,14 @@ async function checkForFinalize() {
   if (typeof trade === 'undefined') {
     clearIntervals();
     tradeFuncs.closeTrade();
+    return;
+  }
+  if(trade.seller.toString() === localStorage.getItem("username").toString() && parseInt(trade.sellerapproved) === 0 ||
+     trade.buyer.toString() === localStorage.getItem("username").toString() && parseInt(trade.buyerapproved) === 0) {
+    clearInterval(FINALIZE_INTERVAL_REF);
+    document.getElementById("confirmbutton").innerHTML = "Confirm Trade";
+    document.getElementById("ldsanim2").style.display = "none";
+    showNotification("trade updated");
     return;
   }
   if(trade.sellerapproved === 1 && trade.buyerapproved === 1) {
@@ -327,7 +350,6 @@ async function checkForResponse() {
   const myJson = await response.json();
   const trade = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof trade === 'undefined') {
-    console.log("TRADE WAS CANCELLED");
     clearInterval(RESPONSE_INTERVAL_REF);
     document.getElementById("ldsanim").style.display = "none";
     document.getElementById("maininit").innerHTML = "trade";
@@ -372,8 +394,6 @@ async function sendFormToAdmin() {
     },
     body: JSON.stringify(
         {approved: true})
-  }).then(async function (res) {
-    console.log(res);
   }); 
 }
 
@@ -396,8 +416,6 @@ async function approveTrade(tid) {
     }
     for(var a in artworks) {
       if(artworks[a].identifier.toString() === offers[offer].offer.toString()) {
-        console.log("ARTWORK FOUND");
-        console.log(artworks[a].owner);
         artworkowner = artworks[a].owner;
       }
     }
