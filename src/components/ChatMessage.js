@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
 import ChatApp from './ChatApp.js';
-import MailIcon from '@material-ui/icons/Mail';
 import { default as Chatkit } from '@pusher/chatkit-server';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import { View } from "react-native";
 import * as serverfuncs from '../serverfuncs'
-import { Menu } from '@material-ui/core';
 import './message.css';
 
 const chatkit = new Chatkit({

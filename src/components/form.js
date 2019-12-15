@@ -18,8 +18,11 @@ class Form extends React.Component{
         tileData: []
       }
       this.getArtworks();
+      this.checkIfDone();
     };
-
+    OnComponentDidMount() {
+      this.checkIfDone();
+    }
     async getArtworks() {
       var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
       images = await images.json();
@@ -34,6 +37,18 @@ class Form extends React.Component{
         }
       }
       this.forceUpdate();
+    }
+
+    
+    async checkIfDone() {
+      const users = await serverfuncs.getAllUsers();
+      for(var u in users) {
+        if(users[u].username === localStorage.getItem('username')) {
+          if(users[u].formcompleted === 0) {
+            document.getElementById("ratingbutton").style.display = "inline-block";
+          }
+        }
+      }
     }
   
     render(){
@@ -89,7 +104,6 @@ class Form extends React.Component{
                     continue;
                   }
                   if(rating !== null) {
-                    console.log("hi");
                     await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
                       method: 'post',
                       headers: {'Content-Type': 'application/json'},
@@ -98,9 +112,20 @@ class Form extends React.Component{
                         identifier: images[i].identifier,
                         price: parseInt(rating.value)
                       })
-                    }).then(function(res){console.log("yo");})
+                    });
                   }
               }
+              await fetch("http://fantasycollecting.hamilton.edu/api/users/"+localStorage.getItem('username'), {
+                method: 'put',
+                headers: {'Content-Type': 'application/json'},
+                mode: 'cors',
+                body: JSON.stringify({
+                  formcompleted: 1
+                })
+              });
+              document.getElementById("ratingpage").style.left = "-100%";
+              document.getElementById("ratingbutton").style.display = "none";
+
             }}>SUBMIT FORM</Button> </div></View>
 
         </div>
