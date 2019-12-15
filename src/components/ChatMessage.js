@@ -38,7 +38,7 @@ class ChatMessage extends Component {
             this.changeView = this.changeView.bind(this);
             this.setUnread = this.setUnread.bind(this);
             //this.manageChats = this.managechats.bind(this);
-            //this.managechats();
+            this.managechats();
             // this.setUnread()
         }
 
@@ -61,6 +61,11 @@ class ChatMessage extends Component {
                 chatView: !current,
                 otherChatter: otheruser
             })
+            let roomName = [otheruser, localStorage.getItem('username')];
+            roomName = roomName.sort().join("_") + "_room";
+            if (this.state.chatView == true){
+                
+            }
         }
 
         setUnread(rooms){
@@ -68,7 +73,7 @@ class ChatMessage extends Component {
             var i;
             for (i = 0; i < rooms.length; i++){
                 //console.log(rooms[i].name);
-                if (rooms[i].name != undefined){
+                if (rooms[i].name !== ""){
                     this.setState({
                         unread: [...this.state.unread, [rooms[i].name, rooms[i].unreadCount]],
                     })
@@ -84,7 +89,7 @@ class ChatMessage extends Component {
             //     })
             // }
             //console.log("unread");
-            //console.log(this.state.unread);
+            console.log(this.state.unread);
         }
 
         managechats(){
@@ -96,8 +101,8 @@ class ChatMessage extends Component {
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
                 })
             })
-            let roomName = [this.state.otherChatter, localStorage.getItem('username')];
-            roomName = roomName.sort().join("_") + "_room";
+            // let roomName = [this.state.otherChatter, localStorage.getItem('username')];
+            // roomName = roomName.sort().join("_") + "_room";
             chatManager
                 .connect()
                 .then(currentUser => {
@@ -124,7 +129,7 @@ class ChatMessage extends Component {
         }
 
         async componentDidMount() {
-            this.managechats();
+            //this.managechats();
             await this.getUsers();
             var c_ref = this;
             for(var user in this.state.userList) {
@@ -132,21 +137,29 @@ class ChatMessage extends Component {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
                     var unread = await this.chatnumber(this.state.userList[user].username);
-                    buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
+                    if (unread != 0){
+                        buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
+                    } else {
+                        buttonnode.innerHTML = this.state.userList[user].username;
+                    }
                     //this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML);
                     }
                     document.getElementById("messageusers").appendChild(buttonnode);
                 }
-                this.managechats();
+                //this.managechats();
             }
 
             var buttonnode = document.createElement("a");
             // buttonnode.id = "user_t"+user.toString();
             var unread = await this.chatnumber("General");
             buttonnode.style.padding = "0px 0px 5px 0px";
-            buttonnode.innerHTML = "General Room" + " " + unread;
+            if (unread != 0){
+                buttonnode.innerHTML = "General Room" + " " + unread;
+            } else {
+                buttonnode.innerHTML = "General Room";
+            }
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);
             }

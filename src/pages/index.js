@@ -16,8 +16,6 @@ async function getGuilders(){
             
   var userlist = await serverfuncs.getUser(localStorage.getItem('username'));
   guilders = userlist[0].guilders;
-  console.log("GUILDERS IS IT HERE");
-  console.log(guilders)
   return guilders;
 }
 console.log(guilders);
