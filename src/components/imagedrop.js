@@ -47,7 +47,7 @@ function uploadFile(file) {
 
         // add artwork and reload
         serverfuncs.createArtwork(artworkData);
-        // window.location.reload(true);
+        setTimeout( () => { window.location.reload() }, 500);
       }
 
     }
