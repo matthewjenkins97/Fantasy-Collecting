@@ -9,9 +9,13 @@
 }
 
 .stitle {
-  font-size: 100px;
+  font-size: 50px;
   color: black;
+  font-family: roboto;
+  font-variant: h4;
   text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .createButton {

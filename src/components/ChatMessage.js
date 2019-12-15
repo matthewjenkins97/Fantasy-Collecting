@@ -83,40 +83,45 @@ class ChatMessage extends Component {
 
         render() {
             return (
-                <div style={{zIndex: 10, position: "fixed"}}>
-                    <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
-                    {  this.state.currentView ?  
-                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
-                    : (null)   
-                
-                    }
-                    {  this.state.chatView ?  
-                    (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
-                    : (null)   
-                
-                    }
-                    </View>
-                    <div>
-                        {/* style={{color: "white"}} */}
-                        <div>
-                            <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
-                            </p>
-                            <div id="messageinit" className="sidebarinit">
-                                <a className="closebtn" onClick={closeNav}>&times;</a>
+                <div>
 
-                                <button className="dropbtn">Users</button>
+                    <div style={{zIndex: 1, position: "fixed"}}>
+                        <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
+                        </p>
+                        <div id="messageinit" className="sidebarinit">
+                            <a className="closebtn" onClick={closeNav}>&times;</a>
 
-                                <div id = "messageusers" className="dropdown-content"></div>
-                            </div>
+                            <button className="dropbtn">Users</button>
+
+                            <div id = "messageusers" className="dropdown-content"></div>
                         </div>
-                        {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
-                        { this.state.currentView ? (<div className="App"><div className="form-container">
-                    <ChatApp general="general" style={{position: "fixed", flex: 1, zIndex: 5}}/>
-                </div></div>) : (null) }
-                        { this.state.chatView ? (<div className="App"><div className="form-container">
-                    <ChatApp otherUser={this.state.otherChatter} style={{position: "fixed",flex: 1, zIndex: 5}}/>
-                </div></div>) : (null) }
                     </div>
+
+                    <div style={{zIndex: 10, position: "fixed"}}>
+                        <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
+                        {  this.state.currentView ?  
+                        (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
+                        : (null)   
+                    
+                        }
+                        {  this.state.chatView ?  
+                        (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
+                        : (null)   
+                    
+                        }
+                        </View>
+                        <div>
+                            {/* style={{color: "white"}} */}
+
+                            {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
+                            { this.state.currentView ? (<div className="App"><div className="form-container">
+                        <ChatApp general="general" style={{position: "fixed", flex: 1}}/>
+                    </div></div>) : (null) }
+                            { this.state.chatView ? (<div className="App"><div className="form-container">
+                        <ChatApp otherUser={this.state.otherChatter} style={{position: "fixed",flex: 1}}/>
+                    </div></div>) : (null) }
+                        </div>
+                </div>
             </div>
             )
         }
