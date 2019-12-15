@@ -46,10 +46,10 @@ class ChatApp extends Component {
                 // console.log(this.state.otherUser)
                 currentUser.enablePushNotifications()
                 .then(() => {
-                  console.log('Push Notifications enabled');
+                  //console.log('Push Notifications enabled');
                 })
                 .catch(error => {
-                  console.error("Push Notifications error:", error);
+                  //console.error("Push Notifications error:", error);
                 });
                 currentUser.createRoom({
                 id: roomName,
@@ -113,8 +113,8 @@ class ChatApp extends Component {
                     this.forceUpdate();
                 }
                 this.setState({ currentUser: currentUser })
-                console.log("UNREAD");
-                console.log(roomName.unreadCount);
+                // console.log("UNREAD");
+                // console.log(roomName.unreadCount);
                 return currentUser.subscribeToRoom({
                     roomId: roomName,
                     messageLimit: 100,
@@ -179,7 +179,7 @@ class ChatApp extends Component {
               flexDirection: 'column',
             },
          }
-         console.log(this.state.messages.length);
+         //console.log(this.state.messages.length);
                     return (
                     //   <div style={styles.container}>
                     //     <div style={styles.chatContainer}>
