@@ -6,23 +6,66 @@ import { View } from "react-native";
 import { ChatManager, TokenProvider, ChatkitProvider } from '@pusher/chatkit-client';
 import * as serverfuncs from '../serverfuncs'
 import './message.css';
+export {checkForMessages};
 
-var chatManager;
+var chatManager;// = new ChatManager({
+//     instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+//     userId: localStorage.getItem('username').toString(),
+//     //userId: this.props.currentId,
+//     tokenProvider: new TokenProvider({
+//         url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+//     })
+// });
 const chatkit = new Chatkit({
   instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
   key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
 })
 
-var rooms = [];
+
 
 function openNav() {
     document.getElementById("messageinit").style.left = "0px";
     document.getElementById("messagebutt").style.left = "210px";
+    document.getElementById("messagealert").style.left = "380px";
   }
   
 function closeNav() {
   document.getElementById("messageinit").style.left = "-200px";
   document.getElementById("messagebutt").style.left = "10px";
+  document.getElementById("messagealert").style.left = "180px";
+}
+
+async function checkForMessages() {
+    if(typeof localStorage.getItem('username') === 'undefined') return;
+    if(typeof chatManager === 'undefined' || chatManager.uerId !== localStorage.getItem('username')) {
+        chatManager = new ChatManager({
+        instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+        userId: localStorage.getItem('username'),
+        //userId: this.props.currentId,
+        tokenProvider: new TokenProvider({
+            url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+        })
+    });
+    }
+    var areMessages = false;
+    var cm = chatManager.connect();
+    for(var r in cm.rooms) {
+        if(cm.rooms[r].name === "" || cm.rooms[r].name === null || cm.rooms[r].name === localStorage.getItem('username')+'_'+localStorage.getItem('username')+'_'+'room') continue;
+        var num = await getRoomMessagesForThisUser(cm.rooms[r].name);
+        if(num < cm.rooms[r].unreadCount) {
+            areMessages = true;
+            document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(" ")[0] + " !";
+        }
+        else {
+            document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(" ")[0];
+        }
+    }
+    if(areMessages) {
+        document.getElementById("messagealert").style.display = 'block';
+    }
+    else {
+        document.getElementById("messagealert").style.display = 'block';
+    }
 }
 
 async function postRoomData(name) {
@@ -63,15 +106,22 @@ async function setRoomCount(id, count) {
     await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
         method: 'delete',
         mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
     });
     for(var r in rooms) {
         if(rooms[r].id === id) {
-            rooms[r].unreadCount = count
+            rooms[r].messagecount = count
         }
+        console.log(rooms[r]);
         await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
             method: 'post',
             mode: 'cors',
-            body: rooms
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(rooms[r])
         })
     }
 }
@@ -153,7 +203,7 @@ class ChatMessage extends Component {
         async managechats(){
             chatManager = new ChatManager({
                 instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-                userId: localStorage.getItem('username'),
+                userId: localStorage.getItem('username').toString(),
                 //userId: this.props.currentId,
                 tokenProvider: new TokenProvider({
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
@@ -180,7 +230,15 @@ class ChatMessage extends Component {
             for(var room in cm.rooms) {
                 if(cm.rooms[room].id === roomName) {
                     console.log(cm.rooms[room].unreadCount);
-                    var userm = await getRoomMessagesForThisUser(cm.rooms[room].id)
+                    var userm;
+                    if(otheruser === "General") {
+                        var userm = await getRoomMessagesForThisUser("General");
+                    }
+                    else {
+                        var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
+                    }
+                    console.log(cm.rooms[room].id);
+                    console.log(userm);
                     if(userm < cm.rooms[room].unreadCount) {
                         return " !";
                     }
@@ -199,13 +257,16 @@ class ChatMessage extends Component {
                 if(this.state.userList[user].username !== localStorage.getItem("username")) {
                     var buttonnode = document.createElement("a");
                     buttonnode.style.padding = "0px 0px 5px 0px";
+                    let roomName = [this.state.userList[user].username, localStorage.getItem('username')];
+                    roomName = roomName.sort().join("_") + "_room";
+                    buttonnode.id = roomName;
                     var unread = await this.chatnumber(this.state.userList[user].username);
-                    if (unread != 0){
+                    if (unread !== 0){
                         buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
                     } else {
                         buttonnode.innerHTML = this.state.userList[user].username;
                     }
-                    //this.chatnumber(this.state.userList[user].username);
+                    this.chatnumber(this.state.userList[user].username);
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML.split(' ')[0]);
                     }
@@ -215,7 +276,7 @@ class ChatMessage extends Component {
             }
 
             var buttonnode = document.createElement("a");
-            // buttonnode.id = "user_t"+user.toString();
+            //buttonnode.id = "user_t"+user.toString();
             var unread = await this.chatnumber("General");
             buttonnode.style.padding = "0px 0px 5px 0px";
             if (unread != 0){
@@ -236,24 +297,25 @@ class ChatMessage extends Component {
                     <div style={{zIndex: 1, position: "fixed"}}>
                         <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
                         </p>
-                        <div id="messageinit" className="sidebarinit">
+                        <div id="messageinit" className="sidebarinitm">
                             <a className="closebtn" onClick={closeNav}>&times;</a>
 
                             <button className="dropbtn">Users</button>
 
-                            <div id = "messageusers" className="dropdown-content"></div>
+                            <div id = "messageusers" className="dropdown-contentm"></div>
                         </div>
+                        <div id = "messagealert" className = "messagealert">!</div>
                     </div>
 
                     <div style={{zIndex: 10, position: "fixed"}}>
                         <View style={{position: 'fixed', right: 0, bottom: 0, marginBottom: 400}}>
                         {  this.state.currentView ?  
-                        (<CloseIcon style={{background: 'white'}} onClick={() => this.changeView(this.state.currentView)}/>) 
+                        (<CloseIcon style={{cursor: "pointer", background: 'white', borderRadius: "10px", position: "fixed", bottom: "410px", right: "20px"}} onClick={() => this.changeView(this.state.currentView)}/>) 
                         : (null)   
                     
                         }
                         {  this.state.chatView ?  
-                        (<CloseIcon style={{background: 'white'}} onClick={() => this.changeChat(this.state.chatView)}/>) 
+                        (<CloseIcon style={{cursor: "pointer", background: 'white', borderRadius: "10px", position: "fixed", bottom: "410px", right: "20px"}} onClick={() => this.changeChat(this.state.chatView)}/>) 
                         : (null)   
                     
                         }
