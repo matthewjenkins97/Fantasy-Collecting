@@ -36,9 +36,9 @@ function closeNav() {
 }
 
 async function checkForMessages() {
-    if(typeof localStorage.getItem('username') === 'undefined') return;
+    if(typeof localStorage.getItem('username') === 'undefined' || localStorage.getItem('username') === null) return;
     if(typeof chatManager === 'undefined' || chatManager.uerId !== localStorage.getItem('username')) {
-        chatManager = new ChatManager({
+        chatManager = await new ChatManager({
         instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
         userId: localStorage.getItem('username'),
         //userId: this.props.currentId,
@@ -48,11 +48,13 @@ async function checkForMessages() {
     });
     }
     var areMessages = false;
-    var cm = chatManager.connect();
+    var cm = await chatManager.connect();
     for(var r in cm.rooms) {
-        if(cm.rooms[r].name === "" || cm.rooms[r].name === null || cm.rooms[r].name === localStorage.getItem('username')+'_'+localStorage.getItem('username')+'_'+'room') continue;
+        try{
+            console.log(document.getElementById(cm.rooms[r].name).innerHTML.toString);
+        }catch{continue;}
         var num = await getRoomMessagesForThisUser(cm.rooms[r].name);
-        if(num < cm.rooms[r].unreadCount) {
+        if(num < cm.rooms[r].unreadCount ) {
             areMessages = true;
             document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(" ")[0] + " !";
         }
@@ -64,7 +66,7 @@ async function checkForMessages() {
         document.getElementById("messagealert").style.display = 'block';
     }
     else {
-        document.getElementById("messagealert").style.display = 'block';
+        document.getElementById("messagealert").style.display = 'none';
     }
 }
 
@@ -98,6 +100,7 @@ async function getRoomMessagesForThisUser(id) {
             return rooms[room].messagecount;
         }
     }
+    return -1;
 }
 
 async function setRoomCount(id, count) {
@@ -111,10 +114,10 @@ async function setRoomCount(id, count) {
         },
     });
     for(var r in rooms) {
-        if(rooms[r].id === id) {
-            rooms[r].messagecount = count
+        if(rooms[r].room.toString() === id.toString()) {
+            rooms[r].messagecount = count;
         }
-        console.log(rooms[r]);
+        // console.log(rooms[r]);
         await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
             method: 'post',
             mode: 'cors',
@@ -140,9 +143,7 @@ class ChatMessage extends Component {
               }
             this.changeView = this.changeView.bind(this);
             this.setUnread = this.setUnread.bind(this);
-            //this.manageChats = this.managechats.bind(this);
             this.managechats();
-            // this.setUnread()
         }
 
         async getUsers(){
@@ -153,37 +154,60 @@ class ChatMessage extends Component {
             })
         }
 
-        changeView(current) {
+        async changeView(current) {
             this.setState({
                 currentView: !current
             })
+            chatManager = await new ChatManager({
+                instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+                userId: localStorage.getItem('username').toString(),
+                //userId: this.props.currentId,
+                tokenProvider: new TokenProvider({
+                    url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+                })
+            })
+            var cm = await chatManager.connect();
+            await this.setUnread(cm.rooms);
+            for (var i = 0; i < this.state.unread.length; i++){
+                console.log(this.state.unread[i]);
+                if (this.state.unread[i][0].toString() === "General") {
+                    setRoomCount("General", this.state.unread[i][1]);
+                }
+            }
         }
 
-        changeChat(current, otheruser) {
+        async changeChat(current, otheruser) {
             this.setState({
                 chatView: !current,
                 otherChatter: otheruser
+            })            
+            chatManager = await new ChatManager({
+                instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+                userId: localStorage.getItem('username').toString(),
+                //userId: this.props.currentId,
+                tokenProvider: new TokenProvider({
+                    url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+                })
             })
+            var cm = await chatManager.connect();
+            await this.setUnread(cm.rooms);
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
-            console.log(roomName);
+            if(otheruser === "General") roomName = "General";
             if (this.state.chatView == true){
-                console.log("HERE");
-                var i;
-                for (i = 0; i < this.state.unread.length; i++){
-                    //console.log(this.state.unread[i]);
-                    if (this.state.unread[i][0] === roomName){
+                for (var i = 0; i < this.state.unread.length; i++){
+                    console.log(this.state.unread[i]);
+                    if (this.state.unread[i][0].toString() === roomName){
                         setRoomCount(roomName, this.state.unread[i][1]);
-                        //console.log(this.state.unread[i][1]);
                     }
                 }
             }
         }
 
-        setUnread(rooms){
+        async setUnread(rooms){
             //console.log(rooms.length);
-            var i;
-            for (i = 0; i < rooms.length; i++){
+            if(typeof rooms === 'undefined') return;
+            for (var i = 0; i < rooms.length; i++){
                 //console.log(rooms[i].name);
                 if (rooms[i].name !== ""){
                     this.setState({
@@ -191,7 +215,7 @@ class ChatMessage extends Component {
                     })
                 }
             }
-            console.log(rooms);
+            //console.log(rooms);
             // for (var room in rooms){
   
             //     this.setState({
@@ -214,11 +238,11 @@ class ChatMessage extends Component {
             var cm = await chatManager.connect();
             for(var r in cm.rooms) {
                 if(typeof cm.rooms[r] !== 'undefined') {
-                //await postRoomData(cm.rooms[r].name);
+                await postRoomData(cm.rooms[r].name);
                 }
             }
-            //await postRoomData("General")
-            this.setUnread(cm.rooms);
+            await postRoomData("General")
+            await this.setUnread(cm.rooms);
         }
 
         async chatnumber(otheruser){
@@ -230,7 +254,7 @@ class ChatMessage extends Component {
             var cm = await chatManager.connect();
             for(var room in cm.rooms) {
                 if(cm.rooms[room].id === roomName) {
-                    console.log(cm.rooms[room].unreadCount);
+                    //console.log(cm.rooms[room].unreadCount);
                     var userm;
                     if(otheruser === "General") {
                         var userm = await getRoomMessagesForThisUser("General");
@@ -238,9 +262,9 @@ class ChatMessage extends Component {
                     else {
                         var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
                     }
-                    console.log(cm.rooms[room].id);
-                    console.log(userm);
-                    if(userm < cm.rooms[room].unreadCount) {
+                    // console.log(cm.rooms[room].id);
+                    // console.log(userm);
+                    if(userm < cm.rooms[room].unreadCount && userm !== -1) {
                         return " !";
                     }
                     else {
@@ -261,7 +285,7 @@ class ChatMessage extends Component {
                     let roomName = [this.state.userList[user].username, localStorage.getItem('username')];
                     roomName = roomName.sort().join("_") + "_room";
                     buttonnode.id = roomName;
-                    // var unread = await this.chatnumber(this.state.userList[user].username);
+                    //var unread = await this.chatnumber(this.state.userList[user].username);
                     // if (unread !== 0){
                     //     buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
                     // } else {
@@ -269,6 +293,7 @@ class ChatMessage extends Component {
                     // }
                     //this.chatnumber(this.state.userList[user].username);
                     buttonnode.innerHTML = this.state.userList[user].username;
+                    // buttonnode.innerHTML = this.state.userList[user].username;
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML.split(' ')[0]);
                     }
@@ -279,13 +304,14 @@ class ChatMessage extends Component {
 
             var buttonnode = document.createElement("a");
             //buttonnode.id = "user_t"+user.toString();
-            var unread = await this.chatnumber("General");
-            buttonnode.style.padding = "0px 0px 5px 0px";
-            if (unread != 0){
-                buttonnode.innerHTML = "General Room" + " " + unread;
-            } else {
-                buttonnode.innerHTML = "General Room";
-            }
+            //var unread = await this.chatnumber("General");
+            buttonnode.style.padding = "0px 0px 5px 0px"
+            buttonnode.id = "General";
+            // if (unread != 0){
+            //     buttonnode.innerHTML = "General" + " " + unread;
+            // } else {
+                buttonnode.innerHTML = "General";
+            //}
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);
             }
