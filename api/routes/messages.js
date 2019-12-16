@@ -68,4 +68,10 @@ router.put('/:id', json(), function(req, res, next) {
   res.sendStatus(200);
 });
 
+router.delete('/:id', function(req, res, next) {
+  connection.execute(`DELETE FROM messages WHERE username = ?`, [req.params.id], (err, results, fields) => {
+    res.sendStatus(200);
+  });
+});
+
 module.exports = router;
