@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.9affcd8e.chunk.css",
-    "main.js": "/static/js/main.ee785997.chunk.js",
-    "main.js.map": "/static/js/main.ee785997.chunk.js.map",
+    "main.css": "/static/css/main.f2b9e2a1.chunk.css",
+    "main.js": "/static/js/main.697df6fb.chunk.js",
+    "main.js.map": "/static/js/main.697df6fb.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.40627eef.js",
     "runtime-main.js.map": "/static/js/runtime-main.40627eef.js.map",
-    "static/js/2.d62df0cb.chunk.js": "/static/js/2.d62df0cb.chunk.js",
-    "static/js/2.d62df0cb.chunk.js.map": "/static/js/2.d62df0cb.chunk.js.map",
+    "static/js/2.37368ba1.chunk.js": "/static/js/2.37368ba1.chunk.js",
+    "static/js/2.37368ba1.chunk.js.map": "/static/js/2.37368ba1.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.e6b4f32b818e02d48884b6b92fd74217.js": "/precache-manifest.e6b4f32b818e02d48884b6b92fd74217.js",
+    "precache-manifest.108e4e93557ff394b93023a019a481f3.js": "/precache-manifest.108e4e93557ff394b93023a019a481f3.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.9affcd8e.chunk.css.map": "/static/css/main.9affcd8e.chunk.css.map",
+    "static/css/main.f2b9e2a1.chunk.css.map": "/static/css/main.f2b9e2a1.chunk.css.map",
     "static/media/auctions.css": "/static/media/auctionhouse.697b9f8b.jpg",
     "static/media/backgroundlogin.css": "/static/media/background.c82accdd.jpg",
     "static/media/coin.png": "/static/media/coin.515325b9.png",
-    "static/media/guilder.svg": "/static/media/guilder.06d19dbb.svg",
+    "static/media/guilder.svg": "/static/media/guilder.9110e9e5.svg",
     "static/media/menuIcon.png": "/static/media/menuIcon.d7a593e9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.40627eef.js",
-    "static/js/2.d62df0cb.chunk.js",
-    "static/css/main.9affcd8e.chunk.css",
-    "static/js/main.ee785997.chunk.js"
+    "static/js/2.37368ba1.chunk.js",
+    "static/css/main.f2b9e2a1.chunk.css",
+    "static/js/main.697df6fb.chunk.js"
   ]
 }
