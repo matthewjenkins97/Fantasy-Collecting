@@ -440,7 +440,7 @@ async function approveTrade(tid) {
       }
     }
     else {
-      if(username != artworkowner) {
+      if(username !== artworkowner) {
         showNotification("users no longer have the required items for this trade");
         return;
       }
