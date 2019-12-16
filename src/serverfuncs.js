@@ -41,7 +41,7 @@ const messageCheck = coroutine(function* () {
   }
 });
 
-//setInterval(messageCheck, 1000);
+//setInterval(messageCheck, 2000);
 
 
 

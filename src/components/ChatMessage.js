@@ -49,6 +49,7 @@ async function checkForMessages() {
     }
     var areMessages = false;
     var cm = await chatManager.connect();
+    try {
     for(var r in cm.rooms) {
         try{
             console.log(document.getElementById(cm.rooms[r].name).innerHTML.toString);
@@ -68,6 +69,7 @@ async function checkForMessages() {
     else {
         document.getElementById("messagealert").style.display = 'none';
     }
+    }catch{}
 }
 
 async function postRoomData(name) {
@@ -167,11 +169,11 @@ class ChatMessage extends Component {
                 })
             })
             var cm = await chatManager.connect();
-            await this.setUnread(cm.rooms);
+            //await this.setUnread(cm.rooms);
             for (var i = 0; i < this.state.unread.length; i++){
                 console.log(this.state.unread[i]);
                 if (this.state.unread[i][0].toString() === "General") {
-                    setRoomCount("General", this.state.unread[i][1]);
+                    //setRoomCount("General", this.state.unread[i][1]);
                 }
             }
         }
@@ -190,15 +192,15 @@ class ChatMessage extends Component {
                 })
             })
             var cm = await chatManager.connect();
-            await this.setUnread(cm.rooms);
+            //await this.setUnread(cm.rooms);
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
             if(otheruser === "General") roomName = "General";
             if (this.state.chatView == true){
                 for (var i = 0; i < this.state.unread.length; i++){
-                    console.log(this.state.unread[i]);
                     if (this.state.unread[i][0].toString() === roomName){
-                        setRoomCount(roomName, this.state.unread[i][1]);
+                        console.log(this.state.unread[i]);
+                        //setRoomCount(roomName, this.state.unread[i][1]);
                     }
                 }
             }
@@ -206,6 +208,7 @@ class ChatMessage extends Component {
 
         async setUnread(rooms){
             //console.log(rooms.length);
+            this.setState({unread: []})
             if(typeof rooms === 'undefined') return;
             for (var i = 0; i < rooms.length; i++){
                 //console.log(rooms[i].name);
@@ -255,21 +258,21 @@ class ChatMessage extends Component {
             for(var room in cm.rooms) {
                 if(cm.rooms[room].id === roomName) {
                     //console.log(cm.rooms[room].unreadCount);
-                    var userm;
+                    //var userm;
                     if(otheruser === "General") {
-                        var userm = await getRoomMessagesForThisUser("General");
+                        //var userm = await getRoomMessagesForThisUser("General");
                     }
                     else {
-                        var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
+                        //var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
                     }
                     // console.log(cm.rooms[room].id);
                     // console.log(userm);
-                    if(userm < cm.rooms[room].unreadCount && userm !== -1) {
-                        return " !";
-                    }
-                    else {
+                    // if(userm < cm.rooms[room].unreadCount && userm !== -1) {
+                    //     return " !";
+                    // }
+                    // else {
                         return "";
-                    }
+                    //}
                 }
             }
         }
@@ -310,7 +313,7 @@ class ChatMessage extends Component {
             // if (unread != 0){
             //     buttonnode.innerHTML = "General" + " " + unread;
             // } else {
-                buttonnode.innerHTML = "General";
+                buttonnode.innerHTML = "General Room";
             //}
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);

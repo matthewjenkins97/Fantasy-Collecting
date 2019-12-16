@@ -159,7 +159,7 @@ async function conductAuctionTrade(artwork, user, seller, offer) {
   })
   sellerBody = await sellerBody.json();
   sellerBody = sellerBody[0];
-  sellerBody.guilders -= offer;
+  sellerBody.guilders += offer;
   fetch(`http://fantasycollecting.hamilton.edu/api/users/${seller}`, {
     method: 'put',
     mode: 'cors',
