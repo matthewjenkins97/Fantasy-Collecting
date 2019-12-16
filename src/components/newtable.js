@@ -101,7 +101,6 @@ export default class MaterialTableDemo extends React.Component {
               setTimeout(() => {
                 resolve();
                 serverfuncs.createUser(newData);
-                newData.hash = "*****";
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
@@ -118,7 +117,6 @@ export default class MaterialTableDemo extends React.Component {
                   return arr[index].username !== oldData.username;
                 });
                 serverfuncs.updateUserData(newData);
-                newData.hash = "*****";
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
