@@ -81,8 +81,10 @@ export default class MaterialTableDemo extends React.Component {
     read = true;
     this.forceUpdate();
   }
-  goToGallery() {
-
+  hidePasswords() {
+    for(var row in this.state.data) {
+      this.state.data[row].hash = "*****";
+    }
   }
   render() {
     return (
@@ -104,6 +106,7 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
                 this.createUser(newData.username);
+                this.hidePasswords();
                 this.forceUpdate();
               }, 600);
             }),
@@ -119,6 +122,7 @@ export default class MaterialTableDemo extends React.Component {
                 this.state.data.push(newData);
                 this.state.data = this.state.data.sort(function(a, b){return a.username[0] > b.username[0] ? 1 : -1});
                 this.setState({ ...this.state, ...this.state.data });
+                this.hidePasswords();
                 this.forceUpdate();
               }, 600);
             }),

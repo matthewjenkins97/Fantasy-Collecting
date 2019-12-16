@@ -1,7 +1,9 @@
 import * as tradeFuncs from './components/tradewindow.js';
 import {MD5} from './md5';
 import { conductTrade } from './tradefuncs';
+import {checkForMessages} from './components/ChatMessage';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
+
 
 /* eslint-disable require-jsdoc */
 export {updateArtwork, deleteArtwork, getArtworkInfo,
@@ -35,8 +37,13 @@ function coroutine(f) {
 const messageCheck = coroutine(function* () {
   while(true) {
     yield;
+    checkForMessages();
   }
 });
+
+//setInterval(messageCheck, 1000);
+
+
 
 var NOT_REF;
 
