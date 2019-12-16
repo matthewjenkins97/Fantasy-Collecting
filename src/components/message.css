@@ -36,6 +36,7 @@
   padding: 5px;
   transition: .5s;
   z-index: -1;
+  display: none;
 }
 
 .sidebarinitm {

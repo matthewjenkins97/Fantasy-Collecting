@@ -213,10 +213,11 @@ class ChatMessage extends Component {
             // roomName = roomName.sort().join("_") + "_room";
             var cm = await chatManager.connect();
             for(var r in cm.rooms) {
-                if(typeof cm.rooms[r] !== 'undefined')
-                await postRoomData(cm.rooms[r].name);
+                if(typeof cm.rooms[r] !== 'undefined') {
+                //await postRoomData(cm.rooms[r].name);
+                }
             }
-            await postRoomData("General")
+            //await postRoomData("General")
             this.setUnread(cm.rooms);
         }
 
@@ -260,13 +261,14 @@ class ChatMessage extends Component {
                     let roomName = [this.state.userList[user].username, localStorage.getItem('username')];
                     roomName = roomName.sort().join("_") + "_room";
                     buttonnode.id = roomName;
-                    var unread = await this.chatnumber(this.state.userList[user].username);
-                    if (unread !== 0){
-                        buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
-                    } else {
-                        buttonnode.innerHTML = this.state.userList[user].username;
-                    }
-                    this.chatnumber(this.state.userList[user].username);
+                    // var unread = await this.chatnumber(this.state.userList[user].username);
+                    // if (unread !== 0){
+                    //     buttonnode.innerHTML = this.state.userList[user].username + " " + unread;
+                    // } else {
+                    //     buttonnode.innerHTML = this.state.userList[user].username;
+                    // }
+                    //this.chatnumber(this.state.userList[user].username);
+                    buttonnode.innerHTML = this.state.userList[user].username;
                     buttonnode.onclick = function() { 
                         c_ref.changeChat(c_ref.state.chatView, this.innerHTML.split(' ')[0]);
                     }
