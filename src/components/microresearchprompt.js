@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
 import './gallerydropdown.css';
-import FilledInput from '@material-ui/core/Input';
 
 export default class MicroresearchPrompt extends React.Component {
   constructor(props) {

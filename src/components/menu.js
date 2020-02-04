@@ -4,7 +4,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '../static/menuIcon.png';
 import './backgroundlogin.css';
-// import Icon from '../static/menuIcon.png';
 var anchorEl;
 var setAnchorEl; 
 

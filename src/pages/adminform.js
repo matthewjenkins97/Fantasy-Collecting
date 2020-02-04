@@ -1,11 +1,7 @@
 
 import AdminForm from "../components/adminform";
 import React from "react";
-import ReactDOM from "react-dom";
-import AdminAuction from "../components/adminauction";
-import Table from "../components/artworktable";
 import AppBar from '@material-ui/core/AppBar';
-import ChatComponent from "../components/ChatMessage";
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';

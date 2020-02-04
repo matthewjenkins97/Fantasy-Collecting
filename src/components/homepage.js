@@ -8,8 +8,6 @@ import OtherGallery from './homepageofother'
 import { getAllArtworks, setBlurb, getUser } from '../serverfuncs';
 import ChatComponent from "../components/ChatMessage";
 import HistoryTable from "../components/historytable";
-import { View } from "react-native";
-import Notification from './notification';
 import "./gallerydropdown.css"
 import MicroresearchPrompt from "../components/microresearchprompt.js";
 import MicroresearchTable from "../components/microresearchtable.js";

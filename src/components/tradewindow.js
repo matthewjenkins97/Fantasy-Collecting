@@ -1,5 +1,4 @@
 import React from "react";
-//import ReactDOM from "react-dom";
 import * as serverfuncs from '../serverfuncs';
 import './tradewindow.css'
 

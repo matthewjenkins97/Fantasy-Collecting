@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-//import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as serverfuncs from '../serverfuncs';
 
 class TradeOption extends React.PureComponent {

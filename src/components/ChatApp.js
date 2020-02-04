@@ -4,9 +4,6 @@ import MessageList from './MessageList';
 import Input from './Input';
 import * as serverfuncs from "../serverfuncs";
 import { default as Chatkit } from '@pusher/chatkit-server';
-import sendMessageForm from "./sendMessageForm";
-import { View } from "react-native";
-
 
 var chatManager; 
 const chatkit = new Chatkit({

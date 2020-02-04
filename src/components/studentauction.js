@@ -75,14 +75,6 @@ class AuctionStudent extends React.Component{
 
       var auctions = await auctionfuncs.getAllAuctions();
 
-      // try{document.getElementById("bnode").remove()}catch{}
-      // var buttonNode = document.createElement("button");
-      // buttonNode.onclick = () => openCreateDropdown();
-      // buttonNode.className = "createButton";
-      // buttonNode.innerHTML = "Create Auction...";
-      // buttonNode.id = "bnode";
-      // document.getElementById("abutton").appendChild(buttonNode);
-
       var lots = await auctionfuncs.getAllLots();
       for(var auction in auctions) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);

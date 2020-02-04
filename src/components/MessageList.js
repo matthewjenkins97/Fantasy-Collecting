@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import { View } from "react-native";
-import Card from '@material-ui/core/Card';
-import Paper from '@material-ui/core/Paper';
 
 class MessageList extends Component {
     componentDidUpdate() {
