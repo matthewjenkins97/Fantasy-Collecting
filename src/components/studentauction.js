@@ -120,16 +120,16 @@ class AuctionStudent extends React.Component{
         const source_of_image = await serverfuncs.getArtworkInfo(lots[l].identifier);
         var auction_scroll = auctionnode;
 
-        var deleteNode = document.createElement("button");
-        deleteNode.innerHTML = "Delete Lot";
-        deleteNode.style.position = "absolute";
-        deleteNode.style.left = (auctionnumber*550).toString()+"px";
-        deleteNode.onclick = async function() {
-          console.log(lots[l].identifier);
-          await auctionfuncs.deleteLot(lots[l].identifier);
-          c_ref.loadAuctions();
-        }
-        auction_scroll.appendChild(deleteNode);
+        // var deleteNode = document.createElement("button");
+        // deleteNode.innerHTML = "Delete Lot";
+        // deleteNode.style.position = "absolute";
+        // deleteNode.style.left = (auctionnumber*550).toString()+"px";
+        // deleteNode.onclick = async function() {
+        //   console.log(lots[l].identifier);
+        //   await auctionfuncs.deleteLot(lots[l].identifier);
+        //   c_ref.loadAuctions();
+        // }
+        // auction_scroll.appendChild(deleteNode);
 
 
         var imagenode = document.createElement("img", {is: 'lot-image'});

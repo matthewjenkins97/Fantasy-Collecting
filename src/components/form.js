@@ -94,25 +94,25 @@ class Form extends React.Component{
               
               var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
               images = await images.json();
-              for(var i in images) {
-                  var ratingIdentifier = document.getElementById("rate"+images[i].identifier);
-                  var rating = ratingIdentifier.value;
-                  console.log("Before:" + rating);
-                  if (ratingIdentifier.value > 10) {
-                    rating = 10;
-                  } else if (ratingIdentifier.value < 1) { // this handles null cases as well as ones where the value is less than 0
-                    rating = 1;
-                  }
-                  console.log("After:" + rating);
-                  await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
-                    method: 'post',
-                    headers: {'Content-Type': 'application/json'},
-                    mode: 'cors',
-                    body: JSON.stringify({
-                      identifier: images[i].identifier,
-                      price: rating
-                    })
-                  });
+              for(var i in tileData) {
+                var ratingIdentifier = document.getElementById("rate"+tileData[i].identifier);
+                var rating = ratingIdentifier.value;
+                console.log("Before:" + rating);
+                if (ratingIdentifier.value > 10) {
+                  rating = 10;
+                } else if (ratingIdentifier.value < 1) { // this handles null cases as well as ones where the value is less than 0
+                  rating = 1;
+                }
+                console.log("After:" + rating);
+                await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
+                  method: 'post',
+                  headers: {'Content-Type': 'application/json'},
+                  mode: 'cors',
+                  body: JSON.stringify({
+                    identifier: tileData[i].identifier,
+                    price: rating
+                  })
+                });
               }
               await fetch("http://fantasycollecting.hamilton.edu/api/users/"+localStorage.getItem('username'), {
                 method: 'put',
