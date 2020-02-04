@@ -12,7 +12,7 @@ import {
 
 //Pages
 import MainPage from "./pages/index";
-import Table from "./pages/table";
+import Table from "./pages/usertable";
 import ErrorPage from "./pages/error";
 import Login from "./pages/login";
 import Auction from "./pages/auction";
