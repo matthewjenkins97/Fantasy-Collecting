@@ -265,6 +265,7 @@
 } */
 /* Position and style the close button (top right corner) */
 .tradewin .closebtn {
+  width: auto;
   position: absolute;
   padding: 5px;
   top: 530px;
