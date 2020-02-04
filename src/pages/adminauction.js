@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import AdminAuction from "../components/adminauction";
-import Table from "../components/artworktable";
 import AppBar from '@material-ui/core/AppBar';
 import ChatComponent from "../components/ChatMessage";
 import Toolbar from '@material-ui/core/Toolbar';

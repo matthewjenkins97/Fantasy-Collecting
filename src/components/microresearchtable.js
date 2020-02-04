@@ -3,7 +3,6 @@ import MaterialTable from 'material-table';
 import Button from '@material-ui/core/button';
 import * as serverfuncs from '../serverfuncs';
 import './gallerydropdown.css';
-import { Typography } from '@material-ui/core';
 
 export default class MicroresearchTable extends React.Component {
   constructor(props) {

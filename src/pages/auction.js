@@ -9,9 +9,6 @@ import SimpleMenu from "../components/simpleMenu";
 import Grid from '@material-ui/core/Grid';
 import Notification from '../components/notification';
 import Guilder from '../static/guilder.svg';
-//import MoneyIcon from '@material-ui/icons/monetization_on';
-//import Guilder from "../../node_modules/cryptocurrency-icons/svg/white/game.svg";
-
 
 class AuctionPage extends Component {
   constructor(props) {

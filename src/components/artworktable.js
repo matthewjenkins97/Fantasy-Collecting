@@ -1,7 +1,5 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-//import EditIcon from 'material-ui/svg-icons/image/edit';
-//import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 import ImageDrop from './imagedrop';
 import "./backgroundlogin.css"

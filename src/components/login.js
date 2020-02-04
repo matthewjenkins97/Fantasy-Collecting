@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from 'react-router-dom';
 import { View } from "react-native";
-//import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -10,18 +8,6 @@ import Appbar from '../components/appbar';
 import { MD5 } from '../../src/md5';
 import './backgroundlogin.css';
 import * as serverfuncs from '../serverfuncs';
-
-
-// @media all and (min-width: 480px) {
-//   .Login {
-//     padding: 60px 0;
-//   }
-
-//   .Login form {
-//     margin: 0 auto;
-//     max-width: 320px;
-//   }
-// }
 
 export default class Login extends React.Component{
   constructor(props) {

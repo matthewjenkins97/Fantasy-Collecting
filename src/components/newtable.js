@@ -1,8 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import MaterialTable from 'material-table';
-//import EditIcon from 'material-ui/svg-icons/image/edit';
-//import Delete from 'material-ui/svg-icons/action/delete';
 import * as serverfuncs from '../serverfuncs';
 import { default as Chatkit } from '@pusher/chatkit-server';
 import './backgroundlogin.css'

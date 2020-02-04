@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import { View } from 'react-native';
 import * as serverfuncs from '../serverfuncs.js';
-import { NavLink } from 'react-router-dom'
 
 function checkConfirmation() {
   if (window.confirm("WARNING: Resetting the game means removing all non-admin users, all artwork metadata (including history, microresearch, and theoretical price data), and all archived trade details. Press OK if you want to continue.")) {
