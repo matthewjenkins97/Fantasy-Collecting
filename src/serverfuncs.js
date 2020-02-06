@@ -977,6 +977,20 @@ async function resetGame() {
 
   let artworks = await getAllArtworks();
   for (let artwork of artworks) {
+    // set owner of artwork to none
+    fetch(apiURL + '/artworks/' + artwork.identifier, {
+      method: 'put',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        owner: ""
+      })
+      }).then(function (res) {
+        console.log(res);
+    })
+
     // remove all history
     fetch(apiURL + '/history/' + artwork.identifier, {
       method: 'delete',
