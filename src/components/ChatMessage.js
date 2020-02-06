@@ -16,39 +16,46 @@ var chatManager;// = new ChatManager({
 //         url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
 //     })
 // });
+
+// initializing the chatkit connection to server
 const chatkit = new Chatkit({
-  instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-  key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
+    instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+    key: "32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg="
 })
 
 
-
+// function for opening menu for messaging
 function openNav() {
     document.getElementById("messageinit").style.left = "0px";
     document.getElementById("messagebutt").style.left = "210px";
     document.getElementById("messagealert").style.left = "380px";
-  }
-  
+}
+
+// function for closing menu for messaging
 function closeNav() {
-  document.getElementById("messageinit").style.left = "-200px";
-  document.getElementById("messagebutt").style.left = "10px";
-  document.getElementById("messagealert").style.left = "180px";
+    document.getElementById("messageinit").style.left = "-200px";
+    document.getElementById("messagebutt").style.left = "10px";
+    document.getElementById("messagealert").style.left = "180px";
 }
 
 async function checkForMessages() {
+
     if(typeof localStorage.getItem('username') === 'undefined' || localStorage.getItem('username') === null) return;
+
+    //set chat manager if not set yet
     if(typeof chatManager === 'undefined' || chatManager.uerId !== localStorage.getItem('username')) {
         chatManager = await new ChatManager({
-        instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-        userId: localStorage.getItem('username'),
-        //userId: this.props.currentId,
-        tokenProvider: new TokenProvider({
-            url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
-        })
-    });
+            instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+            userId: localStorage.getItem('username'),
+            tokenProvider: new TokenProvider({
+                url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+            })
+        });
     }
+
     var areMessages = false;
     var cm = await chatManager.connect();
+
     try {
     for(var r in cm.rooms) {
         try{
@@ -163,7 +170,6 @@ class ChatMessage extends Component {
             chatManager = await new ChatManager({
                 instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
                 userId: localStorage.getItem('username').toString(),
-                //userId: this.props.currentId,
                 tokenProvider: new TokenProvider({
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
                 })
