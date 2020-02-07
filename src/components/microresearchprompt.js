@@ -11,6 +11,7 @@ export default class MicroresearchPrompt extends React.Component {
     this.lowerTable = this.lowerTable.bind(this)
     this.raiseTable = this.raiseTable.bind(this)
     this.submitMicroresearch = this.submitMicroresearch.bind(this)
+    this.render = this.render.bind(this);
 
     this.textid = this.props.identifier + "MicroresearchPromptText";
     this.divid = this.props.identifier + "MicroresearchPromptDropdown";
@@ -43,6 +44,7 @@ export default class MicroresearchPrompt extends React.Component {
   }
 
   render() {
+    const title = "Add Microresearch for \"" + this.identifier + "\"";
     return (
       <div>
         <Button onClick={this.lowerTable}><i>Add Microresearch...</i></Button>
@@ -50,7 +52,7 @@ export default class MicroresearchPrompt extends React.Component {
             <a class="closebtn" onClick={this.raiseTable}>&times;</a>
             <p>&nbsp;</p>
             <div style={{textAlign: 'center'}}>
-              <h1>Add Microresearch for "{this.identifier}"</h1>
+              <h1>{title}</h1>
               <textarea style={{width: 400, height: 300}} id={this.textid} multiline='true'></textarea>
             </div>
             <button onClick={this.submitMicroresearch} style={{margin:'auto', display:'block'}}>Submit</button>

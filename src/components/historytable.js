@@ -112,6 +112,10 @@ export default class HistoryTable extends React.Component {
   async getRows() {
     const history = await serverfuncs.getHistory(this.props.identifier);
 
+    //used in render to print name of artwork rather than the identifier
+    this.artwork = await serverfuncs.getArtworkInfo(this.props.identifier);
+    this.artworkName = this.artwork.title;
+
     for(let i = 0; i < history.length; i++) {
       history[i].timestamp = new Date(history[i].timestamp).toLocaleString();
 
@@ -131,7 +135,8 @@ export default class HistoryTable extends React.Component {
   }
 
   render() {
-    const title = "History for \"" + this.props.identifier + "\"";
+
+    const title = "History for \"" + this.artworkName + "\"";
     return (
       <div>
         <Button onClick={this.lowerTable}><i>History</i></Button>
