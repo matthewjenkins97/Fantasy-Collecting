@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 //import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -20,9 +20,9 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{backgroundColor: "#002f86"}}>
-        <Toolbar variant="dense">
-          <Typography variant="h6" color="inherit">
+      <AppBar position='static' style={{backgroundColor: '#002f86'}}>
+        <Toolbar variant='dense'>
+          <Typography variant='h6' color='inherit'>
             Fantasy Collecting
           </Typography>
         </Toolbar>

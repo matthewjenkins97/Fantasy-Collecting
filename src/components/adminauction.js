@@ -6,7 +6,7 @@ import * as serverfuncs from '../serverfuncs';
 import './backgroundlogin.css'
 
 class LotImage extends HTMLImageElement {
-  index=0;
+  index = 0;
   constructor() {
     super();
   }
@@ -156,7 +156,6 @@ class AuctionAdmin extends React.Component{
       currentAuctions.push(addLotNode.id);
       currentAuctions.push(confirmNode.id);
       
-
       var auctionnumber = -1;
       for(const l in lots) {
 
