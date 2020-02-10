@@ -18,7 +18,7 @@ async function getGuilders(){
   guilders = userlist[0].guilders;
   return guilders;
 }
-console.log(guilders);
+// console.log(guilders);
 
 
 class MainPage extends Component {
@@ -33,15 +33,14 @@ class MainPage extends Component {
 
   
 
-  async getGuilders(){
-            
+  async getGuilders() {
     var userlist = await serverfuncs.getUser(localStorage.getItem('username'));
     this.setState({
       guilders: userlist[0].guilders
     })
     this.guilders = userlist[0].guilders;
-    console.log("GUILDERS IS IT HERE");
-    console.log(guilders)
+    // console.log("GUILDERS IS IT HERE");
+    // console.log(guilders)
   }
   
 

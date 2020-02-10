@@ -1,6 +1,8 @@
-// MD5 checksum generator
+// MD5 checksum generator.
+
 // CITE: https://lig-membres.imag.fr/donsez/cours/exemplescourstechnoweb/js_securehash/
 // This is used in lieu of a package because it's in browser and can't import without html.
+
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
  * Digest Algorithm, as defined in RFC 1321.
@@ -180,4 +182,3 @@ function MD5(str)
   }
   return (rhex(a) + rhex(b) + rhex(c) + rhex(d)).toLowerCase();
 }
-// end MD5
