@@ -96,13 +96,13 @@ class Form extends React.Component{
               for(var i in tileData) {
                 var ratingIdentifier = document.getElementById("rate"+tileData[i].identifier);
                 var rating = ratingIdentifier.value;
-                console.log("Before:" + rating);
+                // console.log("Before:" + rating);
                 if (ratingIdentifier.value > 10) {
                   rating = 10;
                 } else if (ratingIdentifier.value < 1) { // this handles null cases as well as ones where the value is less than 0
                   rating = 1;
                 }
-                console.log("After:" + rating);
+                // console.log("After:" + rating);
                 await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/", {
                   method: 'post',
                   headers: {'Content-Type': 'application/json'},

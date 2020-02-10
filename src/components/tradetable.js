@@ -40,7 +40,7 @@ export default class TradeTable extends React.Component {
     this.rows = [];
     const trades = await serverfuncs.getTradeDetails();
     for(var trade of trades) {
-      console.log(trade.tradeid)
+      // console.log(trade.tradeid)
       if ((trade.archived === 1) && (trade.tradeid === this.tradeid)) {
         this.rows.push(trade);
       }

@@ -32,7 +32,7 @@ class Main extends Component  {
   // }
   async getTileData() {
     const artworks = await getAllArtworks();
-    console.log(artworks);
+    // console.log(artworks);
     for(var i in artworks) {
       if(artworks[i].owner === localStorage.getItem('username') && artworks[i].hidden !== 1) {
         tileData.push({
@@ -44,7 +44,7 @@ class Main extends Component  {
           });
       }
     }
-    console.log("got artworks")
+    // console.log("got artworks")
     this.forceUpdate();
   }
 

@@ -91,7 +91,7 @@ class AdminForm extends React.Component{
                   var tp = await this.getAverageValue(images[i].identifier);
                   tp*=100;
                   tp = Math.round(tp);
-                  console.log(tp);
+                  // console.log(tp);
                   await fetch("http://fantasycollecting.hamilton.edu/api/artworks/"+images[i].identifier, 
                   {
                     method: 'put',

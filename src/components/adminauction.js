@@ -129,8 +129,8 @@ class AuctionAdmin extends React.Component{
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
         const artworks = await serverfuncs.getAllArtworks();
-        console.log("all artworks");
-        console.log(artworks);
+        // console.log("all artworks");
+        // console.log(artworks);
         for(var lot in lots) {
           if(lots[lot].number.toString() === id.toString()) {
             for(var a in artworks) {
@@ -170,7 +170,7 @@ class AuctionAdmin extends React.Component{
         deleteNode.style.position = "absolute";
         deleteNode.style.left = (auctionnumber*550).toString()+"px";
         deleteNode.onclick = async function() {
-          console.log(lots[l].identifier);
+          // console.log(lots[l].identifier);
           await auctionfuncs.deleteLot(lots[l].identifier);
           c_ref.loadAuctions();
         }
