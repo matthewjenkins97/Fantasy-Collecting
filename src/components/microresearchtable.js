@@ -37,6 +37,10 @@ export default class MicroresearchTable extends React.Component {
   }
 
   async getRows() {
+    //used in render to print name of artwork rather than the identifier
+    this.artwork = await serverfuncs.getArtworkInfo(this.props.identifier);
+    this.artworkName = this.artwork.title;
+
     this.rows = [];
     const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
     for(var microresearch of artworkMicroresearch) {
@@ -52,7 +56,7 @@ export default class MicroresearchTable extends React.Component {
   }
 
   render() {
-    const title = "Microresearch for \"" + this.props.identifier + "\"";
+    const title = "Microresearch for \"" + this.artworkName + "\"";
     return (
       <div>
         <Button onClick={this.lowerTable}><i>Show Microresearch</i></Button>

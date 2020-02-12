@@ -22,8 +22,8 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(buyerBody),
-    }).then((res) => {
-      console.log(res)
+    // }).then((res) => {
+    //   console.log(res)
     });
 
     // add seller's payment from their account
@@ -42,8 +42,8 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(sellerBody),
-    }).then((res) => {
-      console.log(res)
+    // }).then((res) => {
+    //   console.log(res)
     });
 
     // post transaction to history
@@ -61,8 +61,8 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(historyBody),
-    }).then((res) => {
-      console.log(res)
+    // }).then((res) => {
+    //   console.log(res)
     });
 
   } else {
@@ -75,8 +75,8 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
       body: JSON.stringify({
         owner: buyer
       }),
-    }).then((res) => {
-      console.log(res)
+    // }).then((res) => {
+    //   console.log(res)
     });
   }
 
@@ -96,7 +96,7 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(historyBody),
-  }).then((res) => {
-    console.log(res)
+  // }).then((res) => {
+  //   console.log(res)
   });
 }

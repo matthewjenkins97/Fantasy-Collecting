@@ -164,7 +164,7 @@ async function updateItems() {
   still_active = await still_active.json();
   still_active = JSON.parse(JSON.stringify(still_active))['0'];
   if(typeof still_active === 'undefined') {
-    console.log("TRADE CANELLED");
+    // console.log("TRADE CANELLED");
     clearInterval(ITEM_INTERVAL_REF);
     tradeFuncs.closeTrade();
     clearIntervals();
@@ -227,8 +227,8 @@ async function removeArtworkFromTrade(art) {
     headers: {
         'Content-Type': 'application/json'
     },
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 
   for(var offer in offers) {
@@ -239,8 +239,8 @@ async function removeArtworkFromTrade(art) {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify(offers[offer])
-    }).then(function (res) {
-      console.log(res);
+    // }).then(function (res) {
+      // console.log(res);
     })
   }
 }
@@ -249,7 +249,7 @@ async function userHasEnough(name, guilders) {
   var info = await fetch(apiURL + '/users/'+name);
   info = await info.json();
   info = JSON.parse(JSON.stringify(info))['0'];
-  console.log(info);
+  // console.log(info);
   return parseInt(info.guilders) >= parseInt(guilders);
 }
 
@@ -300,7 +300,7 @@ async function addGuildersToTrade(guilders) {
       },
       body: JSON.stringify(offers[offer])
     }).then(function (res) {
-      console.log(res);
+      // console.log(res);
     })
   }
   document.getElementById("addguilders").value = "";
@@ -316,19 +316,19 @@ async function addGuildersToTrade(guilders) {
 
 async function initiateTrade(user) {
   if(user == localStorage.getItem('username')) {
-    console.log('cannot trade with self');
+    // console.log('cannot trade with self');
     return;
   }
   const response = await fetch(apiURL +'/users/'+user);
   const myJson = await response.json();
   const exists = JSON.parse(JSON.stringify(myJson))['0'];
   if(typeof exists === 'undefined') {
-    console.log('user does not exist');
+    // console.log('user does not exist');
     return;
   }
   const tid = Date.now();
   CURRENT_TRADE_ID = tid;
-  console.log(CURRENT_TRADE_ID);
+  // console.log(CURRENT_TRADE_ID);
   fetch(apiURL + '/trades', {
     method: 'post',
     mode: 'cors',
@@ -345,7 +345,7 @@ async function initiateTrade(user) {
         sellerapproved: false})
   }).then(function (res) {
     showNotification("Trade Initiated");
-    console.log("trade requested sent to "+user);
+    // console.log("trade requested sent to "+user);
     RESPONSE_INTERVAL_REF = setInterval(responseCheck, 2000);
   })
 }
@@ -377,8 +377,8 @@ async function checkForResponse() {
 }
 
 function finalizeAsBuyer(check) {
-  console.log("setting approval");
-  console.log(check);
+  // console.log("setting approval");
+  // console.log(check);
   fetch(apiURL + '/trades/'+CURRENT_TRADE_ID, {
     method: 'put',
     mode: 'cors',
@@ -388,7 +388,7 @@ function finalizeAsBuyer(check) {
     body: JSON.stringify(
         {buyerapproved: check})
   }).then(function (res) {
-    console.log(res);
+    // console.log(res);
     if(check) {
       FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
     }
@@ -447,36 +447,38 @@ async function approveTrade(tid) {
     }
   }
   for(var offer in offers) {
-    console.log(offers);
+    // console.log(offers);
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer, tid);
   }
   try {
-  // mark trade as archived, delete trades stuff
-  await fetch(apiURL + '/trades/'+tid, {
-    method: 'delete',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-  }).then(function (res) {
-    console.log(res);
-  });
-  
-  await fetch(apiURL + '/tradedetails/'+tid, {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      archived: 1
-    }),
-  }).then(function (res) {
-    console.log(res);
-  });
+    // mark trade as archived, delete trades stuff
+    await fetch(apiURL + '/trades/'+tid, {
+      method: 'delete',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+    // }).then(function (res) {
+    //   console.log(res);
+    });
+    
+    await fetch(apiURL + '/tradedetails/'+tid, {
+      method: 'put',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        archived: 1
+      }),
+    // }).then(function (res) {
+    //   console.log(res);
+    });
 
-  showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
-  }catch{console.log("no trade details");}
+    showNotification("trade between "+offers[0].buyer+" and "+offers[0].seller+" approved");
+  } catch {
+    console.error("no trade details");
+  }
 }
 
 async function denyTrade(tid) {
@@ -528,7 +530,7 @@ async function checkForTrade() {
 }
 
 async function acceptTrade(tid) {
-  console.log(tid);
+  // console.log(tid);
   fetch(apiURL + '/trades/'+tid, {
     method: 'put',
     mode: 'cors',
@@ -539,7 +541,7 @@ async function acceptTrade(tid) {
         {sellerinit: true})
   }).then(function (res) {
     CURRENT_TRADE_ID = tid;
-    console.log(res);
+    // console.log(res);
     // add trade ui
     ITEM_INTERVAL_REF = setInterval(itemCheck, 1000);
   })
@@ -552,8 +554,8 @@ async function declineTrade(tid) {
     headers: {
         'Content-Type': 'application/json'
     },
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 }
 
@@ -567,7 +569,7 @@ async function cancelTrade() {
     headers: {
         'Content-Type': 'application/json'
     },
-  }).then(function (res) {
+  // }).then(function (res) {
     // console.log(res);
   });
   fetch(apiURL + '/tradedetails/'+CURRENT_TRADE_ID, {
@@ -576,7 +578,7 @@ async function cancelTrade() {
     headers: {
         'Content-Type': 'application/json'
     },
-  }).then(function (res) {
+  // }).then(function (res) {
     // console.log(res);
   });
   clearIntervals();
@@ -625,7 +627,7 @@ function finalizeAsSeller(check) {
     body: JSON.stringify(
         {sellerapproved: check})
   }).then(function (res) {
-    console.log(res);
+    // console.log(res);
     if(check) {
       FINALIZE_INTERVAL_REF = setInterval(finalizeCheck, 1000);
     }
@@ -734,8 +736,8 @@ async function updateUserData(data) {
         guilders: data.guilders,
         microresearchpoints: data.microresearchpoints,
         blurb: data.blurb})
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 }
 
@@ -745,7 +747,7 @@ async function createUser(user) {
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof student === 'undefined') {
-    console.log(user);
+    // console.log(user);
 
     // defaulting number based info 
     if (!user.admin) {
@@ -777,8 +779,8 @@ async function createUser(user) {
             microresearchpoints: user.microresearchpoints,
             blurb: user.blurb,
           }),
-    }).then(function(res) {
-      console.log(res);
+    // }).then(function(res) {
+    //   console.log(res);
     })
   } else {
     alert('User already exists.');
@@ -789,8 +791,8 @@ function deleteUser(username) {
   fetch(apiURL + '/users/'+username, {
     method: 'delete',
     mode: 'cors',
-  }).then(function(res) {
-    console.log(res);
+  // }).then(function(res) {
+  //   console.log(res);
   })
 }
 
@@ -806,7 +808,7 @@ async function createArtwork(artwork) {
   const myJson = await response.json();
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof artworkInDB === 'undefined') {
-    console.log(artwork);
+    // console.log(artwork);
 
     // defaulting number based info 
     if (!artwork.theoreticalprice) {
@@ -835,8 +837,8 @@ async function createArtwork(artwork) {
           owner: artwork.owner,
           url: artwork.url,
           rateable: artwork.rateable}),
-    }).then(function(res) {
-      console.log(res);
+    // }).then(function(res) {
+    //   console.log(res);
     })
   } else {
     alert('Artwork already exists.');
@@ -871,8 +873,8 @@ async function updateArtwork(data) {
         owner: data.owner,
         url: data.url,
         rateable: data.rateable})
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 }
 
@@ -880,8 +882,8 @@ function deleteArtwork(artwork) {
   fetch(apiURL + '/artworks/'+artwork, {
     method: 'delete',
     mode: 'cors',
-  }).then(function(res) {
-    console.log(res);
+  // }).then(function(res) {
+  //   console.log(res);
   })
 }
 
@@ -925,8 +927,8 @@ async function postMicroresearch(data) {
         username: data.username,
         information: data.information,
         timestamp: data.timestamp})
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 }
 
@@ -953,8 +955,8 @@ async function setBlurb(user, blurb) {
     },
     body: JSON.stringify(
         {blurb: blurb})
-  }).then(function (res) {
-    console.log(res);
+  // }).then(function (res) {
+  //   console.log(res);
   })
 }
 
@@ -969,8 +971,8 @@ async function resetGame() {
         headers: {
             'Content-Type': 'application/json'
         },
-      }).then(function (res) {
-        console.log(res);
+      // }).then(function (res) {
+      //   console.log(res);
       })
     }
   }
@@ -987,8 +989,8 @@ async function resetGame() {
       body: JSON.stringify({
         owner: ""
       })
-      }).then(function (res) {
-        console.log(res);
+      // }).then(function (res) {
+      //   console.log(res);
     })
 
     // remove all history
@@ -998,8 +1000,8 @@ async function resetGame() {
       headers: {
           'Content-Type': 'application/json'
       },
-    }).then(function (res) {
-      console.log(res);
+    // }).then(function (res) {
+    //   console.log(res);
     })
 
     // remove all microresearch
@@ -1009,8 +1011,8 @@ async function resetGame() {
       headers: {
           'Content-Type': 'application/json'
       },
-    }).then(function (res) {
-      console.log(res);
+    // }).then(function (res) {
+    //   console.log(res);
     })
 
     // remove all ratetable information
@@ -1020,8 +1022,8 @@ async function resetGame() {
       headers: {
           'Content-Type': 'application/json'
       },
-    }).then(function (res) {
-      console.log(res);
+    // }).then(function (res) {
+    //   console.log(res);
     })
 
   }
@@ -1036,8 +1038,8 @@ async function resetGame() {
         headers: {
             'Content-Type': 'application/json'
         },
-      }).then(function (res) {
-        console.log(res);
+      // }).then(function (res) {
+      //   console.log(res);
       })
     }
   }

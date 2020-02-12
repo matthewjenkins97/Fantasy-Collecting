@@ -26,7 +26,7 @@ function uploadFile(file) {
 
   xhr.addEventListener('readystatechange', function(e) {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      console.log("IMAGE SAVED");
+      // console.log("IMAGE SAVED");
       document.getElementById("status").innerHTML = xhr.responseText;
 
       // adding prompt which 
@@ -52,7 +52,7 @@ function uploadFile(file) {
 
     }
     else if (xhr.readyState === 4 && xhr.status !== 200) {
-      console.log("IMAGE UPLOAD FAILED");
+      // console.log("IMAGE UPLOAD FAILED");
       document.getElementById("status").innerHTML = "Something went wrong. Try uploading again.";
     }
   })
@@ -75,9 +75,9 @@ class ImageDrop extends React.Component{
       const imageDisplay = document.getElementById("imagebank");
       var images = await fetch("http://fantasycollecting.hamilton.edu/api/upload");
       images = await images.json();
-      console.log(images);
+      // console.log(images);
       for(var i in images.photos) {
-        console.log(images.photos[i]);
+        // console.log(images.photos[i]);
         var imageNode = document.createElement("p");
         imageNode.style.backgroundImage = "url('http://fantasycollecting.hamilton.edu/static/media/" + images.photos[i] + "')";
         imageNode.style.width = "200px";

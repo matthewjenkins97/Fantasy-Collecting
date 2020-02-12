@@ -54,11 +54,11 @@ class ChatApp extends Component {
 
 
     checkRoom(rooms, currentRoom){
-        console.log("CHECK ROOMS");
-        console.log(currentRoom);
+        // console.log("CHECK ROOMS");
+        // console.log(currentRoom);
         for (var thing in rooms){
-            console.log(rooms[thing]);
-            console.log(rooms[thing].id);
+            // console.log(rooms[thing]);
+            // console.log(rooms[thing].id);
             if (rooms[thing].id == currentRoom){
                 return;
             }
@@ -69,10 +69,10 @@ class ChatApp extends Component {
 
 
   componentDidMount() {
-    console.log("ROOOOOOONS");
-    console.log(this.state.currentUser.rooms);
-    console.log(this.state.otherUser);
-    console.log(this.state.currentUser);
+    // console.log("ROOOOOOONS");
+    // console.log(this.state.currentUser.rooms);
+    // console.log(this.state.otherUser);
+    // console.log(this.state.currentUser);
     let roomName = [this.state.otherUser, this.state.currentUser];
     roomName = roomName.sort().join("_") + "_room";
     if (this.state.general == "general") {
@@ -115,7 +115,7 @@ class ChatApp extends Component {
             //           })
             // })
             .then(currentUser => {
-                console.log(currentUser.rooms);
+                // console.log(currentUser.rooms);
                 //this.checkRoom(currentUser.rooms, roomName);
                 this.setState({ currentUser: currentUser })
                 return currentUser.subscribeToRoom({
@@ -140,8 +140,8 @@ class ChatApp extends Component {
     }
 
     sendMessage(text) {
-        console.log("SEND MESSAGE");
-        console.log(this.state.currentUser);
+        // console.log("SEND MESSAGE");
+        // console.log(this.state.currentUser);
         this.state.currentUser.sendMessage({
             roomId: this.state.currentRoomId,
             text
@@ -156,9 +156,9 @@ class ChatApp extends Component {
 
     render() {
         var userList = this.expandUsers(this);
-        for (var user in userList){
-            console.log(user);
-        }
+        // for (var user in userList){
+        //     console.log(user);
+        // }
         const styles = {
             container: {
               height: '100vh',

@@ -1,8 +1,8 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper'; 
+import Paper from '@material-ui/core/Paper';
 import * as serverfuncs from '../serverfuncs';
 
 var tileData = [];
@@ -10,14 +10,14 @@ var tileData = [];
 class AdminForm extends React.Component{
     constructor(props) {
       super(props);
-      document.body.className = "background";
+      document.body.className = 'background';
       this.state = {
         tileData: []
       }
       this.getArtworks();
     };
     async getAverageValue(ident) {
-      var ratings = await fetch("http://fantasycollecting.hamilton.edu/api/ratetable/");
+      var ratings = await fetch('http://fantasycollecting.hamilton.edu/api/ratetable/');
       ratings = await ratings.json();
       var average = 0;
       var numofratings = 0;
@@ -32,7 +32,7 @@ class AdminForm extends React.Component{
     }
     async getArtworks() {
       tileData = [];
-      var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
+      var images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
       images = await images.json();
       for(var i in images) {
         if(images[i].rateable === 1) { 
@@ -51,8 +51,8 @@ class AdminForm extends React.Component{
   
     render(){
       return (
-        <div style = {{color: "white"}}>
-          <Typography fontFamily="roboto" variant="h4" component="h4" style={{ 
+        <div style = {{color: 'white'}}>
+          <Typography fontFamily='roboto' variant='h4' component='h4' style={{ 
           textAlign: 'center',
           paddingTop: 20,
           paddingBottom: 10}}>Estimated Values</Typography>
@@ -61,8 +61,8 @@ class AdminForm extends React.Component{
               
               <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
               <Paper style={{ padding: 10 }}>
-                <Typography variant="h6" fontFamily="roboto" style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
-                <Typography variant="subtitle1" fontFamily="roboto" style={{marginLeft: 20}}>By: {tile.artist}</Typography>
+                <Typography variant='h6' fontFamily='roboto' style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
+                <Typography variant='subtitle1' fontFamily='roboto' style={{marginLeft: 20}}>By: {tile.artist}</Typography>
                 
                 <div style={{margin: 20,  }}>
                 <form>
@@ -81,18 +81,18 @@ class AdminForm extends React.Component{
           ))}
           <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>  
               <div>
-            <Button size="large" variant="contained" color="secondary" type="submit" value="Submit"
-            style={{fontSize: 20, backgroundColor: "#002f86", alignItem: 'center', margin: 20}}
+            <Button size='large' variant='contained' color='secondary' type='submit' value='Submit'
+            style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}}
             onClick = {async () => {
-              var images = await fetch("http://fantasycollecting.hamilton.edu/api/artworks/");
+              var images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
               images = await images.json();
               for(var i in images) {
                 if(images[i].rateable === 1) {
                   var tp = await this.getAverageValue(images[i].identifier);
                   tp*=100;
                   tp = Math.round(tp);
-                  console.log(tp);
-                  await fetch("http://fantasycollecting.hamilton.edu/api/artworks/"+images[i].identifier, 
+                  // console.log(tp);
+                  await fetch('http://fantasycollecting.hamilton.edu/api/artworks/'+images[i].identifier, 
                   {
                     method: 'put',
                     mode: 'cors',
@@ -105,7 +105,7 @@ class AdminForm extends React.Component{
                   });
                 }
               }
-              serverfuncs.showNotification("theoretical prices of artworks assigned")
+              serverfuncs.showNotification('theoretical prices of artworks assigned')
             }}>Create Theoretical Prices</Button> </div></View>
 
         </div>

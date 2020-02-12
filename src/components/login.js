@@ -52,17 +52,17 @@ export default class Login extends React.Component{
       alert("Username or password are incorrect. Please try again with correct credentials.")
     }
     else if(student.hash !== MD5(document.getElementById('lipassword').value)) {
-      console.log(student.hash);
-      console.log(MD5(document.getElementById('lipassword').value));
+      // console.log(student.hash);
+      // console.log(MD5(document.getElementById('lipassword').value));
       alert("Username or password are incorrect. Please try again with correct credentials.")
     } else {
-      console.log('login successful');
+      // console.log('login successful');
       localStorage.setItem('username', document.getElementById('liusername').value);
       localStorage.setItem('admin', student.admin);
       if (student.admin === 1) {
         this.setState({gotoadmin: true});
       } else {
-        console.log('changing state');
+        // console.log('changing state');
         this.setState({gotostudent: true});
       }
     }

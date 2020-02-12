@@ -52,7 +52,7 @@ export default class MaterialTableDemo extends React.Component {
                 currentView: 'chatApp'
             })
         } else {
-            console.log(err.status);
+            console.error(err.status);
         }
     });
 }

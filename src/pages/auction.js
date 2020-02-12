@@ -29,8 +29,8 @@ class AuctionPage extends Component {
       guilders: userlist[0].guilders
     })
     this.guilders = userlist[0].guilders;
-    console.log("GUILDERS IS IT HERE");
-    console.log(guilders)
+    // console.log("GUILDERS IS IT HERE");
+    // console.log(guilders)
   }
 
     render() {

@@ -2,7 +2,7 @@ import React from 'react';
 import MaterialTable from 'material-table';
 import * as serverfuncs from '../serverfuncs';
 import ImageDrop from './imagedrop';
-import "./backgroundlogin.css"
+import './backgroundlogin.css'
 
 var rows = [];
 var read = false;
@@ -26,7 +26,7 @@ export default class ArtworkTable extends React.Component {
     super(props);
     this.getRows();
     this.state = stateBeg; 
-    document.body.className = "background";
+    document.body.className = 'background';
   }
   async getRows() {
     rows = [];
@@ -54,7 +54,7 @@ export default class ArtworkTable extends React.Component {
       {read ? (
       <div>
       <MaterialTable
-        title="Artworks"
+        title='Artworks'
         columns={this.state.columns}
         data={this.state.data}
         editable={{

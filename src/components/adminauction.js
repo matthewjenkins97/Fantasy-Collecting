@@ -6,7 +6,7 @@ import * as serverfuncs from '../serverfuncs';
 import './backgroundlogin.css'
 
 class LotImage extends HTMLImageElement {
-  index=0;
+  index = 0;
   constructor() {
     super();
   }
@@ -129,8 +129,8 @@ class AuctionAdmin extends React.Component{
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
         const artworks = await serverfuncs.getAllArtworks();
-        console.log("all artworks");
-        console.log(artworks);
+        // console.log("all artworks");
+        // console.log(artworks);
         for(var lot in lots) {
           if(lots[lot].number.toString() === id.toString()) {
             for(var a in artworks) {
@@ -156,7 +156,6 @@ class AuctionAdmin extends React.Component{
       currentAuctions.push(addLotNode.id);
       currentAuctions.push(confirmNode.id);
       
-
       var auctionnumber = -1;
       for(const l in lots) {
 
@@ -170,7 +169,7 @@ class AuctionAdmin extends React.Component{
         deleteNode.style.position = "absolute";
         deleteNode.style.left = (auctionnumber*550).toString()+"px";
         deleteNode.onclick = async function() {
-          console.log(lots[l].identifier);
+          // console.log(lots[l].identifier);
           await auctionfuncs.deleteLot(lots[l].identifier);
           c_ref.loadAuctions();
         }

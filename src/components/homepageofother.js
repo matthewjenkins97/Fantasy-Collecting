@@ -36,7 +36,7 @@ class OtherGallery extends Component  {
   async getBlurb(user) {
     let userInfo = await serverfuncs.getUser(user);
     userInfo = userInfo[0];
-    console.log(userInfo.blurb)
+    // console.log(userInfo.blurb)
     document.getElementById("othergalleryblurb").innerHTML = userInfo.blurb;
   }
 

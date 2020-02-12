@@ -105,7 +105,7 @@ async function getRoomMessagesForThisUser(id) {
     rooms = await rooms.json();
     for(var room in rooms) {
         if(rooms[room].room.toString() === id.toString()) {
-            console.log(rooms[room].messagecount);
+            // console.log(rooms[room].messagecount);
             return rooms[room].messagecount;
         }
     }
@@ -178,7 +178,7 @@ class ChatMessage extends Component {
             await this.setUnread(cm.rooms);
             
             for (var i = 0; i < this.state.unread.length; i++){
-                console.log(this.state.unread[i]);
+                // console.log(this.state.unread[i]);
                 if (this.state.unread[i][0].toString() === "General") {
                     await setRoomCount("General", this.state.unread[i][1]);
                 }

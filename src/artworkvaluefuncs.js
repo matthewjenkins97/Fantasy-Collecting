@@ -8,8 +8,6 @@ async function sendRating(artwork, rating) {
     },
     body: JSON.stringify(
         {rating: rating})
-  }).then(function (res) {
-    console.log(res);
   })
 }
 
