@@ -68,6 +68,13 @@ router.put('/:id', json(), function(req, res, next) {
   res.sendStatus(200);
 });
 
+router.put('/:id/:room', json(), function(req, res, next) {
+  const messagecount = req.body.messagecount;
+  connection.execute(`UPDATE messages SET ${item} = ? WHERE username = ? AND room = ?`, [dbEntry[item], req.params.id, req.params.room]);
+  res.sendStatus(200);
+});
+
+
 router.delete('/:id', function(req, res, next) {
   connection.execute(`DELETE FROM messages WHERE username = ?`, [req.params.id], (err, results, fields) => {
     res.sendStatus(200);
