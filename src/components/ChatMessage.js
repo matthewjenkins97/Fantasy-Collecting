@@ -111,29 +111,56 @@ async function getRoomMessagesForThisUser(id) {
 }
 
 async function setRoomCount(id, count) {
-    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
-    rooms = await rooms.json();
-    await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
-        method: 'delete',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    });
-    for(var r in rooms) {
-        if(rooms[r].room.toString() === id.toString()) {
-            rooms[r].messagecount = count;
-        }
-        // console.log(rooms[r]);
+    const mroomcount = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
+    if(typeof mroomcount === "undefined") {
         await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
             method: 'post',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(rooms[r])
-        })
+            body: JSON.stringify({
+                username: localStorage.getItem('username'),
+                room: id,
+                messagecount: count
+            })
+        });
     }
+    else {
+        await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id, {
+            method: 'put',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                messagecount: count
+            })
+        });
+    }
+    // var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
+    // rooms = await rooms.json();
+    // await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
+    //     method: 'delete',
+    //     mode: 'cors',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    // });
+    // for(var r in rooms) {
+    //     if(rooms[r].room.toString() === id.toString()) {
+    //         rooms[r].messagecount = count;
+    //     }
+    //     // console.log(rooms[r]);
+    //     await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
+    //         method: 'post',
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(rooms[r])
+    //     })
+    // }
 }
 
 
