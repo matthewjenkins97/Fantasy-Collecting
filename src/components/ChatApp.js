@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { ChatManager, TokenProvider, ChatkitProvider } from '@pusher/chatkit-client';
 import MessageList from './MessageList';
 import Input from './Input';
+import {setRoomCount} from './ChatMessage.js'
 import * as serverfuncs from "../serverfuncs";
 import { default as Chatkit } from '@pusher/chatkit-server';
 
@@ -99,7 +100,7 @@ class ChatApp extends Component {
             url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
         })
     })
-    this.checkRoom();
+    //this.checkRoom();
     
 
     chatManager
@@ -133,13 +134,14 @@ class ChatApp extends Component {
             .catch(error => console.log(error))
     }
 
-    sendMessage(text) {
-        this.state.currentUser.sendMessage({
+    async sendMessage(text) {
+        await this.state.currentUser.sendMessage({
             roomId: this.state.currentRoomId,
             text
         })
-    }
+        setRoomCount(this.state.currentRoomId, this.state.messages.length+1);
 
+    }
 
     async expandUsers(ref) {
         var userList = await serverfuncs.getAllUsers();
@@ -151,7 +153,7 @@ class ChatApp extends Component {
         if (this.state.general == "general") {
             roomtitle = "General";
         }
-        var userList = this.expandUsers(this);
+        //var userList = this.expandUsers(this);
         const styles = {
             container: {
               height: '100vh',
@@ -176,19 +178,7 @@ class ChatApp extends Component {
               flexDirection: 'column',
             },
          }
-         //console.log(this.state.messages.length);
-                    return (
-                    //   <div style={styles.container}>
-                    //     <div style={styles.chatContainer}>
-                    //       <aside style={styles.whosOnlineListContainer}>
-                    //         <h2>Who's online PLACEHOLDER</h2>
-                    //       </aside>
-                    //       <section style={styles.chatListContainer}>
-                    //         <h2>Chat PLACEHOLDER</h2>
-                    //       </section>
-                    //     </div>
-                    //   </div>
-                    // )
+            return (
                 <div className="chatapp" style={{zIndex: 99}}>
                     {/* <div> */}
                     <h3 className="header">{roomtitle}</h3>

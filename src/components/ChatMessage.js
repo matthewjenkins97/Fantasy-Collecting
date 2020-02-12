@@ -6,7 +6,7 @@ import { View } from "react-native";
 import { ChatManager, TokenProvider, ChatkitProvider } from '@pusher/chatkit-client';
 import * as serverfuncs from '../serverfuncs'
 import './message.css';
-export {checkForMessages};
+export {checkForMessages, setRoomCount};
 
 // for connecting to chatrooms
 var chatManager;
@@ -59,8 +59,6 @@ async function checkForMessages() {
             continue;
         }
         var num = await getRoomMessagesForThisUser(cm.rooms[r].name);
-        console.log("there are "+num+" messages for user");
-        console.log("there are "+cm.rooms[r].unreadCount+" unread messages in room");
         if(num < cm.rooms[r].unreadCount) {
             areMessages = true;
             document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(" ")[0] + " !";
@@ -78,29 +76,8 @@ async function checkForMessages() {
     }catch{}
 }
 
-async function postRoomData(name) {
-    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
-    rooms = await rooms.json();
-    for(var r in rooms) {
-        if(typeof name === 'undefined') return;
-        if(rooms[r].room.toString() === name.toString()) return;
-    }
-    await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
-        method: 'post',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "username": localStorage.getItem('username'),
-            "room": name.toString(),
-            "messagecount": 0,
-        })
-    })
-}
-
 async function getRoomMessagesForThisUser(id) {
-    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
+    var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
     rooms = await rooms.json();
     for(var room in rooms) {
         if(rooms[room].room.toString() === id.toString()) {
@@ -110,9 +87,11 @@ async function getRoomMessagesForThisUser(id) {
     return -1;
 }
 
+// set room count for one room
 async function setRoomCount(id, count) {
-    const mroomcount = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
-    if(typeof mroomcount === "undefined") {
+    let mroomcount = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
+    mroomcount = await mroomcount.json();
+    if(mroomcount.length === 0) {
         await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
             method: 'post',
             mode: 'cors',
@@ -138,29 +117,6 @@ async function setRoomCount(id, count) {
             })
         });
     }
-    // var rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'));
-    // rooms = await rooms.json();
-    // await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
-    //     method: 'delete',
-    //     mode: 'cors',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    // });
-    // for(var r in rooms) {
-    //     if(rooms[r].room.toString() === id.toString()) {
-    //         rooms[r].messagecount = count;
-    //     }
-    //     // console.log(rooms[r]);
-    //     await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
-    //         method: 'post',
-    //         mode: 'cors',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(rooms[r])
-    //     })
-    // }
 }
 
 
@@ -255,51 +211,51 @@ class ChatMessage extends Component {
 
         // called in constructor
         async managechats(){
-            chatManager = new ChatManager({
-                instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-                userId: localStorage.getItem('username').toString(),
-                tokenProvider: new TokenProvider({
-                    url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
-                })
-            })
-            var cm = await chatManager.connect();
-            for(var r in cm.rooms) {
-                if(typeof cm.rooms[r] !== 'undefined') {
-                    //await postRoomData(cm.rooms[r].name);
-                }
-            }
-            //await postRoomData("General");
-            //await this.setUnread(cm.rooms);
+            // chatManager = new ChatManager({
+            //     instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
+            //     userId: localStorage.getItem('username').toString(),
+            //     tokenProvider: new TokenProvider({
+            //         url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
+            //     })
+            // })
+            // var cm = await chatManager.connect();
+            // for(var r in cm.rooms) {
+            //     if(typeof cm.rooms[r] !== 'undefined') {
+            //         //await postRoomData(cm.rooms[r].name);
+            //     }
+            // }
+            // //await postRoomData("General");
+            // //await this.setUnread(cm.rooms);
         }
 
-        async chatnumber(otheruser){
-            let roomName = [otheruser, localStorage.getItem('username')];
-            roomName = roomName.sort().join("_") + "_room";
-            if (otheruser == "General"){
-                roomName = "642a21e5-92e6-42fd-8966-b4a151d7ea94";
-            }
-            var cm = await chatManager.connect();
-            for(var room in cm.rooms) {
-                if(cm.rooms[room].id === roomName) {
-                    //console.log(cm.rooms[room].unreadCount);
-                    //var userm;
-                    if(otheruser === "General") {
-                        //var userm = await getRoomMessagesForThisUser("General");
-                    }
-                    else {
-                        //var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
-                    }
-                    // console.log(cm.rooms[room].id);
-                    // console.log(userm);
-                    // if(userm < cm.rooms[room].unreadCount && userm !== -1) {
-                    //     return " !";
-                    // }
-                    // else {
-                        return "";
-                    //}
-                }
-            }
-        }
+        // async chatnumber(otheruser){
+        //     let roomName = [otheruser, localStorage.getItem('username')];
+        //     roomName = roomName.sort().join("_") + "_room";
+        //     if (otheruser == "General"){
+        //         roomName = "642a21e5-92e6-42fd-8966-b4a151d7ea94";
+        //     }
+        //     var cm = await chatManager.connect();
+        //     for(var room in cm.rooms) {
+        //         if(cm.rooms[room].id === roomName) {
+        //             //console.log(cm.rooms[room].unreadCount);
+        //             //var userm;
+        //             if(otheruser === "General") {
+        //                 //var userm = await getRoomMessagesForThisUser("General");
+        //             }
+        //             else {
+        //                 //var userm = await getRoomMessagesForThisUser(cm.rooms[room].id);
+        //             }
+        //             // console.log(cm.rooms[room].id);
+        //             // console.log(userm);
+        //             // if(userm < cm.rooms[room].unreadCount && userm !== -1) {
+        //             //     return " !";
+        //             // }
+        //             // else {
+        //                 return "";
+        //             //}
+        //         }
+        //     }
+        // }
 
         async componentDidMount() {
             await this.getUsers();
@@ -325,7 +281,7 @@ class ChatMessage extends Component {
             var buttonnode = document.createElement("a");
             buttonnode.style.padding = "0px 0px 5px 0px"
             buttonnode.id = "General";
-            buttonnode.innerHTML = "General Room";
+            buttonnode.innerHTML = "General";
             buttonnode.onclick = function() { 
                 c_ref.changeView(c_ref.state.currentView);
             }
