@@ -5,9 +5,9 @@ import Notification from "./notification";
 import "./backgroundlogin.css";
 
 class TradeDetails extends HTMLElement {
-  index=0;
-  numofdetails=0;
-  expanded=false;
+  index = 0;
+  numofdetails = 0;
+  expanded = false;
   constructor() {
     super();
   }

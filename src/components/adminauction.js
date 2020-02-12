@@ -14,11 +14,11 @@ class LotImage extends HTMLImageElement {
 
 customElements.define('lot-image', LotImage, {extends: 'img'});
 
-var currentLotId;
+let currentLotId;
 
-var currentLotName;
+let currentLotName;
 
-var currentAuctions = [];
+let currentAuctions = [];
 
 function closeCreateDropdown() {
   document.getElementById("createauctiondropdown").style.top = "-200px";
@@ -47,8 +47,8 @@ async function addLotToAuction() {
 
 async function loadArtworksForLot() {
   const artworks = await serverfuncs.getAllArtworks();
-  for(var a in artworks) {
-    var buttonNode = document.createElement("p");
+  for(let a in artworks) {
+    let buttonNode = document.createElement("p");
     buttonNode.innerHTML = artworks[a].identifier;
     buttonNode.onclick = function() {
       document.getElementById("addlotname").innerHTML = this.innerHTML;
@@ -70,7 +70,7 @@ class AuctionAdmin extends React.Component{
     }
 
     async loadAuctions() {
-      for(var a in currentAuctions) {
+      for(let a in currentAuctions) {
         try {
           document.getElementById(currentAuctions[a]).remove();
         }catch{}
@@ -78,25 +78,25 @@ class AuctionAdmin extends React.Component{
 
       currentAuctions = [];
 
-      var auctions = await auctionfuncs.getAllAuctions();
+      let auctions = await auctionfuncs.getAllAuctions();
 
       try{document.getElementById("bnode").remove()}catch{}
-      var buttonNode = document.createElement("button");
+      let buttonNode = document.createElement("button");
       buttonNode.onclick = () => openCreateDropdown();
       buttonNode.className = "createButton";
       buttonNode.innerHTML = "Create Auction...";
       buttonNode.id = "bnode";
       document.getElementById("abutton").appendChild(buttonNode);
 
-      var lots = await auctionfuncs.getAllLots();
-      for(var auction in auctions) {
+      let lots = await auctionfuncs.getAllLots();
+      for(let auction in auctions) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
       }
       this.forceUpdate();
     }
 
     async loadLots(title, id, lots, c_ref) {
-      var titleNode = document.createElement("p");
+      let titleNode = document.createElement("p");
       titleNode.id = "titlenode"+id;
       titleNode.innerHTML = title;
       document.getElementById("auctions").append(titleNode);
@@ -107,7 +107,7 @@ class AuctionAdmin extends React.Component{
       titleNode.style.width = "20%";
       titleNode.style.padding = "5px";
 
-      var addLotNode = document.createElement("button");
+      let addLotNode = document.createElement("button");
       addLotNode.id = id;
       addLotNode.innerHTML = "Create Lot"
       addLotNode.onclick = function () {
@@ -115,7 +115,7 @@ class AuctionAdmin extends React.Component{
       };
       document.getElementById("auctions").append(addLotNode);
 
-      var deleteNode = document.createElement("button");
+      let deleteNode = document.createElement("button");
       deleteNode.id = "deletNode"+id;
       deleteNode.innerHTML = "Delete Auction"
       deleteNode.onclick = async function () {
@@ -124,16 +124,16 @@ class AuctionAdmin extends React.Component{
       };
       document.getElementById("auctions").append(deleteNode);
 
-      var confirmNode = document.createElement("button");
+      let confirmNode = document.createElement("button");
       confirmNode.id = "confirmNode"+id;
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
         const artworks = await serverfuncs.getAllArtworks();
         // console.log("all artworks");
         // console.log(artworks);
-        for(var lot in lots) {
+        for(let lot in lots) {
           if(lots[lot].number.toString() === id.toString()) {
-            for(var a in artworks) {
+            for(let a in artworks) {
               if(artworks[a].identifier.toString() === lots[lot].identifier.toString()) {
                 await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, artworks[a].owner, lots[lot].highestbid);
               }
@@ -145,7 +145,7 @@ class AuctionAdmin extends React.Component{
       };
       document.getElementById("auctions").append(confirmNode);
 
-      var auctionnode = document.createElement("div");
+      let auctionnode = document.createElement("div");
       auctionnode.className = "auctionscroll";
       auctionnode.id = "auctionscroll"+id.toString();
       document.getElementById("auctions").append(auctionnode);
@@ -156,15 +156,15 @@ class AuctionAdmin extends React.Component{
       currentAuctions.push(addLotNode.id);
       currentAuctions.push(confirmNode.id);
       
-      var auctionnumber = -1;
+      let auctionnumber = -1;
       for(const l in lots) {
 
         if(lots[l].number != id) continue;
         auctionnumber++;
         const source_of_image = await serverfuncs.getArtworkInfo(lots[l].identifier);
-        var auction_scroll = auctionnode;
+        let auction_scroll = auctionnode;
 
-        var deleteNode = document.createElement("button");
+        let deleteNode = document.createElement("button");
         deleteNode.innerHTML = "Delete Lot";
         deleteNode.style.position = "absolute";
         deleteNode.style.left = (auctionnumber*550).toString()+"px";
@@ -176,7 +176,7 @@ class AuctionAdmin extends React.Component{
         auction_scroll.appendChild(deleteNode);
 
 
-        var imagenode = document.createElement("img", {is: 'lot-image'});
+        let imagenode = document.createElement("img", {is: 'lot-image'});
         imagenode.id = "auction_pic"+l.toString();
         imagenode.index = auctionnumber;
         imagenode.src = source_of_image.url;
@@ -204,7 +204,7 @@ class AuctionAdmin extends React.Component{
         }
         auction_scroll.appendChild(imagenode);
     
-        var textnode = document.createElement("a");
+        let textnode = document.createElement("a");
         textnode.innerHTML =
         "<pre>"+
         "LOT "+auctionnumber.toString()+
@@ -224,15 +224,15 @@ class AuctionAdmin extends React.Component{
     }
 
     async confirmBid() {
-      var lots = await auctionfuncs.getAllLots();
-      for(var l in lots) {
+      let lots = await auctionfuncs.getAllLots();
+      for(let l in lots) {
         if(lots[l].identifier === currentLotName) {
           if(parseInt(document.getElementById("userbid").value) <= parseInt(lots[l].highestbid)) {
             serverfuncs.showNotification("bid must be higher than previous bid");
             return;
           }
-          var users = await serverfuncs.getAllUsers();
-          for(var u in users) {
+          let users = await serverfuncs.getAllUsers();
+          for(let u in users) {
             if(users[u].username === localStorage.getItem("username")) {
               if(parseInt(document.getElementById("userbid").value) > users[u].guilders) {
                 serverfuncs.showNotification("you do not have enough guilders to post this bid");
