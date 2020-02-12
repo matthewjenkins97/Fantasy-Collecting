@@ -3,7 +3,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-//import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-
 
 export default function DenseAppBar() {
   const classes = useStyles();
