@@ -8,14 +8,8 @@ import * as serverfuncs from '../serverfuncs'
 import './message.css';
 export {checkForMessages};
 
-var chatManager;// = new ChatManager({
-//     instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-//     userId: localStorage.getItem('username').toString(),
-//     //userId: this.props.currentId,
-//     tokenProvider: new TokenProvider({
-//         url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
-//     })
-// });
+// for connecting to chatrooms
+var chatManager;
 
 // initializing the chatkit connection to server
 const chatkit = new Chatkit({
@@ -38,6 +32,7 @@ function closeNav() {
     document.getElementById("messagealert").style.left = "180px";
 }
 
+// called every few seconds to check for new messages
 async function checkForMessages() {
 
     if(typeof localStorage.getItem('username') === 'undefined' || localStorage.getItem('username') === null) return;
@@ -59,10 +54,15 @@ async function checkForMessages() {
     try {
     for(var r in cm.rooms) {
         try{
-            console.log(document.getElementById(cm.rooms[r].name).innerHTML.toString);
-        }catch{continue;}
+            var nan = document.getElementById(cm.rooms[r].name).innerHTML.toString();
+            nan = nan;
+        }catch{
+            continue;
+        }
         var num = await getRoomMessagesForThisUser(cm.rooms[r].name);
-        if(num < cm.rooms[r].unreadCount ) {
+        console.log("there are "+num+" messages for user");
+        console.log("there are "+cm.rooms[r].unreadCount+" unread messages in room");
+        if(num < cm.rooms[r].unreadCount) {
             areMessages = true;
             document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(" ")[0] + " !";
         }
@@ -156,7 +156,6 @@ class ChatMessage extends Component {
         }
 
         async getUsers(){
-            
             var userlist = await serverfuncs.getAllUsers();
             this.setState({
                 userList: userlist
@@ -174,12 +173,14 @@ class ChatMessage extends Component {
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
                 })
             })
+
             var cm = await chatManager.connect();
-            //await this.setUnread(cm.rooms);
+            await this.setUnread(cm.rooms);
+            
             for (var i = 0; i < this.state.unread.length; i++){
                 console.log(this.state.unread[i]);
                 if (this.state.unread[i][0].toString() === "General") {
-                    //setRoomCount("General", this.state.unread[i][1]);
+                    await setRoomCount("General", this.state.unread[i][1]);
                 }
             }
         }
@@ -197,8 +198,10 @@ class ChatMessage extends Component {
                     url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
                 })
             })
+
             var cm = await chatManager.connect();
-            //await this.setUnread(cm.rooms);
+            await this.setUnread(cm.rooms);
+
             let roomName = [otheruser, localStorage.getItem('username')];
             roomName = roomName.sort().join("_") + "_room";
             if(otheruser === "General") roomName = "General";
@@ -206,7 +209,7 @@ class ChatMessage extends Component {
                 for (var i = 0; i < this.state.unread.length; i++){
                     if (this.state.unread[i][0].toString() === roomName){
                         console.log(this.state.unread[i]);
-                        //setRoomCount(roomName, this.state.unread[i][1]);
+                        await setRoomCount(roomName, this.state.unread[i][1]);
                     }
                 }
             }
@@ -233,6 +236,7 @@ class ChatMessage extends Component {
             // }
         }
 
+        // called in constructor
         async managechats(){
             chatManager = new ChatManager({
                 instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
@@ -247,10 +251,10 @@ class ChatMessage extends Component {
             var cm = await chatManager.connect();
             for(var r in cm.rooms) {
                 if(typeof cm.rooms[r] !== 'undefined') {
-                await postRoomData(cm.rooms[r].name);
+                    await postRoomData(cm.rooms[r].name);
                 }
             }
-            await postRoomData("General")
+            await postRoomData("General");
             await this.setUnread(cm.rooms);
         }
 
@@ -330,7 +334,6 @@ class ChatMessage extends Component {
         render() {
             return (
                 <div>
-
                     <div style={{zIndex: 1, position: "fixed"}}>
                         <p id = "messagebutt" onClick = {openNav} className = "messageButton">Message Users
                         </p>
@@ -359,14 +362,13 @@ class ChatMessage extends Component {
                         </View>
                         <div>
                             {/* style={{color: "white"}} */}
-
                             {/* <MailIcon  style={{position: 'absolute', top: 240}} onClick={() => this.changeView(this.state.currentView)} /> */}
                             { this.state.currentView ? (<div className="App"><div className="form-container">
-                        <ChatApp general="general" style={{position: "fixed", flex: 1}}/>
-                    </div></div>) : (null) }
+                                <ChatApp general="general" style={{position: "fixed", flex: 1}}/>
+                                </div></div>) : (null) }
                             { this.state.chatView ? (<div className="App"><div className="form-container">
-                        <ChatApp otherUser={this.state.otherChatter.split(' ')[0]} style={{position: "fixed",flex: 1}}/>
-                    </div></div>) : (null) }
+                                <ChatApp otherUser={this.state.otherChatter.split(' ')[0]} style={{position: "fixed",flex: 1}}/>
+                                </div></div>) : (null) }
                         </div>
                 </div>
             </div>
