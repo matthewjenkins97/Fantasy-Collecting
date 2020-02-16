@@ -31,8 +31,11 @@ function uploadFile(file) {
       // adding prompt which allows for autocreation of artwork based on photo name
       if (window.confirm('Upload successful! Do you want to turn this photo into an artwork for the game?')) {
         // file.name - convert to all lowercase and remove the ending
+        // remove illegal characters - defined as the following:
+        //
         let identifier = file.name;
         identifier = identifier.replace(/\.[^/.]+$/, '');
+        identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/, '');
         identifier = identifier.toLowerCase();
 
         // generate url

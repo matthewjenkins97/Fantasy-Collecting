@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import './notification.css';
 
 class Notification extends React.PureComponent {
@@ -8,14 +8,12 @@ class Notification extends React.PureComponent {
 
   render() {
     return (
-    
-    <div id = "notification" className = "notification">
-      notification
-    </div>
-    
-    )
+      <div id = 'notification' className = 'notification'>
+        notification
+      </div>
+    );
   }
 }
 
-export default Notification
+export default Notification;
 

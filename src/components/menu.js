@@ -4,16 +4,15 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '../static/menuIcon.png';
 import './backgroundlogin.css';
-var anchorEl;
-var setAnchorEl; 
+let anchorEl;
+let setAnchorEl;
 
 export default class SimpleMenu extends React.Component {
   constructor(props) {
     super(props);
     [anchorEl, setAnchorEl]= React.useState(null);
-    document.body.className = "background";
+    document.body.className = 'background';
   }
-  
 
   handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -24,13 +23,13 @@ export default class SimpleMenu extends React.Component {
   }
 
   render() {
-      return (
+    return (
       <div>
-        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+        <Button aria-controls='simple-menu' aria-haspopup='true' onClick={this.handleClick}>
           <img src={MenuIcon} />
         </Button>
         <Menu
-          id="simple-menu"
+          id='simple-menu'
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}

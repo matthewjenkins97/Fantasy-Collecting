@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   typography: {
     padding: theme.spacing(2),
   },
@@ -16,7 +16,7 @@ export default function SimplePopper(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
@@ -29,7 +29,7 @@ export default function SimplePopper(props) {
         Microresearch
       </Button>
       <Popper id={id} open={open} anchorEl={anchorEl} transition>
-        {({ TransitionProps }) => (
+        {({TransitionProps}) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper style={{width: 500}}>
 

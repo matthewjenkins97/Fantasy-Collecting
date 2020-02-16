@@ -5,7 +5,7 @@ import './tradewindow.css'
 export { addTrades, currentTradeIds, openTrade, closeTrade, populateUserTradeFields }
 
 class IndexElem extends HTMLElement {
-  indexValue=0;
+  indexValue = 0;
   constructor() {  
     super();
   }

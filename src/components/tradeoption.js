@@ -1,6 +1,4 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import * as serverfuncs from '../serverfuncs';
+import React from 'react';
 
 class TradeOption extends React.PureComponent {
   constructor(props) {
@@ -8,8 +6,8 @@ class TradeOption extends React.PureComponent {
   }
 
   render() {
-    return (<div><button onClick = {() => window.resizeTo(400, 400)} >Accept</button><button onClick = {window.close}>Decline</button></div>)
+    return (<div><button onClick = {() => window.resizeTo(400, 400)} >Accept</button><button onClick = {window.close}>Decline</button></div>);
   }
 }
 
-export default TradeOption
+export default TradeOption;

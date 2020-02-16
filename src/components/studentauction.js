@@ -9,11 +9,11 @@ import TradeWindow from './tradewindow';
 import './auctions.css'
 
 
-var currentLotId;
+let currentLotId;
 
-var currentLotName;
+let currentLotName;
 
-var currentAuctions = [];
+let currentAuctions = [];
 
 function closeCreateDropdown() {
   document.getElementById("createauctiondropdown").style.top = "-200px";
@@ -42,8 +42,8 @@ async function addLotToAuction() {
 
 async function loadArtworksForLot() {
   const artworks = await serverfuncs.getAllArtworks();
-  for(var a in artworks) {
-    var buttonNode = document.createElement("p");
+  for(let a in artworks) {
+    let buttonNode = document.createElement("p");
     buttonNode.innerHTML = artworks[a].identifier;
     buttonNode.onclick = function() {
       document.getElementById("addlotname").innerHTML = this.innerHTML;
@@ -65,25 +65,27 @@ class AuctionStudent extends React.Component{
     }
 
     async loadAuctions() {
-      for(var a in currentAuctions) {
+      for(let a in currentAuctions) {
         try {
           document.getElementById(currentAuctions[a]).remove();
-        }catch{}
+        } catch {
+          //pass
+        }
       }
 
-      currentAuctions = [];
+      let currentAuctions = [];
 
-      var auctions = await auctionfuncs.getAllAuctions();
+      let auctions = await auctionfuncs.getAllAuctions();
 
-      var lots = await auctionfuncs.getAllLots();
-      for(var auction in auctions) {
+      let lots = await auctionfuncs.getAllLots();
+      for(let auction in auctions) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
       }
       this.forceUpdate();
     }
 
     async loadLots(title, id, lots, c_ref) {
-      var titleNode = document.createElement("p");
+      let titleNode = document.createElement("p");
       titleNode.id = "titlenode"+id;
       titleNode.innerHTML = title;
       document.getElementById("auctions").append(titleNode);
@@ -95,7 +97,7 @@ class AuctionStudent extends React.Component{
       titleNode.style.padding = "5px";
 
 
-      var auctionnode = document.createElement("div");
+      let auctionnode = document.createElement("div");
       auctionnode.className = "auctionscroll";
       auctionnode.id = "auctionscroll"+id.toString();
       document.getElementById("auctions").append(auctionnode);
@@ -104,15 +106,15 @@ class AuctionStudent extends React.Component{
       currentAuctions.push(titleNode.id);
       
 
-      var auctionnumber = -1;
+      let auctionnumber = -1;
       for(const l in lots) {
 
         if(lots[l].number != id) continue;
         auctionnumber++;
         const source_of_image = await serverfuncs.getArtworkInfo(lots[l].identifier);
-        var auction_scroll = auctionnode;
+        let auction_scroll = auctionnode;
 
-        // var deleteNode = document.createElement("button");
+        // let deleteNode = document.createElement("button");
         // deleteNode.innerHTML = "Delete Lot";
         // deleteNode.style.position = "absolute";
         // deleteNode.style.left = (auctionnumber*550).toString()+"px";
@@ -124,7 +126,7 @@ class AuctionStudent extends React.Component{
         // auction_scroll.appendChild(deleteNode);
 
 
-        var imagenode = document.createElement("img", {is: 'lot-image'});
+        let imagenode = document.createElement("img", {is: 'lot-image'});
         imagenode.id = "auction_pic"+l.toString();
         imagenode.index = auctionnumber;
         imagenode.src = source_of_image.url;
@@ -152,7 +154,7 @@ class AuctionStudent extends React.Component{
         }
         auction_scroll.appendChild(imagenode);
     
-        var textnode = document.createElement("a");
+        let textnode = document.createElement("a");
         textnode.innerHTML =
         "<pre>"+
         "LOT "+auctionnumber.toString()+
@@ -172,15 +174,15 @@ class AuctionStudent extends React.Component{
     }
 
     async confirmBid() {
-      var lots = await auctionfuncs.getAllLots();
-      for(var l in lots) {
+      let lots = await auctionfuncs.getAllLots();
+      for(let l in lots) {
         if(lots[l].identifier === currentLotName) {
           if(parseInt(document.getElementById("userbid").value) <= parseInt(lots[l].highestbid)) {
             serverfuncs.showNotification("bid must be higher than previous bid");
             return;
           }
-          var users = await serverfuncs.getAllUsers();
-          for(var u in users) {
+          let users = await serverfuncs.getAllUsers();
+          for(let u in users) {
             if(users[u].username === localStorage.getItem("username")) {
               if(parseInt(document.getElementById("userbid").value) > users[u].guilders) {
                 serverfuncs.showNotification("you do not have enough guilders to post this bid");
@@ -197,7 +199,7 @@ class AuctionStudent extends React.Component{
       );
     }
   
-    render(){
+    render() {
       return (
         <div>
           <div><OtherGallery/></div>
@@ -309,4 +311,4 @@ class AuctionStudent extends React.Component{
     }
 }
 
-export default AuctionStudent
+export default AuctionStudent;

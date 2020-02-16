@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const busboy = require("connect-busboy")
-const fs = require('fs')
+const busboy = require('connect-busboy');
+const fs = require('fs');
 
 router.use(busboy());
 
@@ -13,15 +13,20 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
   if (req.busboy) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      let fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename); 
+      // converting illegal HTML characters into legal characters
+      // if data is not sanitized then it could cause problems for mysql downline
+      if (filename.includes(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`…]/)) {
+        filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`…]/, '_');
+      }
+      const fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename);
       file.pipe(fstream);
-      fstream.on('close', function () {
+      fstream.on('close', function() {
         res.send(`Upload succeeded! Your file is located at http://fantasycollecting.hamilton.edu/static/media/${filename}.`);
       });
     });
   }
 
-  return req.pipe(req.busboy); 
+  return req.pipe(req.busboy);
 });
 
 module.exports = router;
