@@ -35,7 +35,7 @@ function uploadFile(file) {
         //
         let identifier = file.name;
         identifier = identifier.replace(/\.[^/.]+$/, '');
-        identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/, '');
+        identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '');
         identifier = identifier.toLowerCase();
 
         // generate url
