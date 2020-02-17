@@ -12,6 +12,20 @@
   z-index: 1;
 }
 
+.galleryDropdownAdmin {
+  color: white;
+  overflow: scroll;
+  position: absolute;
+  align-content: center;
+  height: 600px;
+  width: 800px;
+  top: -600px;
+  transition: top .5s;
+  left: 200px;
+  background-color: #002f86;
+  z-index: 100;
+}
+
 .tradeTableDropdown {
   color: white;
   overflow: scroll;
@@ -29,6 +43,20 @@
   border-radius: 5px;
   left: 10px;
   top: 105px;
+  position: fixed; 
+  transition: left .5s;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: #002f86;
+  color: white;
+  padding: 10px 10px 10px 10px;
+}
+
+.galleryButtonAdmin {
+  border-radius: 5px;
+  left: 10px;
+  top: 55px;
   position: fixed; 
   transition: left .5s;
   font-size: 20px;

@@ -15,10 +15,14 @@ router.post('/', function(req, res) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       // converting illegal HTML characters into legal characters
       // if data is not sanitized then it could cause problems for mysql downline
-      if (filename.includes(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`…]/)) {
-        filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`…]/, '_');
+      if (/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/.test(filename)) {
+        filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
       }
       const fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename);
+
+      // for debug purposes.
+      // const fstream = fs.createWriteStream('/Users/matthewjenkins97/Developer/SeniorProject/api/uploads/' + filename);
+
       file.pipe(fstream);
       fstream.on('close', function() {
         res.send(`Upload succeeded! Your file is located at http://fantasycollecting.hamilton.edu/static/media/${filename}.`);

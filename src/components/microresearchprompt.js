@@ -8,9 +8,9 @@ export default class MicroresearchPrompt extends React.Component {
     super(props);
 
     // needs to be done for divid to be preserved
-    this.lowerTable = this.lowerTable.bind(this)
-    this.raiseTable = this.raiseTable.bind(this)
-    this.submitMicroresearch = this.submitMicroresearch.bind(this)
+    this.lowerTable = this.lowerTable.bind(this);
+    this.raiseTable = this.raiseTable.bind(this);
+    this.submitMicroresearch = this.submitMicroresearch.bind(this);
     this.render = this.render.bind(this);
 
     this.textid = this.props.identifier + 'MicroresearchPromptText';
@@ -31,7 +31,7 @@ export default class MicroresearchPrompt extends React.Component {
       username: localStorage.getItem('username'),
       identifier: this.identifier,
       information: document.getElementById(this.textid).value,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     serverfuncs.postMicroresearch(data);
