@@ -808,8 +808,6 @@ async function createArtwork(artwork) {
   const myJson = await response.json();
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
   if (typeof artworkInDB === 'undefined') {
-    // console.log(artwork);
-
     // defaulting number based info 
     if (!artwork.theoreticalprice) {
       artwork.theoreticalprice = 0;
@@ -819,6 +817,15 @@ async function createArtwork(artwork) {
     }
     if (!artwork.rateable) {
       artwork.rateable = 0;
+    }
+    if(!artwork.title) {
+      artwork.title = "...";
+    }
+    if(!artwork.artist) {
+      artwork.artist = "...";
+    }
+    if(!artwork.owner) {
+      artwork.artist = "...";
     }
 
     fetch(apiURL + '/artworks/', {
