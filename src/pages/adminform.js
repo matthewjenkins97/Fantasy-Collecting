@@ -49,26 +49,25 @@ function SimpleMenu() {
 }
 
 const FormPage = () => {
-        return(
-            <div>
-                <Notification/>
-                <AppBar position='fixed' style = {{backgroundColor: '#002f86'}}>
-                    <Toolbar variant='dense'>
-                        {SimpleMenu()}
-                        <Typography variant='h6' color='inherit'>
-                            Fantasy Collecting -&nbsp;
-                        </Typography>
-                        <Typography variant='h6' color='inherit'>
-                          {localStorage.getItem('username')}
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <br></br>
-                <br></br>
-                <AdminForm />
-            </div>
-        )
-    
-}
+  return (
+    <div>
+      <Notification/>
+      <AppBar position='fixed' style = {{backgroundColor: '#002f86'}}>
+        <Toolbar variant='dense'>
+          {SimpleMenu()}
+          <Typography variant='h6' color='inherit'>
+              Fantasy Collecting -&nbsp;
+          </Typography>
+          <Typography variant='h6' color='inherit'>
+            {localStorage.getItem('username')}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <br></br>
+      <br></br>
+      <AdminForm />
+    </div>
+  );
+};
 
-export default FormPage
+export default FormPage;

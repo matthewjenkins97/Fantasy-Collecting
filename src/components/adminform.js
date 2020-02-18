@@ -87,7 +87,7 @@ class AdminForm extends React.Component {
               for (const i in images) {
                 if (images[i].rateable === 1) {
                   let tp = await this.getAverageValue(images[i].identifier);
-                  tp*=100;
+                  tp *= 100;
                   tp = Math.round(tp);
                   // console.log(tp);
                   await fetch('http://fantasycollecting.hamilton.edu/api/artworks/'+images[i].identifier,
@@ -104,7 +104,9 @@ class AdminForm extends React.Component {
                 }
               }
               serverfuncs.showNotification('theoretical prices of artworks assigned');
-            }}>Create Theoretical Prices</Button> </div></View>
+
+              serverfuncs.shuffleArtworks();
+            }}>Create Theoretical Prices and Shuffle Artworks</Button> </div></View>
       </div>
     );
   }

@@ -23,7 +23,6 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
   if (!req.body.identifier) {
@@ -39,7 +38,7 @@ router.post('/', json(), function(req, res, next) {
       req.body.actualprice,
       req.body.owner,
       req.body.url,
-      req.body.rateable
+      req.body.rateable,
     ];
 
     for (const i in dbEntry) {
@@ -61,6 +60,7 @@ router.post('/', json(), function(req, res, next) {
 
 router.put('/:id', json(), function(req, res, next) {
   const dbEntry = {
+    identifier: req.body.identifier,
     title: req.body.title,
     artist: req.body.artist,
     year: req.body.year,
@@ -68,7 +68,7 @@ router.put('/:id', json(), function(req, res, next) {
     actualprice: req.body.actualprice,
     owner: req.body.owner,
     url: req.body.url,
-    rateable: req.body.rateable
+    rateable: req.body.rateable,
   };
 
   for (const item of Object.keys(dbEntry)) {
