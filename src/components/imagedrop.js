@@ -35,11 +35,13 @@ function uploadFile(file) {
         //
         let identifier = file.name;
         identifier = identifier.replace(/\.[^/.]+$/, '');
-        identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/, '');
+        identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
         identifier = identifier.toLowerCase();
 
+        let url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
+
         // generate url
-        const url = 'http://fantasycollecting.hamilton.edu/static/media/' + file.name;
+        url = 'http://fantasycollecting.hamilton.edu/static/media/' + url;
 
         // make artwork
         const artworkData = {

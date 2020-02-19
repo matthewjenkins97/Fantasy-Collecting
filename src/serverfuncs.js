@@ -16,7 +16,7 @@ export {updateArtwork, deleteArtwork, getArtworkInfo,
   getTrades, approveTrade, denyTrade, getUser, setBlurb,
   removeArtworkFromTrade,
   showNotification, hideNotification, resetGame,
-clearApproval};
+  clearApproval, shuffleArtworks};
 
 /*
 
@@ -1052,4 +1052,43 @@ async function resetGame() {
   }
 
   logOutUser();
+}
+
+async function shuffleArtworks() {
+  // Shuffles artworks to all current users who are not admins. Any artwork not marked as rateable is ignored.
+
+  const artworks = await getAllArtworks();
+  const users = await getAllUsers();
+
+  // filter playable users - are they admin? if not, push them into playableUsers
+  const playableUsers = [];
+  for (const user of users) {
+    if (user.admin !== 1) {
+      playableUsers.push(user);
+    }
+  }
+
+  // filter rateable artworks - are they rateable? push them into rateableArtworks
+  const rateableArtworks = [];
+  for (const artwork of artworks) {
+    if (artwork.rateable === 1) {
+      rateableArtworks.push(artwork);
+    }
+  }
+
+  // randomly get users and give them an artwork
+  for (const artwork of rateableArtworks) {
+    let randomUser = playableUsers[Math.floor(Math.random() * (playableUsers.length))];
+
+    await fetch(apiURL + '/artworks/' + artwork.identifier, {
+      method: 'put',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        owner: randomUser.username,
+      })
+    });
+  }
 }
