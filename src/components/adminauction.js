@@ -129,8 +129,7 @@ class AuctionAdmin extends React.Component{
       confirmNode.innerHTML = "Confirm Auction"
       confirmNode.onclick = async function () {
         const artworks = await serverfuncs.getAllArtworks();
-        // console.log("all artworks");
-        // console.log(artworks);
+
         for(let lot in lots) {
           if(lots[lot].number.toString() === id.toString()) {
             for(let a in artworks) {
