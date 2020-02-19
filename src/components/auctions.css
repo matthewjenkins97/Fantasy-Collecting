@@ -65,18 +65,26 @@
 }
 
 .addlotdrop {
+  display: inline-block;
   position: "fixed";
   margin: auto;
   height: 20px;
   border-radius: 5px;
-  width: 200px;
-  background-color: rgba(0, 0, 0, .7);
+  width: 300px;
+  background-color: rgba(100, 100, 100, .7);
   transition: .5s;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
   cursor: pointer;
 }
 .addlotdrop p {
   padding: 0px;
+}
+.addlotdrop:hover{
+  background-color: rgba(200, 100, 100, .7);;
+}
+.addlotdrop p:hover{
+  background-color: rgba(100, 100, 200, .7);;
 }
 
 .lotdropdown {

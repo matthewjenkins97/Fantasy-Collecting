@@ -4,6 +4,7 @@ import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
 
 import './backgroundlogin.css'
+import { ART } from "react-native";
 
 class LotImage extends HTMLImageElement {
   index = 0;
@@ -42,21 +43,34 @@ async function createAuction() {
   );
 }
 async function addLotToAuction() {
-  await auctionfuncs.createLot(currentLotId, document.getElementById("addlotname").innerHTML, document.getElementById("addlotessay").value, await serverfuncs.getAllArtworks());
+  await auctionfuncs.createLot(currentLotId, document.getElementById("selectedartwork").innerHTML, document.getElementById("addlotessay").value, await serverfuncs.getAllArtworks());
+  document.getElementById("selectedartwork").innerHTML = "select artwork";
 }
-
+var ARTWORKSLOADED = false;
+var INNER = false;
 async function loadArtworksForLot() {
+  if(INNER) {
+    INNER = false;
+    return;
+  }
+  document.getElementById("addlotname").style.height = "100px";
+  document.getElementById("addlotname").style.overflowY = "scroll";
+  if(ARTWORKSLOADED)return;
   const artworks = await serverfuncs.getAllArtworks();
   for(let a in artworks) {
     let buttonNode = document.createElement("p");
     buttonNode.innerHTML = artworks[a].identifier;
     buttonNode.onclick = function() {
-      document.getElementById("addlotname").innerHTML = this.innerHTML;
+      INNER = true;
+      document.getElementById("selectedartwork").innerHTML = this.innerHTML;
       document.getElementById("addlotname").style.height = "20px";
+      document.getElementById("addlotname").scrollTop = 0;
+      document.getElementById("addlotname").style.overflowY = "hidden";
+
     }
     document.getElementById("addlotname").appendChild(buttonNode);
   }
-  document.getElementById("addlotname").style.height = "100px";
+  ARTWORKSLOADED = true;
 }
 
 class AuctionAdmin extends React.Component{
@@ -168,7 +182,6 @@ class AuctionAdmin extends React.Component{
         deleteNode.style.position = "absolute";
         deleteNode.style.left = (auctionnumber*550).toString()+"px";
         deleteNode.onclick = async function() {
-          // console.log(lots[l].identifier);
           await auctionfuncs.deleteLot(lots[l].identifier);
           c_ref.loadAuctions();
         }
@@ -196,8 +209,6 @@ class AuctionAdmin extends React.Component{
           if(lots[l].username === localStorage.getItem("username")) {
             document.getElementById("lotinfo").innerHTML += "<pre>(you)</pre>";
           }
-
-          //document.getElementById("lotinfo").innerHTML += "</pre>";
           document.getElementById("lotessay").innerHTML = lots[l].lotessay;
           currentLotName = lots[l].identifier;
         }
@@ -323,9 +334,9 @@ class AuctionAdmin extends React.Component{
             alignContent: "center"
             }}>
             <br></br>
-            <p id = "addlotname" className = "addlotdrop" onClick = {() => {
+            <div id = "addlotname" className = "addlotdrop" onClick = {() => {
               loadArtworksForLot();
-            }}>select artwork</p>
+            }}><p id = "selectedartwork">select artwork</p></div>
             <br></br>
             <a>lot essay</a>
             <br></br>
