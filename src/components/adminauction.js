@@ -194,7 +194,6 @@ class AuctionAdmin extends React.Component {
       };
       auctionScroll.appendChild(deleteNode);
 
-
       const imagenode = document.createElement('img', {is: 'lot-image'});
       imagenode.id = 'auction_pic'+l.toString();
       imagenode.index = auctionnumber;
@@ -205,7 +204,7 @@ class AuctionAdmin extends React.Component {
         document.getElementById('lotnumber').innerHTML = 'Lot '+(this.index + 1).toString();
         document.getElementById('lotimage').src = this.src;
         document.getElementById('lotinfo').innerHTML =
-        '<pre>Information:\n'+
+        '<pre>Information\n'+
         '\nTitle:  '+sourceOfImage.title+
         '\n\nArtist:  '+sourceOfImage.artist+
         '\n\nYear:  '+sourceOfImage.year+
@@ -245,14 +244,12 @@ class AuctionAdmin extends React.Component {
         if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
           serverfuncs.showNotification('bid must be higher than previous bid');
           return;
-        }
+        } else if (document.getElementById('userbid').value === '') {
         // handling accidental empty bids
-        else if (document.getElementById('userbid').value === '') {
           serverfuncs.showNotification('bid cannot be empty');
           return;
-        }
-        // handling user bids that are negative or 0
-        else if (parseInt(document.getElementById('userbid').value) <= 0) {
+        } else if (parseInt(document.getElementById('userbid').value) <= 0) {
+          // handling user bids that are negative or 0
           serverfuncs.showNotification('bid cannot 0 or negative');
           return;
         }

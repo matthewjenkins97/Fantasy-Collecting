@@ -54,7 +54,7 @@ class AdminForm extends React.Component {
   render() {
     return (
       <div style = {{color: 'white'}}>
-        <Typography fontFamily='roboto' letiant='h4' component='h4' style={{
+        <Typography fontFamily='roboto' variant='h4' component='h4' style={{
           textAlign: 'center',
           paddingTop: 20,
           paddingBottom: 10}}>Estimated Values</Typography>
@@ -62,8 +62,8 @@ class AdminForm extends React.Component {
           <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
             <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
             <Paper style={{padding: 10}}>
-              <Typography letiant='h6' fontFamily='roboto' style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
-              <Typography letiant='subtitle1' fontFamily='roboto' style={{marginLeft: 20}}>By: {tile.artist}</Typography>
+              <Typography variant='h6' fontFamily='roboto' style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
+              <Typography variant='subtitle1' fontFamily='roboto' style={{marginLeft: 20}}>By: {tile.artist}</Typography>
               <div style={{margin: 20}}>
                 <form>
                   <label>Average Value:
@@ -81,7 +81,7 @@ class AdminForm extends React.Component {
         ))}
         <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
           <div>
-            <Button size='large' letiant='contained' color='secondary' type='submit' value='Submit' style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}} onClick = {async () => {
+            <Button size='large' variant='contained' color='secondary' type='submit' value='Submit' style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}} onClick = {async () => {
               let images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
               images = await images.json();
               for (const i in images) {

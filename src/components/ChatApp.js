@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {ChatManager, TokenProvider, ChatkitProvider} from '@pusher/chatkit-client';
 import MessageList from './MessageList';
 import Input from './Input';
-import {setRoomCount} from './ChatMessage.js'
-import * as serverfuncs from "../serverfuncs";
-import { default as Chatkit } from '@pusher/chatkit-server';
+import {setRoomCount} from './ChatMessage.js';
+import * as serverfuncs from '../serverfuncs';
+import {default as Chatkit} from '@pusher/chatkit-server';
 
 let chatManager;
 const chatkit = new Chatkit({
@@ -38,7 +38,7 @@ class ChatApp extends Component {
     chatManager
         .connect()
         .then((currentUser) => {
-          // console.log("NAMENAME")
+          // console.log('NAMENAME')
           // console.log(roomName)
           // console.log(this.state.currentUser.id)
           // console.log(this.state.otherUser)
@@ -47,7 +47,7 @@ class ChatApp extends Component {
                 // console.log('Push Notifications enabled');
               })
               .catch((error) => {
-                // console.error("Push Notifications error:", error);
+                // console.error('Push Notifications error:', error);
               });
           currentUser.createRoom({
             id: roomName,
@@ -82,15 +82,12 @@ class ChatApp extends Component {
     }
     this.state.currentRoomId = roomName;
     chatManager = new ChatManager({
-        instanceLocator: "v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8",
-        userId: localStorage.getItem('username'),
-        //userId: this.props.currentId,
-        tokenProvider: new TokenProvider({
-            url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token"
-        })
-    })
-    //this.checkRoom();
-    
+      instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
+      userId: localStorage.getItem('username'),
+      tokenProvider: new TokenProvider({
+        url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token',
+      }),
+    });
 
     chatManager.connect().then((currentUser) => {
       this.checkRoom(currentUser.rooms, roomName);
@@ -118,14 +115,13 @@ class ChatApp extends Component {
     }).catch((error) => console.log(error));
   }
 
-    async sendMessage(text) {
-        await this.state.currentUser.sendMessage({
-            roomId: this.state.currentRoomId,
-            text
-        })
-        setRoomCount(this.state.currentRoomId, this.state.messages.length+1);
-
-    }
+  async sendMessage(text) {
+    await this.state.currentUser.sendMessage({
+      roomId: this.state.currentRoomId,
+      text,
+    });
+    setRoomCount(this.state.currentRoomId, this.state.messages.length+1);
+  }
 
   async expandUsers(ref) {
     const userList = await serverfuncs.getAllUsers();

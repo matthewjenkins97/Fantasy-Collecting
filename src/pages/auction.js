@@ -5,10 +5,10 @@ import ChatComponent from '../components/ChatMessage';
 import Typography from '@material-ui/core/Typography';
 import * as serverfuncs from '../serverfuncs';
 import AuctionStudent from '../components/studentauction';
-import SimpleMenu from '../components/simpleMenu';
 import Grid from '@material-ui/core/Grid';
 import Notification from '../components/notification';
 import Guilder from '../static/guilder.svg';
+import SimpleMenu from '../components/simpleMenu';
 
 class AuctionPage extends Component {
   constructor(props) {
@@ -36,22 +36,21 @@ class AuctionPage extends Component {
       <div>
         <Notification/>
         <AppBar position='fixed' style={{backgroundColor: '#002f86'}}>
-          <Toolbar letiant='dense'>
+          <Toolbar variant='dense'>
             <Grid
               justify='space-between'
               container spacing={1}
             >
               <Grid item xs={'90%'}>
                 <SimpleMenu mode={false}/>
-                {/* {SimpleMenu()} */}
               </Grid>
               <Grid item xs>
-                <Typography letiant='h6' color='inherit' style={{marginTop: 9}}>
-                    Fantasy Collecting -&nbsp;{localStorage.getItem('username')}
+                <Typography variant='h6' color='inherit' style={{marginTop: 9}}>
+                    Fantasy Collecting - {localStorage.getItem('username')}
                 </Typography>
               </Grid>
               <Grid item xs>
-                <Typography letiant='h6' style={{float: 'right', marginTop: 10}}>
+                <Typography variant='h6' style={{float: 'right', marginTop: 10}}>
                   <img src={Guilder} height='20' width='20'></img>
                   {this.state.guilders}</Typography>
               </Grid>

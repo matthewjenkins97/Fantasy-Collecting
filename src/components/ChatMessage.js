@@ -54,8 +54,8 @@ async function checkForMessages() {
   try {
     for (const r in cm.rooms) {
       try {
-      let nan = document.getElementById(cm.rooms[r].name).innerHTML.toString();
-      nan = nan;
+        let nan = document.getElementById(cm.rooms[r].name).innerHTML.toString();
+        nan = nan;
       } catch {
           continue;
       }
