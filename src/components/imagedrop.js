@@ -80,9 +80,9 @@ class ImageDrop extends React.Component {
     let images = await fetch('http://fantasycollecting.hamilton.edu/api/upload');
     images = await images.json();
     // console.log(images);
-    for (let i in images.photos) {
+    for (const i in images.photos) {
       // console.log(images.photos[i]);
-      let imageNode = document.createElement('p');
+      const imageNode = document.createElement('p');
       imageNode.style.backgroundImage = 'url(\'http://fantasycollecting.hamilton.edu/static/media/' + images.photos[i] + '\')';
       imageNode.style.width = '200px';
       imageNode.style.height = '200px';
@@ -90,7 +90,7 @@ class ImageDrop extends React.Component {
       imageNode.style.objectFit = 'contain';
       imageNode.style.display = 'inline-block';
       imageNode.style.padding = '10px';
-      let urlNode = document.createElement('h1');
+      const urlNode = document.createElement('h1');
       urlNode.innerHTML = images.photos[i];
       urlNode.style.backgroundColor = 'rgba(0, 0, 0, .5)';
       urlNode.style.borderRadius = '5px';

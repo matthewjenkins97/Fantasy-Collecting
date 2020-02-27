@@ -23,10 +23,6 @@ export default function SimpleMenu(props) {
         aria-controls='simple-menu' aria-haspopup='true' onClick={handleClick}>
         <MenuIcon />
       </IconButton>
-
-      {/* <Button aria-controls='simple-menu' aria-haspopup='true' onClick={handleClick}>
-        Open Menu
-      </Button> */}
       <Menu
         id='simple-menu'
         anchorEl={anchorEl}

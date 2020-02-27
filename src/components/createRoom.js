@@ -152,17 +152,6 @@ class ChatApp extends Component {
       },
     };
     return (
-    //   <div style={styles.container}>
-    //     <div style={styles.chatContainer}>
-    //       <aside style={styles.whosOnlineListContainer}>
-    //         <h2>Who's online PLACEHOLDER</h2>
-    //       </aside>
-    //       <section style={styles.chatListContainer}>
-    //         <h2>Chat PLACEHOLDER</h2>
-    //       </section>
-    //     </div>
-    //   </div>
-    // )
       <div className='chatapp'>
         <div>
           {/* <h2 className='header'>General Room</h2> */}
