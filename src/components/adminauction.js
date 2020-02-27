@@ -38,7 +38,7 @@ function openAddDropdown(id) {
 async function createAuction() {
   await auctionfuncs.createAuction(
     document.getElementById("auctionname").value,
-    Date.now().toString(),
+    document.getElementById("auctionname").value.toString(),
     null
   );
 }
@@ -121,6 +121,17 @@ class AuctionAdmin extends React.Component{
       titleNode.style.width = "20%";
       titleNode.style.padding = "5px";
 
+      let timerNode = document.createElement("p");
+      timerNode.id = "timernode"+id;
+      timerNode.innerHTML = "00:00:00";
+      document.getElementById("auctions").append(timerNode);
+      timerNode.style.color = "white";
+      timerNode.style.backgroundColor = "#002f86";
+      timerNode.style.width = "auto";
+      timerNode.style.borderRadius = "5px";
+      timerNode.style.width = "15%";
+      timerNode.style.padding = "5px";
+
       let addLotNode = document.createElement("button");
       addLotNode.id = id;
       addLotNode.innerHTML = "Create Lot"
@@ -138,25 +149,25 @@ class AuctionAdmin extends React.Component{
       };
       document.getElementById("auctions").append(deleteNode);
 
-      let confirmNode = document.createElement("button");
-      confirmNode.id = "confirmNode"+id;
-      confirmNode.innerHTML = "Confirm Auction"
-      confirmNode.onclick = async function () {
-        const artworks = await serverfuncs.getAllArtworks();
+      // let confirmNode = document.createElement("button");
+      // confirmNode.id = "confirmNode"+id;
+      // confirmNode.innerHTML = "Confirm Auction"
+      // confirmNode.onclick = async function () {
+      //   const artworks = await serverfuncs.getAllArtworks();
 
-        for(let lot in lots) {
-          if(lots[lot].number.toString() === id.toString()) {
-            for(let a in artworks) {
-              if(artworks[a].identifier.toString() === lots[lot].identifier.toString()) {
-                await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, artworks[a].owner, lots[lot].highestbid);
-              }
-            }
-          }
-        }
-        await auctionfuncs.deleteAuction(id);
-        c_ref.loadAuctions();
-      };
-      document.getElementById("auctions").append(confirmNode);
+      //   for(let lot in lots) {
+      //     if(lots[lot].number.toString() === id.toString()) {
+      //       for(let a in artworks) {
+      //         if(artworks[a].identifier.toString() === lots[lot].identifier.toString()) {
+      //           await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, artworks[a].owner, lots[lot].highestbid);
+      //         }
+      //       }
+      //     }
+      //   }
+      //   await auctionfuncs.deleteAuction(id);
+      //   c_ref.loadAuctions();
+      // };
+      //document.getElementById("auctions").append(confirmNode);
 
       let auctionnode = document.createElement("div");
       auctionnode.className = "auctionscroll";
@@ -167,7 +178,7 @@ class AuctionAdmin extends React.Component{
       currentAuctions.push(titleNode.id);
       currentAuctions.push(deleteNode.id);
       currentAuctions.push(addLotNode.id);
-      currentAuctions.push(confirmNode.id);
+      //currentAuctions.push(confirmNode.id);
       
       let auctionnumber = -1;
       for(const l in lots) {
@@ -187,6 +198,24 @@ class AuctionAdmin extends React.Component{
         }
         auction_scroll.appendChild(deleteNode);
 
+        // EDIT
+        let confirmNode = document.createElement("button");
+        confirmNode.id = "confirmlot"+l.toString();
+        confirmNode.innerHTML = "Confirm Lot";
+        confirmNode.style.position = "absolute";
+        confirmNode.style.left = (auctionnumber*550+75).toString()+"px";
+        confirmNode.onclick = async function () {
+          const artworks = await serverfuncs.getAllArtworks();
+          let l = parseInt(this.id.slice(9));
+          for(let a in artworks) {
+            if(artworks[a].identifier.toString() === lots[l].identifier.toString()) {
+              await auctionfuncs.conductAuctionTrade(lots[l].identifier, lots[l].username, artworks[a].owner, lots[l].highestbid);
+              // await auctionfuncs.settosold(lots[l].identifier)
+            }
+          }
+          c_ref.loadAuctions();
+        };
+        auction_scroll.appendChild(confirmNode);
 
         let imagenode = document.createElement("img", {is: 'lot-image'});
         imagenode.id = "auction_pic"+l.toString();
@@ -310,12 +339,12 @@ class AuctionAdmin extends React.Component{
             <br></br>
             <input id = "auctionname" type = "text"></input>
             <br></br>
-            {/* <br></br> */}
-            {/* <a>auction end date</a> */}
-            {/* <br></br> */}
-            {/* <input id = "auctiondate" type = "date"></input> */}
-            {/* <br></br> */}
-            {/* <br></br> */}
+            <br></br>
+            <a>auction end date</a>
+            <br></br>
+            <input id = "auctiondate" type = "date"></input>
+            <br></br>
+            <br></br>
             <button onClick = {async () => {closeCreateDropdown(); await createAuction(); this.loadAuctions();}}>submit</button>
           </div>
 

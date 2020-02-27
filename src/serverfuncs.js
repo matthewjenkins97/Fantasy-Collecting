@@ -2,6 +2,7 @@ import * as tradeFuncs from './components/tradewindow.js';
 import {MD5} from './md5';
 import { conductTrade } from './tradefuncs';
 import {checkForMessages} from './components/ChatMessage';
+import { getAllAuctions } from './auctionfuncs.js';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 
@@ -32,6 +33,20 @@ function coroutine(f) {
   return function(x) {
     o.next(x);
   };
+}
+const timerupdate = coroutine(function* () {
+  while(true) {
+    yield;
+    updatetimers();
+  }
+});
+setInterval(timerupdate, 1000);
+async function updatetimers() {
+  if(!window.location.toString().endsWith("auction")) return;
+  const auctions = await getAllAuctions();
+  for(let t in auctions) {
+    document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = auctions[t].date;
+  }
 }
 
 const messageCheck = coroutine(function* () {
