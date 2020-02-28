@@ -15,9 +15,7 @@ router.post('/', function(req, res) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       // converting illegal HTML characters into legal characters
       // if data is not sanitized then it could cause problems for mysql downline
-      if (/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/.test(filename)) {
-        filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
-      }
+      filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
       const fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename);
 
       // for debug purposes.

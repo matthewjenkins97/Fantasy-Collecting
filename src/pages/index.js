@@ -48,7 +48,7 @@ class MainPage extends Component {
               container spacing={1}
             >
               <Grid item xs={'90%'}>
-                <SimpleMenu mode={false}/>
+                <SimpleMenu mode={true}/>
               </Grid>
               <Grid item xs>
                 <Typography variant='h6' color='inherit' style={{marginTop: 9}}>

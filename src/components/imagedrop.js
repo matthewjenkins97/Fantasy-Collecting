@@ -32,16 +32,21 @@ function uploadFile(file) {
       if (window.confirm('Upload successful! Do you want to turn this photo into an artwork for the game?')) {
         // file.name - convert to all lowercase and remove the ending
         // remove illegal characters - defined as the following:
-        //
+        // space, semicolon, slash, question mark, colon, at sign, equals sign, and, double qoutes, left caret, right caret, hashtag, percent sign, left brace, right brace, pipe, up caret, tilde, left square bracket, right square bracket, left parenthesis, right parenthesis, tilde
         let identifier = file.name;
+
         identifier = identifier.replace(/\.[^/.]+$/, '');
         identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
         identifier = identifier.toLowerCase();
 
-        let url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
+        let url = file.name;
+        url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
 
         // generate url
         url = 'http://fantasycollecting.hamilton.edu/static/media/' + url;
+
+        console.log(identifier);
+        console.log(url);
 
         // make artwork
         const artworkData = {
@@ -133,7 +138,9 @@ class ImageDrop extends React.Component {
       <div>
         <div id='drop-area'>
           <form className='my-form'>
-            <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
+            <p>Upload files by dragging and dropping images onto the dashed region.
+            </p>
+            <p>Note that characters with diacritics will prevent the file from being added - replace any diacritics with the closest equivalent character.</p>
             <br />
             <i id='status'></i>
           </form>
