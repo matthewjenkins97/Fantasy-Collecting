@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from "react";
+
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
-import './backgroundlogin.css';
-import Typography from '@material-ui/core/Typography';
+
+import './backgroundlogin.css'
+import { ART } from "react-native";
 
 class LotImage extends HTMLImageElement {
   index = 0;
@@ -20,16 +22,16 @@ let currentLotName;
 let currentAuctions = [];
 
 function closeCreateDropdown() {
-  document.getElementById('createauctiondropdown').style.top = '-200px';
+  document.getElementById("createauctiondropdown").style.top = "-200px";
 }
 function openCreateDropdown() {
-  document.getElementById('createauctiondropdown').style.top = '50px';
+  document.getElementById("createauctiondropdown").style.top = "50px";
 }
 function closeAddDropdown() {
-  document.getElementById('addauctiondropdown').style.display = 'none';
+  document.getElementById("addauctiondropdown").style.display = "none";
 }
 function openAddDropdown(id) {
-  document.getElementById('addauctiondropdown').style.display = 'block';
+  document.getElementById("addauctiondropdown").style.display = "block";
   currentLotId = id;
 }
 
@@ -40,81 +42,72 @@ async function createAuction() {
     null
   );
 }
-
 async function addLotToAuction() {
-  await auctionfuncs.createLot(currentLotId, document.getElementById('selectedartwork').innerHTML, document.getElementById('addlotessay').value, await serverfuncs.getAllArtworks());
-  document.getElementById('selectedartwork').innerHTML = 'select artwork';
+  await auctionfuncs.createLot(currentLotId, document.getElementById("selectedartwork").innerHTML, document.getElementById("addlotessay").value, await serverfuncs.getAllArtworks());
+  document.getElementById("selectedartwork").innerHTML = "select artwork";
 }
-let ARTWORKSLOADED = false;
-let INNER = false;
-
+var ARTWORKSLOADED = false;
+var INNER = false;
 async function loadArtworksForLot() {
-  if (INNER) {
+  if(INNER) {
     INNER = false;
     return;
   }
-
-  document.getElementById('addlotname').style.height = '100px';
-  document.getElementById('addlotname').style.overflowY = 'scroll';
-
-  if (ARTWORKSLOADED) {
-    return;
-  }
-
+  document.getElementById("addlotname").style.height = "100px";
+  document.getElementById("addlotname").style.overflowY = "scroll";
+  if(ARTWORKSLOADED)return;
   const artworks = await serverfuncs.getAllArtworks();
-  for (const a in artworks) {
-    const buttonNode = document.createElement('p');
+  for(let a in artworks) {
+    let buttonNode = document.createElement("p");
     buttonNode.innerHTML = artworks[a].identifier;
     buttonNode.onclick = function() {
       INNER = true;
-      document.getElementById('selectedartwork').innerHTML = this.innerHTML;
-      document.getElementById('addlotname').style.height = '20px';
-      document.getElementById('addlotname').scrollTop = 0;
-      document.getElementById('addlotname').style.overflowY = 'hidden';
-    };
-    document.getElementById('addlotname').appendChild(buttonNode);
+      document.getElementById("selectedartwork").innerHTML = this.innerHTML;
+      document.getElementById("addlotname").style.height = "20px";
+      document.getElementById("addlotname").scrollTop = 0;
+      document.getElementById("addlotname").style.overflowY = "hidden";
+
+    }
+    document.getElementById("addlotname").appendChild(buttonNode);
   }
   ARTWORKSLOADED = true;
 }
 
-class AuctionAdmin extends React.Component {
-  constructor(props) {
-    super(props);
-    document.body.className = 'background';
-  };
+class AuctionAdmin extends React.Component{
+    constructor(props) {
+      super(props);
+      document.body.className = "background";
+    };
 
-  componentDidMount() {
-    this.loadAuctions();
-  }
-
-  async loadAuctions() {
-    for (let a in currentAuctions) {
-      try {
-        document.getElementById(currentAuctions[a]).remove();
-      } catch {}
+    componentDidMount() {
+      this.loadAuctions();
     }
 
-    currentAuctions = [];
+    async loadAuctions() {
+      for(let a in currentAuctions) {
+        try {
+          document.getElementById(currentAuctions[a]).remove();
+        }catch{}
+      }
 
-    const auctions = await auctionfuncs.getAllAuctions();
+      currentAuctions = [];
 
-    try{
-      document.getElementById('bnode').remove();
-    } catch {}
+      let auctions = await auctionfuncs.getAllAuctions();
 
-    const buttonNode = document.createElement('button');
-    buttonNode.onclick = () => openCreateDropdown();
-    buttonNode.className = 'createButton';
-    buttonNode.innerHTML = 'Create Auction...';
-    buttonNode.id = 'bnode';
-    document.getElementById('abutton').appendChild(buttonNode);
+      try{document.getElementById("bnode").remove()}catch{}
+      let buttonNode = document.createElement("button");
+      buttonNode.onclick = () => openCreateDropdown();
+      buttonNode.className = "createButton";
+      buttonNode.innerHTML = "Create Auction...";
+      buttonNode.id = "bnode";
+      document.getElementById("abutton").appendChild(buttonNode);
 
-    const lots = await auctionfuncs.getAllLots();
-    for (let auction in auctions) {
-      await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      let lots = await auctionfuncs.getAllLots();
+      for(let auction in auctions) {
+        await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      }
+      this.forceUpdate();
     }
-    this.forceUpdate();
-  }
 
     async loadLots(title, id, lots, c_ref) {
       let titleNode = document.createElement("p");
@@ -264,55 +257,35 @@ class AuctionAdmin extends React.Component {
         if(lots[l].username === localStorage.getItem("username")) {
           textnode.innerHTML += "<pre>(you)</pre>";
         }
-        document.getElementById('lotessay').innerHTML = lots[l].lotessay;
-        currentLotName = lots[l].identifier;
-      };
-      auctionScroll.appendChild(imagenode);
-      const textnode = document.createElement('a');
-      textnode.innerHTML =
-      '<pre>'+
-      'LOT '+(auctionnumber + 1).toString()+
-      '\n\nTitle:  '+sourceOfImage.title+
-      '\n\nArtist:  '+sourceOfImage.artist+
-      '\n\nYear:  '+sourceOfImage.year+
-      '\n\nOwner:  '+sourceOfImage.owner+
-      '\n\nHighest Bid:\n'+lots[l].highestbid+
-      '</pre>';
-      if (lots[l].username === localStorage.getItem('username')) {
-        textnode.innerHTML += '<pre>(you)</pre>';
+        textnode.style.left = (250+550*auctionnumber).toString()+'px';
+        auction_scroll.appendChild(textnode);
       }
-      textnode.style.left = (250+550*auctionnumber).toString()+'px';
-      auctionScroll.appendChild(textnode);
     }
-  }
 
-  async confirmBid() {
-    const lots = await auctionfuncs.getAllLots();
-    for (const l in lots) {
-      if (lots[l].identifier === currentLotName) {
-        if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
-          serverfuncs.showNotification('bid must be higher than previous bid');
-          return;
-        } else if (document.getElementById('userbid').value === '') {
-        // handling accidental empty bids
-          serverfuncs.showNotification('bid cannot be empty');
-          return;
-        } else if (parseInt(document.getElementById('userbid').value) <= 0) {
-          // handling user bids that are negative or 0
-          serverfuncs.showNotification('bid cannot 0 or negative');
-          return;
-        }
-
-        const users = await serverfuncs.getAllUsers();
-        for (const u in users) {
-          if (users[u].username === localStorage.getItem('username')) {
-            if (parseInt(document.getElementById('userbid').value) > users[u].guilders) {
-              serverfuncs.showNotification('you do not have enough guilders to post this bid');
-              return;
+    async confirmBid() {
+      let lots = await auctionfuncs.getAllLots();
+      for(let l in lots) {
+        if(lots[l].identifier === currentLotName) {
+          if(parseInt(document.getElementById("userbid").value) <= parseInt(lots[l].highestbid)) {
+            serverfuncs.showNotification("bid must be higher than previous bid");
+            return;
+          }
+          let users = await serverfuncs.getAllUsers();
+          for(let u in users) {
+            if(users[u].username === localStorage.getItem("username")) {
+              if(parseInt(document.getElementById("userbid").value) > users[u].guilders) {
+                serverfuncs.showNotification("you do not have enough guilders to post this bid");
+                return;
+              }
             }
           }
         }
       }
+      await auctionfuncs.postBid(
+        localStorage.getItem("username"),
+        currentLotName,
+        document.getElementById("userbid").value
+      );
     }
   
     render(){
@@ -404,71 +377,15 @@ class AuctionAdmin extends React.Component {
             <br></br>
             <button onClick = {closeAddDropdown}>cancel</button>
           </div>
-
           
           <div id = "auctions"/>
           <br></br>
+          <div id = "abutton" style = {{textAlign: "center"}}/>
           <br></br>
-          <a>Auction Name</a>
           <br></br>
-          <input id = 'auctionname' type = 'text'></input>
-          <br></br>
-          {/* <br></br> */}
-          {/* <a>auction end date</a> */}
-          {/* <br></br> */}
-          {/* <input id = 'auctiondate' type = 'date'></input> */}
-          {/* <br></br> */}
-          {/* <br></br> */}
-          <button onClick = {async () => {
-            closeCreateDropdown();
-            await createAuction();
-            this.loadAuctions();
-          }}>
-          Submit</button>
         </div>
-
-        <div id = 'addauctiondropdown' style = {{
-          display: 'none',
-          backgroundColor: 'rgba(0, 0, 0, .7)',
-          position: 'fixed',
-          borderRadius: '10px',
-          top: '30%',
-          left: '30%',
-          width: '40%',
-          height: '40%',
-          zIndex: 1,
-          color: 'white',
-          textAlign: 'center',
-          alignContent: 'center',
-        }}>
-          <br></br>
-          <div id = 'addlotname' className = 'addlotdrop' onClick = {() => {
-            loadArtworksForLot();
-          }}><p id = 'selectedartwork'>Select Artwork</p></div>
-          <br></br>
-          <a>Lot Essay</a>
-          <br></br>
-          <textarea id = 'addlotessay' type = 'text' style={{height: '20%', width: '80%'}}></textarea>
-          <br></br>
-          <br></br>
-          <button onClick = {async () => {
-            await closeAddDropdown();
-            await addLotToAuction();
-            this.loadAuctions();}}>Submit</button>
-          <br></br>
-          <br></br>
-          <button onClick = {closeAddDropdown}>Cancel</button>
-        </div>
-
-        <div id = 'auctions'/>
-        <br></br>
-        <div id = 'abutton' style = {{textAlign: 'center'}}/>
-        <br></br>
-        <br></br>
-      </div>
-    );
-  }
+      );
+    }
 }
 
-export default AuctionAdmin;
-
+export default AuctionAdmin

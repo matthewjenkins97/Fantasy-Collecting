@@ -40,6 +40,8 @@ class Main extends Component {
           title: artworks[i].title,
           artist: artworks[i].artist,
           year: artworks[i].year,
+          theoreticalprice: artworks[i].theoreticalprice,
+          actualprice: artworks[i].actualprice,
         });
       }
     }
@@ -67,8 +69,6 @@ class Main extends Component {
   render() {
     return (
       <div>
-        {/* <PinGrid /> */}
-        {/* <GridList /> */}
         <div>
           <div><ChatComponent /></div>
           <div><OtherGallery/></div>
@@ -92,6 +92,7 @@ class Main extends Component {
                   <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
                   <Typography variant='subtitle1' fontFamily='roboto'>Artist: {tile.artist}</Typography>
                   <Typography variant='subtitle1' fontFamily='roboto'>Year: {tile.year}</Typography>
+                  <Typography variant='h3' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
                   <HistoryTable identifier={tile.identifier}/>
                   <MicroresearchTable identifier={tile.identifier}/>
                   <MicroresearchPrompt identifier={tile.identifier}/>
