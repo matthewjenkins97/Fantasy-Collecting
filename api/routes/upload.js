@@ -9,8 +9,6 @@ router.use(busboy());
 // for conversion of file names
 function slugify(str) {
   const map = {
-    '-': '-',
-    '-': '_',
     'a': 'á|à|ã|â|À|Á|Ã|Â',
     'e': 'é|è|ê|É|È|Ê',
     'i': 'í|ì|î|Í|Ì|Î',
@@ -36,9 +34,7 @@ router.post('/', function(req, res) {
       // converting illegal HTML characters into legal characters
       // if data is not sanitized then it could cause problems for mysql downline
       filename = slugify(filename);
-      if (/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/.test(filename)) {
-        filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
-      }
+      filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
       const fstream = fs.createWriteStream('/home/fantasycollect/public_html/static/media/' + filename);
 
       // for debug purposes.

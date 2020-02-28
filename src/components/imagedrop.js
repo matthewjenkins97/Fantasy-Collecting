@@ -5,8 +5,6 @@ import * as serverfuncs from '../serverfuncs';
 // for conversion of file names
 function slugify(str) {
   const map = {
-    '-': '-',
-    '-': '_',
     'a': 'á|à|ã|â|À|Á|Ã|Â',
     'e': 'é|è|ê|É|È|Ê',
     'i': 'í|ì|î|Í|Ì|Î',
