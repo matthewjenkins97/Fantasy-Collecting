@@ -63,11 +63,11 @@ class AuctionStudent extends React.Component {
 
   async loadAuctions() {
     for (const a in currentAuctions) {
-      // try {
+      try {
         document.getElementById(currentAuctions[a]).remove();
-      // } catch {
-      //   //pass
-      // }
+      } catch {
+        //pass
+      }
     }
 
     currentAuctions = [];
@@ -92,6 +92,17 @@ class AuctionStudent extends React.Component {
     titleNode.style.borderRadius = '5px';
     titleNode.style.width = '20%';
     titleNode.style.padding = '5px';
+
+    const timerNode = document.createElement('p');
+    timerNode.id = 'timernode'+id;
+    timerNode.innerHTML = 'Expires in: 0:00:00:00';
+    document.getElementById('auctions').append(timerNode);
+    timerNode.style.color = 'white';
+    timerNode.style.backgroundColor = '#002f86';
+    timerNode.style.width = 'auto';
+    timerNode.style.borderRadius = '5px';
+    timerNode.style.width = '15%';
+    timerNode.style.padding = '5px';
 
     const auctionnode = document.createElement('div');
     auctionnode.className = 'auctionscroll';

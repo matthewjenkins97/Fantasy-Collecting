@@ -131,7 +131,7 @@ class AuctionAdmin extends React.Component {
 
     const timerNode = document.createElement('p');
     timerNode.id = 'timernode'+id;
-    timerNode.innerHTML = '00:00:00';
+    timerNode.innerHTML = 'Expires in: 0:00:00:00';
     document.getElementById('auctions').append(timerNode);
     timerNode.style.color = 'white';
     timerNode.style.backgroundColor = '#002f86';

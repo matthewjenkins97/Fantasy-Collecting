@@ -34,6 +34,7 @@ function coroutine(f) {
     o.next(x);
   };
 }
+
 const timerupdate = coroutine(function* () {
   while(true) {
     yield;
@@ -41,8 +42,12 @@ const timerupdate = coroutine(function* () {
   }
 });
 setInterval(timerupdate, 1000);
+
 async function updatetimers() {
-  if(!window.location.toString().endsWith("/adminauction")) return;
+  if (!window.location.toString().endsWith("/adminauction") && !window.location.toString().endsWith("/auction")){
+    return;
+  }
+
   const auctions = await getAllAuctions();
   for(let t in auctions) {
     let timeleft = new Date(auctions[t].date)-Date.now();
