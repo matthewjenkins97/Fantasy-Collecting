@@ -2,24 +2,6 @@ import React from 'react';
 import './imagedrop.css';
 import * as serverfuncs from '../serverfuncs';
 
-// for conversion of file names
-function slugify(str) {
-  const map = {
-    'a': 'á|à|ã|â|À|Á|Ã|Â',
-    'e': 'é|è|ê|É|È|Ê',
-    'i': 'í|ì|î|Í|Ì|Î',
-    'o': 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
-    'u': 'ú|ù|û|ü|Ú|Ù|Û|Ü',
-    'c': 'ç|Ç',
-    'n': 'ñ|Ñ',
-  };
-  str = str.toLowerCase();
-  for (const pattern in map) {
-    str = str.replace(new RegExp(map[pattern], 'g'), pattern);
-  };
-  return str;
-};
-
 function preventDefaults(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -51,17 +33,20 @@ function uploadFile(file) {
         // file.name - convert to all lowercase and remove the ending
         // remove illegal characters - defined as the following:
         // space, semicolon, slash, question mark, colon, at sign, equals sign, and, double qoutes, left caret, right caret, hashtag, percent sign, left brace, right brace, pipe, up caret, tilde, left square bracket, right square bracket, left parenthesis, right parenthesis, tilde
-        let identifier = slugify(file.name);
+        let identifier = file.name;
 
         identifier = identifier.replace(/\.[^/.]+$/, '');
         identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
         identifier = identifier.toLowerCase();
 
-        let url = slugify(file.name);
+        let url = file.name;
         url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
 
         // generate url
         url = 'http://fantasycollecting.hamilton.edu/static/media/' + url;
+
+        console.log(identifier);
+        console.log(url);
 
         // make artwork
         const artworkData = {
@@ -153,7 +138,9 @@ class ImageDrop extends React.Component {
       <div>
         <div id='drop-area'>
           <form className='my-form'>
-            <p>Upload files by dragging and dropping images onto the dashed region.</p>
+            <p>Upload files by dragging and dropping images onto the dashed region.
+            </p>
+            <p>Note that characters with diacritics will prevent the file from being added - replace any diacritics with the closest equivalent character.</p>
             <br />
             <i id='status'></i>
           </form>
