@@ -45,9 +45,28 @@ async function updatetimers() {
   if(!window.location.toString().endsWith("auction")) return;
   const auctions = await getAllAuctions();
   for(let t in auctions) {
-    document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = auctions[t].date;
+    let timeleft = new Date(auctions[t].date)-Date.now();
+    if(timeleft < 0) {
+      document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
+      document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
+    }
+    else {
+      document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 
+      "Expires in: "+parseTime(timeleft);
+    }
   }
 }
+function parseTime(datetime) {
+  const datedays = Math.floor(datetime / (1000*60*60*24));
+  datetime -= 1000*60*60*24 * datedays;
+  const datehours = Math.floor(datetime / (1000*60*60));
+  datetime -= 1000*60*60 * datehours 
+  const dateminutes = Math.floor(datetime / (1000*60));
+  datetime -= 1000*60 * dateminutes;
+  const dateseconds = Math.floor(datetime / 1000);
+  return datedays.toString()+":"+(datehours<10?'0':'')+datehours.toString()+":"+dateminutes.toString()+":"+(dateseconds<10?'0':'')+dateseconds.toString();
+}
+
 
 const messageCheck = coroutine(function* () {
   while(true) {

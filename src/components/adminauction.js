@@ -38,8 +38,8 @@ function openAddDropdown(id) {
 async function createAuction() {
   await auctionfuncs.createAuction(
     document.getElementById("auctionname").value,
-    document.getElementById("auctionname").value.toString(),
-    null
+    Date.now().toString(),
+    document.getElementById("auctiondate").value.toString(),
   );
 }
 async function addLotToAuction() {
