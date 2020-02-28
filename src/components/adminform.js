@@ -79,8 +79,13 @@ class AdminForm extends React.Component {
             </Paper>
           </View>
         ))}
-        <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center', textAlign: 'center'}}>
           <div>
+            <Paper style={{height: 20, width: 190, display: 'inline-block'}}>
+              <input type='checkbox' id='shuffle'></input>
+              <label for='shuffle'> Shuffle artworks?</label>
+            </Paper>
+            <br></br>
             <Button size='large' variant='contained' color='secondary' type='submit' value='Submit' style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}} onClick = {async () => {
               let images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
               images = await images.json();
@@ -105,8 +110,10 @@ class AdminForm extends React.Component {
               }
               serverfuncs.showNotification('theoretical prices of artworks assigned');
 
-              serverfuncs.shuffleArtworks();
-            }}>Create Theoretical Prices and Shuffle Artworks</Button> </div></View>
+              if (document.getElementById('shuffle').checked === true) {
+                serverfuncs.shuffleArtworks();
+              }
+            }}>Create Theoretical Prices</Button> </div></View>
       </div>
     );
   }

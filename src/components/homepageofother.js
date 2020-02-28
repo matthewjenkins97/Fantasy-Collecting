@@ -108,9 +108,10 @@ class OtherGallery extends Component {
                 <div style={{padding: 10}}>
                   <img src={tile.img} alt={tile.title} height={500}/>
                   <Paper style={{padding: 10}}>
+                  <div>
                     <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
-                    <Typography variant='subtitle1' fontFamily='roboto'>Artist: {tile.artist}</Typography>
-                    <Typography variant='subtitle1' fontFamily='roboto'>Year: {tile.year}</Typography>
+                    <Typography variant='subtitle1' fontFamily='roboto'>{tile.artist}, {tile.year}</Typography>
+                  </div>
                   </Paper>
                   {/* <GridListTileBar
                     title={tile.title}

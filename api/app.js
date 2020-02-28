@@ -3,7 +3,7 @@
 // 25 September 2019
 //
 // Server used for backend of website.
-// Modified from this guide: 
+// Modified from this guide:
 // https://www.freecodecamp.org/news/create-a-react-frontend-a-node-express-backend-and-connect-them-together-c5798926047c/
 
 const createError = require('http-errors');
@@ -20,8 +20,8 @@ const tradesRouter = require('./routes/trades');
 const tradedetailsRouter = require('./routes/tradedetails');
 const microresearchRouter = require('./routes/microresearch');
 const usersRouter = require('./routes/users');
-const ratetableRouter = require('./routes/ratetable')
-const messagesRouter = require('./routes/messages')
+const ratetableRouter = require('./routes/ratetable');
+const messagesRouter = require('./routes/messages');
 
 const uploadRouter = require('./routes/upload');
 

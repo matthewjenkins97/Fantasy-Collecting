@@ -87,15 +87,26 @@ class Main extends Component {
           >
             {tileData.map((tile) => (
               <div style={{padding: 10}}>
-                <img src={tile.img} alt={tile.title} height={500}/>
+                <img src={tile.img} alt={tile.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 500}}/>
                 <Paper style={{padding: 10}}>
-                  <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
-                  <Typography variant='subtitle1' fontFamily='roboto'>Artist: {tile.artist}</Typography>
-                  <Typography variant='subtitle1' fontFamily='roboto'>Year: {tile.year}</Typography>
-                  <Typography variant='h3' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
-                  <HistoryTable identifier={tile.identifier}/>
-                  <MicroresearchTable identifier={tile.identifier}/>
-                  <MicroresearchPrompt identifier={tile.identifier}/>
+                  <div>
+                    <div style={{float: 'left',
+                      width: '80%'}}>
+                      <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
+                      <Typography variant='subtitle1' fontFamily='roboto'>{tile.artist}, {tile.year}</Typography>
+                    </div>
+                    <div style={{float: 'right',
+                      width: '20%',
+                      textAlign: 'right'}}>
+                      <Typography variant='h4' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
+                    </div>
+                  </div>
+                  <div style={{marginTop: '1in'}}>
+                    <hr></hr>
+                    <HistoryTable identifier={tile.identifier}/>
+                    <MicroresearchTable identifier={tile.identifier}/>
+                    <MicroresearchPrompt identifier={tile.identifier}/>
+                  </div>
                 </Paper>
                 {/* <GridListTileBar
                   title={tile.title}
