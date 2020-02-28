@@ -144,6 +144,21 @@ class AuctionStudent extends React.Component {
         currentLotName = lots[l].identifier;
       };
       auctionScroll.appendChild(imagenode);
+
+      if (lots[l].sold) {
+        const soldNode = document.createElement('a');
+        soldNode.style.display = 'absolute';
+        soldNode.style.left = (-20+550*auctionnumber).toString()+'px';
+        soldNode.innerHTML = 'SOLD';
+        soldNode.style.color = 'red';
+        soldNode.style.top = '90px';
+        soldNode.style.fontSize = '90px';
+        auctionScroll.appendChild(soldNode);
+        soldNode.style.overflow = 'hidden';
+        soldNode.style.transform = 'rotate(25deg)';
+      }
+
+
       const textnode = document.createElement('a');
       textnode.innerHTML =
       '<pre>'+
