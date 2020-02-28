@@ -28,7 +28,6 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-
     //req.body.date
     // date (corresponding to our datetime object) needs to be converted
     // to something mysql can accept

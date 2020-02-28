@@ -53,73 +53,72 @@ class Form extends React.Component {
           textAlign: 'center',
           paddingTop: 20,
           paddingBottom: 10}}>Estimated Values</Typography>
-        <form>
-          {tileData.map((tile) => (
-            <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
-              <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
-              <Paper style={{padding: 10}}>
-                <Typography variant='h6' fontFamily='roboto' style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
-                <Typography variant='subtitle1' fontFamily='roboto' style={{marginLeft: 20}}>By: {tile.artist}</Typography>
-                <div style={{margin: 20}}>
-                  {/* <form>  Username: <input type='text' name='fname'></input><br></br> */}
-                  <label>Estimated Value (1-10):
-                    <br></br>
-                    <input id = {'rate'+tile.identifier} type='number' name='lname' min='1' max='10' maxlength='2'></input>
-                    <br></br>
-                  </label>
-                  <br></br>
-                  <br></br>
-                  <br></br>
-                  {/* </form> */}
-                </div>
-                <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
-                </div>
-              </Paper>
-              {/* <GridListTileBar
-                title={tile.title}
-                subtitle={<span>by: {tile.artist}</span>}
-              /> */}
-            </View>
-          ))}
+        {tileData.map((tile) => (
           <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
-            <div>
-              <Button size='large' variant='contained' color='secondary' type='submit' value='Submit'
-                style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}}
-                onClick = {async () => {
-                  let images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
-                  images = await images.json();
-                  for (const i in tileData) {
-                    const ratingIdentifier = document.getElementById('rate'+tileData[i].identifier);
-                    let rating = ratingIdentifier.value;
-                    // console.log('Before:' + rating);
-                    if (ratingIdentifier.value > 10) {
-                      rating = 10;
-                    } else if (ratingIdentifier.value < 1) { // this handles null cases as well as ones where the value is less than 0
-                      rating = 1;
-                    }
-                    // console.log('After:' + rating);
-                    await fetch('http://fantasycollecting.hamilton.edu/api/ratetable/', {
-                      method: 'post',
-                      headers: {'Content-Type': 'application/json'},
-                      mode: 'cors',
-                      body: JSON.stringify({
-                        identifier: tileData[i].identifier,
-                        price: rating,
-                      }),
-                    });
+            <img src={tile.img} alt={tile.title} height={300} style={{alignItem: 'center'}}/>
+            <Paper style={{padding: 10}}>
+              <Typography variant='h6' fontFamily='roboto' style={{textAlign: 'left', marginLeft: 20}}>{tile.title}</Typography>
+              <Typography variant='subtitle1' fontFamily='roboto' style={{marginLeft: 20}}>By: {tile.artist}</Typography>
+              <div style={{margin: 20}}>
+                <label>Estimated Value (1-10):
+                  <br></br>
+                  <input id = {'rate'+tile.identifier} type='number' name='lname' min='1' max='10' maxlength='2'></input>
+                  <br></br>
+                </label>
+                <br></br>
+                <br></br>
+                <br></br>
+                {/* </form> */}
+              </div>
+              <div style={{paddingTop: 5, position: 'relative', alignSelf: 'right', justifyContent: 'flex-end'}}>
+              </div>
+            </Paper>
+            {/* <GridListTileBar
+              title={tile.title}
+              subtitle={<span>by: {tile.artist}</span>}
+            /> */}
+          </View>
+        ))}
+        <View style={{padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
+          <div>
+            <Button size='large' variant='contained' color='secondary' type='submit' value='Submit'
+              style={{fontSize: 20, backgroundColor: '#002f86', alignItem: 'center', margin: 20}}
+              onClick = {async () => {
+                let images = await fetch('http://fantasycollecting.hamilton.edu/api/artworks/');
+                images = await images.json();
+                for (const i in tileData) {
+                  const ratingIdentifier = document.getElementById('rate'+tileData[i].identifier);
+                  let rating = ratingIdentifier.value;
+                  // console.log('Before:' + rating);
+                  if (ratingIdentifier.value > 10) {
+                    rating = 10;
+                  } else if (ratingIdentifier.value < 1) { // this handles null cases as well as ones where the value is less than 0
+                    rating = 1;
                   }
-                  await fetch('http://fantasycollecting.hamilton.edu/api/users/'+localStorage.getItem('username'), {
-                    method: 'put',
+                  // console.log('After:' + rating);
+                  await fetch('http://fantasycollecting.hamilton.edu/api/ratetable/', {
+                    method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     mode: 'cors',
                     body: JSON.stringify({
-                      formcompleted: 1,
+                      identifier: tileData[i].identifier,
+                      price: rating,
                     }),
                   });
-                  document.getElementById('ratingpage').style.left = '-100%';
-                  document.getElementById('ratingbutton').style.display = 'none';
-                }}>SUBMIT FORM</Button> </div></View>
-        </form>
+                }
+                await fetch('http://fantasycollecting.hamilton.edu/api/users/'+localStorage.getItem('username'), {
+                  method: 'put',
+                  headers: {'Content-Type': 'application/json'},
+                  mode: 'cors',
+                  body: JSON.stringify({
+                    formcompleted: 1,
+                  }),
+                });
+                document.getElementById('ratingpage').style.left = '-100%';
+                document.getElementById('ratingbutton').style.display = 'none';
+              }}>Submit Form</Button>
+          </div>
+        </View>
       </div>
     );
   }

@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id/:num', function(req, res, next) {
-  connection.execute('SELECT FROM auction WHERE identifier = ? and number = ?', [req.params.id, req.params.num], (err, results, fields) => {
+  connection.execute('SELECT * FROM auction WHERE identifier = ? AND number = ?', [req.params.id, req.params.num], (err, results, fields) => {
     res.send(results);
   });
 });
@@ -28,7 +28,6 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-
     // timestamp (corresponding to our datetime object) needs to be converted
     // to something mysql can accept
     req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
@@ -39,10 +38,9 @@ router.post('/', json(), function(req, res, next) {
       req.body.highestbid,
       req.body.username,
       req.body.deadline,
-      req.body.groupid,
       req.body.lotessay,
       req.body.pricevisible,
-      req.body.sold
+      req.body.sold,
     ];
 
     for (const i in dbEntry) {
@@ -74,10 +72,9 @@ router.put('/:id', json(), function(req, res, next) {
     highestbid: req.body.highestbid,
     username: req.body.username,
     deadline: req.body.deadline,
-    groupid: req.body.groupid,
     lotessay: req.body.lotessay,
     pricevisible: req.body.pricevisible,
-    sold: req.body.sold
+    sold: req.body.sold,
   };
 
   for (const item of Object.keys(dbEntry)) {
