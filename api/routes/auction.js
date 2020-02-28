@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id/:num', function(req, res, next) {
-  connection.execute('SELECT FROM auction WHERE identifier = ? and number = ?', [req.params.id, req.params.num], (err, results, fields) => {
+  connection.execute('SELECT * FROM auction WHERE identifier = ? and number = ?', [req.params.id, req.params.num], (err, results, fields) => {
     res.send(results);
   });
 });

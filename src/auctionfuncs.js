@@ -120,7 +120,7 @@ async function createLot(id, name, essay, artworks) {
 }
 
 
-async function conductAuctionTrade(artwork, user, seller, offer) {
+async function conductAuctionTrade(artwork, user, seller, offer, auctionid) {
   // change current owner of painting to user
   fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${artwork}`, {
     method: 'put',
@@ -186,4 +186,17 @@ async function conductAuctionTrade(artwork, user, seller, offer) {
     body: JSON.stringify(historyBody),
   }).then((res) => {
   });
+
+  fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+artwork+auctionid, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sold: 1,
+    }),
+  }).then((res) => {
+  });
+
 }
