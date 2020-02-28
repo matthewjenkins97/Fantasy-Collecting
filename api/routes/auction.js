@@ -86,6 +86,32 @@ router.put('/:id', json(), function(req, res, next) {
   res.sendStatus(200);
 });
 
+router.put('/:id/:num', json(), function(req, res, next) {
+  // deadline (corresponding to our datetime object) needs to be converted
+  // to something mysql can accept
+  if (req.body.deadline !== undefined) {
+    req.body.deadline = new Date(req.body.deadline).toISOString().slice(0, 19).replace('T', ' ');
+  }
+  
+  const dbEntry = {
+    number: req.body.number,
+    highestbid: req.body.highestbid,
+    username: req.body.username,
+    deadline: req.body.deadline,
+    lotessay: req.body.lotessay,
+    pricevisible: req.body.pricevisible,
+    sold: req.body.sold,
+  };
+
+  for (const item of Object.keys(dbEntry)) {
+    if (dbEntry[item] !== undefined) {
+      connection.execute(`UPDATE auction SET ${item} = ? WHERE identifier = ? AND number = ?`, [dbEntry[item], req.params.id, req.params.num]);
+    }
+  }
+
+  res.sendStatus(200);
+});
+
 router.delete('/:id', function(req, res, next) {
   connection.execute(`DELETE FROM auction WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
     res.sendStatus(200);

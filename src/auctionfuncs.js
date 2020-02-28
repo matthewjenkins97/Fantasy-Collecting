@@ -187,7 +187,7 @@ async function conductAuctionTrade(artwork, user, seller, offer, auctionid) {
   }).then((res) => {
   });
 
-  fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+artwork+auctionid, {
+  fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+artwork+'/'+auctionid, {
     method: 'put',
     mode: 'cors',
     headers: {
