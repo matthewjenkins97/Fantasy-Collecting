@@ -124,13 +124,16 @@ class AuctionAdmin extends React.Component{
       let timerNode = document.createElement("p");
       timerNode.id = "timernode"+id;
       timerNode.innerHTML = "00:00:00";
-      document.getElementById("auctions").append(timerNode);
+
       timerNode.style.color = "white";
       timerNode.style.backgroundColor = "#002f86";
       timerNode.style.width = "auto";
       timerNode.style.borderRadius = "5px";
       timerNode.style.width = "15%";
       timerNode.style.padding = "5px";
+
+      document.getElementById("auctions").append(timerNode);
+      currentAuctions.push(timerNode.id);
 
       let addLotNode = document.createElement("button");
       addLotNode.id = id;
@@ -141,13 +144,23 @@ class AuctionAdmin extends React.Component{
       document.getElementById("auctions").append(addLotNode);
 
       let deleteNode = document.createElement("button");
-      deleteNode.id = "deletNode"+id;
+      deleteNode.id = "deleteNode"+id;
       deleteNode.innerHTML = "Delete Auction"
       deleteNode.onclick = async function () {
         await auctionfuncs.deleteAuction(id);
         c_ref.loadAuctions();
       };
       document.getElementById("auctions").append(deleteNode);
+
+      let archiveNode = document.createElement("button");
+      archiveNode.id = "archiveNode"+id;
+      archiveNode.innerHTML = "Archive Auction"
+      archiveNode.onclick = async function () {
+        //await auctionfuncs.deleteAuction(id);
+        c_ref.loadAuctions();
+      };
+      document.getElementById("auctions").append(archiveNode);
+      currentAuctions.push(archiveNode.id);
 
       // let confirmNode = document.createElement("button");
       // confirmNode.id = "confirmNode"+id;
