@@ -49,7 +49,7 @@ router.post('/', json(), function(req, res, next) {
       }
     }
 
-    connection.execute(`INSERT INTO auction VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO auction VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
