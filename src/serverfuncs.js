@@ -42,7 +42,7 @@ const timerupdate = coroutine(function* () {
 });
 setInterval(timerupdate, 1000);
 async function updatetimers() {
-  if(!window.location.toString().endsWith("auction")) return;
+  if(!window.location.toString().endsWith("/adminauction")) return;
   const auctions = await getAllAuctions();
   for(let t in auctions) {
     let timeleft = new Date(auctions[t].date)-Date.now();
