@@ -210,7 +210,7 @@ class AuctionAdmin extends React.Component{
           for(let a in artworks) {
             if(artworks[a].identifier.toString() === lots[l].identifier.toString()) {
               await auctionfuncs.conductAuctionTrade(lots[l].identifier, lots[l].username, artworks[a].owner, lots[l].highestbid);
-              // await auctionfuncs.settosold(lots[l].identifier)
+              await auctionfuncs.settosold(lots[l].identifier, lots[l].number);
             }
           }
           c_ref.loadAuctions();

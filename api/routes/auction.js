@@ -17,6 +17,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/:id/:num', function(req, res, next) {
+  connection.execute('SELECT FROM auction WHERE identifier = ? and number = ?', [req.params.id, req.params.num], (err, results, fields) => {
+    res.send(results);
+  });
+});
+
 router.post('/', json(), function(req, res, next) {
   // primary key check - if it doesn't exist, it's a bad request
   if (!req.body.identifier) {
