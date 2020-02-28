@@ -6,6 +6,9 @@ const fs = require('fs');
 
 router.use(busboy());
 
+// for conversion of file names
+const latinize = require('latinize');
+
 router.get('/', function(req, res) {
   res.json({photos: fs.readdirSync('/home/fantasycollect/public_html/static/media/')});
 });
@@ -15,6 +18,7 @@ router.post('/', function(req, res) {
     req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       // converting illegal HTML characters into legal characters
       // if data is not sanitized then it could cause problems for mysql downline
+      filename = latinize(filename);
       if (/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/.test(filename)) {
         filename = filename.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
       }

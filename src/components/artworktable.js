@@ -3,8 +3,7 @@ import MaterialTable from 'material-table';
 import * as serverfuncs from '../serverfuncs';
 import ImageDrop from './imagedrop';
 import './backgroundlogin.css';
-import { TablePagination } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import {TablePagination} from '@material-ui/core';
 
 let rows = [];
 let read = false;
@@ -51,13 +50,13 @@ export default class ArtworkTable extends React.Component {
           <MaterialTable
             title='Artworks'
             components={{
-              Pagination: props => (
+              Pagination: (props) => (
                 <div>
                   <TablePagination
                     {...props}
-                    />
+                  />
                 </div>
-              )
+              ),
             }}
             columns={this.state.columns}
             data={this.state.data}

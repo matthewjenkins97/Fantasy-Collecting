@@ -141,6 +141,6 @@ export default class MaterialTableDemo extends React.Component {
             }),
         }}
       />
-    ) : (<h1>loading...</h1>)} </div> );
+    ) : (<h1>Loading...</h1>)} </div> );
   }
 }

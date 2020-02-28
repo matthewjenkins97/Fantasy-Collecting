@@ -1,6 +1,7 @@
 import React from 'react';
 import './imagedrop.css';
 import * as serverfuncs from '../serverfuncs';
+import latinize from 'latinize';
 
 function preventDefaults(e) {
   e.preventDefault();
@@ -32,13 +33,16 @@ function uploadFile(file) {
       if (window.confirm('Upload successful! Do you want to turn this photo into an artwork for the game?')) {
         // file.name - convert to all lowercase and remove the ending
         // remove illegal characters - defined as the following:
-        //
+        // space, semicolon, slash, question mark, colon, at sign, equals sign, and, double qoutes, left caret, right caret, hashtag, percent sign, left brace, right brace, pipe, up caret, tilde, left square bracket, right square bracket, left parenthesis, right parenthesis, tilde
         let identifier = file.name;
+
+        identifier = latinize(identifier);
         identifier = identifier.replace(/\.[^/.]+$/, '');
         identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
         identifier = identifier.toLowerCase();
 
-        let url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
+        let url = latinize(file.name);
+        url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
 
         // generate url
         url = 'http://fantasycollecting.hamilton.edu/static/media/' + url;
@@ -133,7 +137,7 @@ class ImageDrop extends React.Component {
       <div>
         <div id='drop-area'>
           <form className='my-form'>
-            <p>Upload multiple files by dragging and dropping images onto the dashed region.</p>
+            <p>Upload files by dragging and dropping images onto the dashed region.</p>
             <br />
             <i id='status'></i>
           </form>

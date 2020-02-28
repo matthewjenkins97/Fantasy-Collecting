@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-
+import React from 'react';
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
-
 import './backgroundlogin.css';
-import {ART} from 'react-native';
+import Typography from "@material-ui/core/Typography"
 
 class LotImage extends HTMLImageElement {
   index = 0;
@@ -242,7 +240,7 @@ class AuctionAdmin extends React.Component {
         '\n\nArtist:  '+sourceOfImage.artist+
         '\n\nYear:  '+sourceOfImage.year+
         '\n\nOwner:  '+sourceOfImage.owner+
-        '\n\nCurrent Highest Bid:\n'+lots[l].highestbid+
+        '\n\nHighest Bid:\n'+lots[l].highestbid+
         '</pre>';
 
         if (lots[l].username === localStorage.getItem('username')) {
@@ -274,7 +272,7 @@ class AuctionAdmin extends React.Component {
       '\n\nArtist:  '+sourceOfImage.artist+
       '\n\nYear:  '+sourceOfImage.year+
       '\n\nOwner:  '+sourceOfImage.owner+
-      '\n\nCurrent Highest Bid:\n'+lots[l].highestbid+
+      '\n\nHighest Bid:\n'+lots[l].highestbid+
       '</pre>';
 
       if(lots[l].username === localStorage.getItem('username')) {
@@ -348,7 +346,7 @@ class AuctionAdmin extends React.Component {
           }}>Place Bid</button>
         </div>
         <div className = 'title'>
-          <a>Auctions</a>
+          <Typography variant='h3'>Auctions</Typography>
         </div>
 
         <div id = 'createauctiondropdown' className = 'createdropdown'>
