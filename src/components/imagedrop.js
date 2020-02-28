@@ -1,7 +1,26 @@
 import React from 'react';
 import './imagedrop.css';
 import * as serverfuncs from '../serverfuncs';
-import latinize from 'latinize';
+
+// for conversion of file names
+function slugify(str) {
+  const map = {
+    '-': '-',
+    '-': '_',
+    'a': 'á|à|ã|â|À|Á|Ã|Â',
+    'e': 'é|è|ê|É|È|Ê',
+    'i': 'í|ì|î|Í|Ì|Î',
+    'o': 'ó|ò|ô|õ|Ó|Ò|Ô|Õ',
+    'u': 'ú|ù|û|ü|Ú|Ù|Û|Ü',
+    'c': 'ç|Ç',
+    'n': 'ñ|Ñ',
+  };
+  str = str.toLowerCase();
+  for (const pattern in map) {
+    str = str.replace(new RegExp(map[pattern], 'g'), pattern);
+  };
+  return str;
+};
 
 function preventDefaults(e) {
   e.preventDefault();
@@ -34,14 +53,13 @@ function uploadFile(file) {
         // file.name - convert to all lowercase and remove the ending
         // remove illegal characters - defined as the following:
         // space, semicolon, slash, question mark, colon, at sign, equals sign, and, double qoutes, left caret, right caret, hashtag, percent sign, left brace, right brace, pipe, up caret, tilde, left square bracket, right square bracket, left parenthesis, right parenthesis, tilde
-        let identifier = file.name;
+        let identifier = slugify(file.name);
 
-        identifier = latinize(identifier);
         identifier = identifier.replace(/\.[^/.]+$/, '');
         identifier = identifier.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
         identifier = identifier.toLowerCase();
 
-        let url = latinize(file.name);
+        let url = slugify(file.name);
         url = file.name.replace(/[\ ;\/?:@=&\"<>#%{}|\^~\[\]\(\)`]/g, '_');
 
         // generate url
