@@ -206,11 +206,10 @@ class AuctionAdmin extends React.Component{
         confirmNode.style.left = (auctionnumber*550+75).toString()+"px";
         confirmNode.onclick = async function () {
           const artworks = await serverfuncs.getAllArtworks();
-          let l = parseInt(this.id.slice(9));
+          let l = parseInt(this.id.slice(10));
           for(let a in artworks) {
             if(artworks[a].identifier.toString() === lots[l].identifier.toString()) {
-              await auctionfuncs.conductAuctionTrade(lots[l].identifier, lots[l].username, artworks[a].owner, lots[l].highestbid);
-              await auctionfuncs.settosold(lots[l].identifier, lots[l].number);
+              await auctionfuncs.conductAuctionTrade(lots[l].identifier, lots[l].username, artworks[a].owner, lots[l].highestbid, lots[l].number);
             }
           }
           c_ref.loadAuctions();
@@ -242,6 +241,20 @@ class AuctionAdmin extends React.Component{
           currentLotName = lots[l].identifier;
         }
         auction_scroll.appendChild(imagenode);
+
+        if(lots[l].sold) {
+          let soldnode = document.createElement('a');
+          soldnode.style.display = 'absolute';
+          soldnode.style.left = (-20+550*auctionnumber).toString()+'px';
+          soldnode.innerHTML = 'SOLD';
+          soldnode.style.color = 'red';
+          soldnode.style.top = '90px';
+          soldnode.style.fontSize = '90px';
+          auction_scroll.appendChild(soldnode);
+          soldnode.style.overflow = 'hidden';
+          soldnode.style.transform = 'rotate(25deg)';
+        }
+
     
         let textnode = document.createElement("a");
         textnode.innerHTML =
