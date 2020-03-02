@@ -37,13 +37,11 @@ router.post('/', json(), function(req, res, next) {
       req.body.buyerapproved,
       req.body.sellerapproved,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] == undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.execute(`INSERT INTO trades VALUES (?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -70,7 +68,6 @@ router.put('/:id', json(), function(req, res, next) {
       connection.execute(`UPDATE trades SET ${item} = ? WHERE tradeid = ?`, [dbEntry[item], req.params.id]);
     }
   }
-
   res.sendStatus(200);
 });
 

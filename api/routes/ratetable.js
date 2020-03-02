@@ -30,15 +30,13 @@ router.post('/', json(), function(req, res, next) {
   } else {
     const dbEntry = [
       req.body.identifier,
-      req.body.price
+      req.body.price,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
-    }
-
+    }c
     connection.execute(`INSERT INTO ratetable VALUES (?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);

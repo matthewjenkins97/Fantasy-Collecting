@@ -36,15 +36,13 @@ router.post('/', json(), function(req, res, next) {
       req.body.guilders,
       req.body.microresearchpoints,
       req.body.blurb,
-      req.body.formcompleted
+      req.body.formcompleted,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] == undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -66,13 +64,11 @@ router.put('/:id', json(), function(req, res, next) {
     blurb: req.body.blurb,
     formcompleted: req.body.formcompleted,
   };
-
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
       connection.execute(`UPDATE users SET ${item} = ? WHERE username = ?`, [dbEntry[item], req.params.id]);
     }
   }
-
   res.sendStatus(200);
 });
 

@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  connection.execute(`SELECT * FROM microresearch WHERE identifier = ?`, [req.params.id], (err, results, fields) => {
+  connection.execute(`SELECT * FROM microresearch WHERE identifier = ? OR username = ?`, [req.params.id, req.params.id], (err, results, fields) => {
     res.send(results);
   });
 });
@@ -27,25 +27,21 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-
     // timestamp (corresponding to our datetime object) needs to be converted
     // to something mysql can accept
     req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-
     const dbEntry = [
       req.body.username,
       req.body.identifier,
       req.body.information,
       req.body.timestamp,
     ];
-
     // setting nonexistent things to null
-    for (let i in dbEntry) {
+    for (const i in dbEntry) {
       if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.execute('INSERT INTO microresearch VALUES (?, ?, ?, ?)', dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -62,6 +58,5 @@ router.delete('/:id', function(req, res, next) {
     res.sendStatus(200);
   });
 });
-
 
 module.exports = router;

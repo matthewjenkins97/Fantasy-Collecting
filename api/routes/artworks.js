@@ -28,7 +28,6 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.identifier) {
     res.sendStatus(400);
   } else {
-
     const dbEntry = [
       req.body.identifier,
       req.body.title,
@@ -40,13 +39,11 @@ router.post('/', json(), function(req, res, next) {
       req.body.url,
       req.body.rateable,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.execute(`INSERT INTO artworks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -70,13 +67,11 @@ router.put('/:id', json(), function(req, res, next) {
     url: req.body.url,
     rateable: req.body.rateable,
   };
-
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
       connection.execute(`UPDATE artworks SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
     }
   }
-
   res.sendStatus(200);
 });
 

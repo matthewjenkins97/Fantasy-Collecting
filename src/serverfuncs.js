@@ -461,7 +461,7 @@ async function approveTrade(tid) {
     var username = "";
     var artworkowner = "";
     for(var u in users) {
-      if(users[u].username.toString() === offers[offer].seller.toString()) {
+      if (users[u].username.toString() === offers[offer].seller.toString()) {
         userguilders = users[u].guilders;
         username = users[u].username;
       }

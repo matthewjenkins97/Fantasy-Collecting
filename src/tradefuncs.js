@@ -5,12 +5,12 @@ function checkOfferType(offer) {
 export async function conductTrade(buyer, seller, offer, tradeid) {
 
   // change current owner of painting to buyer
-  if(checkOfferType(offer)) {
+  if (checkOfferType(offer)) {
     // subtract buyer's payment from their account
     let buyerBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
       method: 'get',
       mode: 'cors',
-    })
+    });
     buyerBody = await buyerBody.json();
     buyerBody = buyerBody[0];
     buyerBody.guilders = (parseInt(buyerBody.guilders) + parseInt(offer));

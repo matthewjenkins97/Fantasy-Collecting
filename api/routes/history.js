@@ -31,7 +31,6 @@ router.post('/', json(), function(req, res, next) {
     // timestamp (corresponding to our datetime object) needs to be converted
     // to something mysql can accept
     req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
-
     const dbEntry = [
       req.body.identifier,
       req.body.seller,
@@ -40,13 +39,11 @@ router.post('/', json(), function(req, res, next) {
       req.body.timestamp,
       req.body.tradeid,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.query(`INSERT INTO history VALUES (?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -64,7 +61,6 @@ router.put('/:id', json(), function(req, res, next) {
   if (req.body.timestamp !== undefined) {
     req.body.timestamp = new Date(req.body.timestamp).toISOString().slice(0, 19).replace('T', ' ');
   }
-
   const dbEntry = {
     seller: req.body.seller,
     buyer: req.body.buyer,
@@ -72,13 +68,11 @@ router.put('/:id', json(), function(req, res, next) {
     timestamp: req.body.timestamp,
     tradeid: req.body.tradeid,
   };
-
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
       connection.execute(`UPDATE history SET ${item} = ? WHERE identifier = ?`, [dbEntry[item], req.params.id]);
     }
   }
-
   res.sendStatus(200);
 });
 

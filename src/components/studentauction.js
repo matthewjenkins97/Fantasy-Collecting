@@ -190,7 +190,7 @@ class AuctionStudent extends React.Component {
           return;
         } else if (parseInt(document.getElementById('userbid').value) <= 0) {
           // handling user bids that are negative or 0
-          serverfuncs.showNotification('bid cannot 0 or negative');
+          serverfuncs.showNotification('bid cannot be 0 or negative');
           return;
         }
 

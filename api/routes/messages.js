@@ -34,19 +34,16 @@ router.post('/', json(), function(req, res, next) {
   if (!req.body.username) {
     res.sendStatus(400);
   } else {
-
     const dbEntry = [
       req.body.username,
       req.body.room,
       req.body.messagecount,
     ];
-
     for (const i in dbEntry) {
       if (dbEntry[i] === undefined) {
         dbEntry[i] = null;
       }
     }
-
     connection.execute(`INSERT INTO messages VALUES (?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
@@ -64,13 +61,11 @@ router.put('/:id', json(), function(req, res, next) {
     room: req.body.room,
     messagecount: req.body.messagecount,
   };
-
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
       connection.execute(`UPDATE messages SET ${item} = ? WHERE username = ?`, [dbEntry[item], req.params.id]);
     }
   }
-
   res.sendStatus(200);
 });
 

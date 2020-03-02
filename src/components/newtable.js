@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 import * as serverfuncs from '../serverfuncs';
 import {default as Chatkit} from '@pusher/chatkit-server';
 import './backgroundlogin.css';
+import './gallerydropdown.css';
 
 let rows = [];
 let read = false;
@@ -14,7 +15,7 @@ const stateBeg = {columns: [
   {title: 'Admin?', field: 'admin', type: 'numeric'},
   {title: 'Completed form?', field: 'formcompleted', type: 'numeric'},
   {title: 'Guilders', field: 'guilders', type: 'numeric'},
-  {title: 'Microresearch Points', field: 'microresearchpoints', type: 'numeric'},
+  {title: 'Points', field: 'microresearchpoints', type: 'numeric'},
   {title: 'Blurb', field: 'blurb'},
 ],
 data: rows,
@@ -24,6 +25,79 @@ const chatkit = new Chatkit({
   instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
   key: '32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg=',
 });
+
+class MicroresearchTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // stuff for memory of table
+    this.rows = [];
+    this.read = false;
+    this.getRows = this.getRows.bind(this);
+
+    // needs to be done for divid to be preserved
+    this.lowerTable = this.lowerTable.bind(this);
+    this.raiseTable = this.raiseTable.bind(this);
+    this.divid = this.props.identifier + 'MicroresearchDropdown';
+
+    this.getRows();
+    this.state = {columns: [
+      {title: 'User', field: 'username'},
+      {title: 'Microresearch', field: 'information'},
+      {title: 'Timestamp', field: 'timestamp'},
+    ],
+    data: this.rows,
+    };
+  }
+
+  lowerTable() {
+    document.getElementById(this.divid).style.top = '50px';
+  }
+
+  raiseTable() {
+    document.getElementById(this.divid).style.top = '-600px';
+  }
+
+  async getRows() {
+    // used in render to print name of artwork rather than the identifier
+    this.artwork = await serverfuncs.getArtworkInfo(this.props.identifier);
+    this.artworkName = this.artwork.title;
+
+    this.rows = [];
+    const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
+    for (const microresearch of artworkMicroresearch) {
+      if (microresearch.identifier === this.props.identifier) {
+        microresearch.timestamp = new Date(microresearch.timestamp).toLocaleString();
+        this.rows.push(microresearch);
+      }
+    };
+    this.state.data = this.rows;
+    this.state.data = this.state.data.sort( function(a, b) {
+      return new Date(a.date) > new Date(b.date) ? 1 : -1;
+    });
+    this.read = true;
+    this.forceUpdate();
+  }
+
+  render() {
+    const title = 'Microresearch for \"' + this.artworkName + '\"';
+    return (
+      <div>
+        <div id={this.divid} class='galleryDropdown'>
+          <a class='closebtn' onClick={this.raiseTable}>&times;</a>
+          <p>&nbsp;</p>
+          {this.read ? (
+          <MaterialTable
+            title={title}
+            columns={this.state.columns}
+            data={this.state.data}
+          />
+        ) : (<h1>Loading...</h1>)}
+        </div>
+      </div>
+    );
+  }
+}
 
 export default class MaterialTableDemo extends React.Component {
   constructor(props) {
