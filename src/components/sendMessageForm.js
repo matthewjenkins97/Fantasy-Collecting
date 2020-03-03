@@ -26,10 +26,10 @@ class sendMessageForm extends React.Component {
       <div>
         <form onSubmit={this.onSubmit}>
           <input
-            type="text"
+            type='text'
             onChange={this.onChange}
           />
-          <input type="submit"/>
+          <input type='submit'/>
         </form>
       </div>
     );

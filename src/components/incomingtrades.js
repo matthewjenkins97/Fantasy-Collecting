@@ -109,7 +109,7 @@ export default class IncomingTrades extends React.Component {
       denyNode.onclick = async function() {
         await serverfuncs.denyTrade(trades[this.index].tradeid);
         cRef.getIncomingTrades(cRef);
-        serverfuncs.showNotification('trade denied');
+        serverfuncs.showNotification('Trade denied');
       };
       auctionNode.append(denyNode);
 
@@ -124,7 +124,7 @@ export default class IncomingTrades extends React.Component {
           document.getElementById('trade'+trade.toString()).append(breakNode);
 
           const detailNode = document.createElement('a');
-          detailNode.text = details[detail].offer + ' >> ' +details[detail].buyer;
+          detailNode.text = details[detail].seller + ' >> ' + details[detail].offer + ' >> ' + details[detail].buyer;
           document.getElementById('trade'+trade.toString()).append(detailNode);
         }
       }

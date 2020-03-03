@@ -1,25 +1,10 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import SearchIcon from '@material-ui/icons/Search';
 import * as serverfuncs from '../serverfuncs';
 import {default as Chatkit} from '@pusher/chatkit-server';
 import './backgroundlogin.css';
 import './gallerydropdown.css';
-
-let rows = [];
-let read = false;
-
-const stateBeg = {columns: [
-  {title: 'Username', field: 'username'},
-  {title: 'Password', field: 'hash'},
-  {title: 'Name', field: 'name'},
-  {title: 'Admin?', field: 'admin', type: 'numeric'},
-  {title: 'Completed form?', field: 'formcompleted', type: 'numeric'},
-  {title: 'Guilders', field: 'guilders', type: 'numeric'},
-  {title: 'Points', field: 'microresearchpoints', type: 'numeric'},
-  {title: 'Blurb', field: 'blurb'},
-],
-data: rows,
-};
 
 const chatkit = new Chatkit({
   instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
@@ -38,7 +23,7 @@ class MicroresearchTable extends React.Component {
     // needs to be done for divid to be preserved
     this.lowerTable = this.lowerTable.bind(this);
     this.raiseTable = this.raiseTable.bind(this);
-    this.divid = this.props.identifier + 'MicroresearchDropdown';
+    this.divid = this.props.username + 'MicroresearchDropdown';
 
     this.getRows();
     this.state = {columns: [
@@ -59,14 +44,11 @@ class MicroresearchTable extends React.Component {
   }
 
   async getRows() {
-    // used in render to print name of artwork rather than the identifier
-    this.artwork = await serverfuncs.getArtworkInfo(this.props.identifier);
-    this.artworkName = this.artwork.title;
-
     this.rows = [];
-    const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.identifier);
+    this.username = this.props.username;
+    const artworkMicroresearch = await serverfuncs.getMicroresearch(this.props.username);
     for (const microresearch of artworkMicroresearch) {
-      if (microresearch.identifier === this.props.identifier) {
+      if (microresearch.username === this.props.username) {
         microresearch.timestamp = new Date(microresearch.timestamp).toLocaleString();
         this.rows.push(microresearch);
       }
@@ -80,10 +62,10 @@ class MicroresearchTable extends React.Component {
   }
 
   render() {
-    const title = 'Microresearch for \"' + this.artworkName + '\"';
+    const title = this.username + '\'s Microresearch';
     return (
       <div>
-        <div id={this.divid} class='galleryDropdown'>
+        <div id={this.divid} class='galleryDropdownAdmin'>
           <a class='closebtn' onClick={this.raiseTable}>&times;</a>
           <p>&nbsp;</p>
           {this.read ? (
@@ -102,8 +84,31 @@ class MicroresearchTable extends React.Component {
 export default class MaterialTableDemo extends React.Component {
   constructor(props) {
     super(props);
+
+    this.rows = [];
+    this.read = false;
+
+    // populated in getRows()
+    this.microresearchids = [];
+
+    this.stateBeg = {columns: [
+      {title: 'Username', field: 'username'},
+      {title: 'Password', field: 'hash'},
+      {title: 'Name', field: 'name'},
+      {title: 'Admin?', field: 'admin', type: 'numeric'},
+      {title: 'Completed form?', field: 'formcompleted', type: 'numeric'},
+      {title: 'Guilders', field: 'guilders', type: 'numeric'},
+      {title: 'Points', field: 'microresearchpoints', type: 'numeric'},
+      {title: 'Blurb', field: 'blurb'},
+    ],
+    data: this.rows,
+    };
+
+    this.getRows = this.getRows.bind(this);
+
     this.getRows();
-    this.state = stateBeg;
+
+    this.state = this.stateBeg;
     document.body.className = 'background';
   }
 
@@ -131,9 +136,10 @@ export default class MaterialTableDemo extends React.Component {
   }
 
   async getRows() {
-    rows = [];
+    this.rows = [];
     const users = await serverfuncs.getAllUsers();
     for (const user of users) {
+      const microresearchIdentifier = user.username + 'MicroresearchDropdown'
       const dict = {username: user.username,
         hash: '*****',
         name: user.name,
@@ -142,29 +148,43 @@ export default class MaterialTableDemo extends React.Component {
         guilders: user.guilders,
         microresearchpoints: user.microresearchpoints,
         blurb: user.blurb,
+        // used for searching by microresearch
+        id: microresearchIdentifier,
       };
-      rows.push(dict);
+      this.rows.push(dict);
+      this.microresearchids.push(dict.username);
     };
-    this.state.data = rows;
+    this.state.data = this.rows;
     this.state.data = this.state.data.sort(function(a, b) {
       return a.username[0] > b.username[0] ? 1 : -1;
     });
-    read = true;
+    this.read = true;
     this.forceUpdate();
   }
+
   hidePasswords() {
     for (const row in this.state.data) {
       this.state.data[row].hash = '*****';
     }
   }
+
   render() {
     return (
       <div>
-        {read ? (
+        {this.read ? (
       <MaterialTable
         title='Users'
         columns={this.state.columns}
         data={this.state.data}
+        actions={[
+          {
+            icon: SearchIcon,
+            tooltip: 'User Microresearch',
+            onClick: (event, rowData) => {
+              document.getElementById(rowData.id).style.top = '50px';
+            },
+          },
+        ]}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {
@@ -215,6 +235,10 @@ export default class MaterialTableDemo extends React.Component {
             }),
         }}
       />
-    ) : (<h1>Loading...</h1>)} </div> );
+    ) : (<h1>Loading...</h1>)}
+        {this.microresearchids.map((username) => (
+          <MicroresearchTable username={username} />
+        ))}
+      </div> );
   }
 }

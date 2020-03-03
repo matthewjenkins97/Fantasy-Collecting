@@ -26,9 +26,9 @@ class Input extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="input-field">
-        <input className="message-input" type="text" onChange={this.handleChange} value={this.state.message}/>
-        <input className="message-submit" type="submit" value="send" />
+      <form onSubmit={this.handleSubmit} className='input-field'>
+        <input className='message-input' type='text' onChange={this.handleChange} value={this.state.message}/>
+        <input className='message-submit' type='submit' value='send' />
       </form>
     );
   }

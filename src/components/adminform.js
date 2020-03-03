@@ -108,10 +108,11 @@ class AdminForm extends React.Component {
                       });
                 }
               }
-              serverfuncs.showNotification('theoretical prices of artworks assigned');
+              serverfuncs.showNotification('Theoretical prices of artworks assigned');
 
               if (document.getElementById('shuffle').checked === true) {
                 serverfuncs.shuffleArtworks();
+                serverfuncs.showNotification('Artworks shuffled between users');
               }
             }}>Create Theoretical Prices</Button> </div></View>
       </div>

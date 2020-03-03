@@ -115,9 +115,11 @@ export default class HistoryTable extends React.Component {
     this.artwork = await serverfuncs.getArtworkInfo(this.props.identifier);
     this.artworkName = this.artwork.title;
 
+    // converts timestamp to a good string
     for (let i = 0; i < history.length; i++) {
       history[i].timestamp = new Date(history[i].timestamp).toLocaleString();
 
+      // checks if there is a corresponding trade with the trade - if there is, we add a divid to an array
       if (history[i].tradeid !== null) {
         history[i].tradetableid = 'TradeDropdown' + history[i].tradeid;
         this.tradetables.push(history[i].tradeid);

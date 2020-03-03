@@ -2,7 +2,7 @@ import React from 'react';
 import * as auctionfuncs from '../auctionfuncs';
 import * as serverfuncs from '../serverfuncs';
 import './backgroundlogin.css';
-import Typography from "@material-ui/core/Typography"
+import Typography from '@material-ui/core/Typography';
 
 class LotImage extends HTMLImageElement {
   index = 0;
@@ -158,14 +158,14 @@ class AuctionAdmin extends React.Component {
     };
     document.getElementById('auctions').append(deleteNode);
 
-    let archiveNode = document.createElement("button");
-    archiveNode.id = "archiveNode"+id;
-    archiveNode.innerHTML = "Archive Auction"
+    let archiveNode = document.createElement('button');
+    archiveNode.id = 'archiveNode'+id;
+    archiveNode.innerHTML = 'Archive Auction'
     archiveNode.onclick = async function () {
       //await auctionfuncs.deleteAuction(id);
       cRef.loadAuctions();
     };
-    document.getElementById("auctions").append(archiveNode);
+    document.getElementById('auctions').append(archiveNode);
     currentAuctions.push(archiveNode.id);
     
 
@@ -302,12 +302,21 @@ class AuctionAdmin extends React.Component {
         if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
           serverfuncs.showNotification('bid must be higher than previous bid');
           return;
+        } else if (document.getElementById('userbid').value === '') {
+        // handling accidental empty bids
+          serverfuncs.showNotification('Bid cannot be empty');
+          return;
+        } else if (parseInt(document.getElementById('userbid').value) <= 0) {
+          // handling user bids that are negative or 0
+          serverfuncs.showNotification('Bid cannot be 0 or negative');
+          return;
         }
+
         const users = await serverfuncs.getAllUsers();
         for (const u in users) {
           if (users[u].username === localStorage.getItem('username')) {
             if (parseInt(document.getElementById('userbid').value) > users[u].guilders) {
-              serverfuncs.showNotification('you do not have enough guilders to post this bid');
+              serverfuncs.showNotification('You do not have enough guilders to post this bid');
               return;
             }
           }

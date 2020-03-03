@@ -11,11 +11,20 @@ export default class MicroresearchPrompt extends React.Component {
     this.lowerTable = this.lowerTable.bind(this);
     this.raiseTable = this.raiseTable.bind(this);
     this.submitMicroresearch = this.submitMicroresearch.bind(this);
-    this.render = this.render.bind(this);
+    this.getName = this.getName.bind(this);
 
     this.textid = this.props.identifier + 'MicroresearchPromptText';
     this.divid = this.props.identifier + 'MicroresearchPromptDropdown';
     this.identifier = this.props.identifier;
+    this.artworkName = undefined;
+
+    this.getName();
+  }
+
+  async getName() {
+    const artwork = await serverfuncs.getArtworkInfo(this.identifier);
+    this.artworkName = artwork.title;
+    this.forceUpdate();
   }
 
   lowerTable() {
@@ -39,6 +48,7 @@ export default class MicroresearchPrompt extends React.Component {
     // raise table
     document.getElementById(this.divid).style.top = '-600px';
 
+    serverfuncs.showNotification('Microresearch submitted');
     // refresh
     setTimeout( () => {
       window.location.reload();
@@ -46,7 +56,7 @@ export default class MicroresearchPrompt extends React.Component {
   }
 
   render() {
-    const title = 'Add Microresearch for \"' + this.identifier + '\"';
+    const title = 'Add Microresearch for \"' + this.artworkName + '\"';
     return (
       <div>
         <Button onClick={this.lowerTable}><i>Add Microresearch...</i></Button>

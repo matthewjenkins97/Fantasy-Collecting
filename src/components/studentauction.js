@@ -186,11 +186,11 @@ class AuctionStudent extends React.Component {
           return;
         } else if (document.getElementById('userbid').value === '') {
         // handling accidental empty bids
-          serverfuncs.showNotification('bid cannot be empty');
+          serverfuncs.showNotification('Bid cannot be empty');
           return;
         } else if (parseInt(document.getElementById('userbid').value) <= 0) {
           // handling user bids that are negative or 0
-          serverfuncs.showNotification('bid cannot be 0 or negative');
+          serverfuncs.showNotification('Bid cannot be 0 or negative');
           return;
         }
 
@@ -198,7 +198,7 @@ class AuctionStudent extends React.Component {
         for (const u in users) {
           if (users[u].username === localStorage.getItem('username')) {
             if (parseInt(document.getElementById('userbid').value) > users[u].guilders) {
-              serverfuncs.showNotification('you do not have enough guilders to post this bid');
+              serverfuncs.showNotification('You do not have enough guilders to post this bid');
               return;
             }
           }
