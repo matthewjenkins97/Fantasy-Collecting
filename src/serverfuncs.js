@@ -50,14 +50,18 @@ async function updatetimers() {
 
   const auctions = await getAllAuctions();
   for(let t in auctions) {
-    let timeleft = new Date(auctions[t].date)-Date.now();
-    if(timeleft < 0) {
-      document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
-      document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
-    }
-    else {
-      document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 
-      "Expires in: "+parseTime(timeleft);
+    let timeleft = new Date(auctions[t].date) - Date.now();
+    try {
+      if (timeleft < 0) {
+        document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
+        document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
+      }
+      else {
+        document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 
+        "Expires in: "+parseTime(timeleft);
+      }
+    } catch {
+      // pass
     }
   }
 }
@@ -69,7 +73,10 @@ function parseTime(datetime) {
   const dateminutes = Math.floor(datetime / (1000*60));
   datetime -= 1000*60 * dateminutes;
   const dateseconds = Math.floor(datetime / 1000);
-  return datedays.toString()+":"+(datehours<10?'0':'')+datehours.toString()+":"+dateminutes.toString()+":"+(dateseconds<10?'0':'')+dateseconds.toString();
+  return datedays.toString().padStart(2, '0') + ":" +
+  datehours.toString().padStart(2, '0') + ":" +
+  dateminutes.toString().padStart(2, '0')+ ":" +
+  dateseconds.toString().padStart(2, '0');
 }
 
 

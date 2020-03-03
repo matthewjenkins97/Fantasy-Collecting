@@ -124,7 +124,7 @@ export default class IncomingTrades extends React.Component {
           document.getElementById('trade'+trade.toString()).append(breakNode);
 
           const detailNode = document.createElement('a');
-          detailNode.text = details[detail].seller + ' >> ' + details[detail].offer + ' >> ' + details[detail].buyer;
+          detailNode.text = details[detail].seller + ' -> ' + details[detail].offer + ' -> ' + details[detail].buyer;
           document.getElementById('trade'+trade.toString()).append(detailNode);
         }
       }
