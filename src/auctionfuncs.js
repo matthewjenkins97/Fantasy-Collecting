@@ -3,7 +3,7 @@ import {showNotification} from "./serverfuncs";
 
 export {getAllLots, getAllAuctions,
   conductAuctionTrade, createAuction,
-  createLot, postBid, deleteLot, deleteAuction}
+  createLot, postBid, deleteLot, deleteAuction, archiveAuction, releaseAuction}
 
 
 async function postBid(username, id, bid) {
@@ -45,6 +45,36 @@ async function deleteAuction(id) {
     },
   }).then(function (res) {
     showNotification("deleted auction "+id);
+  });
+}
+
+async function archiveAuction(id) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`+id, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      archived: true
+    }),
+  }).then(function (res) {
+    showNotification("archived auction "+id);
+  });
+}
+
+async function releaseAuction(id) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`+id, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      allowstudents: true
+    }),
+  }).then(function (res) {
+    showNotification("released auction "+id);
   });
 }
 

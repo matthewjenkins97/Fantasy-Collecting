@@ -112,7 +112,100 @@ class AuctionAdmin extends React.Component {
 
     const lots = await auctionfuncs.getAllLots();
     for (let auction in auctions) {
-      await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      if(auctions[auction].archived !== 1 && auctions[auction].allowstudents === 1) {
+        await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      }
+    }
+
+    brnode = document.createElement('br');
+    brnode.id = "br8";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br9";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br10";
+    document.getElementById('auctions').append(brnode);
+
+    const releasedNode = document.createElement('a');
+    releasedNode.id = "releasednode";
+    releasedNode.innerHTML = "Pending Release Auctions";
+    releasedNode.style.backgroundColor = "#002f86";
+    releasedNode.style.color = "white";
+    releasedNode.style.fontSize = "30px";
+    releasedNode.style.width = 'auto';
+    releasedNode.style.borderRadius = '5px';
+    releasedNode.style.width = '20%';
+    releasedNode.style.padding = '5px';
+    document.getElementById('auctions').append(releasedNode);
+    currentAuctions.push("releasednode");
+
+    var brnode = document.createElement('br');
+    brnode.id = "br11";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br12";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br13";
+    document.getElementById('auctions').append(brnode);
+    currentAuctions.push("br8");
+    currentAuctions.push("br9");
+    currentAuctions.push("br10");
+    currentAuctions.push("br11");
+    currentAuctions.push("br12");
+    currentAuctions.push("br13");
+
+    for (let auction in auctions) {
+      if(auctions[auction].archived !== 1 && auctions[auction].allowstudents !== 1) {
+        await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      }
+    }
+
+    brnode = document.createElement('br');
+    brnode.id = "br1";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br2";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br3";
+    document.getElementById('auctions').append(brnode);
+
+    const archivedNode = document.createElement('a');
+    archivedNode.id = "archivednode";
+    archivedNode.innerHTML = "Archived Auctions";
+    archivedNode.style.backgroundColor = "#002f86";
+    archivedNode.style.color = "white";
+    archivedNode.style.fontSize = "30px";
+    archivedNode.style.width = 'auto';
+    archivedNode.style.borderRadius = '5px';
+    archivedNode.style.width = '20%';
+    archivedNode.style.padding = '5px';
+    document.getElementById('auctions').append(archivedNode);
+    currentAuctions.push("archivednode");
+
+    brnode = document.createElement('br');
+    brnode.id = "br4";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br5";
+    document.getElementById('auctions').append(brnode);
+    brnode = document.createElement('br');
+    brnode.id = "br6";
+    document.getElementById('auctions').append(brnode);
+    currentAuctions.push("br1");
+    currentAuctions.push("br2");
+    currentAuctions.push("br3");
+    currentAuctions.push("br4");
+    currentAuctions.push("br5");
+    currentAuctions.push("br6");
+    currentAuctions.push("br7");
+
+    for (let auction in auctions) {
+      if(auctions[auction].archived === 1) {
+        await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      }
     }
     this.forceUpdate();
   }
@@ -162,43 +255,33 @@ class AuctionAdmin extends React.Component {
     archiveNode.id = 'archiveNode'+id;
     archiveNode.innerHTML = 'Archive Auction'
     archiveNode.onclick = async function () {
-      //await auctionfuncs.deleteAuction(id);
+      await auctionfuncs.archiveAuction(id);
       cRef.loadAuctions();
     };
     document.getElementById('auctions').append(archiveNode);
     currentAuctions.push(archiveNode.id);
+
+    let releaseNode = document.createElement('button');
+    releaseNode.id = 'releaseNode'+id;
+    releaseNode.innerHTML = 'Release Auction'
+    releaseNode.onclick = async function () {
+      await auctionfuncs.releaseAuction(id);
+      cRef.loadAuctions();
+    };
+    document.getElementById('auctions').append(releaseNode);
+    currentAuctions.push(releaseNode.id);
     
-
-    // let confirmNode = document.createElement('button');
-    // confirmNode.id = 'confirmNode'+id;
-    // confirmNode.innerHTML = 'Confirm Auction'
-    // confirmNode.onclick = async function () {
-    //   const artworks = await serverfuncs.getAllArtworks();
-
-    //   for(let lot in lots) {
-    //     if(lots[lot].number.toString() === id.toString()) {
-    //       for(let a in artworks) {
-    //         if(artworks[a].identifier.toString() === lots[lot].identifier.toString()) {
-    //           await auctionfuncs.conductAuctionTrade(lots[lot].identifier, lots[lot].username, artworks[a].owner, lots[lot].highestbid);
-    //         }
-    //       }
-    //     }
-    //   }
-    //   await auctionfuncs.deleteAuction(id);
-    //   cRef.loadAuctions();
-    // };
-    // document.getElementById('auctions').append(confirmNode);
-
     const auctionnode = document.createElement('div');
     auctionnode.className = 'auctionscroll';
     auctionnode.id = 'auctionscroll'+id.toString();
     document.getElementById('auctions').append(auctionnode);
-    document.getElementById('auctions').append(document.createElement('br'));
+    const brnode = document.createElement('br');
+    brnode.id = "br7";
+    document.getElementById('auctions').append(brnode);
     currentAuctions.push(auctionnode.id);
     currentAuctions.push(titleNode.id);
     currentAuctions.push(deleteNode.id);
     currentAuctions.push(addLotNode.id);
-    // currentAuctions.push(confirmNode.id);
 
     let auctionnumber = -1;
     for (const l in lots) {
@@ -219,12 +302,12 @@ class AuctionAdmin extends React.Component {
       };
       auctionScroll.appendChild(deleteNode);
 
-      // EDIT
+
       const confirmNode = document.createElement('button');
       confirmNode.id = 'confirmlot'+l.toString();
       confirmNode.innerHTML = 'Confirm Lot';
       confirmNode.style.position = 'absolute';
-      confirmNode.style.left = (auctionnumber*550+75).toString()+'px';
+      confirmNode.style.left = (auctionnumber*550+70).toString()+'px';
       confirmNode.onclick = async function() {
         const artworks = await serverfuncs.getAllArtworks();
         const l = parseInt(this.id.slice(10));
@@ -242,25 +325,28 @@ class AuctionAdmin extends React.Component {
       imageNode.index = auctionnumber;
       imageNode.src = sourceOfImage.url;
       imageNode.style.left = (10+550*auctionnumber).toString()+'px';
-      imageNode.onclick = function() {
-        document.getElementById('lotdropdown').style.top = '50px';
-        document.getElementById('lotnumber').innerHTML = 'LOT '+this.index.toString();
-        document.getElementById('lotimage').src = this.src;
-        document.getElementById('lotinfo').innerHTML =
-        '<pre>Information\n'+
-        '\nTitle:  '+sourceOfImage.title+
-        '\n\nArtist:  '+sourceOfImage.artist+
-        '\n\nYear:  '+sourceOfImage.year+
-        '\n\nOwner:  '+sourceOfImage.owner+
-        '\n\nHighest Bid:\n'+lots[l].highestbid+
-        '</pre>';
+      if (!lots[l].sold) {
+        imageNode.style.cursor = 'pointer';
+        imageNode.onclick = function() {
+          document.getElementById('lotdropdown').style.top = '50px';
+          document.getElementById('lotnumber').innerHTML = 'LOT '+this.index.toString();
+          document.getElementById('lotimage').src = this.src;
+          document.getElementById('lotinfo').innerHTML =
+          '<pre>Information\n'+
+          '\nTitle:  '+sourceOfImage.title+
+          '\n\nArtist:  '+sourceOfImage.artist+
+          '\n\nYear:  '+sourceOfImage.year+
+          '\n\nOwner:  '+sourceOfImage.owner+
+          '\n\nHighest Bid:\n'+lots[l].highestbid+
+          '</pre>';
 
-        if (lots[l].username === localStorage.getItem('username')) {
-          document.getElementById('lotinfo').innerHTML += '<pre>(you)</pre>';
-        }
-        document.getElementById('lotessay').innerHTML = lots[l].lotessay;
-        currentLotName = lots[l].identifier;
-      };
+          if (lots[l].username === localStorage.getItem('username')) {
+            document.getElementById('lotinfo').innerHTML += '<pre>(you)</pre>';
+          }
+          document.getElementById('lotessay').innerHTML = lots[l].lotessay;
+          currentLotName = lots[l].identifier;
+        };
+      }
       auctionScroll.appendChild(imageNode);
 
       if (lots[l].sold) {
@@ -291,6 +377,8 @@ class AuctionAdmin extends React.Component {
         textNode.innerHTML += '<pre>(you)</pre>';
       }
       textNode.style.left = (250+550*auctionnumber).toString()+'px';
+      textNode.style.overflowX = "wrap";
+      textNode.style.overflowY = "hidden";
       auctionScroll.appendChild(textNode);
     }
   }

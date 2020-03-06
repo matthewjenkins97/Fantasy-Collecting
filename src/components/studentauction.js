@@ -76,7 +76,9 @@ class AuctionStudent extends React.Component {
 
     const lots = await auctionfuncs.getAllLots();
     for (const auction in auctions) {
-      await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      if(auctions[auction].archived !== 1 && auctions[auction].allowstudents === 1) {
+        await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
+      }
     }
     this.forceUpdate();
   }
@@ -92,6 +94,7 @@ class AuctionStudent extends React.Component {
     titleNode.style.borderRadius = '5px';
     titleNode.style.width = '20%';
     titleNode.style.padding = '5px';
+    currentAuctions.push(titleNode.id);
 
     const timerNode = document.createElement('p');
     timerNode.id = 'timernode'+id;
@@ -103,12 +106,14 @@ class AuctionStudent extends React.Component {
     timerNode.style.borderRadius = '5px';
     timerNode.style.width = '15%';
     timerNode.style.padding = '5px';
+    currentAuctions.push(timerNode.id);
 
     const auctionnode = document.createElement('div');
     auctionnode.className = 'auctionscroll';
     auctionnode.id = 'auctionscroll'+id.toString();
     document.getElementById('auctions').append(auctionnode);
     document.getElementById('auctions').append(document.createElement('br'));
+    currentAuctions.push(auctionnode.id);
 
     let auctionnumber = -1;
     for (const l in lots) {
@@ -124,25 +129,28 @@ class AuctionStudent extends React.Component {
       imagenode.index = auctionnumber;
       imagenode.src = sourceOfImage.url;
       imagenode.style.left = (10+550*auctionnumber).toString()+'px';
-      imagenode.onclick = function() {
-        document.getElementById('lotdropdown').style.top = '50px';
-        document.getElementById('lotnumber').innerHTML = 'Lot '+(this.index + 1).toString();
-        document.getElementById('lotimage').src = this.src;
-        document.getElementById('lotinfo').innerHTML =
-        '<pre>Information\n'+
-        '\nTitle:  '+sourceOfImage.title+
-        '\n\nArtist:  '+sourceOfImage.artist+
-        '\n\nYear:  '+sourceOfImage.year+
-        '\n\nOwner:  '+sourceOfImage.owner+
-        '\n\nHighest Bid:\n'+lots[l].highestbid+
-        '</pre>';
+      if (!lots[l].sold) {
+        imagenode.style.cursor = 'pointer';
+        imagenode.onclick = function() {
+          document.getElementById('lotdropdown').style.top = '50px';
+          document.getElementById('lotnumber').innerHTML = 'LOT '+this.index.toString();
+          document.getElementById('lotimage').src = this.src;
+          document.getElementById('lotinfo').innerHTML =
+          '<pre>Information\n'+
+          '\nTitle:  '+sourceOfImage.title+
+          '\n\nArtist:  '+sourceOfImage.artist+
+          '\n\nYear:  '+sourceOfImage.year+
+          '\n\nOwner:  '+sourceOfImage.owner+
+          '\n\nHighest Bid:\n'+lots[l].highestbid+
+          '</pre>';
 
-        if (lots[l].username === localStorage.getItem('username')) {
-          document.getElementById('lotinfo').innerHTML += '<pre>(you)</pre>';
-        }
-        document.getElementById('lotessay').innerHTML = lots[l].lotessay;
-        currentLotName = lots[l].identifier;
-      };
+          if (lots[l].username === localStorage.getItem('username')) {
+            document.getElementById('lotinfo').innerHTML += '<pre>(you)</pre>';
+          }
+          document.getElementById('lotessay').innerHTML = lots[l].lotessay;
+          currentLotName = lots[l].identifier;
+        };
+      }
       auctionScroll.appendChild(imagenode);
 
       if (lots[l].sold) {
