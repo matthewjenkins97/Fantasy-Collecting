@@ -75,6 +75,8 @@ class AuctionStudent extends React.Component {
     const auctions = await auctionfuncs.getAllAuctions();
 
     const lots = await auctionfuncs.getAllLots();
+    auctionfuncs.trackedLots = lots;
+
     for (const auction in auctions) {
       if(auctions[auction].archived !== 1 && auctions[auction].allowstudents === 1) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);

@@ -4,6 +4,8 @@ import * as serverfuncs from '../serverfuncs';
 import './backgroundlogin.css';
 import Typography from '@material-ui/core/Typography';
 
+export {updateLots}
+
 class LotImage extends HTMLImageElement {
   index = 0;
   constructor() {
@@ -18,6 +20,18 @@ let currentLotId;
 let currentLotName;
 
 let currentAuctions = [];
+
+function updateLots() {
+  for(var tl in auctionfuncs.trackedLots) {
+    //document.getElementById(auctionfuncs.trackedLots[tl].identifier+auctionfuncs.trackedLots[tl].number).innerHTML="";
+    try {
+    let mystring = document.getElementById(auctionfuncs.trackedLots[tl].identifier+auctionfuncs.trackedLots[tl].number).innerHTML.toString().split('\n');
+    mystring[11] = auctionfuncs.trackedLots[tl].highestbid;
+    document.getElementById(auctionfuncs.trackedLots[tl].identifier+auctionfuncs.trackedLots[tl].number).innerHTML = mystring.join('\n');
+    }
+    catch{}
+  }
+}
 
 function closeCreateDropdown() {
   document.getElementById('createauctiondropdown').style.top = '-200px';
@@ -111,6 +125,8 @@ class AuctionAdmin extends React.Component {
     document.getElementById('abutton').appendChild(buttonNode);
 
     const lots = await auctionfuncs.getAllLots();
+    auctionfuncs.setTrackedLots(lots);
+
     for (let auction in auctions) {
       if(auctions[auction].archived !== 1 && auctions[auction].allowstudents === 1) {
         await this.loadLots(auctions[auction].identifier, auctions[auction].groupid, lots, this);
@@ -363,6 +379,9 @@ class AuctionAdmin extends React.Component {
       }
   
       let textNode = document.createElement('a');
+
+      //for automatic refresh
+      textNode.id = lots[l].identifier+lots[l].number;
       textNode.innerHTML =
       '<pre>'+
       'Lot '+auctionnumber.toString()+
@@ -371,7 +390,7 @@ class AuctionAdmin extends React.Component {
       '\n\nYear:  '+sourceOfImage.year+
       '\n\nOwner:  '+sourceOfImage.owner+
       '\n\nHighest Bid:\n'+lots[l].highestbid+
-      '</pre>';
+      '\n</pre>';
 
       if(lots[l].username === localStorage.getItem('username')) {
         textNode.innerHTML += '<pre>(you)</pre>';

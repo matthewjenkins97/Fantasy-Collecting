@@ -3,6 +3,7 @@ import {MD5} from './md5';
 import { conductTrade } from './tradefuncs';
 import {checkForMessages} from './components/ChatMessage';
 import { getAllAuctions } from './auctionfuncs.js';
+import { checkForAuctionUpdates } from './auctionfuncs.js';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 
@@ -88,6 +89,18 @@ const messageCheck = coroutine(function* () {
 });
 
 setInterval(messageCheck, 5000);
+
+const auctionCheck = coroutine(function* () {
+  while(true) {
+    console.log("CALLED AC");
+    yield;
+    if(window.location.toString().endsWith("/adminauction")) {
+      checkForAuctionUpdates();
+    }
+  }
+})
+
+setInterval(auctionCheck, 5000);
 
 
 
