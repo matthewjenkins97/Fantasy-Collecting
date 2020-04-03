@@ -18,6 +18,7 @@ import AdminPage from './pages/admin';
 import TradeTable from './pages/tradetable';
 import AdminAuction from './pages/adminauction';
 import AdminForm from './pages/adminform';
+import SinglePage from './pages/singleartwork';
 
 const PrivateRoute = ({component: Component, ...rest}) => (
   <Route {...rest} render={(props) => (
@@ -57,6 +58,7 @@ class Home extends Component {
               <PrivateRoute path='/auction' component={Auction} />
               {/* <PrivateRoute path='/form' component={FormPage} /> */}
               <PrivateRoute path='/adminform' component={AdminForm} />
+              <PrivateRoute path='/singleartwork' component={SinglePage} />
               <AdminRoute path='/admin' component={AdminPage}/>
               <Route exact path='/404notfound' component={ErrorPage}/>
               <Redirect to='/404notfound'/>
