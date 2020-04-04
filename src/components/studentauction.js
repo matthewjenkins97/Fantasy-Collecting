@@ -192,7 +192,7 @@ class AuctionStudent extends React.Component {
     for (const l in lots) {
       if (lots[l].identifier === currentLotName) {
         if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
-          serverfuncs.showNotification('bid must be higher than previous bid');
+          serverfuncs.showNotification('Bid must be higher than previous bid');
           return;
         } else if (document.getElementById('userbid').value === '') {
         // handling accidental empty bids

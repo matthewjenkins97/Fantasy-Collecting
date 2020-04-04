@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import SearchIcon from '@material-ui/icons/Search';
-import Button from '@material-ui/core/button';
+import Button from '@material-ui/core/Button';
 import * as serverfuncs from '../serverfuncs';
 import './gallerydropdown.css';
 

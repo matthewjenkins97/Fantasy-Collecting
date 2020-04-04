@@ -30,7 +30,6 @@ class OtherGallery extends Component {
   async getBlurb(user) {
     let userInfo = await serverfuncs.getUser(user);
     userInfo = userInfo[0];
-    // console.log(userInfo.blurb)
     document.getElementById('othergalleryblurb').innerHTML = userInfo.blurb;
   }
 
@@ -91,8 +90,6 @@ class OtherGallery extends Component {
         </div>
         <div id = 'gallerydropdown' class = 'galleryDropdown'>
           <a class='closebtn' onClick={raiseOtherGallery}>&times;</a>
-          {/* <PinGrid /> */}
-          {/* <GridList /> */}
           <Typography id = 'subgalleryname' fontFamily='roboto' variant='h4' component='h4' style={{
             textAlign: 'center',
             paddingTop: 20,
@@ -113,16 +110,8 @@ class OtherGallery extends Component {
                     <Typography variant='subtitle1' fontFamily='roboto'>{tile.artist}, {tile.year}</Typography>
                   </div>
                   </Paper>
-                  {/* <GridListTileBar
-                    title={tile.title}
-                    subtitle={<span>by: {tile.artist}</span>}
-                  /> */}
                 </div>
               ))}
-              {/* <div style={{padding: 10}}><img src='./static/monalisa.jpg' height={500}/>
-                </div>
-                <div style={{padding: 10}}><img src='./static/dance.jpg' height={500} /></div>
-                <div style={{padding: 10}}><img src='./static/sunflowers.jpg' height={500}/></div> */}
             </Grid>
             <div style={{padding: 10}}>
               <Typography fontFamily='roboto' variant='h4' component='h4' style={{

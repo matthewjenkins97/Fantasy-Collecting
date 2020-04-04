@@ -7,10 +7,7 @@ import TradeWindow from './tradewindow';
 import OtherGallery from './homepageofother';
 import {getAllArtworks, setBlurb, getUser} from '../serverfuncs';
 import ChatComponent from '../components/ChatMessage';
-import HistoryTable from '../components/historytable';
 import './gallerydropdown.css';
-import MicroresearchPrompt from '../components/microresearchprompt.js';
-import MicroresearchTable from '../components/microresearchtable.js';
 import Form from './form';
 import './ratings.css';
 
@@ -25,13 +22,8 @@ class Main extends Component {
     document.body.className = 'gallery';
   }
 
-  // addTradeWindow(thisclass) {
-  //   addTrade = true;
-  //   thisclass.forceUpdate();
-  // }
   async getTileData() {
     const artworks = await getAllArtworks();
-    // console.log(artworks);
     for (const i in artworks) {
       if (artworks[i].owner === localStorage.getItem('username') && artworks[i].hidden !== 1) {
         tileData.push({
@@ -45,7 +37,6 @@ class Main extends Component {
         });
       }
     }
-    // console.log('got artworks')
     this.forceUpdate();
   }
 
@@ -87,9 +78,9 @@ class Main extends Component {
           >
             {tileData.map((tile) => (
               <div style={{padding: 10}}>
-                <img src={tile.img} alt={tile.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 500}}/>
-                <Paper style={{padding: 10}}>
-                  <div>
+                <img src={tile.img} alt={tile.title} onClick={() => alert(`This is ${tile.title}`)} height={500}/>
+                <Paper>
+                  <div style={{padding: 10, height: '1in'}}>
                     <div style={{float: 'left',
                       width: '80%'}}>
                       <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
@@ -101,23 +92,9 @@ class Main extends Component {
                       <Typography variant='h4' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
                     </div>
                   </div>
-                  <div style={{marginTop: '1in'}}>
-                    <hr></hr>
-                    <HistoryTable identifier={tile.identifier}/>
-                    <MicroresearchTable identifier={tile.identifier}/>
-                    <MicroresearchPrompt identifier={tile.identifier}/>
-                  </div>
                 </Paper>
-                {/* <GridListTileBar
-                  title={tile.title}
-                  subtitle={<span>by: {tile.artist}</span>}
-                /> */}
               </div>
             ))}
-            {/* <div style={{padding: 10}}><img src='./static/monalisa.jpg' height={500}/>
-              </div>
-              <div style={{padding: 10}}><img src='./static/dance.jpg' height={500} /></div>
-              <div style={{padding: 10}}><img src='./static/sunflowers.jpg' height={500}/></div> */}
           </Grid>
           <br />
           <Typography fontFamily='roboto' variant='h4' component='h4' style={{
