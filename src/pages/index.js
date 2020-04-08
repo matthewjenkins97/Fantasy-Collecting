@@ -9,14 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import Notification from '../components/notification';
 import Guilder from '../static/guilder.svg';
 
-let guilders = 0;
-async function getGuilders() {
-  const userlist = await serverfuncs.getUser(localStorage.getItem('username'));
-  guilders = userlist[0].guilders;
-  return guilders;
-}
-// console.log(guilders);
-
 class MainPage extends Component {
   constructor(props) {
     super(props);

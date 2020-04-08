@@ -1,44 +1,49 @@
 import React, {Component} from 'react';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import TradeWindow from './tradewindow';
 import OtherGallery from './homepageofother';
-import {getAllArtworks, setBlurb, getUser} from '../serverfuncs';
 import ChatComponent from '../components/ChatMessage';
-import HistoryTable from '../components/historytable';
 import './gallerydropdown.css';
+import {getArtworkInfo, getUser} from '../serverfuncs.js'
+import Paper from '@material-ui/core/Paper'
+import HistoryTable from '../components/historytable';
 import MicroresearchPrompt from '../components/microresearchprompt.js';
 import MicroresearchTable from '../components/microresearchtable.js';
-import Form from './form';
-import './ratings.css';
-
-var artinfo = {
-  title: "monalisa",
-  artist: "leo",
-  img: "http://fantasycollecting.hamilton.edu/static/media/Brueghel___Rubens_Madonna_and_Child_1617.jpg"
-};
 
 class Single extends Component {
   constructor(props) {
     super(props);
+
+    this.getArtworkInformation = this.getArtworkInformation.bind(this);
+    this.render = this.render.bind(this);
+
+    // this.identifier = props.identifier;
+    this.identifier = 'alfred_stieglitz_georgia_o_keefe_1933'; 
+    // this.identifier = 'anguissola_self-portrait_1556'; 
+
+    this.artworkInfo = {};
+    this.getArtworkInformation();
+
     document.body.className = 'gallery';
   }
 
+  async getArtworkInformation() {
+    this.artworkInfo = await getArtworkInfo(this.identifier);
+    this.currentUser = localStorage.getItem('username');
+    this.forceUpdate();
+  }
+
   render() {
-    //var artwork = await getArtworkInfo();
     return (
       <div>
         <div>
-          <div><ChatComponent /></div>
+          <div><ChatComponent/></div>
           <div><OtherGallery/></div>
-          {/* <div><TradeWindow></TradeWindow></div> */}
         </div>
-        <Typography fontFamily='roboto' variant='h4' component='h4' style={{
-          textAlign: 'center',
-          paddingTop: 20,
-          paddingBottom: 10}}>My single</Typography>
+          <Typography fontFamily='roboto' variant='h4' component='h4' style={{
+            textAlign: 'center',
+            paddingTop: 20,
+            paddingBottom: 10}}>More Information</Typography>
         <div>
           <Grid
             container
@@ -46,58 +51,30 @@ class Single extends Component {
             justify='center'
             alignItems='left-justified'
           >
-
-
           <div style={{padding: 10}}>
-            <img src={artinfo.img} alt={artinfo.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 500}}/>
-            {/* <Paper style={{padding: 10}}>
-              <div>
-                <div style={{float: 'left',
-                  width: '80%'}}>
-                  <Typography variant='h6' fontFamily='roboto'>{title}</Typography>
-                  <Typography variant='subtitle1' fontFamily='roboto'>{artist}, {year}</Typography>
+            <div style={{float: 'left'}}>
+              <img src={this.artworkInfo.url} alt={this.artworkInfo.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 500}}/>
+            </div>
+            <div style={{float: 'right'}}>
+              <Paper style={{height: 500}}>
+                <div style={{padding: 10}}>
+                  <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.title}</Typography>
+                  <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.artist} </Typography>
+                  <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.year} </Typography>
+                  <br></br>
+                  <Typography variant='subtitle1' fontFamily='roboto'>
+                  Most recent sale price: {this.artworkInfo.actualprice !== 0 && this.artworkInfo.actualprice !== undefined ? this.artworkInfo.actualprice : this.artworkInfo.theoreticalprice} 
+                  </Typography>
+                  <br></br>
+                  <HistoryTable identifier = {this.identifier} />
+                  <MicroresearchTable identifier = {this.identifier} />
+                  {(this.currentUser === this.artworkInfo.owner ? <MicroresearchPrompt identifier = {this.identifier} /> : <br />)}
                 </div>
-                <div style={{float: 'right',
-                  width: '20%',
-                  textAlign: 'right'}}>
-                  <Typography variant='h4' fontFamily='roboto'>{actualprice !== 0 && actualprice !== undefined ? actualprice : theoreticalprice}</Typography>
-                </div>
-              </div>
-              <div style={{marginTop: '1in'}}>
-                <hr></hr>
-                <HistoryTable identifier={identifier}/>
-                <MicroresearchTable identifier={identifier}/>
-                <MicroresearchPrompt identifier={identifier}/>
-              </div>
-            </Paper> */}
-            {/* <GridListTileBar
-              title={title}
-              subtitle={<span>by: {artist}</span>}
-            /> */}
+              </Paper>
+            </div>
           </div>
-
-
-
-            {/* <div style={{padding: 10}}><img src='./static/monalisa.jpg' height={500}/>
-              </div>
-              <div style={{padding: 10}}><img src='./static/dance.jpg' height={500} /></div>
-              <div style={{padding: 10}}><img src='./static/sunflowers.jpg' height={500}/></div> */}
           </Grid>
           <br />
-          {/* <Typography fontFamily='roboto' variant='h4' component='h4' style={{
-            textAlign: 'center',
-            paddingTop: 20,
-            paddingBottom: 10}}>My single Announcements</Typography>
-          <div style={{textAlign: 'center'}}>
-            <textarea style={{width: '50%', height: 100}} id='singleblurb' multiline='true'></textarea>
-          </div> */}
-          {/* <Button style={{margin: 'auto', display: 'block'}} onClick={this.saveBlurb}>Save</Button> */}
-        </div>
-        <button id = 'ratingbutton' onClick = {() => {
-          this.openForm();
-        }} className = 'openFormButton'>Rate Artworks</button>
-        <div id = 'ratingpage' style = {{overflowX: 'hidden', color: 'white', zIndex: 10000, backgroundColor: 'rgba(0, 0, 0, .7)', position: 'absolute', top: '0px', width: '100%', left: '-100%', transition: '1s'}}>
-          {/* <Form/> */}
         </div>
       </div>
     );

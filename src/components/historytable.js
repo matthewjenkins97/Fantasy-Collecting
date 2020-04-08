@@ -13,6 +13,7 @@ class TradeTable extends React.Component {
     this.read = false;
 
     this.tradeid = props.identifier;
+
     this.divid = 'TradeDropdown' + props.identifier;
 
     this.getRows = this.getRows.bind(this);
@@ -87,7 +88,7 @@ export default class HistoryTable extends React.Component {
 
     this.render = this.render.bind(this);
 
-    this.divid = this.props.identifier + 'HistoryDropdown';
+    this.divid = props.identifier + 'HistoryDropdown';
 
     this.getRows();
     this.state = {columns: [
@@ -137,10 +138,10 @@ export default class HistoryTable extends React.Component {
   }
 
   render() {
-    const title = 'History for \'' + this.artworkName + '\'';
+    const title = 'Provenance for \'' + this.artworkName + '\'';
     return (
       <div>
-        <Button onClick={this.lowerTable}><i>History</i></Button>
+        <Button onClick={this.lowerTable}><i>Provenance</i></Button>
         <div id={this.divid} class='galleryDropdown'>
           <a class='closebtn' onClick={this.raiseTable}>&times;</a>
           <p>&nbsp;</p>
@@ -163,7 +164,7 @@ export default class HistoryTable extends React.Component {
               },
             ]}
           />
-          ) : (<h1>loading...</h1>)}
+          ) : (<h1>Loading...</h1>)}
           {this.tradetables.map((tradetableid) => (
             <TradeTable identifier={tradetableid} />
           ))}

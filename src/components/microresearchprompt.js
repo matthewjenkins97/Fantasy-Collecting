@@ -15,7 +15,7 @@ export default class MicroresearchPrompt extends React.Component {
 
     this.textid = this.props.identifier + 'MicroresearchPromptText';
     this.divid = this.props.identifier + 'MicroresearchPromptDropdown';
-    this.identifier = this.props.identifier;
+    this.identifier = props.identifier;
     this.artworkName = undefined;
 
     this.getName();
