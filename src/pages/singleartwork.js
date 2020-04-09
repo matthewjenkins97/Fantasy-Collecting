@@ -59,7 +59,6 @@ const SinglePage = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <OtherGallery/>
       <br/>
       <br/>
       <br/>

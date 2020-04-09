@@ -36,7 +36,7 @@ class Single extends Component {
     return (
       <div>
         <div>
-          {/* <div><ChatComponent/></div> */}
+          <div><ChatComponent/></div>
           <div><OtherGallery/></div>
           <div><TradeWindow></TradeWindow></div>
         </div>
