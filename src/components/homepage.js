@@ -6,12 +6,35 @@ import Paper from '@material-ui/core/Paper';
 import TradeWindow from './tradewindow';
 import OtherGallery from './homepageofother';
 import {getAllArtworks, setBlurb, getUser} from '../serverfuncs';
-import ChatComponent from '../components/ChatMessage';
+import ChatComponent from './ChatMessage';
 import './gallerydropdown.css';
 import Form from './form';
 import './ratings.css';
+import {Link} from 'react-router-dom';
 
 let tileData = [];
+
+class LinkImage extends Component {
+  imgstr = "";
+  sourceofimg = "";
+  title = "";
+
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return (
+      <Link to='/singleartwork'>
+      <img
+      src={this.sourceofimg} 
+      alt={this.title} 
+      onClick={() => {localStorage.setItem("singleIdent", this.imgstr)}}
+      height={500}></img>
+      </Link>
+    );
+  }
+}
 
 class Main extends Component {
   constructor(props) {
@@ -78,9 +101,14 @@ class Main extends Component {
           >
             {tileData.map((tile) => (
               <div style={{padding: 10}}>
-                <img src={tile.img} alt={tile.title} onClick={
-                  () => alert(`This is ${tile.title}`)
-                } height={300}/>
+                <Link to='/singleartwork'>
+                <img id = {tile.identifier}
+                src={tile.img} 
+                alt={tile.title} 
+                onClick={() => {
+                  localStorage.setItem("singleIdent", tile.identifier);}}
+                height={300}></img>
+                </Link>
                 <Paper>
                   <div style={{padding: 10, height: '1in'}}>
                     <div style={{float: 'left',

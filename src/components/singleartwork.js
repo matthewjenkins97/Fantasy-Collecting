@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import HistoryTable from '../components/historytable';
 import MicroresearchPrompt from '../components/microresearchprompt.js';
 import MicroresearchTable from '../components/microresearchtable.js';
+import TradeWindow from './tradewindow';
 
 class Single extends Component {
   constructor(props) {
@@ -17,9 +18,16 @@ class Single extends Component {
     this.getArtworkInformation = this.getArtworkInformation.bind(this);
     this.render = this.render.bind(this);
 
+<<<<<<< HEAD
     this.identifier = props.identifier;
     // this.identifier = 'alfred_stieglitz_georgia_o_keefe_1933'; 
+=======
+    //this.identifier = //props.identifier;
+    this.identifier = localStorage.getItem('singleIdent');
+    //'alfred_stieglitz_georgia_o_keefe_1933'; 
+>>>>>>> e60e56e325421aea99b89a956b334337f79730e3
     // this.identifier = 'anguissola_self-portrait_1556'; 
+
 
     this.artworkInfo = {};
     this.getArtworkInformation();
@@ -37,8 +45,9 @@ class Single extends Component {
     return (
       <div>
         <div>
-          <div><ChatComponent/></div>
+          {/* <div><ChatComponent/></div> */}
           <div><OtherGallery/></div>
+          <div><TradeWindow></TradeWindow></div>
         </div>
           <Typography fontFamily='roboto' variant='h4' component='h4' style={{
             textAlign: 'center',
