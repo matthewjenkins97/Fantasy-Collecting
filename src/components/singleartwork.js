@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import OtherGallery from './homepageofother';
 import ChatComponent from '../components/ChatMessage';
 import './gallerydropdown.css';
-import {getArtworkInfo, getUser} from '../serverfuncs.js'
-import Paper from '@material-ui/core/Paper'
+import {getArtworkInfo, getUser} from '../serverfuncs.js';
+import Paper from '@material-ui/core/Paper';
 import HistoryTable from '../components/historytable';
 import MicroresearchPrompt from '../components/microresearchprompt.js';
 import MicroresearchTable from '../components/microresearchtable.js';
@@ -17,8 +17,8 @@ class Single extends Component {
     this.getArtworkInformation = this.getArtworkInformation.bind(this);
     this.render = this.render.bind(this);
 
-    // this.identifier = props.identifier;
-    this.identifier = 'alfred_stieglitz_georgia_o_keefe_1933'; 
+    this.identifier = props.identifier;
+    // this.identifier = 'alfred_stieglitz_georgia_o_keefe_1933'; 
     // this.identifier = 'anguissola_self-portrait_1556'; 
 
     this.artworkInfo = {};

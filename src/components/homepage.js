@@ -78,7 +78,9 @@ class Main extends Component {
           >
             {tileData.map((tile) => (
               <div style={{padding: 10}}>
-                <img src={tile.img} alt={tile.title} onClick={() => alert(`This is ${tile.title}`)} height={500}/>
+                <img src={tile.img} alt={tile.title} onClick={
+                  () => alert(`This is ${tile.title}`)
+                } height={300}/>
                 <Paper>
                   <div style={{padding: 10, height: '1in'}}>
                     <div style={{float: 'left',

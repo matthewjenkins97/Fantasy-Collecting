@@ -104,7 +104,7 @@ class OtherGallery extends Component {
             >
               {tileData.map((tile) => (
                 <div style={{padding: 10}}>
-                  <img src={tile.img} alt={tile.title} height={500}/>
+                  <img src={tile.img} alt={tile.title} height={300}/>
                   <Paper style={{padding: 10}}>
                   <div>
                     <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>
