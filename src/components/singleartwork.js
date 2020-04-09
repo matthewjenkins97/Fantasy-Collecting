@@ -18,16 +18,7 @@ class Single extends Component {
     this.getArtworkInformation = this.getArtworkInformation.bind(this);
     this.render = this.render.bind(this);
 
-<<<<<<< HEAD
-    this.identifier = props.identifier;
-    // this.identifier = 'alfred_stieglitz_georgia_o_keefe_1933'; 
-=======
-    //this.identifier = //props.identifier;
     this.identifier = localStorage.getItem('singleIdent');
-    //'alfred_stieglitz_georgia_o_keefe_1933'; 
->>>>>>> e60e56e325421aea99b89a956b334337f79730e3
-    // this.identifier = 'anguissola_self-portrait_1556'; 
-
 
     this.artworkInfo = {};
     this.getArtworkInformation();
@@ -62,10 +53,10 @@ class Single extends Component {
           >
           <div style={{padding: 10}}>
             <div style={{float: 'left'}}>
-              <img src={this.artworkInfo.url} alt={this.artworkInfo.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 500}}/>
+              <img src={this.artworkInfo.url} alt={this.artworkInfo.title} style={{leftMargin: 'auto', rightMargin: 'auto', display: 'block', height: 300}}/>
             </div>
             <div style={{float: 'right'}}>
-              <Paper style={{height: 500}}>
+              <Paper style={{height: 300}}>
                 <div style={{padding: 10}}>
                   <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.title}</Typography>
                   <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.artist} </Typography>
