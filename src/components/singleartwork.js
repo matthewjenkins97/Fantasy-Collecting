@@ -36,9 +36,9 @@ class Single extends Component {
     return (
       <div>
         <div>
-          {/* <div><ChatComponent/></div> */}
-          {/* <div><OtherGallery/></div>
-          <div><TradeWindow></TradeWindow></div> */}
+          <div><ChatComponent/></div>
+          <div><OtherGallery/></div>
+          <div><TradeWindow></TradeWindow></div>
         </div>
         <Typography fontFamily='roboto' variant='h4' component='h4' style={{
           textAlign: 'center',
