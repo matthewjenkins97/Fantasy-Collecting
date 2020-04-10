@@ -802,6 +802,11 @@ async function updateUserData(data) {
 
 async function createUser(user) {
   //const stringName = localStorage.getItem('username');
+  if (user.username === undefined) {
+    alert('Please specify a username for your user.')
+    return;
+  }
+
   const response = await fetch(apiURL + '/users/' + user.username);
   const myJson = await response.json();
   const student = JSON.parse(JSON.stringify(myJson))['0'];
@@ -863,6 +868,10 @@ function deleteUser(username) {
 
 async function createArtwork(artwork) {
   //const stringName = localStorage.getItem('username');
+  if (artwork.identifier === undefined) {
+    alert('Please specify an artwork identifier.');
+    return;
+  }
   const response = await fetch(apiURL + '/artworks/' + artwork.identifier);
   const myJson = await response.json();
   const artworkInDB = JSON.parse(JSON.stringify(myJson))['0'];
@@ -884,7 +893,7 @@ async function createArtwork(artwork) {
       artwork.artist = "...";
     }
     if(!artwork.owner) {
-      artwork.artist = "...";
+      artwork.owner = "";
     }
 
     fetch(apiURL + '/artworks/', {
@@ -996,6 +1005,24 @@ async function postMicroresearch(data) {
   // }).then(function (res) {
   //   console.log(res);
   })
+
+  let user = await getUser(data.username);
+  user = user[0];
+  console.log(user);
+
+  fetch(apiURL + '/users/' + data.username, {
+    method: 'put',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+        'microresearchpoints': user.microresearchpoints + 1
+      }
+    )
+  })
+
 }
 
 async function getTradeDetails() {

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import './gallerydropdown.css';
 import * as serverfuncs from '../serverfuncs';
+import {Link} from 'react-router-dom';
 
 let tileData = [];
 
@@ -104,7 +105,14 @@ class OtherGallery extends Component {
             >
               {tileData.map((tile) => (
                 <div style={{padding: 10}}>
-                  <img src={tile.img} alt={tile.title} height={300}/>
+                  <Link to='/singleartwork'>
+                  <img id = {tile.identifier}
+                  src={tile.img} 
+                  alt={tile.title} 
+                  onClick={() => {
+                    localStorage.setItem("singleIdent", tile.identifier);}}
+                  height={300}></img>
+                  </Link>
                   <Paper style={{padding: 10}}>
                   <div>
                     <Typography variant='h6' fontFamily='roboto'>{tile.title}</Typography>

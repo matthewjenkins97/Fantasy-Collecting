@@ -49,6 +49,7 @@ export default class MicroresearchPrompt extends React.Component {
     document.getElementById(this.divid).style.top = '-600px';
 
     serverfuncs.showNotification('Microresearch submitted');
+    
     // refresh
     setTimeout( () => {
       window.location.reload();
