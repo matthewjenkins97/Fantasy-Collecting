@@ -32,7 +32,7 @@
   position: absolute;
   align-content: center;
   height: 600px;
-  width: 75%;
+  width: 100%;
   top: -600px;
   transition: top .5s;
   background-color: #d6ba8b;

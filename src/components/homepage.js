@@ -86,7 +86,7 @@ class Main extends Component {
                     onClick={() => {
                       localStorage.setItem('singleIdent', tile.identifier);
                     }}
-                    height={300}></img>
+                    height={350}></img>
                 </Link>
                 <Paper>
                   <div style={{padding: 10, height: '1in'}}>
@@ -98,7 +98,7 @@ class Main extends Component {
                     <div style={{float: 'right',
                       width: '20%',
                       textAlign: 'right'}}>
-                      <Typography variant='h4' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
+                      <Typography variant='h5' fontFamily='roboto'>{tile.actualprice !== 0 && tile.actualprice !== undefined ? tile.actualprice : tile.theoreticalprice}</Typography>
                     </div>
                   </div>
                 </Paper>
