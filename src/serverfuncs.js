@@ -45,7 +45,7 @@ const timerupdate = coroutine(function* () {
 setInterval(timerupdate, 1000);
 
 async function updatetimers() {
-  if (!window.location.toString().endsWith("/adminauction") && !window.location.toString().endsWith("/auction")){
+  if (!window.location.toString().endsWith("auction") && !window.location.toString().endsWith("/auction")){
     return;
   }
 
@@ -56,7 +56,6 @@ async function updatetimers() {
       if (timeleft < 0) {
         document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
         document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
-        console.log(auctions[t].archived);
         if(auctions[t].archived == 0 || auctions[t].archived == null) {
           await archiveAuction(auctions[t].groupid);
           Location.reload();
@@ -99,7 +98,7 @@ const auctionCheck = coroutine(function* () {
   while(true) {
     console.log("CALLED AC");
     yield;
-    if(window.location.toString().endsWith("/adminauction")) {
+    if(window.location.toString().endsWith("auction")) {
       checkForAuctionUpdates();
     }
   }

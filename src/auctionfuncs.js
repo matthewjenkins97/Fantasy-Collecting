@@ -1,6 +1,7 @@
 
 import {showNotification} from "./serverfuncs";
 import {updateLots} from "./components/adminauction";
+import {supdateLots} from "./components/studentauction";
 
 export {getAllLots, getAllAuctions,
   conductAuctionTrade, createAuction,
@@ -19,7 +20,9 @@ async function checkForAuctionUpdates() {
     if(trackedLots[l].highestbid !== allLots[l].highestbid) {
       trackedLots = allLots;
       showNotification("bid on artwork "+trackedLots.name+" for "+allLots[l].highestbid);
-      updateLots();
+      if(window.location.toString().endsWith("adminauction")) {
+        updateLots();
+      } else {supdateLots();}
       return;
     }
   }
