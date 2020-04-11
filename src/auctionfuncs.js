@@ -7,8 +7,7 @@ export {getAllLots, getAllAuctions,
   createLot, postBid, deleteLot, deleteAuction, archiveAuction, releaseAuction,
   checkForAuctionUpdates, setTrackedLots, trackedLots}
 
-let trackAuctions = []
-let trackedLots = []
+var trackedLots = []
 
 function setTrackedLots(tl) {
   trackedLots = tl;
@@ -17,11 +16,12 @@ function setTrackedLots(tl) {
 async function checkForAuctionUpdates() {
   const allLots = await getAllLots();
   for(let l in allLots) {
-    //if(trackedLots[l].highestbid !== allLots[l].highestbid) {
+    if(trackedLots[l].highestbid !== allLots[l].highestbid) {
       trackedLots = allLots;
+      showNotification("bid on artwork "+trackedLots.name+" for "+allLots[l].highestbid);
       updateLots();
       return;
-    //}
+    }
   }
 }
 
@@ -106,6 +106,15 @@ async function getAllLots() {
   auctions = await auctions.json();
   return auctions;
 }
+
+// async function getLot(id) {
+//   let auction = await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+//     method: 'get',
+//     mode: 'cors',
+//   })
+//   auction = await auction.json();
+//   return auction;
+// }
 
 async function getAllAuctions() {
   let auctions = await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`, {

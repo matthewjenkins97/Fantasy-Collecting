@@ -2,7 +2,7 @@ import * as tradeFuncs from './components/tradewindow.js';
 import {MD5} from './md5';
 import { conductTrade } from './tradefuncs';
 import {checkForMessages} from './components/ChatMessage';
-import { getAllAuctions } from './auctionfuncs.js';
+import { getAllAuctions, archiveAuction } from './auctionfuncs.js';
 import { checkForAuctionUpdates } from './auctionfuncs.js';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
@@ -56,6 +56,11 @@ async function updatetimers() {
       if (timeleft < 0) {
         document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
         document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
+        console.log(auctions[t].archived);
+        if(auctions[t].archived == 0 || auctions[t].archived == null) {
+          await archiveAuction(auctions[t].groupid);
+          Location.reload();
+        }
       }
       else {
         document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 
