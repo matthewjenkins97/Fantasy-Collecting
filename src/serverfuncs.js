@@ -510,53 +510,55 @@ async function approveTrade(tid) {
     }
   }
 
-  // setting actual price
-  // if length of offers is 2, and it consists of one string and one number, and the users involved are different
-  // it's safe to assume it's an artwork being traded for money
-  if (offers.length === 2) {
-    const offerTypes = [/^\d+$/.test(offers[0].offer), /^\d+$/.test(offers[1].offer)]
+  // this isn't wanted in the final product - keeping it just in case
 
-    // checking for XOR
-    if ((offerTypes[0] == true && offerTypes[1] == false) || 
-      (offerTypes[0] == false && offerTypes[1] == true)) {
+  // // setting actual price
+  // // if length of offers is 2, and it consists of one string and one number, and the users involved are different
+  // // it's safe to assume it's an artwork being traded for money
+  // if (offers.length === 2) {
+  //   const offerTypes = [/^\d+$/.test(offers[0].offer), /^\d+$/.test(offers[1].offer)]
 
-      // checking for differing owners
-      if ((offers[0].buyer !== offers[1].buyer) && (offers[0].seller !== offers[1].seller)) {
+  //   // checking for XOR
+  //   if ((offerTypes[0] == true && offerTypes[1] == false) || 
+  //     (offerTypes[0] == false && offerTypes[1] == true)) {
 
-        // once all that checking is done we can set the actual price of the object.
+  //     // checking for differing owners
+  //     if ((offers[0].buyer !== offers[1].buyer) && (offers[0].seller !== offers[1].seller)) {
 
-        // if offerTypes[0] is a number we set it as the actual price for the other offer
-        if (offerTypes[0] == true) {
-          fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[1].offer}`, {
-            method: 'put',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              actualprice: offers[0].offer,
-            }),
-          // }).then((res) => {
-          //   console.log(res)
-          });
+  //       // once all that checking is done we can set the actual price of the object.
 
-        } else {
-          fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[0].offer}`, {
-            method: 'put',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              actualprice: offers[1].offer,
-            }),
-          // }).then((res) => {
-          //   console.log(res)
-          });
-        }
-      }
-    }
-  }
+  //       // if offerTypes[0] is a number we set it as the actual price for the other offer
+  //       if (offerTypes[0] == true) {
+  //         fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[1].offer}`, {
+  //           method: 'put',
+  //           mode: 'cors',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             actualprice: offers[0].offer,
+  //           }),
+  //         // }).then((res) => {
+  //         //   console.log(res)
+  //         });
+
+  //       } else {
+  //         fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[0].offer}`, {
+  //           method: 'put',
+  //           mode: 'cors',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             actualprice: offers[1].offer,
+  //           }),
+  //         // }).then((res) => {
+  //         //   console.log(res)
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 
   for(var offer in offers) {
     // console.log(offers);
