@@ -92,6 +92,13 @@ class OtherGallery extends Component {
         </div>
         <div id = 'gallerydropdown' class = 'galleryDropdownAdmin'>
           <a class='closebtn' onClick={raiseOtherGallery}>&times;</a>
+          <div style={{padding: 10}}>
+            <Typography fontFamily='roboto' variant='h4' component='h4' style={{
+              textAlign: 'center',
+              paddingTop: 20,
+              paddingBottom: 10}}>Gallery Announcements</Typography>
+            <h1 style={{textAlign: 'center'}} id='othergalleryblurb'></h1>
+          </div>
           <Typography id = 'subgalleryname' fontFamily='roboto' variant='h4' component='h4' style={{
             textAlign: 'center',
             paddingTop: 20,
@@ -111,7 +118,7 @@ class OtherGallery extends Component {
                   alt={tile.title} 
                   onClick={() => {
                     localStorage.setItem("singleIdent", tile.identifier);}}
-                  height={300}></img>
+                  height={350}></img>
                   </Link>
                   <Paper style={{padding: 10}}>
                   <div>
@@ -122,13 +129,6 @@ class OtherGallery extends Component {
                 </div>
               ))}
             </Grid>
-            <div style={{padding: 10}}>
-              <Typography fontFamily='roboto' variant='h4' component='h4' style={{
-                textAlign: 'center',
-                paddingTop: 20,
-                paddingBottom: 10}}>Gallery Announcements</Typography>
-              <h1 style={{textAlign: 'center'}} id='othergalleryblurb'></h1>
-            </div>
           </div>
         </div>
       </div>
