@@ -15,22 +15,30 @@ function setTrackedLots(tl) {
 }
 
 async function checkForAuctionUpdates() {
+  //const allAuctions = await getAllAuctions();
   const allLots = await getAllLots();
+  if(trackedLots.length > 0 && trackedLots.length !== allLots.length) {
+    if(window.location.toString().endsWith("adminauction")) {
+      updateLots();
+    } else {supdateLots();}
+    return; 
+  }
   for(let l in allLots) {
-    if(trackedLots[l].highestbid !== allLots[l].highestbid) {
-      trackedLots = allLots;
-      showNotification("bid on artwork "+trackedLots.name+" for "+allLots[l].highestbid);
-      if(window.location.toString().endsWith("adminauction")) {
-        updateLots();
-      } else {supdateLots();}
-      return;
+    if(trackedLots[l] && allLots[l]) {
+      if(trackedLots[l].highestbid !== allLots[l].highestbid && trackedLots[l].identifier === allLots[l].identifier) {
+        showNotification("bid on artwork "+trackedLots[l].identifier+" for "+allLots[l].highestbid);
+        if(window.location.toString().endsWith("adminauction")) {
+          updateLots();
+        } else {supdateLots();}
+      }
     }
   }
+  trackedLots = allLots;
 }
 
 
-async function postBid(username, id, bid) {
-  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id, {
+async function postBid(username, id, group, bid) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id+'/'+group, {
     method: 'put',
     mode: 'cors',
     headers: {
