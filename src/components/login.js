@@ -117,9 +117,9 @@ export default class Login extends React.Component {
       <br></br>
       <div>
         <Card style={{width: 300, margin: 'auto', padding: 10}}>
-          <p style={{textAlign: 'center', fontSize: '.5em'}}>Fantasy Collecting game created by Professor Susan Jarosi.</p>
-          <p style={{textAlign: 'center', fontSize: '.5em'}}>Web application developed by Julia Opatrny, Donald Holley, and Matthew R. Jenkins for their Computer Science Senior Project in Fall 2019.</p>
-          <p style={{textAlign: 'center', fontSize: '.5em'}}>Questions, comments and concerns should go to slyoung@hamilton.edu.</p>
+          <p style={{textAlign: 'center', fontSize: '.75em'}}>Fantasy Collecting game created by Professor Susan Jarosi.</p>
+          <p style={{textAlign: 'center', fontSize: '.75em'}}>Web application developed by Julia Opatrny, Donald Holley, and Matthew R. Jenkins for their Computer Science Senior Project in Fall 2019. Further development by Donald Holley and Matthew R. Jenkins in Spring 2020.</p>
+          <p style={{textAlign: 'center', fontSize: '.75em'}}>Questions, comments and concerns should go to slyoung@hamilton.edu.</p>
         </Card>
       </div>
       </div>
