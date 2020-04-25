@@ -47,10 +47,6 @@ function SimpleMenu() {
         onClose={handleClose}
       >
         <Link to='/' style={{color: '#000000', textDecoration: 'none'}}><MenuItem onClick={() => (serverfuncs.logOutUser())}>Log Out</MenuItem></Link>
-<<<<<<< HEAD
-        {/* <Link to='/singleartwork' style={{color: '#000000', textDecoration: 'none'}}><MenuItem>Single Page Test</MenuItem></Link> */}
-=======
->>>>>>> deb9752a3067e17054e85a7e4f98df6ead39fe90
       </Menu>
     </div>
   );
