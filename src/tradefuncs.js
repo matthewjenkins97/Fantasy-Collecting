@@ -5,7 +5,7 @@ function checkOfferType(offer) {
 export async function conductTrade(buyer, seller, offer, tradeid) {
   // change current owner of painting to buyer
   if (checkOfferType(offer)) {
-    // subtract buyer's payment from their account
+    // subtract buyer's payment from their account, add microresearch points
     let buyerBody = await fetch(`http://fantasycollecting.hamilton.edu/api/users/${buyer}`, {
       method: 'get',
       mode: 'cors',
@@ -42,25 +42,6 @@ export async function conductTrade(buyer, seller, offer, tradeid) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(sellerBody),
-    // }).then((res) => {
-    //   console.log(res)
-    });
-
-    // post transaction to history
-    const historyBody = {
-      'seller': seller,
-      'buyer': buyer,
-      'price': parseInt(offer),
-      'timestamp': new Date,
-      'tradeid': tradeid,
-    };
-    fetch(`http://fantasycollecting.hamilton.edu/api/history/`, {
-      method: 'post',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(historyBody),
     // }).then((res) => {
     //   console.log(res)
     });

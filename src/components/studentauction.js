@@ -4,8 +4,11 @@ import * as serverfuncs from '../serverfuncs';
 import OtherGallery from './homepageofother';
 import TradeWindow from './tradewindow';
 import './auctions.css';
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography';
 
+export {supdateLots};
+
+let scurrentLotID;
 let currentLotId;
 
 let currentLotName;
@@ -35,6 +38,17 @@ async function createAuction() {
 }
 async function addLotToAuction() {
   await auctionfuncs.createLot(currentLotId, document.getElementById('addlotname').innerHTML, document.getElementById('addlotessay').value, await serverfuncs.getAllArtworks());
+}
+
+function supdateLots() {
+  for(var tl in auctionfuncs.trackedLots) {
+    try {
+    let mystring = document.getElementById(auctionfuncs.trackedLots[tl].identifier+auctionfuncs.trackedLots[tl].number).innerHTML.toString().split('\n');
+    mystring[11] = auctionfuncs.trackedLots[tl].highestbid;
+    document.getElementById(auctionfuncs.trackedLots[tl].identifier+auctionfuncs.trackedLots[tl].number).innerHTML = mystring.join('\n');
+    }
+    catch{}
+  }
 }
 
 async function loadArtworksForLot() {
@@ -75,7 +89,7 @@ class AuctionStudent extends React.Component {
     const auctions = await auctionfuncs.getAllAuctions();
 
     const lots = await auctionfuncs.getAllLots();
-    auctionfuncs.trackedLots = lots;
+    auctionfuncs.setTrackedLots(lots);
 
     for (const auction in auctions) {
       if(auctions[auction].archived !== 1 && auctions[auction].allowstudents === 1) {
@@ -151,6 +165,7 @@ class AuctionStudent extends React.Component {
           }
           document.getElementById('lotessay').innerHTML = lots[l].lotessay;
           currentLotName = lots[l].identifier;
+          scurrentLotID = lots[l].number;
         };
       }
       auctionScroll.appendChild(imagenode);
@@ -170,6 +185,7 @@ class AuctionStudent extends React.Component {
 
 
       const textnode = document.createElement('a');
+      textnode.id = lots[l].identifier+lots[l].number;
       textnode.innerHTML =
       '<pre>'+
       'Lot '+(auctionnumber + 1).toString()+
@@ -190,7 +206,7 @@ class AuctionStudent extends React.Component {
   async confirmBid() {
     const lots = await auctionfuncs.getAllLots();
     for (const l in lots) {
-      if (lots[l].identifier === currentLotName) {
+      if (lots[l].identifier === currentLotName && lots[l].number === scurrentLotID) {
         if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
           serverfuncs.showNotification('Bid must be higher than previous bid');
           return;
@@ -218,6 +234,7 @@ class AuctionStudent extends React.Component {
     await auctionfuncs.postBid(
         localStorage.getItem('username'),
         currentLotName,
+        scurrentLotID,
         document.getElementById('userbid').value,
     );
   }

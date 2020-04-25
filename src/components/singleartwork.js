@@ -63,7 +63,7 @@ class Single extends Component {
                     <Typography variant='h6' fontFamily='roboto'>{this.artworkInfo.year} </Typography>
                     <br></br>
                     <Typography variant='subtitle1' fontFamily='roboto'>
-                    Most recent sale price: {this.artworkInfo.actualprice !== 0 && this.artworkInfo.actualprice !== undefined ? this.artworkInfo.actualprice : this.artworkInfo.theoreticalprice} 
+                    Most recent sale price: {this.artworkInfo.actualprice !== 0 && this.artworkInfo.actualprice !== undefined ? this.artworkInfo.actualprice : 'N/A'} 
                     </Typography>
                     <br></br>
                     <HistoryTable identifier = {this.identifier} />

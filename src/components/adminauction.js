@@ -16,6 +16,7 @@ class LotImage extends HTMLImageElement {
 customElements.define('lot-image', LotImage, {extends: 'img'});
 
 let currentLotId;
+let scurrentLotID;
 
 let currentLotName;
 
@@ -361,6 +362,7 @@ class AuctionAdmin extends React.Component {
           }
           document.getElementById('lotessay').innerHTML = lots[l].lotessay;
           currentLotName = lots[l].identifier;
+          scurrentLotID = lots[l].number;
         };
       }
       auctionScroll.appendChild(imageNode);
@@ -405,7 +407,7 @@ class AuctionAdmin extends React.Component {
   async confirmBid() {
     const lots = await auctionfuncs.getAllLots();
     for (const l in lots) {
-      if (lots[l].identifier === currentLotName) {
+      if (lots[l].identifier === currentLotName && lots[l].number === scurrentLotID) {
         if (parseInt(document.getElementById('userbid').value) <= parseInt(lots[l].highestbid)) {
           serverfuncs.showNotification('bid must be higher than previous bid');
           return;
@@ -433,6 +435,7 @@ class AuctionAdmin extends React.Component {
     await auctionfuncs.postBid(
         localStorage.getItem('username'),
         currentLotName,
+        scurrentLotID,
         document.getElementById('userbid').value,
     );
   }

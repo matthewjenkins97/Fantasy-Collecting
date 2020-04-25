@@ -7,8 +7,15 @@ import Notification from '../components/notification';
 import SimpleMenu from '../components/simpleMenu';
 import Grid from '@material-ui/core/Grid';
 import Guilder from '../static/guilder.svg';
+import {getUser} from '../serverfuncs';
+
+async function getGuilders(user) {
+  const userlist = await getUser(user);
+  document.getElementById('guilders').innerHTML = `<img src=${Guilder} height='20' width='20'></img>${userlist[0].guilders}`;
+}
 
 const SinglePage = () => {
+  getGuilders(localStorage.getItem('username'));
   return (
     <div>
       <Notification/>
@@ -27,9 +34,9 @@ const SinglePage = () => {
               </Typography>
             </Grid>
             <Grid item xs>
-              <Typography variant='h6' style={{float: 'right', marginTop: 10}}>
-                <img src={Guilder} height='20' width='20'></img>
-                {}</Typography>
+              <Typography variant='h6' style={{float: 'right', marginTop: 10}} id='guilders'>
+                <img src={Guilder} height='20' width='20'></img>{0}
+              </Typography>
             </Grid>
           </Grid>
         </Toolbar>

@@ -2,7 +2,7 @@ import * as tradeFuncs from './components/tradewindow.js';
 import {MD5} from './md5';
 import { conductTrade } from './tradefuncs';
 import {checkForMessages} from './components/ChatMessage';
-import { getAllAuctions } from './auctionfuncs.js';
+import { getAllAuctions, archiveAuction } from './auctionfuncs.js';
 import { checkForAuctionUpdates } from './auctionfuncs.js';
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
@@ -45,7 +45,7 @@ const timerupdate = coroutine(function* () {
 setInterval(timerupdate, 1000);
 
 async function updatetimers() {
-  if (!window.location.toString().endsWith("/adminauction") && !window.location.toString().endsWith("/auction")){
+  if (!window.location.toString().endsWith("auction") && !window.location.toString().endsWith("/auction")){
     return;
   }
 
@@ -56,6 +56,10 @@ async function updatetimers() {
       if (timeleft < 0) {
         document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 'Expired';
         document.getElementById("timernode"+auctions[t].groupid.toString()).style.color = 'red';
+        if(auctions[t].archived == 0 || auctions[t].archived == null) {
+          await archiveAuction(auctions[t].groupid);
+          Location.reload();
+        }
       }
       else {
         document.getElementById("timernode"+auctions[t].groupid.toString()).innerHTML = 
@@ -94,7 +98,7 @@ const auctionCheck = coroutine(function* () {
   while(true) {
     console.log("CALLED AC");
     yield;
-    if(window.location.toString().endsWith("/adminauction")) {
+    if(window.location.toString().endsWith("auction")) {
       checkForAuctionUpdates();
     }
   }
@@ -505,6 +509,57 @@ async function approveTrade(tid) {
       }
     }
   }
+
+  // this isn't wanted in the final product - keeping it just in case
+
+  // // setting actual price
+  // // if length of offers is 2, and it consists of one string and one number, and the users involved are different
+  // // it's safe to assume it's an artwork being traded for money
+  // if (offers.length === 2) {
+  //   const offerTypes = [/^\d+$/.test(offers[0].offer), /^\d+$/.test(offers[1].offer)]
+
+  //   // checking for XOR
+  //   if ((offerTypes[0] == true && offerTypes[1] == false) || 
+  //     (offerTypes[0] == false && offerTypes[1] == true)) {
+
+  //     // checking for differing owners
+  //     if ((offers[0].buyer !== offers[1].buyer) && (offers[0].seller !== offers[1].seller)) {
+
+  //       // once all that checking is done we can set the actual price of the object.
+
+  //       // if offerTypes[0] is a number we set it as the actual price for the other offer
+  //       if (offerTypes[0] == true) {
+  //         fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[1].offer}`, {
+  //           method: 'put',
+  //           mode: 'cors',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             actualprice: offers[0].offer,
+  //           }),
+  //         // }).then((res) => {
+  //         //   console.log(res)
+  //         });
+
+  //       } else {
+  //         fetch(`http://fantasycollecting.hamilton.edu/api/artworks/${offers[0].offer}`, {
+  //           method: 'put',
+  //           mode: 'cors',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify({
+  //             actualprice: offers[1].offer,
+  //           }),
+  //         // }).then((res) => {
+  //         //   console.log(res)
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+
   for(var offer in offers) {
     // console.log(offers);
     await conductTrade(offers[offer].buyer, offers[offer].seller, offers[offer].offer, tid);

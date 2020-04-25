@@ -1,33 +1,44 @@
 
 import {showNotification} from "./serverfuncs";
 import {updateLots} from "./components/adminauction";
+import {supdateLots} from "./components/studentauction";
 
 export {getAllLots, getAllAuctions,
   conductAuctionTrade, createAuction,
   createLot, postBid, deleteLot, deleteAuction, archiveAuction, releaseAuction,
   checkForAuctionUpdates, setTrackedLots, trackedLots}
 
-let trackAuctions = []
-let trackedLots = []
+var trackedLots = []
 
 function setTrackedLots(tl) {
   trackedLots = tl;
 }
 
 async function checkForAuctionUpdates() {
+  //const allAuctions = await getAllAuctions();
   const allLots = await getAllLots();
-  for(let l in allLots) {
-    //if(trackedLots[l].highestbid !== allLots[l].highestbid) {
-      trackedLots = allLots;
+  if(trackedLots.length > 0 && trackedLots.length !== allLots.length) {
+    if(window.location.toString().endsWith("adminauction")) {
       updateLots();
-      return;
-    //}
+    } else {supdateLots();}
+    return; 
   }
+  for(let l in allLots) {
+    if(trackedLots[l] && allLots[l]) {
+      if(trackedLots[l].highestbid !== allLots[l].highestbid && trackedLots[l].identifier === allLots[l].identifier) {
+        showNotification("bid on artwork "+trackedLots[l].identifier+" for "+allLots[l].highestbid);
+        if(window.location.toString().endsWith("adminauction")) {
+          updateLots();
+        } else {supdateLots();}
+      }
+    }
+  }
+  trackedLots = allLots;
 }
 
 
-async function postBid(username, id, bid) {
-  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id, {
+async function postBid(username, id, group, bid) {
+  await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`+id+'/'+group, {
     method: 'put',
     mode: 'cors',
     headers: {
@@ -106,6 +117,15 @@ async function getAllLots() {
   auctions = await auctions.json();
   return auctions;
 }
+
+// async function getLot(id) {
+//   let auction = await fetch(`http://fantasycollecting.hamilton.edu/api/auction/`, {
+//     method: 'get',
+//     mode: 'cors',
+//   })
+//   auction = await auction.json();
+//   return auction;
+// }
 
 async function getAllAuctions() {
   let auctions = await fetch(`http://fantasycollecting.hamilton.edu/api/groups/`, {
