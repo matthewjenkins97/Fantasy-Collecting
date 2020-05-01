@@ -37,13 +37,14 @@ router.post('/', json(), function(req, res, next) {
       req.body.microresearchpoints,
       req.body.blurb,
       req.body.formcompleted,
+      req.body.uuid,
     ];
     for (const i in dbEntry) {
       if (dbEntry[i] == undefined) {
         dbEntry[i] = null;
       }
     }
-    connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
+    connection.execute(`INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, dbEntry, (err, results, fields) => {
       if (err) {
         console.error(err);
         res.sendStatus(500);
@@ -63,6 +64,7 @@ router.put('/:id', json(), function(req, res, next) {
     microresearchpoints: req.body.microresearchpoints,
     blurb: req.body.blurb,
     formcompleted: req.body.formcompleted,
+    uuid: req.body.uuid,
   };
   for (const item of Object.keys(dbEntry)) {
     if (dbEntry[item] !== undefined) {
