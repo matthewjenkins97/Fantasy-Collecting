@@ -13,7 +13,7 @@ class MessageList extends Component {
       <ul className='message-list' id='messageList'>
         {this.props.messages.map((message, index) => (
           <li key={index}>
-            {message.senderId == localStorage.getItem('username') ?
+            {message.entry.entry == localStorage.getItem('username') ?
             (<View style={{alignItems: 'flex-end'}}><h5 style={{textAlign: 'right', fontWeight: 'normal', marginBottom: -5,
               fontSize: '1em', color: '#b5b5b5'}}className='message-sender'>you</h5>
             <div
@@ -26,8 +26,8 @@ class MessageList extends Component {
                 marginLeft: '50px',
                 display: 'inline-block',
                 marginBottom: -1,
-              }}>{message.text}</div></div></View>) :
-            (<div><h5 style={{textAlign: 'left', color: '#b5b5b5', fontWeight: 'normal', marginBottom: -5}} className='message-sender'>{message.senderId}</h5>
+              }}>{message.entry.update}</div></div></View>) :
+            (<div><h5 style={{textAlign: 'left', color: '#b5b5b5', fontWeight: 'normal', marginBottom: -5}} className='message-sender'>{message.entry.entry}</h5>
               <div style={{textAlign: 'left',
                 padding: '10px',
                 elevation: 0,
@@ -38,7 +38,7 @@ class MessageList extends Component {
                 marginBottom: -1,
               }}
               className='message-text'>
-                {message.text}
+                {message.entry.update}
               </div>
             </div>)}
           </li>
