@@ -92,7 +92,7 @@ const messageCheck = coroutine(function* () {
   }
 });
 
-setInterval(messageCheck, 5000);
+//setInterval(messageCheck, 5000);
 
 const auctionCheck = coroutine(function* () {
   while(true) {
@@ -796,6 +796,7 @@ async function getUser(user) {
 
 async function getAllUsers() {
   //console.log("getting all users");
+  const apiURL = "http://fantasycollecting.hamilton.edu/api";
   const response = await fetch(apiURL + '/users');
   const myJson = await response.json();
   const students = JSON.parse(JSON.stringify(myJson));
