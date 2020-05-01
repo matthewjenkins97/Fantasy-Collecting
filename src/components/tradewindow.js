@@ -323,6 +323,21 @@ class TradeWindow extends React.PureComponent {
         <a>Guilders</a>
         <input id = 'addguilders' type = 'number'/>
         <button onClick = {async () => {
+          var num = Number(document.getElementById('addguilders').value)
+
+          // checking if less than 0
+          if (num < 0) {
+            serverfuncs.showNotification('Guilders must be greater than or equal to 0.')
+            return;
+          }
+
+          // checking if not whole number
+          if (!(Number.isInteger(num))) {
+            serverfuncs.showNotification('Number must be a whole number without decimals.')
+            return;
+          }
+
+          // if either of those two flags are true then it's not going to be added as a guilder value, so we carry on.
           await serverfuncs.addGuildersToTrade(document.getElementById('addguilders').value);
           await serverfuncs.clearApproval();
       }}>Add</button>
