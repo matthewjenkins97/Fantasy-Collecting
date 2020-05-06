@@ -6,16 +6,29 @@ import {View} from 'react-native';
 import {ChatManager, TokenProvider} from '@pusher/chatkit-client';
 import * as serverfuncs from '../serverfuncs';
 import './message.css';
+import {setUpUUID, getlastmessagetimestamp} from './ChatApp';
 export {checkForMessages, setRoomCount};
 
-// for connecting to chatrooms
-let chatManager;
 
-// initializing the chatkit connection to server
-//const chatkit = new Chatkit({
-//  instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
-//  key: '32b71a31-bcc2-4750-9cff-59640b74814e:hQq+MMcoDqpXgMK0aPNPcm8uFHFDRmNDWcYNeiP2Zjg=',
-//});
+
+let allchannels;
+
+function orderchannelname(users) {
+  if (users[1] === 'General') return 'General';
+  users = users.sort();
+  return users.join('');
+}
+
+async function getallmessagechannels() {
+  console.log('USERNAME');
+  console.log(localStorage.getItem('username'));
+  const users = await serverfuncs.getAllUsers();
+  const usernames = [];
+  for (let i in users) {
+    usernames.push(orderchannelname([localStorage.getItem('username'), users[i].username]));
+  }
+  allchannels = usernames;
+}
 
 // function for opening menu for messaging
 function openNav() {
@@ -36,35 +49,27 @@ async function checkForMessages() {
   if (typeof localStorage.getItem('username') === 'undefined' || localStorage.getItem('username') === null) {
     return;
   }
-
-  // set chat manager if not set yet
-  // if (typeof chatManager === 'undefined' || chatManager.userId !== localStorage.getItem('username')) {
-  //   chatManager = await new ChatManager({
-  //     instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
-  //     userId: localStorage.getItem('username'),
-  //     tokenProvider: new TokenProvider({
-  //       url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token',
-  //     }),
-  //   });
-  // }
-
+  if(typeof(allchannels) == 'undefined') {
+    await getallmessagechannels();
+  }
   let areMessages = false;
-  const cm = await chatManager.connect();
-
   try {
-    for (const r in cm.rooms) {
-      try {
-        let nan = document.getElementById(cm.rooms[r].name).innerHTML.toString();
-        nan = nan;
-      } catch {
+    for (const r in allchannels) {
+      // try {
+      //   let nan = document.getElementById(allchannels[r]).innerHTML.toString();
+      //   nan = nan;
+      // } catch {
+      //   continue;
+      // };
+      if(!allchannels[r].includes(localStorage.getItem('username')&&allchannels[r] !== 'General')) {
         continue;
-      };
-      const num = await getRoomMessagesForThisUser(cm.rooms[r].name);
-      if (num < cm.rooms[r].unreadCount) {
+      }
+      const num = await getRoomMessagesForThisUser(allchannels[r].name);
+      if (num < 0) {
         areMessages = true;
-        document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(' ')[0] + ' !';
+        document.getElementById(allchannels[r]).innerHTML = document.getElementById(allchannels[r]).innerHTML.split(' ')[0] + ' !';
       } else {
-        document.getElementById(cm.rooms[r].name).innerHTML = document.getElementById(cm.rooms[r].name).innerHTML.split(' ')[0];
+        document.getElementById(allchannels[r]).innerHTML = document.getElementById(allchannels[r]).innerHTML.split(' ')[0];
       }
     }
 
@@ -145,15 +150,7 @@ class ChatMessage extends Component {
     this.setState({
       currentView: !current,
     });
-    // chatManager = await new ChatManager({
-    //   instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
-    //   userId: localStorage.getItem('username').toString(),
-    //   tokenProvider: new TokenProvider({
-    //     url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token',
-    //   }),
-    // });
 
-    // const cm = await chatManager.connect();
     // await this.setUnread(cm.rooms);
 
     // for (let i = 0; i < this.state.unread.length; i++) {
@@ -169,29 +166,13 @@ class ChatMessage extends Component {
       chatView: !current,
       otherChatter: otheruser,
     });
-    // chatManager = await new ChatManager({
-    //   instanceLocator: 'v1:us1:f04ab5ec-b8fc-49ca-bcfb-c15063c21da8',
-    //   userId: localStorage.getItem('username').toString(),
-    //   tokenProvider: new TokenProvider({
-    //     url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/f04ab5ec-b8fc-49ca-bcfb-c15063c21da8/token',
-    //   }),
-    // });
 
     // const cm = await chatManager.connect();
     // await this.setUnread(cm.rooms);
 
-    // let roomName = [otheruser, localStorage.getItem('username')];
-    // roomName = roomName.sort().join('_') + '_room';
-    // if (otheruser === 'General') {
-    //   roomName = 'General';
-    // }
-    // if (this.state.chatView == true) {
-    //   for (let i = 0; i < this.state.unread.length; i++) {
-    //     if (this.state.unread[i][0].toString() === roomName) {
-    //       await setRoomCount(roomName, this.state.unread[i][1]);
-    //     }
-    //   }
-    // }
+    // let roomName = orderchannelname([localStorage.getItem('username'), otheruser]);
+    // let lastmessage = await this.getlastmessagetimestamp(roomName);
+    // setRoomCount(roomName, lastmessage);
   }
 
   // update the amount of messages in room for client side
@@ -210,6 +191,7 @@ class ChatMessage extends Component {
   }
 
   async componentDidMount() {
+    setUpUUID();
     await this.getUsers();
     const cRef = this;
     for (const user in this.state.userList) {
