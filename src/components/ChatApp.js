@@ -92,16 +92,16 @@ function setUserUUID() {
 }
 
 function updateMessageCount(ts) {
-  fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+currentRoom, {
-    method: 'put',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      count: ts,
-    }),
-  }).then(function(res){console.log(res);});
+  // fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+currentRoom, {
+  //   method: 'put',
+  //   mode: 'cors',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     count: ts,
+  //   }),
+  // }).then(function(res){console.log(res);});
 }
 
 

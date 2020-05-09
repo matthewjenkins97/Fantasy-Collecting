@@ -110,7 +110,7 @@ async function setRoomCount(id, count) {
       }),
     });
   } else {
-    await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id, {
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username'), {
       method: 'put',
       mode: 'cors',
       headers: {
