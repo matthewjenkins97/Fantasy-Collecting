@@ -23,7 +23,7 @@ async function getallmessagechannels() {
   console.log('USERNAME');
   console.log(localStorage.getItem('username'));
   const users = await serverfuncs.getAllUsers();
-  const usernames = [];
+  const usernames = ['General'];
   for (let i in users) {
     usernames.push(orderchannelname([localStorage.getItem('username'), users[i].username]));
   }
@@ -55,21 +55,30 @@ async function checkForMessages() {
   let areMessages = false;
   try {
     for (const r in allchannels) {
-      // try {
-      //   let nan = document.getElementById(allchannels[r]).innerHTML.toString();
-      //   nan = nan;
-      // } catch {
-      //   continue;
-      // };
-      if(!allchannels[r].includes(localStorage.getItem('username')&&allchannels[r] !== 'General')) {
+      const other = allchannels[r].replace(localStorage.getItem('username'),'');
+      try {
+        let nan = document.getElementById(other).innerHTML.toString();
+        nan = nan;
+      } catch {
+        continue;
+      };
+      if(!allchannels[r].includes(localStorage.getItem('username'))&&allchannels[r] !== 'General') {
         continue;
       }
-      const num = await getRoomMessagesForThisUser(allchannels[r].name);
-      if (num < 0) {
+      const num = await getRoomMessagesForThisUser(allchannels[r]);
+      const lasttimestamp = await getlastmessagetimestamp(allchannels[r]);
+      console.log(lasttimestamp);
+      if (num < lasttimestamp) {
+        console.log('there are new messages from '+other);
+        console.log(num+" is less than "+lasttimestamp);
         areMessages = true;
-        document.getElementById(allchannels[r]).innerHTML = document.getElementById(allchannels[r]).innerHTML.split(' ')[0] + ' !';
+        try{
+        document.getElementById(other).innerHTML = document.getElementById(other).innerHTML.split(' ')[0] + ' !';
+        }catch{}
       } else {
-        document.getElementById(allchannels[r]).innerHTML = document.getElementById(allchannels[r]).innerHTML.split(' ')[0];
+        try {
+        document.getElementById(other).innerHTML = document.getElementById(other).innerHTML.split(' ')[0];
+        }catch{}
       }
     }
 
@@ -82,14 +91,12 @@ async function checkForMessages() {
 }
 
 async function getRoomMessagesForThisUser(id) {
-  let rooms = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
-  rooms = await rooms.json();
-  for (const room in rooms) {
-    if (rooms[room].room.toString() === id.toString()) {
-      return rooms[room].messagecount;
-    }
+  let room = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+id);
+  room = await room.json();
+  if(room.length === 0) {
+    return 0;
   }
-  return -1;
+  return room[0].messagecount;
 }
 
 // set room count for one room
@@ -191,16 +198,13 @@ class ChatMessage extends Component {
   }
 
   async componentDidMount() {
-    setUpUUID();
     await this.getUsers();
     const cRef = this;
     for (const user in this.state.userList) {
       if (this.state.userList[user].username !== localStorage.getItem('username')) {
         const buttonnode = document.createElement('a');
         buttonnode.style.padding = '0px 0px 5px 0px';
-        let roomName = [this.state.userList[user].username, localStorage.getItem('username')];
-        roomName = roomName.sort().join('_') + '_room';
-        buttonnode.id = roomName;
+        buttonnode.id = this.state.userList[user].username;
         buttonnode.innerHTML = this.state.userList[user].username;
         buttonnode.onclick = function() {
           cRef.changeChat(cRef.state.chatView, this.innerHTML.split(' ')[0]);
@@ -248,7 +252,7 @@ class ChatMessage extends Component {
           </View>
           <div>
             { this.state.currentView ? (<div className='App'><div className='form-container'>
-              <ChatApp general='general' style={{position: 'fixed', flex: 1}}/>
+              <ChatApp otherUser='General' general='General' style={{position: 'fixed', flex: 1}}/>
             </div></div>) : (null) }
             { this.state.chatView ? (<div className='App'><div className='form-container'>
               <ChatApp otherUser={this.state.otherChatter.split(' ')[0]} style={{position: 'fixed', flex: 1}}/>

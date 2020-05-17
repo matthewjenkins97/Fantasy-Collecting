@@ -4,6 +4,9 @@ import { conductTrade } from './tradefuncs';
 import {checkForMessages} from './components/ChatMessage';
 import { getAllAuctions, archiveAuction } from './auctionfuncs.js';
 import { checkForAuctionUpdates } from './auctionfuncs.js';
+import { unsubpub } from './components/ChatApp.js';
+
+
 export const apiURL = "http://fantasycollecting.hamilton.edu/api";
 
 
@@ -88,11 +91,12 @@ function parseTime(datetime) {
 const messageCheck = coroutine(function* () {
   while(true) {
     yield;
+    console.log('checking for messages');
     checkForMessages();
   }
 });
 
-//setInterval(messageCheck, 5000);
+setInterval(messageCheck, 5000);
 
 const auctionCheck = coroutine(function* () {
   while(true) {
@@ -104,7 +108,7 @@ const auctionCheck = coroutine(function* () {
   }
 })
 
-setInterval(auctionCheck, 5000);
+//setInterval(auctionCheck, 5000);
 
 
 
@@ -764,6 +768,7 @@ function finalizeAsSeller(check) {
 function logOutUser() {
   localStorage.clear();
   window.location.reload();
+  unsubpub();
 }
 
 /*

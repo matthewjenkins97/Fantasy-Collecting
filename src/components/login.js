@@ -9,6 +9,7 @@ import Appbar from '../components/appbar';
 import {MD5} from '../../src/md5';
 import './backgroundlogin.css';
 import * as serverfuncs from '../serverfuncs';
+import {setUpUUID} from './ChatApp';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class Login extends React.Component {
     if (typeof student === 'undefined') {
       localStorage.clear();
     } else {
+      setUpUUID();
       if (student.admin === 1) {
         this.setState({gotoadmin: true});
       } else {
@@ -59,6 +61,7 @@ export default class Login extends React.Component {
       // console.log('login successful');
       localStorage.setItem('username', document.getElementById('liusername').value);
       localStorage.setItem('admin', student.admin);
+      setUpUUID();
       if (student.admin === 1) {
         this.setState({gotoadmin: true});
       } else {
@@ -66,6 +69,7 @@ export default class Login extends React.Component {
         this.setState({gotostudent: true});
       }
     }
+    
   }
 
   redirectToPage() {

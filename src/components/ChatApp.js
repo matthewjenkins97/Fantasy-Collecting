@@ -6,7 +6,7 @@ import {setRoomCount} from './ChatMessage.js';
 import * as serverfuncs from '../serverfuncs';
 import {default as Chatkit} from '@pusher/chatkit-server';
 
-export {setUpUUID, getlastmessagetimestamp};
+export {setUpUUID, getlastmessagetimestamp, unsubpub};
 
 let chatManager;
 
@@ -21,18 +21,25 @@ let currentUser = '';
 
 let pubnub;
 
-async function getlastmessagetimestamp(roomName) {
-  // await pubnub.history({
-  //   channel: userchannel,
-  //   count: 1,
-  // }).then((messages)=> {
-  //   if (messages.Length === 0) {
-  //     return 0;
-  //   } else {
-  //     return messages[0].entry.time;
-  //   }
-  // }).catch((error)=> {
-  // });
+function unsubpub() {
+  pubnub.unsubscribeAll();
+}
+
+async function getlastmessagetimestamp(id) {
+  let ts;
+  await pubnub.history({
+    channel: id,
+    count: 1,
+  }).then((messages)=> {
+    if (messages.messages.length === 0) {
+      ts = 0;
+    } else {
+      ts = messages.messages[0].entry.time;
+    }
+  }).catch((error)=> {
+    ts = -1;
+  });
+  return ts;
 }
 
 function orderchannelname(users) {
@@ -46,7 +53,12 @@ let cref;
 async function setUpUUID() {
   let useruuid = await fetch('http://fantasycollecting.hamilton.edu/api/users/'+localStorage.getItem('username'));
   useruuid = await useruuid.json();
-  useruuid = useruuid[0].uuid;
+  // try{
+    useruuid = useruuid[0].uuid;
+  // }
+  // catch{
+  //   useruuid = null;
+  // }
 
   localStorage.setItem('UUIDpub', useruuid);
 
@@ -63,10 +75,12 @@ async function setUpUUID() {
   });
   pubnub.addListener({
     message: function(msg) {
-      console.log('message recieved');
+      console.log("message recieved");
       if (msg.message.entry === localStorage.getItem('username')||
-          msg.message.entry === currentUser) {
+          msg.message.entry === currentUser||
+          msg.message.room === 'General') {
         addToMessages(cref, currentRoom, {entry: msg.message});
+        updateMessageCount(msg.message.time, currentRoom);
       }
     },
     presence: function(event) {
@@ -87,38 +101,55 @@ function setUserUUID() {
       uuid: clientUUID,
     }),
   }).then(function (res) {
-    console.log(res);
   });
 }
 
-function updateMessageCount(ts) {
-  // fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+currentRoom, {
-  //   method: 'put',
-  //   mode: 'cors',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     count: ts,
-  //   }),
-  // }).then(function(res){console.log(res);});
+async function updateMessageCount(ts, room) {
+  console.log(room);
+  if (typeof ts === 'undefined' || ts === null) return;
+  let mroomcount = await fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+room);
+  mroomcount = await mroomcount.json();
+  if (mroomcount.length === 0) {
+    await fetch('http://fantasycollecting.hamilton.edu/api/messages/', {
+      method: 'post',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: localStorage.getItem('username'),
+        room: room,
+        messagecount: ts,
+      }),
+    });
+  } else {
+    console.log('updating message count for room '+room);
+    fetch('http://fantasycollecting.hamilton.edu/api/messages/'+localStorage.getItem('username')+'/'+room, {
+      method: 'put',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messagecount: ts,
+      }),
+    }).then(function(res) {
+    });
+  }
 }
 
 
 async function subscribeToPubChannels() {
-  console.log('USERNAME');
-  console.log(localStorage.getItem('username'));
   const users = await serverfuncs.getAllUsers();
-  const usernames = [];
+  const usernames = ['General'];
   for (let i in users) {
     usernames.push(orderchannelname([localStorage.getItem('username'), users[i].username]));
   }
-  console.log('SUBSCRIBING');
-  console.log(usernames);
   pubnub.subscribe({
     channels: usernames,
     withPresence: true,
   });
+  console.log('subscribed to channels');
 }
 
 
@@ -130,6 +161,9 @@ async function initializemessages(cref, userchannel, newmessage) {
     if (typeof(newmessage) !== 'undefined') {
       cref.state.messages.push(newmessage);
     }
+    console.log('time');
+    console.log(cref.state.messages[cref.state.messages.length-1].entry.time);
+    updateMessageCount(cref.state.messages[cref.state.messages.length-1].entry.time, userchannel);
     cref.forceUpdate();
   }).catch((error)=> {
   });
@@ -156,8 +190,6 @@ class ChatApp extends Component {
       currentRoomId: '',
       general: props.general,
     };
-    // this.sendMessage = this.sendMessage.bind(this);
-    // this.createRoom = this.createRoom.bind(this);
   }
 
   checkRoom(rooms, currentRoom) {
@@ -180,8 +212,8 @@ class ChatApp extends Component {
   }
 
   async sendMessage(text) {
-    const sendmessage = {'entry': localStorage.getItem('username'), 'update': text, 'time': Date.now()};
-    console.log(cref.state.currentRoom);
+    const sendmessage = {'entry': localStorage.getItem('username'), 'update': text, 'time': Date.now(), 'room':cref.state.currentRoom};
+    console.log(sendmessage);
     pubnub.publish({
       channel: cref.state.currentRoom,
       message: sendmessage,
@@ -190,7 +222,7 @@ class ChatApp extends Component {
       if (status.error) {
         console.log(status);
       } else {
-        updateMessageCount(sendmessage.time);
+        updateMessageCount(sendmessage.time, cref.state.currentRoom);
       }
     });
   }
@@ -203,7 +235,7 @@ class ChatApp extends Component {
 
   render() {
     let roomtitle = this.state.otherUser;
-    if (this.state.general == 'general') {
+    if (this.state.general == 'General') {
       roomtitle = 'General';
     }
     const userList = this.expandUsers(this);
