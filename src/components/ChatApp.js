@@ -69,8 +69,8 @@ async function setUpUUID() {
     clientUUID = localStorage.getItem('UUIDpub');
   }
   pubnub = new PubNub({
-    publishKey: 'pub-c-a0c564ca-a14a-40b4-8d7a-a7da5c48c1cd',
-    subscribeKey: 'sub-c-3efddeb4-8415-11ea-b883-d2d532c9a1bf',
+    publishKey: 'pub-c-f398c4c4-374c-4212-8934-1d1fa38c4dcd',
+    subscribeKey: 'sub-c-4977ce58-a103-11ea-9123-e6a08f73ae22',
     uuid: clientUUID,
   });
   pubnub.addListener({
